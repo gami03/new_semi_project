@@ -390,8 +390,8 @@ public class BoardDAO {
 				result += "<com_no>"+rs.getInt("com_no")+"</com_no>";
 				result += "<user_no>"+rs.getInt("user_no")+"</user_no>";
 				result += "<board_no>"+rs.getInt("board_no")+"</board_no>";
-				result += "<br_content>"+rs.getInt("br_content")+"</br_content>";
-				result += "<br_regdate>"+rs.getInt("br_regdate")+"</br_regdate>";
+				result += "<br_content>"+rs.getString("br_content")+"</br_content>";
+				result += "<br_regdate>"+rs.getString("br_regdate")+"</br_regdate>";
 				result += "</reply>";
 			}
 			

@@ -213,41 +213,26 @@ justify-content: center;
 			</c:if>
 			
 		<%-- 댓글 기능 --%>
-		<table border="1" cellspacing="0" width="50%" class="col-9">
+		<table border="1" cellspacing="0" width="50%" class="col-9" id="list">
 			<tr>
-				<td>
-					<table class="list" cellspacing="0">
-						<tr>
-							<td>
-								작성자<br>
-								댓글내용 <br>
-								작성일자
-							</td>
-						</tr>
-					</table>
-				</td>
-			</tr>
-			<tr>
-				<td>
-					<div class="reply">
-						<textarea style="width: 90%; background-color: white;" name="re_content" id="re_content"></textarea>&nbsp;
-						<c:if test="${!empty id }">
-						<input type="button" id="replyBtn" value="등록">
-						</c:if>
-						<c:if test="${empty id }">
-						<input type="button" value="등록" onclick=writeCheck()>
-						</c:if>
-					</div>
-					<span style="font-size: 12px; color: gray;">
-						<br>통신예절에 어긋나는 글이나 상업적인 글, 타 사이트에 관련된 글은 관리자에 의해 사전 통보없이 삭제될 수 있습니다.
-					</span>
-				</td>
 			</tr>
 		</table>
-		
+		<div>
+			<div class="reply">
+				<textarea style="width: 90%; background-color: white;" name="re_content" id="re_content"></textarea>&nbsp;
+				<c:if test="${!empty id }">
+				<input type="button" id="replyBtn" value="등록" onclick="replywrite()">
+				</c:if>
+				<c:if test="${empty id }">
+				<input type="button" value="등록" onclick="writeCheck()">
+				</c:if>
+			</div>
+			<span style="font-size: 12px; color: gray;">
+				<br>통신예절에 어긋나는 글이나 상업적인 글, 타 사이트에 관련된 글은 관리자에 의해 사전 통보없이 삭제될 수 있습니다.
+			</span>
+		</div>
 		
 <script type="text/javascript">
-	
 	$(function() {
 		
 		// ajax에서 동일하게 사용되는 속성 설정
@@ -257,43 +242,67 @@ justify-content: center;
 			type : "post"
 		});
 		
-		// TBL_BOARD 테이블의 전체 데이터를 가져오는 함수.
-		function getList() {
-			
-			$.ajax({
-				url : "/semi_project/free_board_reply_list.do",
-				data : {com_no : ${dto.getBoard_no() } },
-				datatype : "xml",
-				success : function(data) {
-					// 테이블 태그의  타이틀 태그를 제외한 나머지 댓글 목록을 지우는 작업.
-					$(".list tr:gt(1)").remove();
-					
-					let table = "";
-					
-					$(data).find("reply").each(function() {
-						
-						table += "<tr>";
-						table += "<td>"
-									+$(this).find("user_no").text()+"<br>"
-									+$(this).find("br_content").text()+"<br>"
-									+$(this).find("br_regdate").text()+
-								"</td>";
-						table += "</tr>";
-						
-					});
-					
-					$(".list tr:eq(1)").after(table);
-				},
-				
-				error : function() {
-					alert("데이터 통신 오류입니다!!!");
-				}
-			});
-		} // getList() 함수 end
-		
-		// 제이쿼리 실행 시 마다 전체댓글목록 화면에 출력이 되어야 함.
 		getList();
 	});
+	// TBL_BOARD 테이블의 전체 데이터를 가져오는 함수.
+	function getList() {
+		
+		$.ajax({
+			url : "free_board_reply_list.do",
+			data : {com_no : ${dto.getBoard_no() } },
+			datatype : "xml",
+			success : function(data) {
+				// 테이블 태그의  타이틀 태그를 제외한 나머지 댓글 목록을 지우는 작업.
+				$("#list tr:gt(0)").remove();
+				
+				let table = "";
+				
+				$(data).find("reply").each(function() {
+					table += "<tr><td>"
+								+$(this).find("user_no").text()+"<br>"
+								+$(this).find("br_content").text()+"<br>"
+								+$(this).find("br_regdate").text()+
+							"</td></tr>";
+				});
+				
+				console.log(table);
+				//$('#list').text(table);
+				$('#list tr:eq(0)').after(table);
+			},
+			
+			error : function() {
+				alert("데이터 통신 오류입니다!!!");
+			}
+		});
+	} // getList() 함수 end
+	
+	// 제이쿼리 실행 시 마다 전체댓글목록 화면에 출력이 되어야 함.
+	
+	function replywrite() {
+		
+		$.ajax({
+			url : "free_board_reply_write.do",
+			data : {
+				re_cont : $("#re_content").val();
+				re_writer : ${session_nickname}
+				
+			},
+			datatype : "xml",
+			success : function(data) {
+				if(data == 1) {
+					getList();
+				}else {
+					alert('댓글 작성 실패했습니다.');
+				}
+				
+			},
+			
+			error : function() {
+				alert("데이터 통신 오류입니다!!!");
+			}
+		});
+	} // getList() 함수 end
+	
 </script>		
 	
 		

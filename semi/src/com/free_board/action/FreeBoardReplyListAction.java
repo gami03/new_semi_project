@@ -17,11 +17,13 @@ public class FreeBoardReplyListAction implements Action {
 		// 글번호에 해당하는 댓글 전체 리스트를 DB에서 조회하여 상세내역 view page로 이동시키는 비지니스 로직.
 		int reply_no = Integer.parseInt(request.getParameter("com_no").trim());
 		
+		System.out.println(reply_no);
+		
 		BoardDAO dao = BoardDAO.getInstance();
 		
 		String str = dao.getReplyList(reply_no);
 		
-		response.setContentType("text/html; charset=UTF-8");
+		System.out.println(str);
 		
 		PrintWriter out = response.getWriter();
 		
