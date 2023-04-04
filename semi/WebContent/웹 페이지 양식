@@ -1,0 +1,42 @@
+
+body
+	#wrapper
+	
+		#header
+			.inner
+				logo
+				nav
+				메뉴 - a href=#menu
+				로그인 - >input button>a href="<%=request.getContextPath() %>/log_in.do"
+				* 로그인이 된 상태라면
+				로그아웃 - >input button>a href="<%=request.getContextPath() %>/log_out.do?id=${dto.getUser_id()"
+
+		/header
+
+		#menu
+			ul>li
+			* 로그인 상태를 확인해 접근 권한 설정
+			  판매게시판, Q&A게시판, 마이페이지에서 아이디 여부 확인
+			<li><a href="index.html">Home</a></li>
+			<li><a href="">자유게시판</a></li>
+			<li><a href=""<%=request.getContextPath() %>/*.do?id=${dto.getUser_id()"">판매게시판</a></li>
+			<li><a href=""<%=request.getContextPath() %>/*.do?id=${dto.getUser_id()"">Q&A</a></li>
+			<li><a href="<%=request.getContextPath() %>/*.do?id=${dto.getUser_id()""">마이페이지</a></li>
+
+		/menu
+
+		#main
+			header : 페이지 안의 제목 및 간단한 설명을 넣어주시면 됩니다.
+			section : 페이지 안의 내용과 기능을 넣어 주시면 됩니다.
+
+			table, form css 적용 되어있으니
+			확인해보고 수정 or 새로 제작
+		/main
+
+		#footer
+			.inner
+		/footer
+		
+	/wrapper
+/body
+
