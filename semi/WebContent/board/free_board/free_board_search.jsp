@@ -153,7 +153,7 @@ justify-content: center;
 								<td> ${totalEndNo + 1 } </td>
 						<td>
 							<a href="<%=request.getContextPath() %>/free_board_content.do?no=${dto.getBoard_no() }
-																						  &page=${page }&id=${user_id }&nickname=${dto.getUser_nickname() }">
+																						  &page=${page }&id=${user_id }&nickname=${dto.getUser_nickname() }&field=${field }&keyword=${keyword }">
 								${dto.getBoard_title() }
 							</a>
 						</td>
@@ -240,6 +240,7 @@ justify-content: center;
 			   		
 			   		<input type="text" name="keyword" style="width:20%;">&nbsp;&nbsp;
 			   		<input type="submit" value="검색">
+			   		<input type="button" name="gototalList" value="전체목록" onclick="location.href='free_board_list.do'">
 			   </form>
 			   <br>
 			</div>

@@ -256,7 +256,14 @@ justify-content: center;
 			</span>
 		</div>
 		
-		<input type="button" name="golist" value="목록" style="margin-bottom: 100px;" onclick="location.href='free_board_list.do?page=${Page }'">
+		<c:if test="${empty keyword }">
+			<input type="button" name="golist" value="목록" style="margin-bottom: 100px;" onclick="location.href='free_board_list.do?page=${Page }'">
+		</c:if>
+		
+		<c:if test="${!empty keyword }">
+			<input type="button" name="golist" value="목록" style="margin-bottom: 100px;" onclick="location.href='free_board_search.do?page=${Page }&field=${field }&keyword=${keyword }'">
+		</c:if>
+		
 		
 <script type="text/javascript">
 	$(function() {

@@ -204,10 +204,10 @@ justify-content: center;
 					<th>카테고리</th>
 					<td>
 						<select name="free_board_category" style="width:30%;">
-			   			<option value="auction">경매</option>
-			   			<option value="funny">유머</option>
-			   			<option value="curious">궁금해요</option>
-			   			<option value="etc">기타</option>
+			   			<option value="경매">경매</option>
+			   			<option value="유머">유머</option>
+			   			<option value="궁금해요">궁금해요</option>
+			   			<option value="기타">기타</option>
 			   		</select>
 					</td>
 				</tr>

@@ -652,5 +652,135 @@ public class BoardDAO {
 		return result;
 	} // ModifyUpload() 메서드 end
 	
+	// 자유게시판에서 검색어에 해당하는 게시물의 수를 조회하는 메서드
+	public int searchListCount(String field, String keyword, String board_name) {
+		
+		int count = 0;
+		
+		try {
+			openConn();
+			
+			sql = "select count(*) from board b join user_table u on b.user_no = u.user_no";
+			
+			if(field.equals("title")) {
+				sql += " where board_title like ? and board_name = ?";
+			}else if(field.equals("cont")) {
+				sql += " where board_content like ? and board_name = ?";
+			}else if(field.equals("title_cont")) {
+				sql += " where (board_title like ? or board_content like ?) and board_name = ?";
+			}else if(field.equals("writer")){
+				sql += " where user_nickname like ? and board_name = ?";
+			}else {
+				sql += " where board_category like ? and board_name = ?";
+			}
+			
+			sql += " order by board_no desc";
+			
+			pstmt = con.prepareStatement(sql);
+			
+			if(field.equals("title_cont")) {
+				pstmt.setString(1, '%'+keyword+'%');
+				pstmt.setString(2, '%'+keyword+'%');
+				pstmt.setString(3, board_name);
+			}else {
+				pstmt.setString(1, '%'+keyword+'%');
+				pstmt.setString(2, board_name);
+			}
+			
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()) {
+				count = rs.getInt(1);
+			}
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			closeConn(rs, pstmt, con);
+		}
+		
+		return count;
+	} // searchListCount() 메서드 end
+	
+	// board 테이블에서 검색한 내용을 가지고 페이징 처리하는 메서드.
+	public List<BoardDTO> getSearchBoardList(String field, String keyword, int page, int rowsize, String board_name) {
+		
+		List<BoardDTO> searchList = new ArrayList<BoardDTO>();
+		
+		// 해당 페이지에서 시작번호
+		int startNo = (page * rowsize) - (rowsize - 1);
+		
+		// 해당 페이지에서 끝번호
+		int endNo = (page * rowsize);
+		
+		try {
+			openConn();
+			
+			sql = "select * from (select row_number() over(order by board_no desc) rnum, b.*, u.user_nickname from board b join user_table u on b.user_no = u.user_no";
+					
+			if(field.equals("title")) {
+				sql += " where board_title like ? and board_name = ?) Y";
+			}else if(field.equals("cont")) {
+				sql += " where board_content like ? and board_name = ?) Y";
+			}else if(field.equals("title_cont")) {
+				sql += " where (board_title like ? or board_content like ?) and board_name = ?) Y";
+			}else if(field.equals("writer")){
+				sql += " where user_nickname like ? and board_name = ?) Y";
+			}else {
+				sql += " where board_category like ? and board_name = ?) Y";
+			}
+			
+			sql += " where rnum >=? and rnum <=?";
+					
+			pstmt = con.prepareStatement(sql);
+			
+			if(field.equals("title_cont")) {
+				pstmt.setString(1, '%'+keyword+'%');
+				pstmt.setString(2, '%'+keyword+'%');
+				pstmt.setString(3, board_name);
+				pstmt.setInt(4, startNo);
+				pstmt.setInt(5, endNo);
+			}else {
+				pstmt.setString(1, '%'+keyword+'%');
+				pstmt.setString(2, board_name);
+				pstmt.setInt(3, startNo);
+				pstmt.setInt(4, endNo);
+			}
+			
+			rs = pstmt.executeQuery();
+			
+			while(rs.next()) {
+				
+				BoardDTO dto = new BoardDTO();
+				
+				
+				dto.setBoard_no(rs.getInt("board_no"));
+				dto.setUser_no(rs.getInt("user_no"));
+				dto.setUser_nickname(rs.getString("user_nickname"));
+				dto.setBoard_name(rs.getString("board_name"));
+				dto.setBoard_category(rs.getString("board_category"));
+				dto.setBoard_title(rs.getString("board_title"));
+				dto.setBoard_content(rs.getString("board_content"));
+				dto.setBoard_file1(rs.getString("board_file1"));
+				dto.setBoard_file2(rs.getString("board_file2"));
+				dto.setBoard_hit(rs.getInt("board_hit"));
+				dto.setBoard_rec(rs.getInt("board_rec"));
+				dto.setBoard_date(rs.getString("board_date"));
+				dto.setBoard_update(rs.getString("board_update"));
+				
+				searchList.add(dto);
+			}
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			closeConn(rs, pstmt, con);
+		}
+		
+		return searchList;
+	} // getSearchBoardList() 메서드 end
+	
  	
 }

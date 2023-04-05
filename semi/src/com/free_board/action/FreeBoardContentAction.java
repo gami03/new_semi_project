@@ -24,6 +24,21 @@ public class FreeBoardContentAction implements Action {
 		
 		String user_nickname = request.getParameter("nickname").trim();
 		
+		// field와 keyword로 검색한 free_board_search.jsp 화면에서 게시글 상세내역을 보려고 눌렀을 때 필드 값과 키워드 값이 넘어옴.
+		// 상세페이지에서 목록버튼을 눌렀을 때 다시 검색한 화면으로 돌아가게 하려고 함.
+		String field = request.getParameter("field");
+		String keyword = request.getParameter("keyword");
+		
+		// 위 코드에서는 먼저 파라미터 값을 가져온 후에, null 체크를 하지 않고 바로 변수에 저장합니다. 
+		// 그리고 파라미터 값이 null이 아니고, 공백이 아닌 경우에만 trim() 메소드를 호출하여 변수 값을 수정합니다. 
+		// 이렇게 하면, 파라미터 값이 null인 경우에는 변수가 초기화되지 않으므로 NullPointerException이 발생하지 않습니다.
+		if (field != null && !field.trim().isEmpty()) {
+		    field = field.trim();
+		}
+
+		if (keyword != null && !keyword.trim().isEmpty()) {
+		    keyword = keyword.trim();
+		}
 		
 		BoardDAO dao = BoardDAO.getInstance();
 		
@@ -46,6 +61,12 @@ public class FreeBoardContentAction implements Action {
 		request.setAttribute("Nickname", user_nickname);
 		request.setAttribute("session_nickname", session_nickname);
 		request.setAttribute("session_user_no", session_user_no);
+		
+		// field와 keyword로 검색한 free_board_search.jsp 화면에서 게시글 상세내역을 보려고 눌렀을 때 필드 값과 키워드 값을 상세페이지로 넘겨주자.
+		// 상세페이지에서 목록버튼을 눌렀을 때 다시 검색한 화면으로 돌아가게 하려고 함.
+		request.setAttribute("field", field);
+		request.setAttribute("keyword", keyword);
+		
 		
 		ActionForward forward = new ActionForward();
 		

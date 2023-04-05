@@ -6,24 +6,24 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.board.model.BoardDTO;
 import com.action.Action;
 import com.action.ActionForward;
 import com.board.model.BoardDAO;
+import com.board.model.BoardDTO;
 
-public class FreeBoardListAction implements Action  {
+public class FreeBoardSearchAction implements Action {
 
 	@Override
 	public ActionForward excute(HttpServletRequest request, HttpServletResponse response) throws IOException {
-		// DB상의 jsp_bbs 테이블 전체 레코드를 조회하여 view page로 이동시키는 비지니스 로직.
-		
-		// 요청 : 게시물 전체 목록 보여달라는 요청
-		// 응답 : DB의 BOARD 테이블의 전체 게시물 목록을 조회하여 view Page로 이동시키는 비지니스 로직
-		// 비지니스 로직 진행 시 페이징 처리 작업까지 동시 진행.
+		// 검색 폼 페이지에서 넘어온 데이터를 가지고 검색어에 해당하는 게시글들을 board 테이블에서 조회하여 view page로 이동시키는 비지니스 로직.
 		
 		// free_board 생성 및 선언  
 		// free_board로 게시판 리스트 묶기 위해서 쓰임.
 		String board_name = "free_board";
+		
+		// == 동시에 페이징 작업 진행.
+		String field = request.getParameter("field").trim();
+		String keyword = request.getParameter("keyword").trim();
 		
 		// 페이징 처리 작업 진행
 		
@@ -67,8 +67,8 @@ public class FreeBoardListAction implements Action  {
 
 		BoardDAO dao = BoardDAO.getInstance();
 		
-		// 전체 게시물의 수를 확인하는 메서드 호출
-		totalRecord = dao.getBoardCount(board_name);
+		// 검색게시물의 수를 확인하는 메서드 호출.
+		totalRecord = dao.searchListCount(field, keyword, board_name);
 		
 		// 전체 게시물의 수를 한 페이지당 보여질 게시물의 수로 나누어 주어야 함.
 		// 이 과정을 거치면 전체 페이지 수가 나오게 됨.
@@ -83,9 +83,8 @@ public class FreeBoardListAction implements Action  {
 		// 자유게시판으로 모인 게시글에 번호를 순차적으로 매겨서 보여주기 위함.
 		totalEndNo = totalRecord - ((page-1) * rowsize);
 		
-		
 		// 현재 페이지에 해당하는 게시물을 가져오는 메서드 호출
-		List<BoardDTO> list = dao.getBoardList(page, rowsize, board_name);
+		List<BoardDTO> searchList = dao.getSearchBoardList(field, keyword, page, rowsize, board_name);
 		
 		// 지금까지 페이징 처리 시 작업했던 모든 데이터들을 view page로 이동을 시키자.
 		request.setAttribute("board_name", board_name);
@@ -98,7 +97,9 @@ public class FreeBoardListAction implements Action  {
 		request.setAttribute("endNo", endNo);
 		request.setAttribute("startBlock", startBlock);
 		request.setAttribute("endBlock", endBlock);
-		request.setAttribute("List", list);
+		request.setAttribute("field", field);
+		request.setAttribute("keyword", keyword);
+		request.setAttribute("List", searchList);
 		
 		// 자유게시판에 모인 게시글을 번호를 순차적으로 매겨서 보여주기 위한 데이터를 view page로 이동.
 		request.setAttribute("totalEndNo", totalEndNo);
@@ -108,9 +109,10 @@ public class FreeBoardListAction implements Action  {
 		// view page 로 이동 시에는 false 값 지정.
 		forward.setRedirect(false);
 		
-		forward.setPath("board/free_board/free_board_list.jsp");
+		forward.setPath("board/free_board/free_board_search.jsp");
 		
 		return forward;
+		
 	}
 
 }
