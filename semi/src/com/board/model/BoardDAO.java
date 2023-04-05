@@ -368,18 +368,18 @@ public class BoardDAO {
 	} // getUserId() 메서드 end
 	
 	// 글번호에 해당하는 댓글 전체 리스트를 조회하는 메서드.
-	public String getReplyList(int no) {
+	public String getReplyList(int reply_no) {
 		
 		String result = "";
 		
 		try {
 			openConn();
 			
-			sql = "select * from board_reply where board_no = ? order by br_regdate desc";
+			sql = "select * from board_reply r join user_table u on r.user_no = u.user_no where board_no = ? order by br_regdate desc";
 			
 			pstmt = con.prepareStatement(sql);
 			
-			pstmt.setInt(1, no);
+			pstmt.setInt(1, reply_no);
 			
 			rs = pstmt.executeQuery();
 			
@@ -389,6 +389,7 @@ public class BoardDAO {
 				result += "<reply>";
 				result += "<com_no>"+rs.getInt("com_no")+"</com_no>";
 				result += "<user_no>"+rs.getInt("user_no")+"</user_no>";
+				result += "<user_nickname>"+rs.getString("user_nickname")+"</user_nickname>";
 				result += "<board_no>"+rs.getInt("board_no")+"</board_no>";
 				result += "<br_content>"+rs.getString("br_content")+"</br_content>";
 				result += "<br_regdate>"+rs.getString("br_regdate")+"</br_regdate>";
@@ -406,5 +407,250 @@ public class BoardDAO {
 		
 		return result;
 	} // getReplyList() 메서드 end
+	
+	// 댓글 내용을 tbl_reply 테이블에 저장하는 메서드.
+	public int replyInsert(BoardReplyDTO dto) {
+		
+		int result = 0, count = 0;
+		
+		try {
+			openConn();
+			
+			sql = "select max(com_no) from board_reply";
+			
+			pstmt = con.prepareStatement(sql);
+			
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()) {
+				count = rs.getInt(1) + 1;
+			}
+			
+			sql = "insert into board_reply values(?, ?, ?, ?, now())";
+			
+			pstmt = con.prepareStatement(sql);
+			
+			pstmt.setInt(1, count);
+			pstmt.setInt(2, dto.getUser_no());
+			pstmt.setInt(3, dto.getBoard_no());
+			pstmt.setString(4, dto.getBr_content());
+			
+			result = pstmt.executeUpdate();
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			closeConn(rs, pstmt, con);
+		}
+		
+		return result;
+	} // replyInsert() 메서드 end
+	
+	// 댓글 com.no에 해당하는 user_no 가져오는 메서드
+	public int getUserNoWhereComno(int reply_no) {
+		
+		int result = 0;
+		
+		try {
+			openConn();
+			
+			sql = "select user_no from board_reply where com_no = ?";
+			
+			pstmt = con.prepareStatement(sql);
+			
+			pstmt.setInt(1, reply_no);
+			
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()) {
+				result = rs.getInt(1);
+			}
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			closeConn(rs, pstmt, con);
+		}
+		
+		return result;
+	} // getUserNoWhereComno() 메서드 end
+	
+	//
+	public String getUserNicknameWhereuserno(int user_no) {
+		
+		String nickname = "";
+		
+		try {
+			openConn();
+			
+			sql = "select user_nickname from user_table where user_no = ?";
+			
+			pstmt = con.prepareStatement(sql);
+			
+			pstmt.setInt(1, user_no);
+			
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()) {
+				nickname = rs.getString(1);
+			}
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			closeConn(rs, pstmt, con);
+		}
+		
+		return nickname;
+	} // getUserNicknameWhereuserno() 메서드 end
+	
+	//
+	public int deleteBoard(int board_no) {
+		
+		int result = 0;
+		
+		try {
+			openConn();
+			
+			// 1. "board_reply" 테이블에서 해당 "board_no"를 참조하는 모든 행을 먼저 삭제합니다.
+			sql = "delete from board_reply where board_no = ?";
+			
+	        pstmt = con.prepareStatement(sql);
+	        
+	        pstmt.setInt(1, board_no);
+	        
+	        pstmt.executeUpdate();
+	        
+	        pstmt.close();
+	        
+	     // 3. "board" 테이블에서 해당 "board_no"의 게시글을 삭제합니다.
+			sql = "select * from board where board_no = ?";
+			
+			pstmt = con.prepareStatement(sql);
+			
+			pstmt.setInt(1, board_no);
+			
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()) {
+				sql = "delete from board where board_no = ?";
+				
+				pstmt = con.prepareStatement(sql);
+				
+				pstmt.setInt(1, board_no);
+				
+				result = pstmt.executeUpdate();
+			}
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			closeConn(rs, pstmt, con);
+		}
+		
+		return result;
+	} // deleteBoard(board_no)
+	
+	public void updateSequence(int no) {
+		try {
+			openConn();
+			
+			sql = "update board set board_no = board_no - 1 where board_no > ?";
+			
+			pstmt = con.prepareStatement(sql);
+			
+			pstmt.setInt(1, no);
+			
+			pstmt.executeUpdate();
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			closeConn(rs, pstmt, con);
+		}
+	} // updateSequence() 메서드 end
+	
+	// board 테이블에 게시글 번호에 해당하는 게시글을 수정하는 메서드.
+	public int ModifyUpload(BoardDTO dto) {
+		
+		int result = 0;
+		
+		try {
+			openConn();
+			
+			sql = "select * from board where board_no = ?";
+			
+			pstmt = con.prepareStatement(sql);
+			
+			pstmt.setInt(1, dto.getBoard_no());
+			
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()) {
+				if((dto.getBoard_file1() == null) && (dto.getBoard_file2() == null)) {
+					// 첨부파일이 없는 경우
+					sql = "update board set board_title = ?, board_category = ?, board_content = ?, board_update = now() where board_no = ?";
+					
+					pstmt = con.prepareStatement(sql);
+					
+					pstmt.setString(1, dto.getBoard_title());
+					pstmt.setString(2, dto.getBoard_category());
+					pstmt.setString(3, dto.getBoard_content());
+					pstmt.setInt(4, dto.getBoard_no());
+				}else if((dto.getBoard_file1() != null) && (dto.getBoard_file2() == null)){
+					// 첨부파일1만 있는경우
+					sql = "update board set board_title = ?, board_category = ?, board_content = ?, board_file1 = ?, board_update = now() where board_no = ?";
+					
+					pstmt = con.prepareStatement(sql);
+					
+					pstmt.setString(1, dto.getBoard_title());
+					pstmt.setString(2, dto.getBoard_category());
+					pstmt.setString(3, dto.getBoard_content());
+					pstmt.setString(4, dto.getBoard_file1());
+					pstmt.setInt(5, dto.getBoard_no());
+				
+				}else if((dto.getBoard_file1() == null) && (dto.getBoard_file2() != null)) {
+					// 첨부파일 2만 있는 경우
+					sql = "update board set board_title = ?, board_category = ?, board_content = ?, board_file2 = ?, board_update = now() where board_no = ?";
+					
+					pstmt = con.prepareStatement(sql);
+					
+					pstmt.setString(1, dto.getBoard_title());
+					pstmt.setString(2, dto.getBoard_category());
+					pstmt.setString(3, dto.getBoard_content());
+					pstmt.setString(4, dto.getBoard_file1());
+					pstmt.setInt(5, dto.getBoard_no());
+				}else if((dto.getBoard_file1() != null) && (dto.getBoard_file2() != null)){
+					// 첨부파일이 둘다 있는 경우
+					sql = "update board set board_title = ?, board_category = ?, board_content = ?, board_file1 = ?, board_file2 = ?, board_update = now() where board_no = ?";
+					
+					pstmt = con.prepareStatement(sql);
+					
+					pstmt.setString(1, dto.getBoard_title());
+					pstmt.setString(2, dto.getBoard_category());
+					pstmt.setString(3, dto.getBoard_content());
+					pstmt.setString(4, dto.getBoard_file1());
+					pstmt.setString(5, dto.getBoard_file2());
+					pstmt.setInt(6, dto.getBoard_no());
+				}
+				
+				result = pstmt.executeUpdate();
+			}
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			closeConn(rs, pstmt, con);
+		}
+		
+		return result;
+	} // ModifyUpload() 메서드 end
+	
  	
 }

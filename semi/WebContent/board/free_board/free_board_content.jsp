@@ -43,8 +43,18 @@ justify-content: center;
 
 .reply {
 	display: flex;
+	justify-content: center;
+	align-items: center;
 }
-	
+
+#reply-wrap {
+	align: center;
+	margin-bottom: 80px; 
+	background-color: #f7f7f7;
+    padding-top: 30px;
+    padding-bottom: 20px;
+    width: 75%;
+}
 
 </style>
 <script type="text/javascript">
@@ -70,6 +80,16 @@ justify-content: center;
 		
 			alert("로그인 후 다시 시도해주세요.");
 	}
+	
+	function validateComment() {
+		  var commentContent = document.getElementById("comment-content").value;
+		  if (commentContent.trim() == "") {
+		    alert("댓글 내용을 작성해주세요.");
+		    return false;
+		  }
+		  return replywrite();
+		}
+
 </script>
 
 </head>
@@ -191,19 +211,23 @@ justify-content: center;
 					<td class="content"><br>${dto.getBoard_content() }<br></td>
 				</tr>
 			</c:if>
-			</table>
+		</table>
+			
 			<%-- 삭제 폼 처리 --%>
 			<c:set var="session_nickname" value="${session_nickname }" />
 			<c:set var="id" value="${user_id }" />
 			<c:if test="${Nickname == session_nickname }">
-				<input type="button" name="delete" value="삭제" onclick="location.href='free_board_delete.do'">
+				<input type="button" name="delete" value="삭제" onclick="if(confirm('게시글을 정말 삭제 하시겠습니까?')) {
+														location.href='free_board_delete.do?board_no=${dto.getBoard_no() }&page=${Page }'
+													}else { return; }">&nbsp;
 			</c:if>
 			
+			<%--수정  폼 처리 --%>
 			<c:if test="${Nickname == session_nickname }">
-				<input type="button" name="modify" value="수정" onclick="writeCheck()" style="margin-bottom: 20px;">
+				<input type="button" name="modify" value="수정" onclick="location.href='free_board_modify.do?no=${dto.getBoard_no() }&page=${Page }'" style="margin-bottom: 20px;">
 			</c:if>
 			
-			<%-- 데이터가 없는 경우 --%>
+			<%-- 게시글 데이터가 없는 경우 --%>
 			<c:if test="${empty dto }">
 				<tr>
 					<td colspan="2" align="center">
@@ -217,20 +241,22 @@ justify-content: center;
 			<tr>
 			</tr>
 		</table>
-		<div>
+		<div id="reply-wrap">
 			<div class="reply">
-				<textarea style="width: 90%; background-color: white;" name="re_content" id="re_content"></textarea>&nbsp;
+				<textarea style="height: 75px; width: 85%; background-color: white;" name="re_content" id="re_content" placeholder="댓글을 입력하세요."></textarea>&nbsp;
 				<c:if test="${!empty id }">
-				<input type="button" id="replyBtn" value="등록" onclick="replywrite()">
+					<input type="button" id="replyBtn" value="등록" onclick="replywrite()">
 				</c:if>
 				<c:if test="${empty id }">
-				<input type="button" value="등록" onclick="writeCheck()">
+					<input type="button" value="등록" onclick="writeCheck()">
 				</c:if>
 			</div>
 			<span style="font-size: 12px; color: gray;">
 				<br>통신예절에 어긋나는 글이나 상업적인 글, 타 사이트에 관련된 글은 관리자에 의해 사전 통보없이 삭제될 수 있습니다.
 			</span>
 		</div>
+		
+		<input type="button" name="golist" value="목록" style="margin-bottom: 100px;" onclick="location.href='free_board_list.do?page=${Page }'">
 		
 <script type="text/javascript">
 	$(function() {
@@ -249,24 +275,23 @@ justify-content: center;
 		
 		$.ajax({
 			url : "free_board_reply_list.do",
-			data : {com_no : ${dto.getBoard_no() } },
+			data : {
+						com_no : ${dto.getBoard_no() } 
+					},
 			datatype : "xml",
 			success : function(data) {
 				// 테이블 태그의  타이틀 태그를 제외한 나머지 댓글 목록을 지우는 작업.
 				$("#list tr:gt(0)").remove();
-				
 				let table = "";
 				
 				$(data).find("reply").each(function() {
 					table += "<tr><td>"
-								+$(this).find("user_no").text()+"<br>"
+								+$(this).find("user_nickname").text()+"<br>"
 								+$(this).find("br_content").text()+"<br>"
 								+$(this).find("br_regdate").text()+
 							"</td></tr>";
 				});
 				
-				console.log(table);
-				//$('#list').text(table);
 				$('#list tr:eq(0)').after(table);
 			},
 			
@@ -277,20 +302,34 @@ justify-content: center;
 	} // getList() 함수 end
 	
 	// 제이쿼리 실행 시 마다 전체댓글목록 화면에 출력이 되어야 함.
-	
 	function replywrite() {
+		
+		var reContent = $("#re_content").val();
+		   
+		   if (!reContent.trim()) { // 댓글란이 비어있는지 확인
+		      alert('댓글 내용을 입력해주세요.');
+		      return;
+		   }
 		
 		$.ajax({
 			url : "free_board_reply_write.do",
 			data : {
-				re_cont : $("#re_content").val();
-				re_writer : ${session_nickname}
-				
+				re_cont : reContent,
+				re_writer : "${session_nickname}",
+				board_no : ${dto.getBoard_no() },
+				user_no : ${session_user_no }
 			},
-			datatype : "xml",
+			datatype : "text",
 			success : function(data) {
-				if(data == 1) {
+				if(data > 0) {
+					
+					// 댓글 작성 후 다시 전체 댓글 리스트를 화면에 뿌려주면 된다.
 					getList();
+					
+					// input 태그에 입력된 내용 지우기.
+					$("textarea").each(function() {
+						$(this).val(""); // 입력된 값 지우기.
+					});
 				}else {
 					alert('댓글 작성 실패했습니다.');
 				}
@@ -301,11 +340,12 @@ justify-content: center;
 				alert("데이터 통신 오류입니다!!!");
 			}
 		});
-	} // getList() 함수 end
+	} // replywrite() 함수 end
+	
+	// 제이쿼리 실행 시 마다 전체댓글목록 화면에 출력이 되어야 함.
 	
 </script>		
 	
-		
 	
 	<!-- Footer -->
 	<footer id="footer">

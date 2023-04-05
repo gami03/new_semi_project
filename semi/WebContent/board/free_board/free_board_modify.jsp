@@ -192,30 +192,40 @@ justify-content: center;
 		<br>
 		
 		<c:set var="session" value="${user_id }" />
+		<c:set var="dto" value="${Modify }" />
 		<%-- enctype : 파일을 업로드하기 위한 속성 --%>
-		<form method="post" enctype="multipart/form-data" action="<%=request.getContextPath() %>/free_board_write_ok.do?id=${user_id }">
+		<form method="post" enctype="multipart/form-data" action="<%=request.getContextPath() %>/free_board_modify_ok.do?id=${user_id }&board_no=${dto.getBoard_no() }&page=${Page }">
 			<table border="1" cellspacing="0" width="50%" class="col-9">
 				<tr>
 					<th>제목</th>
-					<td> <input name="free_board_title" id="free_board_title" style=""> </td>
+					<td> <input name="free_board_title" id="free_board_title" value="${dto.getBoard_title() }"> </td>
 				</tr>
 				
 				<tr>
 					<th>카테고리</th>
 					<td>
 						<select name="free_board_category" style="width:30%;">
-			   			<option value="auction">경매</option>
-			   			<option value="funny">유머</option>
-			   			<option value="curious">궁금해요</option>
-			   			<option value="etc">기타</option>
-			   		</select>
+				            <option value="auction" ${dto.getBoard_category() == 'auction' ? 'selected' : ''}>경매</option>
+				            <option value="funny" ${dto.getBoard_category() == 'funny' ? 'selected' : ''}>유머</option>
+				            <option value="curious" ${dto.getBoard_category() == 'curious' ? 'selected' : ''}>궁금해요</option>
+				            <option value="etc" ${dto.getBoard_category() == 'etc' ? 'selected' : ''}>기타</option>
+				        </select>
 					</td>
 				</tr>
 				
 				<tr>
 					<th>첨부파일</th>
-					<td> <input type="file" name="upload_file1">
+					<td> 
+						 <c:if test="${!empty dto.getBoard_file1() }">
+						 <span>현재 첨부된 파일 1 : ${dto.getBoard_file1() }</span>
+						 <br>
+						 </c:if>
+						 <input type="file" name="upload_file1">
 						 <br><br>
+						  <c:if test="${!empty dto.getBoard_file2() }">
+						 <span>현재 첨부된 파일 2 : ${dto.getBoard_file2() }</span>
+						 <br>
+						 </c:if>
 						 <input type="file" name="upload_file2" onclick="return checkUpload1()">
 						 <br>
 						 <br>
@@ -226,7 +236,7 @@ justify-content: center;
 				</tr>
 				
 				<tr>
-					<td colspan="2"><textarea id="summernote" name="editordata"></textarea></td>
+					<td colspan="2"><textarea id="summernote" name="editordata">${dto.getBoard_content()}</textarea></td>
 					<script type="text/javascript">
 				      $('#summernote').summernote({
 				        placeholder: '내용을 입력하세요.',
@@ -237,7 +247,7 @@ justify-content: center;
 				</tr>
 			</table>
 			
-			<input type="submit" value="완료">&nbsp;&nbsp;
+			<input type="submit" value="수정">&nbsp;&nbsp;
 			<input type="button" value="취소" onclick="history.back()">
 		</form>
 	</div>

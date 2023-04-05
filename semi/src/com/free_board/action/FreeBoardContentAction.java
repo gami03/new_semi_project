@@ -33,6 +33,9 @@ public class FreeBoardContentAction implements Action {
 		// 세션의 아이디를 갖고 로그인되어있는 유저의 닉네임 가져오기.
 		String session_nickname = dao.getUserNickname(user_id);
 		
+		// 세션의 아이디를 갖고 로그인되어있는 유저의 user_no 가져오기.
+		int session_user_no = dao.getUserNo(user_id);
+		
 		// 글번호에 해당하는 게시글의 상세내역을 조회하는 메서드 호출.
 		BoardDTO content = dao.getBoardContent(board_no);
 		
@@ -42,6 +45,7 @@ public class FreeBoardContentAction implements Action {
 		request.setAttribute("user_id", user_id);
 		request.setAttribute("Nickname", user_nickname);
 		request.setAttribute("session_nickname", session_nickname);
+		request.setAttribute("session_user_no", session_user_no);
 		
 		ActionForward forward = new ActionForward();
 		

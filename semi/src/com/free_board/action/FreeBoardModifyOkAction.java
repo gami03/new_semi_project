@@ -15,11 +15,11 @@ import com.board.model.BoardDTO;
 import com.oreilly.servlet.MultipartRequest;
 import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
 
-public class FreeBoardWriteOkAction implements Action {
+public class FreeBoardModifyOkAction implements Action {
 
 	@Override
 	public ActionForward excute(HttpServletRequest request, HttpServletResponse response) throws IOException {
-		// 자료실 폼 페이지에서 넘어온 데이터들을 DB(upload 테이블)에 저장하는 비지니스 로직.
+		// 자료실 수정 폼 페이지에서 넘어온 데이터들을 DB(upload 테이블)에 저장하는 비지니스 로직.
 		
 		BoardDTO dto = new BoardDTO();
 		
@@ -47,14 +47,17 @@ public class FreeBoardWriteOkAction implements Action {
 		String upload_category = multi.getParameter("free_board_category").trim();
 		String upload_summernote = multi.getParameter("editordata").trim();
 		
+		
 		// 자료실 폼 페이지에서 type="file" 속성으로 되어 있으면 getfile() 메서드로 받아 주어야 함.
 		File upload_file1 = multi.getFile("upload_file1");
 		File upload_file2 = multi.getFile("upload_file2");
 		
-		// 넘어온 아이디도 받아주자.
+		// 넘어온 아이디와 글번호, 현재 페이지도 받아주자.
+		int board_no = Integer.parseInt(multi.getParameter("board_no").trim());
 		String user_id = multi.getParameter("id").trim();
+		int nowPage = Integer.parseInt(multi.getParameter("page").trim());
 		
-		System.out.println("글쓰기 user_id >>> "+user_id);
+		
 		// 글쓴 사람을 세션으로 넘어온 아이디를 통해서 user_no, user_nickname을 받아오자.
 		BoardDAO dao = BoardDAO.getInstance();
 		
@@ -157,6 +160,7 @@ public class FreeBoardWriteOkAction implements Action {
 			dto.setBoard_file2(fileDBName2);
 		}
 		
+		dto.setBoard_no(board_no);
 		dto.setUser_no(user_no);
 		dto.setUser_nickname(user_nickname);
 		dto.setBoard_title(upload_title);
@@ -164,19 +168,20 @@ public class FreeBoardWriteOkAction implements Action {
 		dto.setBoard_content(upload_summernote);
 		dto.setBoard_name(board_name);
 		
-		
-		int check = dao.insertUpload(dto);
+		// board 테이블에 게시글 번호에 해당하는 게시글을 수정하는 메서드 호출.
+		int check = dao.ModifyUpload(dto);
 		
 		PrintWriter out = response.getWriter();
 		
 		if(check > 0) {
 			out.println("<script>");
-			out.println("alert('게시글이 등록 되었습니다.')");
-			out.println("location.href='free_board_list.do'");
+			out.println("alert('게시글이 수정 완료 되었습니다.')");
+			out.println("location.href='free_board_content.do?no="+board_no+"&page="+nowPage+"&id="+user_id+"&nickname="+user_nickname+"'");
 			out.println("</script>");
+			
 		}else {
 			out.println("<script>");
-			out.println("alert('게시글 등록 오류입니다. 확인 후 다시 시도 부탁드립니다.')");
+			out.println("alert('게시글 수정 실패하였습니다. 확인 후 다시 시도해주세요.')");
 			out.println("history.back()");
 			out.println("</script>");
 		}
