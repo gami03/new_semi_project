@@ -154,7 +154,7 @@ justify-content: center;
 						<td>
 							<a href="<%=request.getContextPath() %>/free_board_content.do?no=${dto.getBoard_no() }
 																						  &page=${page }&id=${user_id }&nickname=${dto.getUser_nickname() }&field=${field }&keyword=${keyword }">
-								${dto.getBoard_title() }
+								[${dto.getBoard_category() }]&nbsp;${dto.getBoard_title() }
 							</a>
 						</td>
 						<td> ${dto.getUser_nickname() } </td>

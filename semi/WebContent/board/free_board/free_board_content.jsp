@@ -12,7 +12,7 @@
 <script type="text/javascript" src="http://code.jquery.com/jquery-3.6.1.js"></script>
 
 <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
-<link rel="stylesheet" href="assets/css/main.css" />
+
 <noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-Fy6S3B9q64WdZWQUiU+q4/2Lc9npb8tCaSX9FK7E8HnRr0Jz8D6OP9dO5Vg3Q9ct" crossorigin="anonymous"></script>
@@ -20,7 +20,7 @@
 <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.min.js" integrity="sha384-+sLIOodYLS7CIrQpBjl+C7nPvqq+FbNUBDunl/OZv93DB7Ln/533i8e/mZXLi/P+" crossorigin="anonymous"></script>
-
+<link rel="stylesheet" href="assets/css/main.css" />
 <style type="text/css">
 .pagination{
 justify-content: center;
@@ -79,6 +79,11 @@ justify-content: center;
 	function writeCheck(){
 		
 			alert("로그인 후 다시 시도해주세요.");
+	}
+	
+	function heartcheck() {
+		
+		alert("좋아요는 로그인 후 가능합니다.")
 	}
 	
 	function validateComment() {
@@ -212,10 +217,73 @@ justify-content: center;
 				</tr>
 			</c:if>
 		</table>
+		
+		<c:set var="id" value="${user_id }" />
+		
+		<%-- 추천 기능 --%>
+		<div align="left" style="margin-left: 13%;">
+			<div class="w3-border w3-center w3-padding">
+				<c:if test="${empty id }">
+					좋아요 <i class="fa fa-heart" style="font-size:16px;color:red" onclick="heartcheck()"></i>
+					<span class="rec_count"></span>					
+				</c:if>
+				<c:if test="${!empty id }">
+					<button class="w3-button w3-black w3-round" id="rec_update" style="width: 125px; height: 40px;">
+						<span style="font-size: 14px; letter-spacing: 3px;">좋아요</span> <i class="fa fa-heart" style="font-size:16px;color:red"></i>
+						&nbsp;<span class="rec_count"></span>
+					</button> 
+				</c:if>
+			</div>
+		</div>
+		<br>
+		
+<script type="text/javascript">
+
+$(function() {
+	  // 추천버튼 클릭시(추천 추가 또는 추천 제거)
+	  $("#rec_update").click(function() {
+	    $.ajax({
+	      url: "free_board_rec_update.do",
+	      type: "post",
+	      data: {
+	        no: ${dto.getBoard_no()},
+	        id: "${id}"
+	      },
+	      success: function(data) {
+	        alert(data);
+	        recCount();
+	      },
+	      error: function() {
+	        alert("데이터 통신 오류입니다!!!");
+	      }
+	    });
+	  });
+
+	  // 게시글 추천수
+	  function recCount() {
+	    $.ajax({
+	      url: "free_board_rec_count.do",
+	      type: "post",
+	      data: {
+	        no: ${dto.getBoard_no()}
+	      },
+	      success: function(count) {
+	        $(".rec_count").html(count);
+	      },
+	      error: function() {
+	        alert("데이터 통신 오류입니다!!!");
+	      }
+	    });
+	  };
+	  
+	  recCount(); // 처음 시작했을 때 실행되도록 해당 함수 호출
+	});
+
+</script>
 			
 			<%-- 삭제 폼 처리 --%>
 			<c:set var="session_nickname" value="${session_nickname }" />
-			<c:set var="id" value="${user_id }" />
+			
 			<c:if test="${Nickname == session_nickname }">
 				<input type="button" name="delete" value="삭제" onclick="if(confirm('게시글을 정말 삭제 하시겠습니까?')) {
 														location.href='free_board_delete.do?board_no=${dto.getBoard_no() }&page=${Page }'

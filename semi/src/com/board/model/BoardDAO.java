@@ -8,6 +8,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+
 public class BoardDAO {
 
 	// DAO 객체를 싱글턴 방식으로 만들어서 사용을 해 보자.
@@ -781,6 +782,116 @@ public class BoardDAO {
 		
 		return searchList;
 	} // getSearchBoardList() 메서드 end
+	
+	// 게시글 추천여부 검사
+	public int recCheck(int board_no, int user_no) {
+		
+		int result = 0;
+		
+		try {
+			openConn();
+			
+			sql = "SELECT COUNT(*) FROM board_recommend WHERE user_no = ? AND board_no = ?";
+			
+			pstmt = con.prepareStatement(sql);
+			
+			pstmt.setInt(1, user_no);
+			pstmt.setInt(2, board_no);
+			
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()) {
+				result = rs.getInt(1);
+			}
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			closeConn(rs, pstmt, con);
+		}
+		
+		return result;
+	} // recCheck() 메서드 end
+	
+	// 게시글 추천 추가 메서드
+	public void recUpdate(int board_no, int user_no) {
+		
+		try {
+			openConn();
+			
+			sql = "insert into board_recommend values(?, ?)";
+			
+			pstmt = con.prepareStatement(sql);
+			
+			pstmt.setInt(1, board_no);
+			pstmt.setInt(2, user_no);
+			
+			
+			pstmt.executeUpdate();
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			closeConn(rs, pstmt, con);
+		}
+		
+	} // recUpdate() 메서드 end
+	
+	// 게시글 추천 제거
+	public void recDelete(int board_no, int user_no) {
+		
+		try {
+			openConn();
+			
+			sql = "delete from board_recommend where board_no = ? and user_no = ?";
+			
+			pstmt = con.prepareStatement(sql);
+			
+			pstmt.setInt(1, board_no);
+			pstmt.setInt(2, user_no);
+			
+			pstmt.executeUpdate();
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			closeConn(rs, pstmt, con);
+		}
+		
+	} // recDelete() 메서드 end
+	
+	// 게시글 추천 수 
+	public int recCount(int board_no) {
+		
+		int result = 0;
+		
+		try {
+			openConn();
+			
+			sql = "select count(*) from board_recommend where board_no = ?";
+			
+			pstmt = con.prepareStatement(sql);
+			
+			pstmt.setInt(1, board_no);
+			
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()) {
+				result = rs.getInt(1);
+			}
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			closeConn(rs, pstmt, con);
+		}
+		
+		return result;
+	} // reCount() 메서드 end
 	
  	
 }
