@@ -39,6 +39,9 @@ public class FreeBoardRecUpdateAction implements Action {
 			out.println("좋아요를 취소하였습니다.");
 		}
 		
+		// 추천을 추가/삭제 했을 때 board 테이블에서 해당 게시물의 추천수 업데이트하는 메서드.
+		dao.boardRecCount(board_no);
+		
 		return null;
 	}
 

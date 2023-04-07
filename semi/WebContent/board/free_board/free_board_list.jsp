@@ -138,6 +138,162 @@ justify-content: center;
 		<hr width="50%" color="marmoon">
 		<br>
 		
+		<%-- 게시판 테이블 게시물 정렬 기능 --%>
+		<div id="freeBoard_order_list">
+			<select name="field" style="width:10%; margin-left: 65%;" onchange="onOrderChange(this.value)">
+				<option value="time">시간순</option>
+	   			<option value="hit">인기순</option>
+	   			<option value="look">조회순</option>
+	   		</select>
+   		</div>
+   		<br>
+   		
+<script type="text/javascript">
+
+	$(function() {
+		
+		// ajax에서 동일하게 사용되는 속성 설정
+		$.ajaxSetup({
+			ContentType : "application/x-www-form-urlencoded;charset=UTF-8",
+		});
+		
+	});
+	
+	// orderBy 파라미터 값을 확인하여, 해당 옵션이 선택된 경우에만 각각 맞는 함수를 호출하도록 처리
+	function onOrderChange(orderBy) {
+	    if (orderBy === 'hit') {
+	      getHitSortList();
+	    }else if(orderBy === 'time') {
+	      getTimeSortList();
+	    }else if(orderBy === 'look') {
+	      getLookSortList();
+	    }
+	  } // onOrderChange() 함수 end
+	
+	function getHitSortList() {
+		
+		$.ajax({
+			type : "get",
+			url : "board_Hit_list.do",
+			data : {
+				board_name : "${board_name }",
+			    page : "${page }"
+			},
+			datatype : "json",
+			success : function(response) {
+				console.log(response);
+				
+				// 데이터가 있을 때만 테이블 생성
+				if(response.list.length > 0) {
+					
+					// 기존 테이블 데이터 삭제
+					$("#freeBoard_table tr:gt(0)").remove();
+					
+					// 동적으로 데이터 생성
+					$.each(response.list, function(index, board) {
+						var html = "<tr>"
+									+ "<td>"+${totalEndNo }+"</td>"
+									+ "<td>"+board.board_title+"</td>"
+									+ "<td>"+board.user_nickname+"</td>"
+									+ "<td>"+board.board_date.substring(0,10)+"</td>"
+									+ "<td>"+board.board_hit+"</td>"
+									+ "</tr>";
+						$("#freeBoard_table tr:eq(0)").after(html);
+					});
+				}
+				
+			},
+			error : function() {
+				alert("통신에러가 발생했습니다.");
+			}
+		});
+		
+	} // getHitSortList() 함수 end
+	
+	function getTimeSortList() {
+		
+		$.ajax({
+			type : "get",
+			url : "board_time_list.do",
+			data : {
+				board_name : "${board_name }",
+			    page : "${page }"
+			},
+			datatype : "json",
+			success : function(response) {
+				console.log(response);
+				
+				// 데이터가 있을 때만 테이블 생성
+				if(response.list.length > 0) {
+					
+					// 기존 테이블 데이터 삭제
+					$("#freeBoard_table tr:gt(0)").remove();
+					
+					// 동적으로 데이터 생성
+					$.each(response.list, function(index, board) {
+						var html = "<tr>"
+									+ "<td>"+${totalEndNo }+"</td>"
+									+ "<td>"+board.board_title+"</td>"
+									+ "<td>"+board.user_nickname+"</td>"
+									+ "<td>"+board.board_date.substring(0,10)+"</td>"
+									+ "<td>"+board.board_hit+"</td>"
+									+ "</tr>";
+						$("#freeBoard_table tr:eq(0)").after(html);
+					});
+				}
+				
+			},
+			error : function() {
+				alert("통신에러가 발생했습니다.");
+			}
+		});
+		
+	} // getTimeSortList() 함수 end
+	
+	function getLookSortList() {
+		
+		$.ajax({
+			type : "get",
+			url : "board_look_list.do",
+			data : {
+				board_name : "${board_name }",
+			    page : "${page }"
+			},
+			datatype : "json",
+			success : function(response) {
+				console.log(response);
+				
+				// 데이터가 있을 때만 테이블 생성
+				if(response.list.length > 0) {
+					
+					// 기존 테이블 데이터 삭제
+					$("#freeBoard_table tr:gt(0)").remove();
+					
+					// 동적으로 데이터 생성
+					$.each(response.list, function(index, board) {
+						var html = "<tr>"
+									+ "<td>"+${totalEndNo }+"</td>"
+									+ "<td>"+board.board_title+"</td>"
+									+ "<td>"+board.user_nickname+"</td>"
+									+ "<td>"+board.board_date.substring(0,10)+"</td>"
+									+ "<td>"+board.board_hit+"</td>"
+									+ "</tr>";
+						$("#freeBoard_table tr:eq(0)").after(html);
+					});
+				}
+				
+			},
+			error : function() {
+				alert("통신에러가 발생했습니다.");
+			}
+		});
+		
+	} // getLookSortList() 함수 end
+	
+</script>
+   		
+   		<div id="freeBoard_table">
+   		<%-- 자유게시판 테이블 --%>
 		<table border="1" cellspacing="0" width="50%" class="col-9">
 			<tr align="center">
 				<th>번호</th> <th width="60%">제목</th> <th>작성자</th> <th>작성일</th> <th>조회수</th>
@@ -145,9 +301,9 @@ justify-content: center;
 			
 			<c:set var="list" value="${List }"/>
 			<c:set var="session" value="${user_id }" />
+			<tbody>
 			<c:if test="${!empty list }">
 				<c:forEach items="${list }" var="dto">
-					
 					<tr>
 						<c:set var="totalEndNo" value="${totalEndNo -1 }" />
 								<td> ${totalEndNo + 1 } </td>
@@ -163,6 +319,7 @@ justify-content: center;
 					</tr>
 				</c:forEach>
 			</c:if>
+			</tbody>
 			
 			<c:if test="${empty list }">
 				<tr>
@@ -210,6 +367,7 @@ justify-content: center;
 		      </li>
 	      </ul>
 	   </nav>
+	</div>
 	</div>
 		
 			<div style ="float:left; width:20%; margin-left: 16%">
