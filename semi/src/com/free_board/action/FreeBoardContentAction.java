@@ -28,6 +28,7 @@ public class FreeBoardContentAction implements Action {
 		// 상세페이지에서 목록버튼을 눌렀을 때 다시 검색한 화면으로 돌아가게 하려고 함.
 		String field = request.getParameter("field");
 		String keyword = request.getParameter("keyword");
+		String orderBy = request.getParameter("orderBy");
 		
 		// 위 코드에서는 먼저 파라미터 값을 가져온 후에, null 체크를 하지 않고 바로 변수에 저장합니다. 
 		// 그리고 파라미터 값이 null이 아니고, 공백이 아닌 경우에만 trim() 메소드를 호출하여 변수 값을 수정합니다. 
@@ -38,6 +39,10 @@ public class FreeBoardContentAction implements Action {
 
 		if (keyword != null && !keyword.trim().isEmpty()) {
 		    keyword = keyword.trim();
+		}
+		
+		if (orderBy != null && !orderBy.trim().isEmpty()) {
+			orderBy = orderBy.trim();
 		}
 		
 		BoardDAO dao = BoardDAO.getInstance();
@@ -66,6 +71,9 @@ public class FreeBoardContentAction implements Action {
 		// 상세페이지에서 목록버튼을 눌렀을 때 다시 검색한 화면으로 돌아가게 하려고 함.
 		request.setAttribute("field", field);
 		request.setAttribute("keyword", keyword);
+		
+		// 게시판에서 시간순, 추천수, 조회수로 정렬한 상태에서 해당 게시글을 눌렀을 때 다시 정렬한 상태의 화면으로 돌아가게 하려고 함.
+		request.setAttribute("orderBy", orderBy);
 		
 		
 		ActionForward forward = new ActionForward();

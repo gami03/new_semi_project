@@ -19,7 +19,17 @@ public class BoardTimeListAction implements Action {
 	public ActionForward excute(HttpServletRequest request, HttpServletResponse response) throws IOException {
 		// 요청 파라미터에서 데이터 가져오기
         String boardName = request.getParameter("board_name");
-        int page = Integer.parseInt(request.getParameter("page"));
+        
+        // 현재 페이지 변수
+     	int page = 0;
+     		
+     		
+ 		if(request.getParameter("page") != null) {
+			page = Integer.parseInt(request.getParameter("page").trim());
+		}else {
+			// 처음으로 "자유 게시판" a 태그를 클린한 경우
+			page = 1;
+		}
 
         int rowsize = 10;
         

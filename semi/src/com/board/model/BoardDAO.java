@@ -943,7 +943,7 @@ public class BoardDAO {
 		try {
 			openConn();
 			
-			sql = "select * from (select row_number() over(order by board_no desc) rnum, b.*, u.user_nickname from board b join user_table u on b.user_no = u.user_no where board_name = ?) Y where rnum >=? and rnum <=? order by board_rec, board_no";
+			sql = "select * from (select row_number() over(order by board_rec desc, board_no desc) rnum, b.*, u.user_nickname from board b join user_table u on b.user_no = u.user_no where board_name = ?) Y where rnum >=? and rnum <=?";
 			
 			pstmt = con.prepareStatement(sql);
 			
@@ -1000,7 +1000,7 @@ public class BoardDAO {
 		try {
 			openConn();
 			
-			sql = "select * from (select row_number() over(order by board_no desc) rnum, b.*, u.user_nickname from board b join user_table u on b.user_no = u.user_no where board_name = ?) Y where rnum >=? and rnum <=? order by board_no";
+			sql = "select * from (select row_number() over(order by board_no desc) rnum, b.*, u.user_nickname from board b join user_table u on b.user_no = u.user_no where board_name = ?) Y where rnum >=? and rnum <=?";
 			 
 			pstmt = con.prepareStatement(sql);
 			
@@ -1057,7 +1057,7 @@ public class BoardDAO {
 			try {
 				openConn();
 				
-				sql = "select * from (select row_number() over(order by board_no desc) rnum, b.*, u.user_nickname from board b join user_table u on b.user_no = u.user_no where board_name = ?) Y where rnum >=? and rnum <=? order by board_hit, board_no";
+				sql = "select * from (select row_number() over(order by board_hit desc, board_no desc) rnum, b.*, u.user_nickname from board b join user_table u on b.user_no = u.user_no where board_name = ?) Y where rnum >=? and rnum <=?";
 				 
 				pstmt = con.prepareStatement(sql);
 				
