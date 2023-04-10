@@ -259,7 +259,7 @@ justify-content: center;
 			    
 			    var nextPage = endPage + 1;
 			    
-		    	var pageUrl = "<div style='margin-left: 35%;'><nav style='float:left; width: 35%;'><ul class='pagination'>";
+		    	var pageUrl = "<div style='margin-left: 30%;'><nav style='float:left; width: 55%;'><ul class='pagination'>";
 		    	
 		    	// 처음 버튼
 		   		pageUrl +="<li class='page-item'><a class='page-link' href='javascript:"+ funName +"(" + 1 + ");'>처음</a></li>";
@@ -337,8 +337,8 @@ justify-content: center;
 		<br>
 		
 		<%-- 페이징 처리 영역 --%>
-		<div style="margin-left: 35%;">
-	   <nav style ="float:left; width: 35%;">
+		<div style="margin-left: 30%;">
+	   <nav style ="float:left; width: 55%;">
 	      <ul class="pagination">
 		      <li class="page-item">
 		         <a class="page-link" href="free_board_list.do?page=1">처음</a>
@@ -376,7 +376,7 @@ justify-content: center;
 	</div>
 	
 		
-			<div style ="float:left; width:20%; margin-left: 16%">
+			<div style ="float:left; width:20%; margin-left: 6%">
 				<%-- 글쓰기 폼 처리 --%>
 				<c:set var="id" value="${user_id }" />
 				<c:if test="${!empty id }">
