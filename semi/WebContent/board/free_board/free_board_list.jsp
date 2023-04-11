@@ -7,6 +7,8 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
 <style type="text/css">
 .pagination{
 justify-content: center;
@@ -22,7 +24,6 @@ justify-content: center;
 </script>
 
 	<jsp:include page="/include/main_top.jsp" />
-
 
 	<!-- Main -->
 	<div align="center">
@@ -44,6 +45,7 @@ justify-content: center;
    		
 <script type="text/javascript">
 
+
 	$(function() {
 		
 		// ajax에서 동일하게 사용되는 속성 설정
@@ -52,7 +54,6 @@ justify-content: center;
 		});
 		
 	});
-	
 	
 	// orderBy 파라미터 값을 확인하여, 해당 옵션이 선택된 경우에만 각각 맞는 함수를 호출하도록 처리
 	function onOrderChange(orderBy) {
@@ -289,6 +290,30 @@ justify-content: center;
 
 	
 </script>
+
+
+
+<script type="text/javascript">
+    $(document).ready(function() {
+        // orderBy 값에 따라 적절한 함수 호출
+        function onOrderChange(orderBy) {
+            if (orderBy === 'hit') {
+                getHitSortList(${page});
+            } else if (orderBy === 'time') {
+                getTimeSortList(${page});
+            } else if (orderBy === 'look') {
+                getLookSortList(${page});
+            }
+        }
+        
+        // select 태그의 value 값을 기준으로 함수 호출 및 옵션 선택
+        var selectedOrder = "${orderBy}";
+        onOrderChange(selectedOrder);
+        $("select[name='field'] option[value='" + selectedOrder + "']").attr('selected', true);
+    });
+</script>
+
+
 
    		<div id="Board_table">
 	   		<%-- 자유게시판 테이블 --%>

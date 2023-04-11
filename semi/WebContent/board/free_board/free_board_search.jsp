@@ -7,6 +7,7 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <style type="text/css">
 .pagination{
 justify-content: center;
@@ -42,6 +43,7 @@ justify-content: center;
    		<br>
    		
 <script type="text/javascript">
+
 
 	$(function() {
 		
@@ -95,7 +97,7 @@ justify-content: center;
 							html += no;
 							
 							html += "</td>"
-								+ "<td><a href='<%=request.getContextPath() %>/board_content.do?no=" + board.board_no + "&page=" + response.page + "&id=${user_id }&nickname=" + board.user_nickname + "&orderBy=hit&board_name="+ board.board_name +"'>"+"["+board.board_category+"]"+"&nbsp;"+ board.board_title + "</a></td>"
+								+ "<td><a href='<%=request.getContextPath() %>/board_content.do?no=" + board.board_no + "&page=" + response.page + "&id=${user_id }&nickname=" + board.user_nickname + "&keyword=${keyword }&field=${field }&orderBy=hit&board_name="+ board.board_name +"'>"+"["+board.board_category+"]"+"&nbsp;"+ board.board_title + "</a></td>"
 										+ "<td>"+board.user_nickname+"</td>"
 										+ "<td>"+board.board_date.substring(0,10)+"</td>"
 										+ "<td>"+board.board_hit+"</td>"
@@ -154,7 +156,7 @@ justify-content: center;
 						html += no;
 						
 						html += "</td>"
-							+ "<td><a href='<%=request.getContextPath() %>/board_content.do?no=" + board.board_no + "&page=" + response.page + "&id=${user_id }&nickname=" + board.user_nickname + "&orderBy=time&board_name="+ board.board_name +"'>" +"["+board.board_category+"]"+"&nbsp;"+ board.board_title + "</a></td>"
+							+ "<td><a href='<%=request.getContextPath() %>/board_content.do?no=" + board.board_no + "&page=" + response.page + "&id=${user_id }&nickname=" + board.user_nickname + "&keyword=${keyword }&field=${field }&orderBy=time&board_name="+ board.board_name +"'>" +"["+board.board_category+"]"+"&nbsp;"+ board.board_title + "</a></td>"
 									+ "<td>"+board.user_nickname+"</td>"
 									+ "<td>"+board.board_date.substring(0,10)+"</td>"
 									+ "<td>"+board.board_hit+"</td>"
@@ -211,7 +213,7 @@ justify-content: center;
 		          html += no;
 
 		          html += "</td>" +
-		            "<td><a href='<%=request.getContextPath() %>/board_content.do?no=" + board.board_no + "&page=" + response.page + "&id=${user_id }&nickname=" + board.user_nickname +"&orderBy=look&board_name="+ board.board_name + "'>" +"["+board.board_category+"]"+"&nbsp;"+ board.board_title + "</a></td>" +
+		            "<td><a href='<%=request.getContextPath() %>/board_content.do?no=" + board.board_no + "&page=" + response.page + "&id=${user_id }&nickname=" + board.user_nickname +"&keyword=${keyword }&field=${field }&orderBy=look&board_name="+ board.board_name + "'>" +"["+board.board_category+"]"+"&nbsp;"+ board.board_title + "</a></td>" +
 		            "<td>" + board.user_nickname + "</td>" +
 		            "<td>" + board.board_date.substring(0, 10) + "</td>" +
 		            "<td>" + board.board_hit + "</td>" +
@@ -293,6 +295,26 @@ justify-content: center;
 		}
 
 	
+</script>
+
+<script type="text/javascript">
+    $(document).ready(function() {
+        // orderBy 값에 따라 적절한 함수 호출
+        function onOrderChange(orderBy) {
+            if (orderBy === 'hit') {
+                getHitSortList(${page});
+            } else if (orderBy === 'time') {
+                getTimeSortList(${page});
+            } else if (orderBy === 'look') {
+                getLookSortList(${page});
+            }
+        }
+        
+        // select 태그의 value 값을 기준으로 함수 호출 및 옵션 선택
+        var selectedOrder = "${orderBy}";
+        onOrderChange(selectedOrder);
+        $("select[name='field'] option[value='" + selectedOrder + "']").attr('selected', true);
+    });
 </script>
 
 		<div id="Board_table">

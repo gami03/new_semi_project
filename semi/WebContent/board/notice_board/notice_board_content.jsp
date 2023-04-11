@@ -223,11 +223,11 @@ $(function() {
 		
 		<%-- 목록버튼 기능 --%>
 		<c:if test="${empty keyword }">
-			<input type="button" name="golist" value="목록" style="margin-bottom: 100px;" onclick="location.href='board_list.do?page=${Page }&board_name=${dto.getBoard_name() }'">
+			<input type="button" name="golist" value="목록" style="margin-bottom: 100px;" onclick="location.href='board_list.do?page=${Page }&board_name=${dto.getBoard_name() }&orderBy=${orderBy }'">
 		</c:if>
 		
 		<c:if test="${!empty keyword }">
-			<input type="button" name="golist" value="목록" style="margin-bottom: 100px;" onclick="location.href='board_search.do?page=${Page }&field=${field }&keyword=${keyword }&board_name=${dto.getBoard_name() }'">
+			<input type="button" name="golist" value="목록" style="margin-bottom: 100px;" onclick="location.href='board_search.do?page=${Page }&field=${field }&keyword=${keyword }&board_name=${dto.getBoard_name() }&orderBy=${orderBy }'">
 		</c:if>
 		
 		

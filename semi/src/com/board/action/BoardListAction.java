@@ -24,6 +24,12 @@ public class BoardListAction implements Action  {
 		// free_board로 게시판 리스트 묶기 위해서 쓰임.
 		String board_name = request.getParameter("board_name").trim();
 		
+		String orderBy = request.getParameter("orderBy");
+		
+		if (orderBy != null && !orderBy.trim().isEmpty()) {
+			orderBy = orderBy.trim();
+		}
+		
 		// 페이징 처리 작업 진행
 		
 		// 한 페이지당 보여질 게시물의 수
@@ -98,6 +104,7 @@ public class BoardListAction implements Action  {
 		request.setAttribute("startBlock", startBlock);
 		request.setAttribute("endBlock", endBlock);
 		request.setAttribute("List", list);
+		request.setAttribute("orderBy", orderBy);
 		
 		// 자유게시판에 모인 게시글을 번호를 순차적으로 매겨서 보여주기 위한 데이터를 view page로 이동.
 		request.setAttribute("totalEndNo", totalEndNo);
