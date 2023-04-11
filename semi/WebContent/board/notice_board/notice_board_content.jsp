@@ -8,8 +8,11 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 
+
+
 <%-- jQuery 사용위한 스크립트 --%>
 <script type="text/javascript" src="http://code.jquery.com/jquery-3.6.1.js"></script>
+
 
 <style type="text/css">
 .pagination{
@@ -48,7 +51,6 @@ justify-content: center;
 
 </style>
 
-
 <script type="text/javascript">
 	function writeCheck(){
 		
@@ -80,7 +82,7 @@ justify-content: center;
 	<!-- Main -->
 	<div align="center">
 		<hr width="50%" color="marmoon">
-			<h3>자유게시판</h3>
+			<h3>공지사항</h3>
 		<hr width="50%" color="marmoon">
 		<br>
 		
@@ -319,6 +321,8 @@ $(function() {
 </script>		
 	
 	
+	
 	</div>
 	
 	<jsp:include page="/include/main_bottom.jsp" />
+	

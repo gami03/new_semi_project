@@ -1,4 +1,4 @@
-package com.free_board.action;
+package com.board.action;
 
 import java.io.IOException;
 import java.util.List;
@@ -11,7 +11,7 @@ import com.action.ActionForward;
 import com.board.model.BoardDAO;
 import com.board.model.BoardDTO;
 
-public class FreeBoardSearchAction implements Action {
+public class BoardSearchAction implements Action {
 
 	@Override
 	public ActionForward excute(HttpServletRequest request, HttpServletResponse response) throws IOException {
@@ -19,7 +19,7 @@ public class FreeBoardSearchAction implements Action {
 		
 		// free_board 생성 및 선언  
 		// free_board로 게시판 리스트 묶기 위해서 쓰임.
-		String board_name = "free_board";
+		String board_name = request.getParameter("board_name").trim();
 		
 		// == 동시에 페이징 작업 진행.
 		String field = request.getParameter("field").trim();
@@ -109,7 +109,7 @@ public class FreeBoardSearchAction implements Action {
 		// view page 로 이동 시에는 false 값 지정.
 		forward.setRedirect(false);
 		
-		forward.setPath("board/free_board/free_board_search.jsp");
+		forward.setPath("board/"+board_name+"/"+board_name+"_search.jsp");
 		
 		return forward;
 		

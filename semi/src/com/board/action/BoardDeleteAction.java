@@ -1,4 +1,4 @@
-package com.free_board.action;
+package com.board.action;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -10,7 +10,7 @@ import com.action.Action;
 import com.action.ActionForward;
 import com.board.model.BoardDAO;
 
-public class FreeBoardDeleteAction implements Action {
+public class BoardDeleteAction implements Action {
 
 	@Override
 	public ActionForward excute(HttpServletRequest request, HttpServletResponse response) throws IOException {
@@ -19,6 +19,8 @@ public class FreeBoardDeleteAction implements Action {
 		int board_no = Integer.parseInt(request.getParameter("board_no").trim());
 		
 		int nowPage = Integer.parseInt(request.getParameter("page").trim());
+		
+		String board_name = request.getParameter("board_name").trim();
 		
 		BoardDAO dao = BoardDAO.getInstance();
 		
@@ -30,7 +32,7 @@ public class FreeBoardDeleteAction implements Action {
 			dao.updateSequence(board_no);
 			out.println("<script>");
 			out.println("alert('해당 게시글은 삭제 되었습니다.')");
-			out.println("location.href='free_board_list.do?page="+nowPage+"'");
+			out.println("location.href='board_list.do?page="+nowPage+"&board_name="+board_name+"'");
 			out.println("</script>");
 		}else {
 			out.println("<script>");

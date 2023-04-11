@@ -27,7 +27,7 @@ justify-content: center;
 	<!-- Main -->
 	<div align="center">
 		<hr width="50%" color="marmoon">
-			<h3>자유게시판</h3>
+			<h3>공지사항</h3>
 		<hr width="50%" color="marmoon">
 		<br>
 		
@@ -95,7 +95,7 @@ justify-content: center;
 							html += no;
 							
 							html += "</td>"
-								+ "<td><a href='<%=request.getContextPath() %>/board_content.do?no=" + board.board_no + "&page=" + response.page + "&id=${user_id }&nickname=" + board.user_nickname + "&orderBy=hit&board_name="+ board.board_name +"'>"+"["+board.board_category+"]"+"&nbsp;"+ board.board_title + "</a></td>"
+								+ "<td><a href='<%=request.getContextPath() %>/board_content.do?no=" + board.board_no + "&page=" + response.page + "&id=${user_id }&nickname=" + board.user_nickname + "&orderBy=hit&board_name="+ board.board_name +"'>"+ board.board_title + "</a></td>"
 										+ "<td>"+board.user_nickname+"</td>"
 										+ "<td>"+board.board_date.substring(0,10)+"</td>"
 										+ "<td>"+board.board_hit+"</td>"
@@ -154,7 +154,7 @@ justify-content: center;
 						html += no;
 						
 						html += "</td>"
-							+ "<td><a href='<%=request.getContextPath() %>/board_content.do?no=" + board.board_no + "&page=" + response.page + "&id=${user_id }&nickname=" + board.user_nickname + "&orderBy=time&board_name="+ board.board_name +"'>" +"["+board.board_category+"]"+"&nbsp;"+ board.board_title + "</a></td>"
+							+ "<td><a href='<%=request.getContextPath() %>/board_content.do?no=" + board.board_no + "&page=" + response.page + "&id=${user_id }&nickname=" + board.user_nickname + "&orderBy=time&board_name="+ board.board_name +"'>" + board.board_title + "</a></td>"
 									+ "<td>"+board.user_nickname+"</td>"
 									+ "<td>"+board.board_date.substring(0,10)+"</td>"
 									+ "<td>"+board.board_hit+"</td>"
@@ -211,7 +211,7 @@ justify-content: center;
 		          html += no;
 
 		          html += "</td>" +
-		            "<td><a href='<%=request.getContextPath() %>/board_content.do?no=" + board.board_no + "&page=" + response.page + "&id=${user_id }&nickname=" + board.user_nickname +"&orderBy=look&board_name="+ board.board_name + "'>" +"["+board.board_category+"]"+"&nbsp;"+ board.board_title + "</a></td>" +
+		            "<td><a href='<%=request.getContextPath() %>/board_content.do?no=" + board.board_no + "&page=" + response.page + "&id=${user_id }&nickname=" + board.user_nickname +"&orderBy=look&board_name="+ board.board_name + "'>" + board.board_title + "</a></td>" +
 		            "<td>" + board.user_nickname + "</td>" +
 		            "<td>" + board.board_date.substring(0, 10) + "</td>" +
 		            "<td>" + board.board_hit + "</td>" +
@@ -312,7 +312,7 @@ justify-content: center;
 							<td>
 								<a href="<%=request.getContextPath() %>/board_content.do?no=${dto.getBoard_no() }
 																							  &page=${page }&id=${user_id }&nickname=${dto.getUser_nickname() }&field=${field }&keyword=${keyword }&board_name=${dto.getBoard_name() }">
-									[${dto.getBoard_category() }]&nbsp;${dto.getBoard_title() }
+									${dto.getBoard_title() }
 								</a>
 							</td>
 							<td> ${dto.getUser_nickname() } </td>
@@ -379,11 +379,9 @@ justify-content: center;
 		
 			<div style ="float:left; width:20%; margin-left: 6%">
 				<%-- 글쓰기 폼 처리 --%>
-				<c:set var="id" value="${user_id }" />
-				<c:if test="${!empty id }">
+				<c:if test="${user_approve == 3 }">
 					<input type="button" name="write" value="글쓰기" onclick="location.href='free_board_write.do'">
 				</c:if>
-				
 			</div>
 			<br>
 			<br>
@@ -397,7 +395,6 @@ justify-content: center;
 			   			<option value="cont">내용</option>
 			   			<option value="title_cont">제목+내용</option>
 			   			<option value="writer">작성자</option>
-			   			<option value="category">카테고리</option>
 			   		</select>
 			   		
 			   		<input type="text" name="keyword" style="width:20%;">&nbsp;&nbsp;

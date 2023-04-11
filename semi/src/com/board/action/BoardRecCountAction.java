@@ -1,4 +1,4 @@
-package com.free_board.action;
+package com.board.action;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -10,7 +10,7 @@ import com.action.Action;
 import com.action.ActionForward;
 import com.board.model.BoardDAO;
 
-public class FreeBoardRecCountAction implements Action {
+public class BoardRecCountAction implements Action {
 
 	@Override
 	public ActionForward excute(HttpServletRequest request, HttpServletResponse response) throws IOException {

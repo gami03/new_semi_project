@@ -1,4 +1,4 @@
-package com.free_board.action;
+package com.board.action;
 
 import java.io.IOException;
 
@@ -10,7 +10,7 @@ import com.action.ActionForward;
 import com.board.model.BoardDAO;
 import com.board.model.BoardDTO;
 
-public class FreeBoardModifyAction implements Action {
+public class BoardModifyAction implements Action {
 
 	@Override
 	public ActionForward excute(HttpServletRequest request, HttpServletResponse response) throws IOException {
@@ -19,6 +19,8 @@ public class FreeBoardModifyAction implements Action {
 		int board_no = Integer.parseInt(request.getParameter("no").trim());
 
 		int nowPage = Integer.parseInt(request.getParameter("page").trim());
+		
+		String board_name = request.getParameter("board_name").trim();
 		
 		 BoardDAO dao = BoardDAO.getInstance();
 		 
@@ -33,7 +35,7 @@ public class FreeBoardModifyAction implements Action {
 		 
 		 forward.setRedirect(false);
 		 
-		 forward.setPath("board/free_board/free_board_modify.jsp");
+		 forward.setPath("board/"+board_name+"/"+board_name+"_modify.jsp");
 		
 		return forward;
 	}

@@ -1,4 +1,4 @@
-package com.free_board.action;
+package com.board.action;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -11,7 +11,7 @@ import com.action.ActionForward;
 import com.board.model.BoardDAO;
 import com.board.model.BoardReplyDTO;
 
-public class FreeBoardReplyWriteAction implements Action {
+public class BoardReplyWriteAction implements Action {
 
 	@Override
 	public ActionForward excute(HttpServletRequest request, HttpServletResponse response) throws IOException {

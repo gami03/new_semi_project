@@ -1,4 +1,4 @@
-package com.free_board.action;
+package com.board.action;
 
 import java.io.File;
 import java.io.IOException;
@@ -15,19 +15,19 @@ import com.board.model.BoardDTO;
 import com.oreilly.servlet.MultipartRequest;
 import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
 
-public class FreeBoardModifyOkAction implements Action {
+public class BoardWriteOkAction implements Action {
 
 	@Override
 	public ActionForward excute(HttpServletRequest request, HttpServletResponse response) throws IOException {
-		// 자료실 수정 폼 페이지에서 넘어온 데이터들을 DB(upload 테이블)에 저장하는 비지니스 로직.
+		// 자료실 폼 페이지에서 넘어온 데이터들을 DB(upload 테이블)에 저장하는 비지니스 로직.
 		
 		BoardDTO dto = new BoardDTO();
 		
-		String board_name = "free_board";
+		String board_name = request.getParameter("board_name");
 		
 		// 파일 업로드 시에는 설정해야 할 내용이 있음.
 		// 1. 첨부 파일 저장 경로 지정.
-		String saveFolder = "C:\\Users\\YBG\\Documents\\GitHub\\new_semi_project\\semi\\WebContent\\board\\free_board\\free_board_fileUpload";
+		String saveFolder = "C:\\Users\\YBG\\Documents\\GitHub\\new_semi_project\\semi\\WebContent\\board\\"+board_name+"\\"+board_name+"_fileUpload";
 		
 		// 2. 첨부 파일 크기 지정.
 		int fileSize = 10 * 1024 * 1024; // 10MB
@@ -43,21 +43,25 @@ public class FreeBoardModifyOkAction implements Action {
 									 );
 		
 		// 자료실 폼 페이지에서 넘어온 데이터들을 받아 주자.
-		String upload_title = multi.getParameter("free_board_title").trim();
-		String upload_category = multi.getParameter("free_board_category").trim();
+		String upload_title = multi.getParameter(board_name+"_title").trim();
 		String upload_summernote = multi.getParameter("editordata").trim();
+		String upload_category = multi.getParameter(board_name+"_category");
 		
+		if (upload_category != null && !upload_category.trim().isEmpty()) {
+		    upload_category = upload_category.trim();
+		} else {
+		    // upload_category가 null인 경우에 대한 예외 처리 코드
+			
+		}
 		
 		// 자료실 폼 페이지에서 type="file" 속성으로 되어 있으면 getfile() 메서드로 받아 주어야 함.
 		File upload_file1 = multi.getFile("upload_file1");
 		File upload_file2 = multi.getFile("upload_file2");
 		
-		// 넘어온 아이디와 글번호, 현재 페이지도 받아주자.
-		int board_no = Integer.parseInt(multi.getParameter("board_no").trim());
+		// 넘어온 아이디도 받아주자.
 		String user_id = multi.getParameter("id").trim();
-		int nowPage = Integer.parseInt(multi.getParameter("page").trim());
 		
-		
+		System.out.println("글쓰기 user_id >>> "+user_id);
 		// 글쓴 사람을 세션으로 넘어온 아이디를 통해서 user_no, user_nickname을 받아오자.
 		BoardDAO dao = BoardDAO.getInstance();
 		
@@ -160,7 +164,6 @@ public class FreeBoardModifyOkAction implements Action {
 			dto.setBoard_file2(fileDBName2);
 		}
 		
-		dto.setBoard_no(board_no);
 		dto.setUser_no(user_no);
 		dto.setUser_nickname(user_nickname);
 		dto.setBoard_title(upload_title);
@@ -168,20 +171,19 @@ public class FreeBoardModifyOkAction implements Action {
 		dto.setBoard_content(upload_summernote);
 		dto.setBoard_name(board_name);
 		
-		// board 테이블에 게시글 번호에 해당하는 게시글을 수정하는 메서드 호출.
-		int check = dao.ModifyUpload(dto);
+		
+		int check = dao.insertUpload(dto);
 		
 		PrintWriter out = response.getWriter();
 		
 		if(check > 0) {
 			out.println("<script>");
-			out.println("alert('게시글이 수정 완료 되었습니다.')");
-			out.println("location.href='free_board_content.do?no="+board_no+"&page="+nowPage+"&id="+user_id+"&nickname="+user_nickname+"'");
+			out.println("alert('게시글이 등록 되었습니다.')");
+			out.println("location.href='board_list.do?board_name="+board_name+"'");
 			out.println("</script>");
-			
 		}else {
 			out.println("<script>");
-			out.println("alert('게시글 수정 실패하였습니다. 확인 후 다시 시도해주세요.')");
+			out.println("alert('게시글 등록 오류입니다. 확인 후 다시 시도 부탁드립니다.')");
 			out.println("history.back()");
 			out.println("</script>");
 		}

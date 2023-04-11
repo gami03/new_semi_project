@@ -1,4 +1,4 @@
-package com.free_board.action;
+package com.board.action;
 
 import java.io.IOException;
 
@@ -10,7 +10,7 @@ import com.action.ActionForward;
 import com.board.model.BoardDAO;
 import com.board.model.BoardDTO;
 
-public class FreeBoardContentAction implements Action {
+public class BoardContentAction implements Action {
 
 	@Override
 	public ActionForward excute(HttpServletRequest request, HttpServletResponse response) throws IOException {
@@ -23,6 +23,8 @@ public class FreeBoardContentAction implements Action {
 		String user_id = request.getParameter("id").trim();
 		
 		String user_nickname = request.getParameter("nickname").trim();
+		
+		String board_name = request.getParameter("board_name").trim();
 		
 		// field와 keyword로 검색한 free_board_search.jsp 화면에서 게시글 상세내역을 보려고 눌렀을 때 필드 값과 키워드 값이 넘어옴.
 		// 상세페이지에서 목록버튼을 눌렀을 때 다시 검색한 화면으로 돌아가게 하려고 함.
@@ -80,7 +82,7 @@ public class FreeBoardContentAction implements Action {
 		
 		forward.setRedirect(false);
 		
-		forward.setPath("/board/free_board/free_board_content.jsp");
+		forward.setPath("/board/"+board_name+"/"+board_name+"_content.jsp");
 		
 		return forward;
 	}

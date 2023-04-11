@@ -76,17 +76,16 @@ justify-content: center;
 				},
 				datatype : "json",
 				success : function(response) {
-					console.log(response);
 					
 					// 데이터가 있을 때만 테이블 생성
 					if(response.list.length > 0) {
 						
 						// 기존 테이블 데이터 삭제
-						$("#freeBoard_table tr:gt(0)").remove();
+						$("#Board_table tr:gt(0)").remove();
 						
 						// 동적으로 데이터 생성
 						var html = "";
-						var no = ${totalEndNo +1 };
+						var no = response.totalEndNo + 1;
 						$.each(response.list, function(index, board) {
 							html += "<tr>"
 										+ "<td>";
@@ -95,26 +94,24 @@ justify-content: center;
 							html += no;
 							
 							html += "</td>"
-								+ "<td><a href='<%=request.getContextPath() %>/free_board_content.do?no=" + board.board_no + "&page=" + response.page + "&id=${user_id }&nickname=" + board.user_nickname + "&orderBy=hit'>" + board.board_title + "</a></td>"
+								+ "<td><a href='<%=request.getContextPath() %>/board_content.do?no=" + board.board_no + "&page=" + response.page + "&id=${user_id }&nickname=" + board.user_nickname + "&orderBy=hit&board_name="+ board.board_name +"'>"+"["+board.board_category+"]"+"&nbsp;"+ board.board_title + "</a></td>"
 										+ "<td>"+board.user_nickname+"</td>"
 										+ "<td>"+board.board_date.substring(0,10)+"</td>"
 										+ "<td>"+board.board_hit+"</td>"
 										+ "</tr>";
 						});
-						$("#freeBoard_table tr:eq(0)").after(html);
+						$("#Board_table tr:eq(0)").after(html);
 						
 						// 페이징처리
 				        var htmlStr = "";
 				        htmlStr = pageLink(response.page, response.allPage, "getHitSortList");
 				        // common.js - pageLink
 				        
-				        console.log("page >>>"+ response.page);
-
 				        // 기존에 추가된 페이지 링크를 삭제
-				        $("#freeBoard_table .pagination").remove();
+				        $("#Board_table .pagination").remove();
 
 				        // 수정된 코드로 페이지 링크 추가
-				        $("#freeBoard_table").append(htmlStr);
+				        $("#Board_table").append(htmlStr);
 					}
 					
 				},
@@ -136,17 +133,16 @@ justify-content: center;
 			},
 			datatype : "json",
 			success : function(response) {
-				console.log(response);
 				
 				// 데이터가 있을 때만 테이블 생성
 				if(response.list.length > 0) {
 					
 					// 기존 테이블 데이터 삭제
-					$("#freeBoard_table tr:gt(0)").remove();
+					$("#Board_table tr:gt(0)").remove();
 					
 					// 동적으로 데이터 생성
 					var html = "";
-					var no = ${totalEndNo +1 };
+					var no = response.totalEndNo + 1;
 					$.each(response.list, function(index, board) {
 						html += "<tr>"
 									+ "<td>";
@@ -155,26 +151,24 @@ justify-content: center;
 						html += no;
 						
 						html += "</td>"
-							+ "<td><a href='<%=request.getContextPath() %>/free_board_content.do?no=" + board.board_no + "&page=" + response.page + "&id=${user_id }&nickname=" + board.user_nickname + "'>" + board.board_title + "</a></td>"
+							+ "<td><a href='<%=request.getContextPath() %>/board_content.do?no=" + board.board_no + "&page=" + response.page + "&id=${user_id }&nickname=" + board.user_nickname + "&orderBy=time&board_name="+ board.board_name +"'>" +"["+board.board_category+"]"+"&nbsp;"+ board.board_title + "</a></td>"
 									+ "<td>"+board.user_nickname+"</td>"
 									+ "<td>"+board.board_date.substring(0,10)+"</td>"
 									+ "<td>"+board.board_hit+"</td>"
 									+ "</tr>";
 					});
-					$("#freeBoard_table tr:eq(0)").after(html);
+					$("#Board_table tr:eq(0)").after(html);
 					
 					// 페이징처리
 			        var htmlStr = "";
 			        htmlStr = pageLink(response.page, response.allPage, "getTimeSortList");
 			        // common.js - pageLink
 			        
-			        console.log("page >>>"+ response.page);
-
 			        // 기존에 추가된 페이지 링크를 삭제
-			        $("#freeBoard_table .pagination").remove();
+			        $("#Board_table .pagination").remove();
 
 			        // 수정된 코드로 페이지 링크 추가
-			        $("#freeBoard_table").append(htmlStr);
+			        $("#Board_table").append(htmlStr);
 				}
 				
 			},
@@ -195,13 +189,12 @@ justify-content: center;
 		    },
 		    datatype: "json",
 		    success: function(response) {
-		      console.log(response);
 
 		      // 데이터가 있을 때만 테이블 생성
 		      if (response.list.length > 0) {
 
 		        // 기존 테이블 데이터 삭제
-		        $("#freeBoard_table tr:gt(0)").remove();
+		        $("#Board_table tr:gt(0)").remove();
 
 		        // 동적으로 데이터 생성
 		        var html = "";
@@ -213,27 +206,25 @@ justify-content: center;
 		          html += no;
 
 		          html += "</td>" +
-		            "<td><a href='<%=request.getContextPath() %>/free_board_content.do?no=" + board.board_no + "&page=" + response.page + "&id=${user_id }&nickname=" + board.user_nickname + "'>" + board.board_title + "</a></td>" +
+		            "<td><a href='<%=request.getContextPath() %>/board_content.do?no=" + board.board_no + "&page=" + response.page + "&id=${user_id }&nickname=" + board.user_nickname +"&orderBy=look&board_name="+ board.board_name + "'>" +"["+board.board_category+"]"+"&nbsp;"+ board.board_title + "</a></td>" +
 		            "<td>" + board.user_nickname + "</td>" +
 		            "<td>" + board.board_date.substring(0, 10) + "</td>" +
 		            "<td>" + board.board_hit + "</td>" +
 		            "</tr>";
 		        });
 
-		        $("#freeBoard_table tr:eq(0)").after(html);
+		        $("#Board_table tr:eq(0)").after(html);
 				
 		     	// 페이징처리
 		        var htmlStr = "";
 		        htmlStr = pageLink(response.page, response.allPage, "getLookSortList");
 		        // common.js - pageLink
 		        
-		        console.log("page >>>"+ response.page);
-
 		        // 기존에 추가된 페이지 링크를 삭제
-		        $("#freeBoard_table .pagination").remove();
+		        $("#Board_table .pagination").remove();
 
 		        // 수정된 코드로 페이지 링크 추가
-		        $("#freeBoard_table").append(htmlStr);
+		        $("#Board_table").append(htmlStr);
 		      }
 
 		    },
@@ -246,7 +237,6 @@ justify-content: center;
 		// 페이징처리 함수
 		function pageLink(curPage, totalPages, funName) {
 			
-				console.log("curPage" + curPage);
 			
 			    var pageLimit = 7;
 			    var startPage = (((curPage - 1) / pageLimit) * pageLimit) + 1;
@@ -265,7 +255,12 @@ justify-content: center;
 		   		pageUrl +="<li class='page-item'><a class='page-link' href='javascript:"+ funName +"(" + 1 + ");'>처음</a></li>";
 		   		
 		   		// 이전 버튼
-		   		pageUrl +="<li><a class='page-link' href='javascript:"+ funName +"(" + (parseInt(curPage) - 1) + ")'>이전</a></li>";
+		   		if(curPage > 1) {
+		   			pageUrl +="<li><a class='page-link' href='javascript:"+ funName +"(" + (parseInt(curPage) - 1) + ")'>이전</a></li>";
+		   		}else {
+		   			pageUrl +="<li><a class='page-link'>이전</a></li>";
+		   		}
+		   			
 		    
 		    //~pageLimit 맞게 페이지 수 보여줌
 		    for (i = 1; i <= endPage; i++) {
@@ -276,7 +271,6 @@ justify-content: center;
 		            pageUrl += " <li class='page-item'><a class='page-link' href='javascript:" + funName + "(" + i + ");'> " + i + " </a></li>";
 		        }
 		    }
-		    console.log("startPage >>>" + startPage);
 		    
 		    //다음 페이지
 		    if (nextPage <= totalPages) {
@@ -288,7 +282,6 @@ justify-content: center;
 		    }
 		    pageUrl += "</ul></nav></div>"; // 마지막 태그를 추가
 		    
-		    console.log("curPage >>>" + curPage);
 		    
 		    return pageUrl;
 		    
@@ -297,82 +290,89 @@ justify-content: center;
 	
 </script>
 
-   		<div id="freeBoard_table">
-   		<%-- 자유게시판 테이블 --%>
-		<table border="1" cellspacing="0" width="50%" class="col-9">
-			<tr align="center">
-				<th>번호</th> <th width="60%">제목</th> <th>작성자</th> <th>작성일</th> <th>조회수</th>
-			</tr>
-			
-			<c:set var="list" value="${List }"/>
-			<c:set var="session" value="${user_id }" />
-			<tbody>
-			<c:if test="${!empty list }">
-				<c:forEach items="${list }" var="dto">
-					<tr>
-						<c:set var="totalEndNo" value="${totalEndNo -1 }" />
-								<td> ${totalEndNo + 1 } </td>
-						<td>
-							<a href="<%=request.getContextPath() %>/free_board_content.do?no=${dto.getBoard_no() }
-																						  &page=${page }&id=${user_id }&nickname=${dto.getUser_nickname() }">
-								[${dto.getBoard_category() }]&nbsp;${dto.getBoard_title() }
-							</a>
-						</td>
-						<td> ${dto.getUser_nickname() } </td>
-	      				<td> ${dto.getBoard_date().substring(0,10) }</td>
-	      				<td> ${dto.getBoard_hit() }</td>
-					</tr>
-				</c:forEach>
-			</c:if>
-			</tbody>
-			
-			<c:if test="${empty list }">
-				<tr>
-					<td colspan="5" align="center">
-						<h3>자유게시판 게시물 리스트가 없습니다</h3>
-					</td>
+   		<div id="Board_table">
+	   		<%-- 자유게시판 테이블 --%>
+			<table border="1" cellspacing="0" width="50%" class="col-9">
+				<tr align="center">
+					<th>번호</th> <th width="60%">제목</th> <th>작성자</th> <th>작성일</th> <th>조회수</th>
 				</tr>
-			</c:if>
-		</table>
-		<br>
-		
-		<%-- 페이징 처리 영역 --%>
-		<div style="margin-left: 30%;">
-	   <nav style ="float:left; width: 55%;">
-	      <ul class="pagination">
-		      <li class="page-item">
-		         <a class="page-link" href="free_board_list.do?page=1">처음</a>
-		      </li>
-		      <li>
-		         <a class="page-link" href="free_board_list.do?page=${page-1 }">이전</a>
-		      </li>
-		      
-		      <c:forEach begin="${startBlock }" end="${endBlock }" var="i">
-		      <c:if test="${ i == page }">
-		         <li class="page-item active" aria-current="page">
-		         <a class="page-link" href="free_board_list.do?page=${i }">${i }</a>
-		         </li>   
-		      </c:if>
-		      
-		      <c:if test="${ i != page }">
-		         <li class="page-item">
-		         <a class="page-link" href="free_board_list.do?page=${i }">${i }</a>
-		         </li>   
-		      </c:if>
-		      </c:forEach>
-		      
-		      <c:if test="${endBlock < allPage }">
-		         <li class="page-item">
-		            <a class="page-link" href="free_board_list.do?page=${page+1 }">다음</a>
-		         </li>   
-		      </c:if>
-		      
-		      <li class="page-item">
-		            <a class="page-link" href="free_board_list.do?page=${allPage }">끝</a>
-		      </li>
-	      </ul>
-	   </nav>
-	</div>
+				
+				<c:set var="list" value="${List }"/>
+				<c:set var="session" value="${user_id }" />
+				<tbody>
+				<c:if test="${!empty list }">
+					<c:forEach items="${list }" var="dto">
+						<tr>
+							<c:set var="totalEndNo" value="${totalEndNo -1 }" />
+									<td> ${totalEndNo + 1 } </td>
+							<td>
+								<a href="<%=request.getContextPath() %>/board_content.do?no=${dto.getBoard_no() }
+																							  &page=${page }&id=${user_id }&nickname=${dto.getUser_nickname() }&board_name=${dto.getBoard_name() }">
+									[${dto.getBoard_category() }]&nbsp;${dto.getBoard_title() }
+								</a>
+							</td>
+							<td> ${dto.getUser_nickname() } </td>
+		      				<td> ${dto.getBoard_date().substring(0,10) }</td>
+		      				<td> ${dto.getBoard_hit() }</td>
+						</tr>
+					</c:forEach>
+				</c:if>
+				</tbody>
+				
+				<c:if test="${empty list }">
+					<tr>
+						<td colspan="5" align="center">
+							<h3>자유게시판 게시물 리스트가 없습니다</h3>
+						</td>
+					</tr>
+				</c:if>
+			</table>
+			<br>
+			
+			<%-- 페이징 처리 영역 --%>
+			<div style="margin-left: 30%;">
+		   <nav style ="float:left; width: 55%;">
+		      <ul class="pagination">
+			      <li class="page-item">
+			         <a class="page-link" href="board_list.do?page=1&board_name=${board_name }">처음</a>
+			      </li>
+			      <li>
+			      	<c:if test="${page > 1 }">
+			         <a class="page-link" href="board_list.do?page=${page-1 }&board_name=${board_name }">이전</a>
+			        </c:if>
+			        <c:if test="${page <= 1 }">
+			         <a class="page-link">이전</a>
+			        </c:if>
+			      </li>
+			      
+			      <c:forEach begin="${startBlock }" end="${endBlock }" var="i">
+			      <c:if test="${ i == page }">
+			         <li class="page-item active" aria-current="page">
+			         <a class="page-link" href="board_list.do?page=${i }&board_name=${board_name }">${i }</a>
+			         </li>   
+			      </c:if>
+			      
+			      <c:if test="${ i != page }">
+			         <li class="page-item">
+			         <a class="page-link" href="board_list.do?page=${i }&board_name=${board_name }">${i }</a>
+			         </li>   
+			      </c:if>
+			      </c:forEach>
+			      
+			      <c:if test="${endBlock < allPage }">
+			         <li class="page-item">
+			            <a class="page-link" href="board_list.do?page=${page+1 }&board_name=${board_name }">다음</a>
+			         </li>   
+			      </c:if>
+			      
+			      <c:if test="${page < allPage }">
+			      <li class="page-item">
+			            <a class="page-link" href="board_list.do?page=${allPage }&board_name=${board_name }">끝</a>
+			      </li>
+			      </c:if>
+		      </ul>
+		   </nav>
+		</div>
 	</div>
 	
 		
@@ -382,10 +382,6 @@ justify-content: center;
 				<c:if test="${!empty id }">
 					<input type="button" name="write" value="글쓰기" onclick="location.href='free_board_write.do'">
 				</c:if>
-				
-				<c:if test="${empty id }">
-					<input type="button" name="write" value="글쓰기" onclick="writeCheck()">
-				</c:if>
 			</div>
 			<br>
 			<br>
@@ -393,7 +389,7 @@ justify-content: center;
 			<br>
 			<%-- 검색 폼 페이지 처리 영역 --%>
 			<div align="center" style="margin-bottom: 100px;">
-			   <form method="post" action="<%=request.getContextPath() %>/free_board_search.do">
+			   <form method="post" action="<%=request.getContextPath() %>/board_search.do?board_name=${board_name }">
 			   		<select name="field" style="width:10%;">
 			   			<option value="title">제목</option>
 			   			<option value="cont">내용</option>

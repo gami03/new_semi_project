@@ -1,4 +1,4 @@
-package com.free_board.action;
+package com.board.action;
 
 import java.io.IOException;
 import java.util.List;
@@ -11,11 +11,10 @@ import com.action.Action;
 import com.action.ActionForward;
 import com.board.model.BoardDAO;
 
-public class FreeBoardListAction implements Action  {
+public class BoardListAction implements Action  {
 
 	@Override
 	public ActionForward excute(HttpServletRequest request, HttpServletResponse response) throws IOException {
-		// DB상의 jsp_bbs 테이블 전체 레코드를 조회하여 view page로 이동시키는 비지니스 로직.
 		
 		// 요청 : 게시물 전체 목록 보여달라는 요청
 		// 응답 : DB의 BOARD 테이블의 전체 게시물 목록을 조회하여 view Page로 이동시키는 비지니스 로직
@@ -23,7 +22,7 @@ public class FreeBoardListAction implements Action  {
 		
 		// free_board 생성 및 선언  
 		// free_board로 게시판 리스트 묶기 위해서 쓰임.
-		String board_name = "free_board";
+		String board_name = request.getParameter("board_name").trim();
 		
 		// 페이징 처리 작업 진행
 		
@@ -108,7 +107,7 @@ public class FreeBoardListAction implements Action  {
 		// view page 로 이동 시에는 false 값 지정.
 		forward.setRedirect(false);
 		
-		forward.setPath("board/free_board/free_board_list.jsp");
+		forward.setPath("board/"+board_name+"/"+board_name+"_list.jsp");
 		
 		return forward;
 	}

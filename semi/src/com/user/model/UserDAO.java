@@ -162,6 +162,36 @@ public class UserDAO {
 		}
 		return result;
 	}
+ 	
+ 	public int getUserApprove(String id) {
+ 		
+ 		int result = 0;
+ 		
+ 		try {
+ 			openConn();
+ 	 		
+ 	 		sql = "select user_approve from user_table where user_id = ?";
+ 	 		
+			pstmt = con.prepareStatement(sql);
+			
+			pstmt.setString(1, id);
+			
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()) {
+				result = rs.getInt(1);
+			}
+			
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			closeConn(rs, pstmt, con);
+		}
+ 		
+ 		return result;
+ 	} // getUserApprove() 메서드 end
 
  	
  	
