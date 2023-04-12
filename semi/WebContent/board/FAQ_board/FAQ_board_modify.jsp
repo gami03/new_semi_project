@@ -22,30 +22,9 @@
 <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.js"></script>
 
 
-<!-- <script src="../assets/js/summernote/summernote-lite.js"></script>
-<script src="../assets/js/summernote/lang/summernote-ko-KR.js"></script>
-
-<link rel="stylesheet" href="../assets/css/summernote/summernote-lite.css">
-
-<script type="text/javascript">
-$(document).ready(function() {
-	//여기 아래 부분
-	$('#summernote').summernote({
-		  height: 300,                 // 에디터 높이
-		  minHeight: null,             // 최소 높이
-		  maxHeight: null,             // 최대 높이
-		  focus: true,                  // 에디터 로딩후 포커스를 맞출지 여부
-		  lang: "ko-KR",					// 한글 설정
-		  placeholder: '최대 2048자까지 쓸 수 있습니다'	//placeholder 설정
-          
-	});
-});
-</script> -->
-<!-- summernote 위해 필요한 js, css end-->
-
 <style type="text/css">
 
-#free_board_title{
+#FAQ_board_title{
 	border-left: none;
 	border-top: none;
 	border-right: none;
@@ -96,17 +75,17 @@ justify-content: center;
 			<table border="1" cellspacing="0" width="50%" class="col-9">
 				<tr>
 					<th>제목</th>
-					<td> <input name="notice_board_title" id="notice_board_title" value="${dto.getBoard_title() }"> </td>
+					<td> <input name="FAQ_board_title" id="FAQ_board_title" value="${dto.getBoard_title() }"> </td>
 				</tr>
 				
 				<tr>
 					<th>카테고리</th>
 					<td>
-						<select name="notice_board_category" style="width:30%;">
-				            <option value="auction" ${dto.getBoard_category() == 'auction' ? 'selected' : ''}>경매</option>
-				            <option value="funny" ${dto.getBoard_category() == 'funny' ? 'selected' : ''}>유머</option>
-				            <option value="curious" ${dto.getBoard_category() == 'curious' ? 'selected' : ''}>궁금해요</option>
-				            <option value="etc" ${dto.getBoard_category() == 'etc' ? 'selected' : ''}>기타</option>
+						<select name="FAQ_board_category" style="width:30%;">
+				            <option value="홈페이지 이용" ${dto.getBoard_category() == 'auction' ? 'selected' : ''}>홈페이지 이용</option>
+				            <option value="결제/영수증" ${dto.getBoard_category() == 'funny' ? 'selected' : ''}>결제/영수증</option>
+				            <option value="회원정보" ${dto.getBoard_category() == 'curious' ? 'selected' : ''}>회원정보</option>
+				            <option value="기타" ${dto.getBoard_category() == 'etc' ? 'selected' : ''}>기타</option>
 				        </select>
 					</td>
 				</tr>

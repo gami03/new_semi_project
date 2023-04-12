@@ -399,7 +399,8 @@ justify-content: center;
 		
 			<div style ="float:left; width:20%; margin-left: 6%">
 				<%-- 글쓰기 폼 처리 --%>
-				<c:if test="${user_approve == 3 }">
+				<%-- user_approve 0: 일반사용자, 1: 판매 가능 사용자, 2: 관리자, 3: 총관리자 --%>
+				<c:if test="${user_approve >= 2 }">
 					<input type="button" name="write" value="글쓰기" onclick="location.href='notice_board_write.do'">
 				</c:if>
 			</div>

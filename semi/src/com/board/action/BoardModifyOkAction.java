@@ -27,7 +27,7 @@ public class BoardModifyOkAction implements Action {
 		
 		// 파일 업로드 시에는 설정해야 할 내용이 있음.
 		// 1. 첨부 파일 저장 경로 지정.
-		String saveFolder = "C:\\Users\\YBG\\Documents\\GitHub\\new_semi_project\\semi\\WebContent\\board\\free_board\\free_board_fileUpload";
+		String saveFolder = "C:\\Users\\YBG\\Documents\\GitHub\\new_semi_project\\semi\\WebContent\\board\\"+board_name+"\\"+board_name+"_fileUpload";
 		
 		// 2. 첨부 파일 크기 지정.
 		int fileSize = 10 * 1024 * 1024; // 10MB
@@ -43,8 +43,8 @@ public class BoardModifyOkAction implements Action {
 									 );
 		
 		// 자료실 폼 페이지에서 넘어온 데이터들을 받아 주자.
-		String upload_title = multi.getParameter("free_board_title").trim();
-		String upload_category = multi.getParameter("free_board_category").trim();
+		String upload_title = multi.getParameter(board_name+"_title").trim();
+		String upload_category = multi.getParameter(board_name+"_category").trim();
 		String upload_summernote = multi.getParameter("editordata").trim();
 		
 		

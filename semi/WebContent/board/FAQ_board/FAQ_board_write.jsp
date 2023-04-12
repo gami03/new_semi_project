@@ -21,31 +21,9 @@
 <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.css" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.js"></script>
 
-
-<!-- <script src="../assets/js/summernote/summernote-lite.js"></script>
-<script src="../assets/js/summernote/lang/summernote-ko-KR.js"></script>
-
-<link rel="stylesheet" href="../assets/css/summernote/summernote-lite.css">
-
-<script type="text/javascript">
-$(document).ready(function() {
-	//여기 아래 부분
-	$('#summernote').summernote({
-		  height: 300,                 // 에디터 높이
-		  minHeight: null,             // 최소 높이
-		  maxHeight: null,             // 최대 높이
-		  focus: true,                  // 에디터 로딩후 포커스를 맞출지 여부
-		  lang: "ko-KR",					// 한글 설정
-		  placeholder: '최대 2048자까지 쓸 수 있습니다'	//placeholder 설정
-          
-	});
-});
-</script> -->
-<!-- summernote 위해 필요한 js, css end-->
-
 <style type="text/css">
 
-#free_board_title{
+#FAQ_board_title{
 	border-left: none;
 	border-top: none;
 	border-right: none;
@@ -80,50 +58,40 @@ justify-content: center;
 </script>
 
 </head>
-	
+
 
 	<!-- Main -->
 	<div align="center" style="margin-bottom: 150px;">
 		<hr width="50%" color="marmoon">
-			<h3>자유게시판</h3>
+			<h3>자주 묻는 질문(FAQ)</h3>
 		<hr width="50%" color="marmoon">
 		<br>
 		
 		<c:set var="session" value="${user_id }" />
-		<c:set var="dto" value="${Modify }" />
 		<%-- enctype : 파일을 업로드하기 위한 속성 --%>
-		<form method="post" enctype="multipart/form-data" action="<%=request.getContextPath() %>/board_modify_ok.do?id=${user_id }&board_no=${dto.getBoard_no() }&page=${Page }&board_name=${dto.getBoard_name() }">
+		<form method="post" enctype="multipart/form-data" action="<%=request.getContextPath() %>/board_write_ok.do?id=${user_id }&board_name=FAQ_board">
 			<table border="1" cellspacing="0" width="50%" class="col-9">
 				<tr>
 					<th>제목</th>
-					<td> <input name="notice_board_title" id="notice_board_title" value="${dto.getBoard_title() }"> </td>
+					<td> <input name="FAQ_board_title" id="FAQ_board_title"> </td>
 				</tr>
 				
 				<tr>
 					<th>카테고리</th>
 					<td>
-						<select name="notice_board_category" style="width:30%;">
-				            <option value="auction" ${dto.getBoard_category() == 'auction' ? 'selected' : ''}>경매</option>
-				            <option value="funny" ${dto.getBoard_category() == 'funny' ? 'selected' : ''}>유머</option>
-				            <option value="curious" ${dto.getBoard_category() == 'curious' ? 'selected' : ''}>궁금해요</option>
-				            <option value="etc" ${dto.getBoard_category() == 'etc' ? 'selected' : ''}>기타</option>
-				        </select>
+						<select name="FAQ_board_category" style="width:30%;">
+			   			<option value="홈페이지 이용">홈페이지 이용</option>
+			   			<option value="결제/영수증">결제/영수증</option>
+			   			<option value="회원정보">회원정보</option>
+			   			<option value="기타">기타</option>
+			   		</select>
 					</td>
 				</tr>
 				
 				<tr>
 					<th>첨부파일</th>
-					<td> 
-						 <c:if test="${!empty dto.getBoard_file1() }">
-						 <span>현재 첨부된 파일 1 : ${dto.getBoard_file1() }</span>
-						 <br>
-						 </c:if>
-						 <input type="file" name="upload_file1">
+					<td> <input type="file" name="upload_file1">
 						 <br><br>
-						  <c:if test="${!empty dto.getBoard_file2() }">
-						 <span>현재 첨부된 파일 2 : ${dto.getBoard_file2() }</span>
-						 <br>
-						 </c:if>
 						 <input type="file" name="upload_file2" onclick="return checkUpload1()">
 						 <br>
 						 <br>
@@ -134,7 +102,7 @@ justify-content: center;
 				</tr>
 				
 				<tr>
-					<td colspan="2"><textarea id="summernote" name="editordata">${dto.getBoard_content()}</textarea></td>
+					<td colspan="2"><textarea id="summernote" name="editordata"></textarea></td>
 					<script type="text/javascript">
 				      $('#summernote').summernote({
 				        placeholder: '내용을 입력하세요.',
@@ -145,7 +113,7 @@ justify-content: center;
 				</tr>
 			</table>
 			
-			<input type="submit" value="수정">&nbsp;&nbsp;
+			<input type="submit" value="완료">&nbsp;&nbsp;
 			<input type="button" value="취소" onclick="history.back()">
 		</form>
 	</div>

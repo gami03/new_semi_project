@@ -8,11 +8,8 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 
-
-
 <%-- jQuery 사용위한 스크립트 --%>
 <script type="text/javascript" src="http://code.jquery.com/jquery-3.6.1.js"></script>
-
 
 <style type="text/css">
 .pagination{
@@ -51,6 +48,7 @@ justify-content: center;
 
 </style>
 
+
 <script type="text/javascript">
 	function writeCheck(){
 		
@@ -82,7 +80,7 @@ justify-content: center;
 	<!-- Main -->
 	<div align="center">
 		<hr width="50%" color="marmoon">
-			<h3>공지사항</h3>
+			<h3>자주 묻는 질문(FAQ)</h3>
 		<hr width="50%" color="marmoon">
 		<br>
 		
@@ -98,12 +96,12 @@ justify-content: center;
 					<c:set var="board_id" value="${board_id }" />
 					<c:if test="${!empty dto.getBoard_file1() }">
 						<td> 첨부파일 1
-							<a href="<%=request.getContextPath() %>/board/notice_board/notice_board_fileUpload/${dto.getBoard_file1() }" target="_blank">${dto.getBoard_file1() }</a>
+							<a href="<%=request.getContextPath() %>/board/FAQ_board/FAQ_board_fileUpload/${dto.getBoard_file1() }" target="_blank">${dto.getBoard_file1() }</a>
 						
 						<c:if test="${!empty dto.getBoard_file2() }">
 						    <br><br>
 							첨부파일 2
-							<a href="<%=request.getContextPath() %>/board/notice_board/notice_board_fileUpload/${dto.getBoard_file2() }" target="_blank">${dto.getBoard_file2() }</a>
+							<a href="<%=request.getContextPath() %>/board/FAQ_board/FAQ_board_fileUpload/${dto.getBoard_file2() }" target="_blank">${dto.getBoard_file2() }</a>
 					</c:if>
 						</td>
 					</c:if>
@@ -321,8 +319,6 @@ $(function() {
 </script>		
 	
 	
-	
 	</div>
 	
 	<jsp:include page="/include/main_bottom.jsp" />
-	

@@ -119,9 +119,10 @@
 						<h2>Menu</h2>
 						<ul>
 							<li><a href="index.jsp">Home</a></li>
-							<li><a href="<%=request.getContextPath() %>/board_list.do?board_name=free_board">자유게시판</a></li>
 							<li><a href="<%=request.getContextPath() %>/sale_index_list.do">판매게시판</a></li>
+							<li><a href="<%=request.getContextPath() %>/board_list.do?board_name=free_board">자유게시판</a></li>
 							<li><a href="<%=request.getContextPath() %>/board_list.do?board_name=notice_board">공지사항</a></li>
+							<li><a href="<%=request.getContextPath() %>/board_list.do?board_name=FAQ_board">고객지원</a></li>
 							<li><a href="">마이페이지</a></li>
 						</ul>
 					</nav>
