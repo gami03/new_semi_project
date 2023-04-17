@@ -61,7 +61,7 @@ justify-content: center;
 
 
 	<!-- Main -->
-	<div align="center" style="margin-bottom: 150px;">
+	<div align="center" style="margin-bottom: 150px;" id="main">
 		<hr width="50%" color="marmoon">
 			<h3>자주 묻는 질문(FAQ)</h3>
 		<hr width="50%" color="marmoon">

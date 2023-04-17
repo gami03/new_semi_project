@@ -42,14 +42,62 @@
 
 <style type="text/css">
 
-	#nav_form {
-    float: right;
-}
-
-	#header nav {
-		width: 90%;
+	body {
+		overflow-x: hidden;
 	}
 
+	#wrapper {
+		width: 90em;
+		margin: auto;
+	}
+
+	#nav_form {
+    float: right;
+	}
+
+	#header {
+    padding: 0;
+    width: 90em;
+    background-color: #f6f6f6;
+    height: 8em;
+    margin-bottom: 8em;
+    }
+    
+	#wrapper > * > .inner {
+    width: 100%;
+    max-width: 90em;
+    margin: 0 auto;
+	padding: 0;
+	}
+    
+	#header nav {
+		width: 100%;
+		position: unset;
+		padding-top: 3%;
+	}
+	
+	#topnav {
+		width: 90% !important;
+		margin: auto;
+	}
+	
+	input[type="button"].btn {
+		box-shadow: inset 0 0 0 2px #585858;
+	}
+	
+    
+	
+	#nav ul {
+		justify-content: space-around; 
+		background-color: #fda6a5;
+		height: 70px;
+	}
+	
+	#footer {
+		margin-left: calc(-50vw + 50%);
+		width: 100vw;
+	}
+	
 </style>
 	</head>
 	<body class="is-preload">
@@ -60,7 +108,7 @@
 						<div class="inner">
 
 							<!-- Nav -->
-								<nav style="z-index: 1050">
+								<nav id="topnav">
 								
 								<!-- Logo -->
 								<a href="index.jsp" class="logo">
@@ -74,16 +122,16 @@
 									<c:if test="${empty id }">
 										<ul>
 											<li><input type="button" class="btn btn-primary" name="login" value="로그인" data-toggle="modal" data-target="#boardModal"></li>
-											<li><a href="#menu">Menu</a></li>
+											<li><a href="#menu" style="background-color: whitesmoke;">Menu</a></li>
 										</ul>
 										
 										<!-- Modal -->
 										<div class="modal fade" id="boardModal" tabindex="-1" aria-labelledby="boardModalLabel" aria-hidden="true">
 										  <div class="modal-dialog">
 										    <div class="modal-content">
-										      <div class="modal-header">
+										      <div class="modal-header" align="center" style="align-items: center;">
 										        <h5 class="modal-title" id="boardModalLabel">로그인 모달창</h5>
-										        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+										        <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="box-shadow: inset 0 0 0 #585858; margin: -1rem -1rem auto;">
 										          <span aria-hidden="true">&times;</span>
 										        </button>
 										      </div>
@@ -124,6 +172,17 @@
 									</c:if>
 								</form>
 							</nav>
+							
+							<!-- Nav -->
+						<nav id="nav">
+							<ul>
+								<li><a href="<%=request.getContextPath() %>/sale_index_list.do" style="background-color: revert; color: #37353a; font-size: 15px;">판매게시판</a></li>
+								<li><a href="<%=request.getContextPath() %>/board_list.do?board_name=notice_board" style="background-color: revert; color: #37353a; font-size: 15px;">공지사항</a></li>
+								<li><a href="<%=request.getContextPath() %>/board_list.do?board_name=free_board"" style="background-color: revert; color: #37353a; font-size: 15px;">자유게시판</a></li>
+								<li><a href="<%=request.getContextPath() %>/board_list.do?board_name=FAQ_board" style="background-color: revert; color: #37353a; font-size: 15px;">고객지원</a></li>
+							</ul>
+						</nav>
+							
 						</div>
 					</header>
 
@@ -144,3 +203,4 @@
 							</c:if>
 						</ul>
 					</nav>
+					

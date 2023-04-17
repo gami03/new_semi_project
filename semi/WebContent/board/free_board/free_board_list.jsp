@@ -14,6 +14,8 @@
 justify-content: center;
 }
 
+
+
 table td {
 	vertical-align: middle;
 }
@@ -50,7 +52,7 @@ table th {
 	<jsp:include page="/include/main_top.jsp" />
 
 	<!-- Main -->
-	<div align="center">
+	<div align="center" id="main">
 		<hr width="50%" color="marmoon">
 			<h3>자유게시판</h3>
 		<hr width="50%" color="marmoon">

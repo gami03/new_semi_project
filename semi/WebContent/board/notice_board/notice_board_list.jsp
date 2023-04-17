@@ -50,7 +50,7 @@ table th {
 
 
 	<!-- Main -->
-	<div align="center">
+	<div align="center" id="main">
 		<hr width="50%" color="marmoon">
 			<h3>공지사항</h3>
 		<hr width="50%" color="marmoon">
