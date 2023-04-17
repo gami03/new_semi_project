@@ -49,7 +49,7 @@ public class BoardDAO {
 		public void openConn() {
 			 String driver = "org.mariadb.jdbc.Driver";
 	         
-	         String url = "jdbc:mariadb://192.168.40.3:3306/semi";
+	         String url = "jdbc:mariadb://211.42.114.149:3306/semi";
 	            
 	         String user  = "root";
 	               
@@ -155,8 +155,11 @@ public class BoardDAO {
 				dto.setBoard_rec(rs.getInt("board_rec"));
 				dto.setBoard_date(rs.getString("board_date"));
 				dto.setBoard_update(rs.getString("board_update"));
+				dto.setBoard_reply(rs.getInt("board_reply"));
 				
 				list.add(dto);
+				
+				
 			}
 			
 			
@@ -245,7 +248,7 @@ public class BoardDAO {
 				count = rs.getInt(1) + 1;
 			}
 			
-			sql = "insert into board values(?, ?, ?, ?, ?, ?, ?, ?, 0, 0, now(), null)";
+			sql = "insert into board values(?, ?, ?, ?, ?, ?, ?, ?, 0, 0, now(), null, 0)";
 			
 			pstmt = con.prepareStatement(sql);
 			
@@ -325,6 +328,7 @@ public class BoardDAO {
 				dto.setBoard_file1(rs.getString("board_file1"));
 				dto.setBoard_file2(rs.getString("board_file2"));
 				dto.setBoard_category(rs.getString("board_category"));
+				dto.setBoard_reply(rs.getInt("board_reply"));
 				
 			}
 		} catch (SQLException e) {
@@ -368,18 +372,18 @@ public class BoardDAO {
 	} // getUserId() 메서드 end
 	
 	// 글번호에 해당하는 댓글 전체 리스트를 조회하는 메서드.
-	public String getReplyList(int no) {
+	public String getReplyList(int reply_no) {
 		
 		String result = "";
 		
 		try {
 			openConn();
 			
-			sql = "select * from board_reply where board_no = ? order by br_regdate desc";
+			sql = "select * from board_reply r join user_table u on r.user_no = u.user_no where board_no = ? order by br_regdate desc";
 			
 			pstmt = con.prepareStatement(sql);
 			
-			pstmt.setInt(1, no);
+			pstmt.setInt(1, reply_no);
 			
 			rs = pstmt.executeQuery();
 			
@@ -389,9 +393,10 @@ public class BoardDAO {
 				result += "<reply>";
 				result += "<com_no>"+rs.getInt("com_no")+"</com_no>";
 				result += "<user_no>"+rs.getInt("user_no")+"</user_no>";
+				result += "<user_nickname>"+rs.getString("user_nickname")+"</user_nickname>";
 				result += "<board_no>"+rs.getInt("board_no")+"</board_no>";
-				result += "<br_content>"+rs.getInt("br_content")+"</br_content>";
-				result += "<br_regdate>"+rs.getInt("br_regdate")+"</br_regdate>";
+				result += "<br_content>"+rs.getString("br_content")+"</br_content>";
+				result += "<br_regdate>"+rs.getString("br_regdate")+"</br_regdate>";
 				result += "</reply>";
 			}
 			
@@ -406,5 +411,1161 @@ public class BoardDAO {
 		
 		return result;
 	} // getReplyList() 메서드 end
- 	
+	
+	
+	// 댓글 내용을 tbl_reply 테이블에 저장하는 메서드.
+	public int replyInsert(BoardReplyDTO dto) {
+		
+		int result = 0, count = 0;
+		
+		try {
+			openConn();
+			
+			sql = "select max(com_no) from board_reply";
+			
+			pstmt = con.prepareStatement(sql);
+			
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()) {
+				count = rs.getInt(1) + 1;
+			}
+			
+			sql = "insert into board_reply values(?, ?, ?, ?, now())";
+			
+			pstmt = con.prepareStatement(sql);
+			
+			pstmt.setInt(1, count);
+			pstmt.setInt(2, dto.getUser_no());
+			pstmt.setInt(3, dto.getBoard_no());
+			pstmt.setString(4, dto.getBr_content());
+			
+			result = pstmt.executeUpdate();
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			closeConn(rs, pstmt, con);
+		}
+		
+		return result;
+	} // replyInsert() 메서드 end
+	
+	// board 테이블에 해당 게시물의 댓글 갯수 카운트해서 업데이트 해주는 메서드.
+	public void replyBoardCountupdate(BoardReplyDTO dto) {
+		
+		try {
+			openConn();
+			
+			sql = "select count(*) from board_reply where board_no = ?";
+			
+			pstmt = con.prepareStatement(sql);
+			
+			pstmt.setInt(1, dto.getBoard_no());
+			
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()) {
+				sql = "update board set board_reply = ? where board_no = ?";
+				
+				pstmt = con.prepareStatement(sql);
+				
+				pstmt.setInt(1, rs.getInt(1));
+				pstmt.setInt(2, dto.getBoard_no());
+				
+				pstmt.executeUpdate();
+			}
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			closeConn(rs, pstmt, con);
+		}
+		
+		
+	} // replyBoardCountupdate() 메서드 end
+	
+	
+	// 댓글 com.no에 해당하는 user_no 가져오는 메서드
+	public int getUserNoWhereComno(int reply_no) {
+		
+		int result = 0;
+		
+		try {
+			openConn();
+			
+			sql = "select user_no from board_reply where com_no = ?";
+			
+			pstmt = con.prepareStatement(sql);
+			
+			pstmt.setInt(1, reply_no);
+			
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()) {
+				result = rs.getInt(1);
+			}
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			closeConn(rs, pstmt, con);
+		}
+		
+		return result;
+	} // getUserNoWhereComno() 메서드 end
+	
+	//
+	public String getUserNicknameWhereuserno(int user_no) {
+		
+		String nickname = "";
+		
+		try {
+			openConn();
+			
+			sql = "select user_nickname from user_table where user_no = ?";
+			
+			pstmt = con.prepareStatement(sql);
+			
+			pstmt.setInt(1, user_no);
+			
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()) {
+				nickname = rs.getString(1);
+			}
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			closeConn(rs, pstmt, con);
+		}
+		
+		return nickname;
+	} // getUserNicknameWhereuserno() 메서드 end
+	
+	//
+	public int deleteBoard(int board_no) {
+		
+		int result = 0;
+		
+		try {
+			openConn();
+			
+			// 1. "board_reply" 테이블에서 해당 "board_no"를 참조하는 모든 행을 먼저 삭제합니다.
+			sql = "delete from board_reply where board_no = ?";
+			
+	        pstmt = con.prepareStatement(sql);
+	        
+	        pstmt.setInt(1, board_no);
+	        
+	        pstmt.executeUpdate();
+	        
+	        pstmt.close();
+	        
+	     // 3. "board" 테이블에서 해당 "board_no"의 게시글을 삭제합니다.
+			sql = "select * from board where board_no = ?";
+			
+			pstmt = con.prepareStatement(sql);
+			
+			pstmt.setInt(1, board_no);
+			
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()) {
+				sql = "delete from board where board_no = ?";
+				
+				pstmt = con.prepareStatement(sql);
+				
+				pstmt.setInt(1, board_no);
+				
+				result = pstmt.executeUpdate();
+			}
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			closeConn(rs, pstmt, con);
+		}
+		
+		return result;
+	} // deleteBoard(board_no)
+	
+	public void updateSequence(int no) {
+		try {
+			openConn();
+			
+			sql = "update board set board_no = board_no - 1 where board_no > ?";
+			
+			pstmt = con.prepareStatement(sql);
+			
+			pstmt.setInt(1, no);
+			
+			pstmt.executeUpdate();
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			closeConn(rs, pstmt, con);
+		}
+	} // updateSequence() 메서드 end
+	
+	// board 테이블에 게시글 번호에 해당하는 게시글을 수정하는 메서드.
+	public int ModifyUpload(BoardDTO dto) {
+		
+		int result = 0;
+		
+		try {
+			openConn();
+			
+			sql = "select * from board where board_no = ?";
+			
+			pstmt = con.prepareStatement(sql);
+			
+			pstmt.setInt(1, dto.getBoard_no());
+			
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()) {
+				if((dto.getBoard_file1() == null) && (dto.getBoard_file2() == null)) {
+					// 첨부파일이 없는 경우
+					sql = "update board set board_title = ?, board_category = ?, board_content = ?, board_update = now() where board_no = ?";
+					
+					pstmt = con.prepareStatement(sql);
+					
+					pstmt.setString(1, dto.getBoard_title());
+					pstmt.setString(2, dto.getBoard_category());
+					pstmt.setString(3, dto.getBoard_content());
+					pstmt.setInt(4, dto.getBoard_no());
+				}else if((dto.getBoard_file1() != null) && (dto.getBoard_file2() == null)){
+					// 첨부파일1만 있는경우
+					sql = "update board set board_title = ?, board_category = ?, board_content = ?, board_file1 = ?, board_update = now() where board_no = ?";
+					
+					pstmt = con.prepareStatement(sql);
+					
+					pstmt.setString(1, dto.getBoard_title());
+					pstmt.setString(2, dto.getBoard_category());
+					pstmt.setString(3, dto.getBoard_content());
+					pstmt.setString(4, dto.getBoard_file1());
+					pstmt.setInt(5, dto.getBoard_no());
+				
+				}else if((dto.getBoard_file1() == null) && (dto.getBoard_file2() != null)) {
+					// 첨부파일 2만 있는 경우
+					sql = "update board set board_title = ?, board_category = ?, board_content = ?, board_file2 = ?, board_update = now() where board_no = ?";
+					
+					pstmt = con.prepareStatement(sql);
+					
+					pstmt.setString(1, dto.getBoard_title());
+					pstmt.setString(2, dto.getBoard_category());
+					pstmt.setString(3, dto.getBoard_content());
+					pstmt.setString(4, dto.getBoard_file1());
+					pstmt.setInt(5, dto.getBoard_no());
+				}else if((dto.getBoard_file1() != null) && (dto.getBoard_file2() != null)){
+					// 첨부파일이 둘다 있는 경우
+					sql = "update board set board_title = ?, board_category = ?, board_content = ?, board_file1 = ?, board_file2 = ?, board_update = now() where board_no = ?";
+					
+					pstmt = con.prepareStatement(sql);
+					
+					pstmt.setString(1, dto.getBoard_title());
+					pstmt.setString(2, dto.getBoard_category());
+					pstmt.setString(3, dto.getBoard_content());
+					pstmt.setString(4, dto.getBoard_file1());
+					pstmt.setString(5, dto.getBoard_file2());
+					pstmt.setInt(6, dto.getBoard_no());
+				}
+				
+				result = pstmt.executeUpdate();
+			}
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			closeConn(rs, pstmt, con);
+		}
+		
+		return result;
+	} // ModifyUpload() 메서드 end
+	
+	// 자유게시판에서 검색어에 해당하는 게시물의 수를 조회하는 메서드
+	public int searchListCount(String field, String keyword, String board_name) {
+		
+		int count = 0;
+		
+		try {
+			openConn();
+			
+			sql = "select count(*) from board b join user_table u on b.user_no = u.user_no";
+			
+			if(field.equals("title")) {
+				sql += " where board_title like ? and board_name = ?";
+			}else if(field.equals("cont")) {
+				sql += " where board_content like ? and board_name = ?";
+			}else if(field.equals("title_cont")) {
+				sql += " where (board_title like ? or board_content like ?) and board_name = ?";
+			}else if(field.equals("writer")){
+				sql += " where user_nickname like ? and board_name = ?";
+			}else {
+				sql += " where board_category like ? and board_name = ?";
+			}
+			
+			sql += " order by board_no desc";
+			
+			pstmt = con.prepareStatement(sql);
+			
+			if(field.equals("title_cont")) {
+				pstmt.setString(1, '%'+keyword+'%');
+				pstmt.setString(2, '%'+keyword+'%');
+				pstmt.setString(3, board_name);
+			}else {
+				pstmt.setString(1, '%'+keyword+'%');
+				pstmt.setString(2, board_name);
+			}
+			
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()) {
+				count = rs.getInt(1);
+			}
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			closeConn(rs, pstmt, con);
+		}
+		
+		return count;
+	} // searchListCount() 메서드 end
+	
+	// board 테이블에서 검색한 내용을 가지고 페이징 처리하는 메서드.
+	public List<BoardDTO> getSearchBoardList(String field, String keyword, int page, int rowsize, String board_name) {
+		
+		List<BoardDTO> searchList = new ArrayList<BoardDTO>();
+		
+		// 해당 페이지에서 시작번호
+		int startNo = (page * rowsize) - (rowsize - 1);
+		
+		// 해당 페이지에서 끝번호
+		int endNo = (page * rowsize);
+		
+		try {
+			openConn();
+			
+			sql = "select * from (select row_number() over(order by board_no desc) rnum, b.*, u.user_nickname from board b join user_table u on b.user_no = u.user_no";
+					
+			if(field.equals("title")) {
+				sql += " where board_title like ? and board_name = ?) Y";
+			}else if(field.equals("cont")) {
+				sql += " where board_content like ? and board_name = ?) Y";
+			}else if(field.equals("title_cont")) {
+				sql += " where (board_title like ? or board_content like ?) and board_name = ?) Y";
+			}else if(field.equals("writer")){
+				sql += " where user_nickname like ? and board_name = ?) Y";
+			}else {
+				sql += " where board_category like ? and board_name = ?) Y";
+			}
+			
+			sql += " where rnum >=? and rnum <=?";
+					
+			pstmt = con.prepareStatement(sql);
+			
+			if(field.equals("title_cont")) {
+				pstmt.setString(1, '%'+keyword+'%');
+				pstmt.setString(2, '%'+keyword+'%');
+				pstmt.setString(3, board_name);
+				pstmt.setInt(4, startNo);
+				pstmt.setInt(5, endNo);
+			}else {
+				pstmt.setString(1, '%'+keyword+'%');
+				pstmt.setString(2, board_name);
+				pstmt.setInt(3, startNo);
+				pstmt.setInt(4, endNo);
+			}
+			
+			rs = pstmt.executeQuery();
+			
+			while(rs.next()) {
+				
+				BoardDTO dto = new BoardDTO();
+				
+				
+				dto.setBoard_no(rs.getInt("board_no"));
+				dto.setUser_no(rs.getInt("user_no"));
+				dto.setUser_nickname(rs.getString("user_nickname"));
+				dto.setBoard_name(rs.getString("board_name"));
+				dto.setBoard_category(rs.getString("board_category"));
+				dto.setBoard_title(rs.getString("board_title"));
+				dto.setBoard_content(rs.getString("board_content"));
+				dto.setBoard_file1(rs.getString("board_file1"));
+				dto.setBoard_file2(rs.getString("board_file2"));
+				dto.setBoard_hit(rs.getInt("board_hit"));
+				dto.setBoard_rec(rs.getInt("board_rec"));
+				dto.setBoard_date(rs.getString("board_date"));
+				dto.setBoard_update(rs.getString("board_update"));
+				dto.setBoard_reply(rs.getInt("board_reply"));
+				
+				searchList.add(dto);
+			}
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			closeConn(rs, pstmt, con);
+		}
+		
+		return searchList;
+	} // getSearchBoardList() 메서드 end
+	
+	// 게시글 추천여부 검사
+	public int recCheck(int board_no, int user_no) {
+		
+		int result = 0;
+		
+		try {
+			openConn();
+			
+			sql = "SELECT COUNT(*) FROM board_recommend WHERE user_no = ? AND board_no = ?";
+			
+			pstmt = con.prepareStatement(sql);
+			
+			pstmt.setInt(1, user_no);
+			pstmt.setInt(2, board_no);
+			
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()) {
+				result = rs.getInt(1);
+			}
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			closeConn(rs, pstmt, con);
+		}
+		
+		return result;
+	} // recCheck() 메서드 end
+	
+	// 게시글 추천 추가 메서드
+	public void recUpdate(int board_no, int user_no) {
+		
+		try {
+			openConn();
+			
+			sql = "insert into board_recommend values(?, ?)";
+			
+			pstmt = con.prepareStatement(sql);
+			
+			pstmt.setInt(1, board_no);
+			pstmt.setInt(2, user_no);
+			
+			
+			pstmt.executeUpdate();
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			closeConn(rs, pstmt, con);
+		}
+		
+	} // recUpdate() 메서드 end
+	
+	// 게시글 추천 제거
+	public void recDelete(int board_no, int user_no) {
+		
+		try {
+			openConn();
+			
+			sql = "delete from board_recommend where board_no = ? and user_no = ?";
+			
+			pstmt = con.prepareStatement(sql);
+			
+			pstmt.setInt(1, board_no);
+			pstmt.setInt(2, user_no);
+			
+			pstmt.executeUpdate();
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			closeConn(rs, pstmt, con);
+		}
+		
+	} // recDelete() 메서드 end
+	
+	// 게시글 추천 수 
+	public int recCount(int board_no) {
+		
+		int result = 0;
+		
+		try {
+			openConn();
+			
+			sql = "select count(*) from board_recommend where board_no = ?";
+			
+			pstmt = con.prepareStatement(sql);
+			
+			pstmt.setInt(1, board_no);
+			
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()) {
+				result = rs.getInt(1);
+			}
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			closeConn(rs, pstmt, con);
+		}
+		
+		return result;
+	} // reCount() 메서드 end
+	
+	// 추천을 추가/삭제 했을 때 board테이블의 해당 게시물의 추천수 업데이트하는 메서드.
+	public void boardRecCount(int board_no) {
+		
+		try {
+			openConn();
+			
+			sql = "select count(*) from board_recommend where board_no = ?";
+			
+			pstmt = con.prepareStatement(sql);
+			
+			pstmt.setInt(1, board_no);
+			
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()) {
+				
+				sql = "update board set board_rec = ? where board_no = ?";
+				
+				pstmt = con.prepareStatement(sql);
+				
+				pstmt.setInt(1, rs.getInt(1));
+				pstmt.setInt(2, board_no);
+				
+				pstmt.executeUpdate();
+			}
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			closeConn(rs, pstmt, con);
+		}
+		
+	} // boardRecCount() 메서드 end
+	
+	
+	// board 테이블에서 현재 페이지에 해당하는 게시물을 좋아요수 많은 순으로 조회하는 메서드
+	public List<BoardDTO> getBoardHitList(int page, int rowsize, String name) {
+		
+		List<BoardDTO> list = new ArrayList<BoardDTO>();
+	
+		// 해당 페이지에서 시작 번호
+		int startNo = (page * rowsize) - (rowsize - 1);
+		
+		// 해당 페이지에서 끝 번호
+		int endNo = (page * rowsize);
+		
+		try {
+			openConn();
+			
+			sql = "select * from (select row_number() over(order by board_rec desc, board_no desc) rnum, b.*, u.user_nickname from board b join user_table u on b.user_no = u.user_no where board_name = ?) Y where rnum >=? and rnum <=?";
+			
+			pstmt = con.prepareStatement(sql);
+			
+			pstmt.setString(1, name);
+			pstmt.setInt(2, startNo);
+			pstmt.setInt(3, endNo);
+			
+			rs = pstmt.executeQuery();
+			
+			while(rs.next()) {
+				
+				BoardDTO dto = new BoardDTO();
+				
+				
+				dto.setBoard_no(rs.getInt("board_no"));
+				dto.setUser_no(rs.getInt("user_no"));
+				dto.setUser_nickname(rs.getString("user_nickname"));
+				dto.setBoard_name(rs.getString("board_name"));
+				dto.setBoard_category(rs.getString("board_category"));
+				dto.setBoard_title(rs.getString("board_title"));
+				dto.setBoard_content(rs.getString("board_content"));
+				dto.setBoard_file1(rs.getString("board_file1"));
+				dto.setBoard_file2(rs.getString("board_file2"));
+				dto.setBoard_hit(rs.getInt("board_hit"));
+				dto.setBoard_rec(rs.getInt("board_rec"));
+				dto.setBoard_date(rs.getString("board_date"));
+				dto.setBoard_update(rs.getString("board_update"));
+				dto.setBoard_reply(rs.getInt("board_reply"));
+				
+				list.add(dto);
+			}
+			
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			closeConn(rs, pstmt, con);
+		}
+		
+		return list;
+
+	} // getBoardHitList() 메서드 end
+	
+	// board 테이블에서 현재 페이지에 해당하는 게시물을 시간순으로 조회하는 메서드
+	public List<BoardDTO> getBoardTimeList(int page, int rowsize, String name) {
+		
+		List<BoardDTO> list = new ArrayList<BoardDTO>();
+	
+		// 해당 페이지에서 시작 번호
+		int startNo = (page * rowsize) - (rowsize - 1);
+		
+		// 해당 페이지에서 끝 번호
+		int endNo = (page * rowsize);
+		
+		try {
+			openConn();
+			
+			sql = "select * from (select row_number() over(order by board_no desc) rnum, b.*, u.user_nickname from board b join user_table u on b.user_no = u.user_no where board_name = ?) Y where rnum >=? and rnum <=?";
+			 
+			pstmt = con.prepareStatement(sql);
+			
+			pstmt.setString(1, name);
+			pstmt.setInt(2, startNo);
+			pstmt.setInt(3, endNo);
+			
+			rs = pstmt.executeQuery();
+			
+			while(rs.next()) {
+				
+				BoardDTO dto = new BoardDTO();
+				
+				
+				dto.setBoard_no(rs.getInt("board_no"));
+				dto.setUser_no(rs.getInt("user_no"));
+				dto.setUser_nickname(rs.getString("user_nickname"));
+				dto.setBoard_name(rs.getString("board_name"));
+				dto.setBoard_category(rs.getString("board_category"));
+				dto.setBoard_title(rs.getString("board_title"));
+				dto.setBoard_content(rs.getString("board_content"));
+				dto.setBoard_file1(rs.getString("board_file1"));
+				dto.setBoard_file2(rs.getString("board_file2"));
+				dto.setBoard_hit(rs.getInt("board_hit"));
+				dto.setBoard_rec(rs.getInt("board_rec"));
+				dto.setBoard_date(rs.getString("board_date"));
+				dto.setBoard_update(rs.getString("board_update"));
+				dto.setBoard_reply(rs.getInt("board_reply"));
+				
+				list.add(dto);
+			}
+			
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			closeConn(rs, pstmt, con);
+		}
+		
+		return list;
+	} // getBoardTimeList() 메서드 end
+	
+	// board 테이블에서 현재 페이지에 해당하는 게시물을 조회수 순으로 조회하는 메서드
+		public List<BoardDTO> getBoardLookList(int page, int rowsize, String name) {
+			
+			List<BoardDTO> list = new ArrayList<BoardDTO>();
+		
+			// 해당 페이지에서 시작 번호
+			int startNo = (page * rowsize) - (rowsize - 1);
+			
+			// 해당 페이지에서 끝 번호
+			int endNo = (page * rowsize);
+			
+			try {
+				openConn();
+				
+				sql = "select * from (select row_number() over(order by board_hit desc, board_no desc) rnum, b.*, u.user_nickname from board b join user_table u on b.user_no = u.user_no where board_name = ?) Y where rnum >=? and rnum <=?";
+				 
+				pstmt = con.prepareStatement(sql);
+				
+				pstmt.setString(1, name);
+				pstmt.setInt(2, startNo);
+				pstmt.setInt(3, endNo);
+				
+				rs = pstmt.executeQuery();
+				
+				while(rs.next()) {
+					
+					BoardDTO dto = new BoardDTO();
+					
+					
+					dto.setBoard_no(rs.getInt("board_no"));
+					dto.setUser_no(rs.getInt("user_no"));
+					dto.setUser_nickname(rs.getString("user_nickname"));
+					dto.setBoard_name(rs.getString("board_name"));
+					dto.setBoard_category(rs.getString("board_category"));
+					dto.setBoard_title(rs.getString("board_title"));
+					dto.setBoard_content(rs.getString("board_content"));
+					dto.setBoard_file1(rs.getString("board_file1"));
+					dto.setBoard_file2(rs.getString("board_file2"));
+					dto.setBoard_hit(rs.getInt("board_hit"));
+					dto.setBoard_rec(rs.getInt("board_rec"));
+					dto.setBoard_date(rs.getString("board_date"));
+					dto.setBoard_update(rs.getString("board_update"));
+					dto.setBoard_reply(rs.getInt("board_reply"));
+					
+					list.add(dto);
+				}
+				
+				
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} finally {
+				closeConn(rs, pstmt, con);
+			}
+			
+			return list;
+		} // getBoardLookList() 메서드 end
+	
+	// search_board 테이블에서 현재 페이지에 해당하는 게시물을 추천수 순으로 조회하는 메서드
+	public List<BoardDTO> getSearchBoardHitList(String field, String keyword, int page, int rowsize, String board_name) {
+		
+		List<BoardDTO> searchList = new ArrayList<BoardDTO>();
+		
+		// 해당 페이지에서 시작번호
+		int startNo = (page * rowsize) - (rowsize - 1);
+		
+		// 해당 페이지에서 끝번호
+		int endNo = (page * rowsize);
+		
+		try {
+			openConn();
+			
+			sql = "select * from (select row_number() over(order by board_rec desc, board_no desc) rnum, b.*, u.user_nickname from board b join user_table u on b.user_no = u.user_no";
+					
+			if(field.equals("title")) {
+				sql += " where board_title like ? and board_name = ?) Y";
+			}else if(field.equals("cont")) {
+				sql += " where board_content like ? and board_name = ?) Y";
+			}else if(field.equals("title_cont")) {
+				sql += " where (board_title like ? or board_content like ?) and board_name = ?) Y";
+			}else if(field.equals("writer")){
+				sql += " where user_nickname like ? and board_name = ?) Y";
+			}else {
+				sql += " where board_category like ? and board_name = ?) Y";
+			}
+			
+			sql += " where rnum >=? and rnum <=?";
+					
+			pstmt = con.prepareStatement(sql);
+			
+			if(field.equals("title_cont")) {
+				pstmt.setString(1, '%'+keyword+'%');
+				pstmt.setString(2, '%'+keyword+'%');
+				pstmt.setString(3, board_name);
+				pstmt.setInt(4, startNo);
+				pstmt.setInt(5, endNo);
+			}else {
+				pstmt.setString(1, '%'+keyword+'%');
+				pstmt.setString(2, board_name);
+				pstmt.setInt(3, startNo);
+				pstmt.setInt(4, endNo);
+			}
+			
+			rs = pstmt.executeQuery();
+			
+			while(rs.next()) {
+				
+				BoardDTO dto = new BoardDTO();
+				
+				
+				dto.setBoard_no(rs.getInt("board_no"));
+				dto.setUser_no(rs.getInt("user_no"));
+				dto.setUser_nickname(rs.getString("user_nickname"));
+				dto.setBoard_name(rs.getString("board_name"));
+				dto.setBoard_category(rs.getString("board_category"));
+				dto.setBoard_title(rs.getString("board_title"));
+				dto.setBoard_content(rs.getString("board_content"));
+				dto.setBoard_file1(rs.getString("board_file1"));
+				dto.setBoard_file2(rs.getString("board_file2"));
+				dto.setBoard_hit(rs.getInt("board_hit"));
+				dto.setBoard_rec(rs.getInt("board_rec"));
+				dto.setBoard_date(rs.getString("board_date"));
+				dto.setBoard_update(rs.getString("board_update"));
+				dto.setBoard_reply(rs.getInt("board_reply"));
+				
+				searchList.add(dto);
+			}
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			closeConn(rs, pstmt, con);
+		}
+		
+		return searchList;
+		
+	} //getSearchBoardHitList() 메서드 end
+	
+	// search_board 테이블에서 현재 페이지에 해당하는 게시물을 조회수 순으로 조회하는 메서드
+	public List<BoardDTO> getSearchBoardLookList(String field, String keyword, int page, int rowsize, String board_name) {
+		
+		List<BoardDTO> searchList = new ArrayList<BoardDTO>();
+		
+		// 해당 페이지에서 시작번호
+		int startNo = (page * rowsize) - (rowsize - 1);
+		
+		// 해당 페이지에서 끝번호
+		int endNo = (page * rowsize);
+		
+		try {
+			openConn();
+			
+			sql = "select * from (select row_number() over(order by board_hit desc, board_no desc) rnum, b.*, u.user_nickname from board b join user_table u on b.user_no = u.user_no";
+					
+			if(field.equals("title")) {
+				sql += " where board_title like ? and board_name = ?) Y";
+			}else if(field.equals("cont")) {
+				sql += " where board_content like ? and board_name = ?) Y";
+			}else if(field.equals("title_cont")) {
+				sql += " where (board_title like ? or board_content like ?) and board_name = ?) Y";
+			}else if(field.equals("writer")){
+				sql += " where user_nickname like ? and board_name = ?) Y";
+			}else {
+				sql += " where board_category like ? and board_name = ?) Y";
+			}
+			
+			sql += " where rnum >=? and rnum <=?";
+					
+			pstmt = con.prepareStatement(sql);
+			
+			if(field.equals("title_cont")) {
+				pstmt.setString(1, '%'+keyword+'%');
+				pstmt.setString(2, '%'+keyword+'%');
+				pstmt.setString(3, board_name);
+				pstmt.setInt(4, startNo);
+				pstmt.setInt(5, endNo);
+			}else {
+				pstmt.setString(1, '%'+keyword+'%');
+				pstmt.setString(2, board_name);
+				pstmt.setInt(3, startNo);
+				pstmt.setInt(4, endNo);
+			}
+			
+			rs = pstmt.executeQuery();
+			
+			while(rs.next()) {
+				
+				BoardDTO dto = new BoardDTO();
+				
+				
+				dto.setBoard_no(rs.getInt("board_no"));
+				dto.setUser_no(rs.getInt("user_no"));
+				dto.setUser_nickname(rs.getString("user_nickname"));
+				dto.setBoard_name(rs.getString("board_name"));
+				dto.setBoard_category(rs.getString("board_category"));
+				dto.setBoard_title(rs.getString("board_title"));
+				dto.setBoard_content(rs.getString("board_content"));
+				dto.setBoard_file1(rs.getString("board_file1"));
+				dto.setBoard_file2(rs.getString("board_file2"));
+				dto.setBoard_hit(rs.getInt("board_hit"));
+				dto.setBoard_rec(rs.getInt("board_rec"));
+				dto.setBoard_date(rs.getString("board_date"));
+				dto.setBoard_update(rs.getString("board_update"));
+				dto.setBoard_reply(rs.getInt("board_reply"));
+				
+				searchList.add(dto);
+			}
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			closeConn(rs, pstmt, con);
+		}
+		
+		return searchList;
+		
+	} // getSearchBoardLookList() 메서드 end
+	
+	// search_board 테이블에서 현재 페이지에 해당하는 게시물을 시간순으로 조회하는 메서드
+	public List<BoardDTO> getSearchBoardTimeList(String field, String keyword, int page, int rowsize, String board_name) {
+		
+		List<BoardDTO> searchList = new ArrayList<BoardDTO>();
+		
+		// 해당 페이지에서 시작번호
+		int startNo = (page * rowsize) - (rowsize - 1);
+		
+		// 해당 페이지에서 끝번호
+		int endNo = (page * rowsize);
+		
+		try {
+			openConn();
+			
+			sql = "select * from (select row_number() over(order by board_no desc) rnum, b.*, u.user_nickname from board b join user_table u on b.user_no = u.user_no";
+					
+			if(field.equals("title")) {
+				sql += " where board_title like ? and board_name = ?) Y";
+			}else if(field.equals("cont")) {
+				sql += " where board_content like ? and board_name = ?) Y";
+			}else if(field.equals("title_cont")) {
+				sql += " where (board_title like ? or board_content like ?) and board_name = ?) Y";
+			}else if(field.equals("writer")){
+				sql += " where user_nickname like ? and board_name = ?) Y";
+			}else {
+				sql += " where board_category like ? and board_name = ?) Y";
+			}
+			
+			sql += " where rnum >=? and rnum <=?";
+					
+			pstmt = con.prepareStatement(sql);
+			
+			if(field.equals("title_cont")) {
+				pstmt.setString(1, '%'+keyword+'%');
+				pstmt.setString(2, '%'+keyword+'%');
+				pstmt.setString(3, board_name);
+				pstmt.setInt(4, startNo);
+				pstmt.setInt(5, endNo);
+			}else {
+				pstmt.setString(1, '%'+keyword+'%');
+				pstmt.setString(2, board_name);
+				pstmt.setInt(3, startNo);
+				pstmt.setInt(4, endNo);
+			}
+			
+			rs = pstmt.executeQuery();
+			
+			while(rs.next()) {
+				
+				BoardDTO dto = new BoardDTO();
+				
+				
+				dto.setBoard_no(rs.getInt("board_no"));
+				dto.setUser_no(rs.getInt("user_no"));
+				dto.setUser_nickname(rs.getString("user_nickname"));
+				dto.setBoard_name(rs.getString("board_name"));
+				dto.setBoard_category(rs.getString("board_category"));
+				dto.setBoard_title(rs.getString("board_title"));
+				dto.setBoard_content(rs.getString("board_content"));
+				dto.setBoard_file1(rs.getString("board_file1"));
+				dto.setBoard_file2(rs.getString("board_file2"));
+				dto.setBoard_hit(rs.getInt("board_hit"));
+				dto.setBoard_rec(rs.getInt("board_rec"));
+				dto.setBoard_date(rs.getString("board_date"));
+				dto.setBoard_update(rs.getString("board_update"));
+				dto.setBoard_reply(rs.getInt("board_reply"));
+				
+				searchList.add(dto);
+			}
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			closeConn(rs, pstmt, con);
+		}
+		
+		return searchList;
+		
+	} // getSearchBoardTimeList() 메서드 end
+	
+	// 해당 게시판의 카테고리 별로 게시물을 묶는 메서드
+	public List<BoardDTO> getBoardCategoryList(int page, int rowsize, String board_name, String board_category) {
+		
+		List<BoardDTO> list = new ArrayList<BoardDTO>();
+		
+		// 해당 페이지에서 시작번호
+		int startNo = (page * rowsize) - (rowsize - 1);
+		
+		// 해당 페이지에서 끝번호
+		int endNo = (page * rowsize);
+
+		try {
+			openConn();
+			
+			sql = "select * from (select row_number() over(order by board_no desc) rnum, b.*, u.user_nickname from board b join user_table u on b.user_no = u.user_no where board_category like ? and board_name = ?) Y where rnum >=? and rnum <=?";
+			
+			pstmt = con.prepareStatement(sql);
+			
+			pstmt.setString(1, board_category);
+			pstmt.setString(2, board_name);
+			pstmt.setInt(3, startNo);
+			pstmt.setInt(4, endNo);
+			
+			rs = pstmt.executeQuery();
+			
+			while(rs.next()) {
+				BoardDTO dto = new BoardDTO();
+				
+				dto.setBoard_no(rs.getInt("board_no"));
+				dto.setUser_no(rs.getInt("user_no"));
+				dto.setUser_nickname(rs.getString("user_nickname"));
+				dto.setBoard_name(rs.getString("board_name"));
+				dto.setBoard_category(rs.getString("board_category"));
+				dto.setBoard_title(rs.getString("board_title"));
+				dto.setBoard_content(rs.getString("board_content"));
+				dto.setBoard_file1(rs.getString("board_file1"));
+				dto.setBoard_file2(rs.getString("board_file2"));
+				dto.setBoard_hit(rs.getInt("board_hit"));
+				dto.setBoard_rec(rs.getInt("board_rec"));
+				dto.setBoard_date(rs.getString("board_date"));
+				dto.setBoard_update(rs.getString("board_update"));
+				dto.setBoard_reply(rs.getInt("board_reply"));
+				
+				list.add(dto);
+			}
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			closeConn(rs, pstmt, con);
+		}
+		
+		return list;
+	} // getBoardCategoryList() 메서드 end
+	
+	// 해당 게시판에 카테고리 별 게시글 수
+	public int getBoardCategoryCount(String board_name, String board_category) {
+		
+		int result = 0;
+		
+		
+		try {
+			openConn();
+			
+			sql = "select count(*) from board where board_name = ? and board_category = ?";
+			
+			pstmt = con.prepareStatement(sql);
+			
+			pstmt.setString(1, board_name);
+			pstmt.setString(2, board_category);
+			
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()) {
+				result = rs.getInt(1);
+			}
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			closeConn(rs, pstmt, con);
+		}
+		
+		return result;
+	} // getBoardCategoryCount() 메서드 end
+	
+	// search.jsp 에서 넘어온 해당 게시판의 카테고리 별로 게시물을 묶는 메서드
+	public List<BoardDTO> getSearchBoardCategoryList(String keyword, int page, int rowsize, String board_name, String board_category) {
+		
+		List<BoardDTO> list = new ArrayList<BoardDTO>();
+		
+		// 해당 페이지에서 시작번호
+		int startNo = (page * rowsize) - (rowsize - 1);
+		
+		// 해당 페이지에서 끝번호
+		int endNo = (page * rowsize);
+		
+		try {
+			openConn();
+			
+			sql = "select * from (select row_number() over(order by board_no desc) rnum, b.*, u.user_nickname from board b join user_table u on b.user_no = u.user_no where (board_title like ? or board_content like ?) and board_name = ? and board_category = ?) Y where rnum >=? and rnum <= ?";
+			
+			pstmt = con.prepareStatement(sql);
+			
+			pstmt.setString(1, '%'+keyword+'%');
+			pstmt.setString(2, '%'+keyword+'%');
+			pstmt.setString(3, board_name);
+			pstmt.setString(4, board_category);
+			pstmt.setInt(5, startNo);
+			pstmt.setInt(6, endNo);
+			
+			rs = pstmt.executeQuery();
+			
+			while(rs.next()) {
+				BoardDTO dto = new BoardDTO();
+				
+				dto.setBoard_no(rs.getInt("board_no"));
+				dto.setUser_no(rs.getInt("user_no"));
+				dto.setUser_nickname(rs.getString("user_nickname"));
+				dto.setBoard_name(rs.getString("board_name"));
+				dto.setBoard_category(rs.getString("board_category"));
+				dto.setBoard_title(rs.getString("board_title"));
+				dto.setBoard_content(rs.getString("board_content"));
+				dto.setBoard_file1(rs.getString("board_file1"));
+				dto.setBoard_file2(rs.getString("board_file2"));
+				dto.setBoard_hit(rs.getInt("board_hit"));
+				dto.setBoard_rec(rs.getInt("board_rec"));
+				dto.setBoard_date(rs.getString("board_date"));
+				dto.setBoard_update(rs.getString("board_update"));
+				dto.setBoard_reply(rs.getInt("board_reply"));
+				
+				list.add(dto);
+			}
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			closeConn(rs, pstmt, con);
+		}
+		
+		return list;
+	} // getSearchBoardCategoryList() 메서드 end
+	
+	// search.jsp 에서 넘어온 해당 게시판에 카테고리 별 게시글 수
+	public int searchBoardCategoryListCount(String keyword, String board_name, String board_category) {
+		
+		int result = 0;
+		
+		try {
+			openConn();
+			
+			sql = "select count(*) from board where (board_title like ? or board_content like ?) and board_name = ? and board_category = ?";
+			
+			pstmt = con.prepareStatement(sql);
+			
+			pstmt.setString(1, '%'+keyword+'%');
+			pstmt.setString(2, '%'+keyword+'%');
+			pstmt.setString(3, board_name);
+			pstmt.setString(4, board_category);
+			
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()) {
+				result = rs.getInt(1);
+			}
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			closeConn(rs, pstmt, con);
+		}
+		
+		return result;
+	} // searchBoardCategoryListCount() 메서드 end
+	
+	
 }

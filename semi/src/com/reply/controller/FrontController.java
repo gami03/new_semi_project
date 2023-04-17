@@ -14,7 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.action.Action;
 import com.action.ActionForward;
-import com.free_board.action.*;
+import com.board.action.*;
 
 
 public class FrontController extends HttpServlet {

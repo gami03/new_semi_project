@@ -1,2 +1,6 @@
 eclipse.preferences.version=1
+<<<<<<< HEAD
+=======
+encoding//WebContent/include/main_bottom.jsp=UTF-8
+>>>>>>> main
 encoding//src/com/reply/controller/mapping.properties=UTF-8

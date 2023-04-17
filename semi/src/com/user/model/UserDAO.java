@@ -5,6 +5,8 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 
 
@@ -162,9 +164,234 @@ public class UserDAO {
 		}
 		return result;
 	}
-
+ 	
+ 	public int getUserApprove(String id) {
+ 		
+ 		int result = 0;
+ 		
+ 		try {
+ 			openConn();
+ 	 		
+ 	 		sql = "select user_approve from user_table where user_id = ?";
+ 	 		
+			pstmt = con.prepareStatement(sql);
+			
+			pstmt.setString(1, id);
+			
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()) {
+				result = rs.getInt(1);
+			}
+			
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			closeConn(rs, pstmt, con);
+		}
+ 		
+ 		return result;
+ 	} // getUserApprove() 메서드 end
  	
  	
+ 	// 세션으로 사용하는 user_id를 가져와서 user_no값을 가져올 떄 사용하는 메서드
+ 	// 다른 테이블에서 정보 가져오려고 매번 조인하는거 보다 나을거 같아서
+ 	public int getUserNo(String session_id) {
+ 		
+ 		int no = 0;
+ 		
+ 		try {
+ 			openConn();
+ 	 		
+ 	 		sql = "select user_no from user_table where user_id = ?";
+ 	 		
+			pstmt = con.prepareStatement(sql);
+			
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()) {
+				no = rs.getInt("user_no");
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			closeConn(rs, pstmt, con);
+		}
+ 		
+ 		return no;
+ 	}
  	
+ 	
+ 	// user 회원 목록 전체를 가져오는 메서드
+  	public List<UserDTO> getUserInfo() {	// user_no 혹은 user_id
+  		
+  		List<UserDTO> list = new ArrayList<UserDTO>();
+  		
+  		openConn();
+  		
+  		sql = "select * from user_table";
+  		
+  		try {
+ 			pstmt = con.prepareStatement(sql);
+ 			
+ 			rs = pstmt.executeQuery();
+ 			
+ 			while(rs.next()) {
+ 				UserDTO dto = new UserDTO();
+ 				
+ 				dto.setUser_no(rs.getInt("user_no"));
+ 				dto.setUser_id(rs.getString("user_id"));
+ 				dto.setUser_name(rs.getString("user_name"));
+ 				dto.setUser_nickname(rs.getString("user_nickname"));
+ 				dto.setUser_pwd(rs.getString("user_pwd"));
+ 				dto.setUser_approve(rs.getInt("user_approve"));
+ 				
+ 				list.add(dto);
+ 			}
+ 		} catch (SQLException e) {
+ 			// TODO Auto-generated catch block
+ 			e.printStackTrace();
+ 		} finally {
+ 			closeConn(rs, pstmt, con);
+ 		}
+  		
+  		return list;
+  	}
+ 	
+  	// user 회원 등급 설정
+  	public int UpdateApprove(int no, int new_approve) {	// user_no 혹은 user_id
+  		
+  		int result = 0;
+  		
+  		try {
+  			openConn();
+  			
+ 			sql = "update user_table set user_approve = ? where user_no = ?";
+ 			
+ 			pstmt = con.prepareStatement(sql);
+ 			
+ 			pstmt.setInt(1, new_approve);
+ 			pstmt.setInt(2, no);
+ 			
+ 			result = pstmt.executeUpdate();
+ 			
+ 		} catch (SQLException e) {
+ 			// TODO Auto-generated catch block
+ 			e.printStackTrace();
+ 		} finally {
+ 			closeConn(rs, pstmt, con);
+ 		}
+  		
+  		return result;
+  	}
+  	
+ // user 회원 삭제
+   	public int DeleteUserData(int no) {	// user_no 혹은 user_id
+   		
+   		int result = 0;
+   		
+   		try {
+   			openConn();
+   			
+  			sql = "update user_table set user_approve = ? where user_no = ?";
+  			
+  			pstmt = con.prepareStatement(sql);
+  			
+  			pstmt.setInt(1, no);
+  			
+  			result = pstmt.executeUpdate();
+  			
+  		} catch (SQLException e) {
+  			// TODO Auto-generated catch block
+  			e.printStackTrace();
+  		} finally {
+  			closeConn(rs, pstmt, con);
+  		}
+   		
+   		return result;
+   	}
+   	
+   	
+ // user 회원 목록 전체를 가져오는 메서드
+   	public List<UserDTO> getUserInfoSearch(String search, String data) {	// user_no 혹은 user_id
+   		
+   		List<UserDTO> list = new ArrayList<UserDTO>();
+   		
+   		openConn();
+   		
+   		sql = "select * from user_table where ? = ? ";
+   		
+   		try {
+  			pstmt = con.prepareStatement(sql);
+  			
+  			pstmt.setString(1, search);
+  			pstmt.setString(2, "%"+data+"%");
+  			
+  			rs = pstmt.executeQuery();
+  			
+  			while(rs.next()) {
+  				UserDTO dto = new UserDTO();
+  				
+  				dto.setUser_no(rs.getInt("user_no"));
+  				dto.setUser_id(rs.getString("user_id"));
+  				dto.setUser_name(rs.getString("user_name"));
+  				dto.setUser_nickname(rs.getString("user_nickname"));
+  				dto.setUser_pwd(rs.getString("user_pwd"));
+  				dto.setUser_approve(rs.getInt("user_approve"));
+  				
+  				list.add(dto);
+  			}
+  		} catch (SQLException e) {
+  			// TODO Auto-generated catch block
+  			e.printStackTrace();
+  		} finally {
+  			closeConn(rs, pstmt, con);
+  		}
+   		
+   		return list;
+   	}
+   	
+   	
+ // user 회원 목록 전체를 가져오는 메서드
+   	public List<UserDTO> getUserInfoSearch(String search, int data) {	// user_no 혹은 user_id
+   		
+   		List<UserDTO> list = new ArrayList<UserDTO>();
+   		
+   		openConn();
+   		
+   		sql = "select * from user_table where ? = ?";
+   		
+   		try {
+  			pstmt = con.prepareStatement(sql);
+  			
+  			pstmt.setString(1, search);
+  			pstmt.setInt(2, data);
+  			
+  			rs = pstmt.executeQuery();
+  			
+  			while(rs.next()) {
+  				UserDTO dto = new UserDTO();
+  				
+  				dto.setUser_no(rs.getInt("user_no"));
+  				dto.setUser_id(rs.getString("user_id"));
+  				dto.setUser_name(rs.getString("user_name"));
+  				dto.setUser_nickname(rs.getString("user_nickname"));
+  				dto.setUser_pwd(rs.getString("user_pwd"));
+  				dto.setUser_approve(rs.getInt("user_approve"));
+  				
+  				list.add(dto);
+  			}
+  		} catch (SQLException e) {
+  			// TODO Auto-generated catch block
+  			e.printStackTrace();
+  		} finally {
+  			closeConn(rs, pstmt, con);
+  		}
+   		
+   		return list;
+   	}
  	
 }
