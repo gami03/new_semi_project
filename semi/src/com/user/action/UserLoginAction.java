@@ -25,8 +25,11 @@ public class UserLoginAction implements Action {
         System.out.println("입력한 user_pwd"+user_pwd);
         
         
-        
         UserDAO dao = UserDAO.getInstance();
+        
+        int user_approve = dao.getUserApprove(user_id);
+        
+        System.out.println("user_approve"+user_approve);
         
         int result = dao.userCheck(user_id, user_pwd);
         
@@ -36,6 +39,7 @@ public class UserLoginAction implements Action {
             HttpSession session = request.getSession();
             session.setAttribute("user_id", user_id);
             session.setAttribute("user_pwd", user_pwd);
+            session.setAttribute("user_approve", user_approve);
 
             // 세션 값 확인
             System.out.println("세션에 저장된 user_id: " + session.getAttribute("user_id"));

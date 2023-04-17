@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-    
+
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <!DOCTYPE HTML>
@@ -14,14 +14,13 @@
 		<title>Phantom by HTML5 UP</title>
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
-		<link rel="stylesheet" href="assets/css/main.css" />
 		<noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
 		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
 		<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-Fy6S3B9q64WdZWQUiU+q4/2Lc9npb8tCaSX9FK7E8HnRr0Jz8D6OP9dO5Vg3Q9ct" crossorigin="anonymous"></script>
 		<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
 		<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
 		<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.min.js" integrity="sha384-+sLIOodYLS7CIrQpBjl+C7nPvqq+FbNUBDunl/OZv93DB7Ln/533i8e/mZXLi/P+" crossorigin="anonymous"></script>
-		
+		<link rel="stylesheet" href="assets/css/main.css" />
 		<script type="text/javascript">
 
 			function check(){
@@ -124,10 +123,10 @@
 							<li><a href="<%=request.getContextPath() %>/sale_index_list.do">판매게시판</a></li>
 							<li><a href="">Q&A</a></li>
 							<c:if test="${appr == 1 }">
-							<li><a href="<%=request.getContextPath() %>/user_mypage.do?id=${user_id }">마이페이지</a></li>							
+							<li><a href="">마이페이지</a></li>							
 							</c:if>					
 							<c:if test="${appr > 1 }">
-							<li><a href="<%=request.getContextPath() %>/admin_page.do?id=${user_id }">관리자 페이지</a></li>
+							<li><a href="">관리자 페이지</a></li>
 							</c:if>
 						</ul>
 					</nav>
@@ -135,20 +134,115 @@
 				<!-- Main -->
 					<div id="main">
 						<div class="inner">
-
-
 							<header>
-							<div style="margin: 10px">
 								<h1>This is Phantom, a free, fully responsive site<br />
 								template designed by <a href="http://html5up.net">HTML5 UP</a>.</h1>
 								<p>Etiam quis viverra lorem, in semper lorem. Sed nisl arcu euismod sit amet nisi euismod sed cursus arcu elementum ipsum arcu vivamus quis venenatis orci lorem ipsum et magna feugiat veroeros aliquam. Lorem ipsum dolor sit amet nullam dolore.</p>
-								<div><img src="./images/pic13.jpg" alt="" /></div>
-							</div>
 							</header>
 							<section>
-								<div class="button primary">
+								<c:set var="nickname" value="${user_nickname}" />
+								<c:set var="mypage" value="${mypage_id}" />
+									<h2>${nickname} 회원의 게시글 목록</h2>
+										<div class="table-wrapper"> 
+											<table class="alt">
+												<thead>
+													<tr>
+														<th>게시판 명</th>
+														<th>카테고리명</th>
+														<th>제목</th>
+														<th>조회수</th>
+														<th>작성 일자</th> 
+													</tr>
+												</thead>
+												<tbody>
+												<c:set var="list" value="${BoardList }" />
+												<c:if test="${!empty list }">
+													<c:forEach var="i" begin="0" end="5">
+														
+														<tr>
+															<td>${list[i].getBoard_name() }</td>
+															<td>${list[i].getBoard_category() }</td>
+															<td>${list[i].getBoard_title() }</td>
+															<td>${list[i].getBoard_hit() }</td>
+															
+															<c:if test="${empty list[i].getBoard_update() }">
+																<td> ${list[i].getBoard_date().substring(0, 10) }</td>
+															</c:if>
+						
+															<c:if test="${!empty list[i].getBoard_update() }">
+																<td> ${list[i].getBoard_update().substring(0, 10) }</td>
+															</c:if>
+															
+														</tr>
+	
+												</c:forEach>
+											</c:if>
+											
+											<c:if test="${empty list }">
+												<tr>
+													<td colspan="5" align="center">
+														<h3>자유게시판 게시물 리스트가 없습니다</h3>
+													</td>
+												</tr>
+											</c:if>
+											</tbody>
+										</table>
+										
+										<div align="right">
+											<h4><a href="<%=request.getContextPath() %>/user_board_all.do?id=${user_id }&searchId=${mypage }">작성 글 목록 전체보기 >> </a></h4>
+											<h4><a href="<%=request.getContextPath() %>/admin_ajax.do?field=${user_id }&search=${mypage }&approve=${appr}">작성 글 목록 전체보기 >> </a></h4>
+										</div>
+										
+									</div>
 									
-								</div>
+									<hr>
+									
+								<h2>구매/판매 목록</h2>
+									<div class="table-wrapper"> 
+										<table class="alt">
+											<thead>
+												<tr>
+													<th>게시판 명</th>
+													<th>카테고리명</th>
+													<th>제목</th>
+													<th>조회수</th>
+													<th>작성 일자</th> 
+												</tr>
+											</thead>
+											<c:set var="list" value="${BoardList }" />
+												<tbody>
+												<c:if test="${!empty list }">
+													<c:forEach items="${list }" var="dto">
+														
+														<tr>
+															<td>${dto.getBoard_name() }</td>
+															<td>${dto.getBoard_category() }</td>
+															<td>${dto.getBoard_title() }</td>
+															<td>${dto.getBoard_hit() }</td>
+															
+															<c:if test="${empty dto.getBoard_update() }">
+																<td> ${dto.getBoard_date().substring(0, 10) }</td>
+															</c:if>
+						
+															<c:if test="${!empty dto.getBoard_update() }">
+																<td> ${dto.getBoard_update().substring(0, 10) }</td>
+															</c:if>
+														</tr>
+	
+												</c:forEach>
+											</c:if>
+											
+											<c:if test="${empty list }">
+												<tr>
+													<td colspan="5" align="center">
+														<h3>자유게시판 게시물 리스트가 없습니다</h3>
+													</td>
+												</tr>
+											</c:if>
+											</tbody>
+										</table>
+									</div>
+									
 							</section>
 						</div>
 					</div>
@@ -203,6 +297,5 @@
 			<script src="assets/js/breakpoints.min.js"></script>
 			<script src="assets/js/util.js"></script>
 			<script src="assets/js/main.js"></script>
-
 	</body>
 </html>

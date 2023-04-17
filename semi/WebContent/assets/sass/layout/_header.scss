@@ -41,6 +41,7 @@
 			right: 2em;
 			top: 2em;
 			z-index: _misc(z-index-base);
+			background-color: #f6f6f6;
 
 			ul {
 				@include vendor('display', 'flex');

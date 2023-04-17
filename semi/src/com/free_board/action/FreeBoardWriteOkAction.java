@@ -35,7 +35,7 @@ public class FreeBoardWriteOkAction implements Action {
 		// 3. MultipartRequest 객체 생성
 		//    ==> 파일 업로드를 진행하기 위한 객체 생성.
 		MultipartRequest multi = new MultipartRequest(
-									 request, 		// 일반적인 resuest 객체
+									 request, 		// 일반적인 request 객체
 									 saveFolder, // 첨부파일이 저장될 경로
 									 fileSize, 	// 업로드할 첨부파일의 최대 크기
 									"UTF-8",		// 문자 인코딩 방식

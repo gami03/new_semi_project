@@ -49,7 +49,7 @@ public class BoardDAO {
 		public void openConn() {
 			 String driver = "org.mariadb.jdbc.Driver";
 	         
-	         String url = "jdbc:mariadb://192.168.40.3:3306/semi";
+	         String url = "jdbc:mariadb://211.42.114.149:3306/semi";
 	            
 	         String user  = "root";
 	               
@@ -406,5 +406,59 @@ public class BoardDAO {
 		
 		return result;
 	} // getReplyList() 메서드 end
+	
+	
+	// 유저가 작성한 게시글을 모아주는 메서드
+	public List<BoardDTO> getUserBoard(String id) {
+		
+		List<BoardDTO> list = new ArrayList<BoardDTO>();
+		int number = 0;
+		
+		try {
+			openConn();
+			
+			sql = "select user_no from user_table where user_id = ?";
+			
+			pstmt = con.prepareStatement(sql);
+			
+			pstmt.setString(1, id);
+			
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()) {
+				number = rs.getInt(1);
+			}
+			
+			sql = "select * from board where user_no = ? order by board_no desc";
+			
+			pstmt = con.prepareStatement(sql);
+			
+			pstmt.setInt(1, number);
+			
+			rs = pstmt.executeQuery();
+			
+			while(rs.next()) {
+				BoardDTO dto = new BoardDTO();
+				
+				dto.setBoard_no(rs.getInt("board_no"));
+				dto.setUser_no(rs.getInt("user_no"));
+				dto.setBoard_name(rs.getString("board_name"));
+				dto.setBoard_category(rs.getString("board_category"));
+				dto.setBoard_title(rs.getString("board_title"));
+				dto.setBoard_hit(rs.getInt("board_hit"));
+				dto.setBoard_date(rs.getString("board_date"));
+				dto.setBoard_update(rs.getString("board_update"));
+				
+				list.add(dto);
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			closeConn(rs, pstmt, con);
+		}
+		
+		return list;
+	}
  	
 }

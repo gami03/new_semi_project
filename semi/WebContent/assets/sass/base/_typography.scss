@@ -29,7 +29,7 @@
 		));
 		text-decoration: none;
 		color: _palette(fg);
-		border-bottom: dotted 1px transparentize(_palette(fg), 0.5);
+		border-bottom: none;
 
 		&:hover {
 			border-bottom-color: transparent;
@@ -72,11 +72,24 @@
 		}
 	}
 
-	h2, h3, h4, h5, h6 {
+	h2, h3, h4, h5{
 		color: _palette(fg-bold);
 		font-weight: _font(weight-bold);
 		line-height: 1.5;
 		margin: 0 0 (_size(element-margin) * 1) 0;
+		text-transform: uppercase;
+		letter-spacing: _font(letter-spacing);
+
+		a {
+			color: inherit;
+		}
+	}
+
+	h6 {
+		color: _palette(fg-bold);
+		font-weight: _font(weight-bold);
+		line-height: 1.5;
+		margin: 0;
 		text-transform: uppercase;
 		letter-spacing: _font(letter-spacing);
 

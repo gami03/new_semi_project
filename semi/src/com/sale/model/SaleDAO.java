@@ -58,7 +58,7 @@ public class SaleDAO {
 	public void openConn() {
         String driver = "org.mariadb.jdbc.Driver";
         
-        String url = "jdbc:mariadb://192.168.40.3:3306/semi";
+        String url = "jdbc:mariadb://211.42.114.149:3306/semi";
            
         String user  = "root";
               
