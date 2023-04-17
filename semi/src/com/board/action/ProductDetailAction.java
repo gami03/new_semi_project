@@ -1,4 +1,4 @@
-package com.free_board.action;
+package com.board.action;
 
 import java.io.IOException;
 

@@ -56,11 +56,11 @@
 		<!-- Wrapper -->
 			<div id="wrapper">
 				<!-- Header -->
-					<header id="header">
+					<header id="header" style="background: #F6F6F6">
 						<div class="inner">
 
 							<!-- Nav -->
-								<nav>
+								<nav style="z-index: 1050">
 								
 								<!-- Logo -->
 								<a href="index.jsp" class="logo">
@@ -141,6 +141,9 @@
 							</c:if>					
 							<c:if test="${user_approve > 1 }">
 							<li><a href="<%=request.getContextPath() %>/admin_page.do?id=${user_id }">관리자 페이지</a></li>
+							</c:if>
+							<c:if test="${user_approve >= 1 }">
+							<li><a href="<%=request.getContextPath() %>/product_page.do?id=${user_id }">판매자 페이지</a></li>
 							</c:if>
 						</ul>
 					</nav>

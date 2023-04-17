@@ -120,63 +120,7 @@
 								  Launch demo modal
 								</button>
 								
-								<!-- Modal -->
-								<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
-								  <div class="modal-dialog modal-lg">
-								    <div class="modal-content">
-								      <div class="modal-header">
-								        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
-								      </div>
-								      <div class="modal-body">
-								       <%-- 경매내역 상세 정보 및 입찰 관련 코드 --%>
-								       <div class="container-fluid">
-								       	  <div class="row">
-								       	  	<div class="col-md-5 ml-auto">
-								       	  		<table border="1" cellspacing="0" style="background: #F6F6F6">
-								       	  			<tr>
-								       	  				<td> <img style="width: 100%; height: 100%" src="./images/${dto.getSale_file1() }" alt=""></td>
-								       	  			</tr>
-								       	  			
-								       	  			<tr>
-								       	  			
-								       	  			</tr>
-								       	  		</table>
-								       	  	</div>
-								       	  	<div class="col-md-7 ml">
-								       	  		<h5>경매 정보</h5>
-								       	  		<table border="1" cellspacing="0" class="list_modal"> 
-								       	  			<tr>
-								       	  				<th bgcolor="#F6F6F6">남은 시간</th>
-								       	  				<td bgcolor="white"><span id="time_out">마감 임박 5분 미만</span></td>
-								       	  			</tr>
-								       	  			
-								       	  			<tr>
-								       	  				<th bgcolor="#F6F6F6">시작 입찰가</th>
-								       	  				<td bgcolor="white"><fmt:formatNumber> ${dto.getSale_price() }</fmt:formatNumber>원</td>
-								       	  			</tr>
-								       	  			
-								       	  		</table>
-								       	  		
-								       	  		<br>
-								       	  		
-								       	  		<h5>경매 입찰 정보</h5>
-								       	  		<form method="post" action="<%=request.getContextPath() %>/input_product_detail.do?id=${user_id}">
-								       	  			<input type="hidden" name="product_no" value="${param.no }" >
-									       	  		<table border="1" cellspacing="0" class="list_modal_detail">
-									       	  				
-									       	  		</table>
-								       	  		</form>
-								       	  	</div>
-								       	  </div>
-								       </div>
-								      </div>
-								      <div class="modal-footer">
-								        <button type="button" class="button" data-dismiss="modal">Close</button>
-								      </div>
-								    </div>
-								  </div>
-								</div>
-								<%-- Modal end --%>
+								
 							</div>
 						</div>
 					</div>
@@ -190,6 +134,67 @@
 	var end_price =${dto.getSale_end_price() };
 	var user_id = "${user_id }";
 </script>
+
+
+	<!-- Modal -->
+	<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+	  <div class="modal-dialog modal-lg">
+	    <div class="modal-content">
+	      <div class="modal-header">
+	        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+	      </div>
+	      <div class="modal-body">
+	       <%-- 경매내역 상세 정보 및 입찰 관련 코드 --%>
+	       <div class="container-fluid">
+	       	  <div class="row">
+	       	  	<div class="col-md-5 ml-auto">
+	       	  		<table border="1" cellspacing="0" style="background: #F6F6F6">
+	       	  			<tr>
+	       	  				<td> <img style="width: 100%; height: 100%" src="./images/${dto.getSale_file1() }" alt=""></td>
+	       	  			</tr>
+	       	  			
+	       	  			<tr>
+	       	  			
+	       	  			</tr>
+	       	  		</table>
+	       	  	</div>
+	       	  	<div class="col-md-7 ml">
+	       	  		<h5>경매 정보</h5>
+	       	  		<table border="1" cellspacing="0" class="list_modal"> 
+	       	  			<tr>
+	       	  				<th bgcolor="#F6F6F6">남은 시간</th>
+	       	  				<td bgcolor="white"><span id="time_out">마감 임박 5분 미만</span></td>
+	       	  			</tr>
+	       	  			
+	       	  			<tr>
+	       	  				<th bgcolor="#F6F6F6">시작 입찰가</th>
+	       	  				<td bgcolor="white"><fmt:formatNumber> ${dto.getSale_price() }</fmt:formatNumber>원</td>
+	       	  			</tr>
+	       	  			
+	       	  		</table>
+	       	  		
+	       	  		<br>
+	       	  		
+	       	  		<h5>경매 입찰 정보</h5>
+	       	  		<form method="post" action="<%=request.getContextPath() %>/input_product_detail.do?id=${user_id}">
+	       	  			<input type="hidden" name="product_no" value="${param.no }" >
+		       	  		<table border="1" cellspacing="0" class="list_modal_detail">
+		       	  				
+		       	  		</table>
+	       	  		</form>
+	       	  	</div>
+	       	  </div>
+	       </div>
+	      </div>
+	      <div class="modal-footer">
+	        <button type="button" class="button" data-dismiss="modal">Close</button>
+	      </div>
+	    </div>
+	  </div>
+	</div>
+	<%-- Modal end --%>
+
+
 <script type="text/javascript" src= "./js/sale_upper.js"></script>		
 		
 		
