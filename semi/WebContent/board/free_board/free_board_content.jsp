@@ -151,7 +151,7 @@ justify-content: center;
 					<ul>
 						<li><a href="index.jsp">Home</a></li>
 						<li><a href="<%=request.getContextPath() %>/free_board_list.do">자유게시판</a></li>
-						<li><a href="">판매게시판</a></li>
+						<li><a href="<%=request.getContextPath() %>/sale_index_list.do">판매게시판</a></li>
 						<li><a href="">Q&A</a></li>
 						<li><a href="">마이페이지</a></li>
 					</ul>

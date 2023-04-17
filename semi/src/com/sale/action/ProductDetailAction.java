@@ -1,7 +1,6 @@
 package com.sale.action;
 
 import java.io.IOException;
-import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -10,33 +9,31 @@ import com.action.Action;
 import com.action.ActionForward;
 import com.sale.model.SaleDAO;
 import com.sale.model.SaleDTO;
+import com.sale.model.UpperDTO;
 
-public class SaleIndexListAction implements Action {
+public class ProductDetailAction implements Action {
 
 	@Override
 	public ActionForward excute(HttpServletRequest request, HttpServletResponse response) throws IOException {
-		// TODO Auto-generated method stub
+		
+		int sale_no = Integer.parseInt(request.getParameter("no").trim());
 		
 		SaleDAO dao = SaleDAO.getInstance();
 		
-		// indexList의 갯수를 넘겨주는 메서드.
-		int count = dao.getindexListnumber();
+		SaleDTO dto = dao.getProductDetail(sale_no);
 		
-		List<SaleDTO> index = dao.getindexList();
-		
-		
-		request.setAttribute("Count", count);
-		request.setAttribute("Index", index);
+		// 게시물의 상세정보
+		request.setAttribute("Dto", dto);
 		
 		ActionForward forward = new ActionForward();
 		
 		// view page로 이동 시에는 false 값 지정.
 		forward.setRedirect(false);
 		
-		forward.setPath("sale/sale_index_list.jsp");
+		forward.setPath("sale/product_detail.jsp");
 		
 		return forward;
 	}
-
+	
 
 }

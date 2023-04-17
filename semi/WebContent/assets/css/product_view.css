@@ -133,10 +133,9 @@
 
 .slick-next:before {
     content: "\f107";
-    font: var(--fa-font-brands);
+    font: var(--fa-font-brands); 
 }
 .slick-next:before {
     content: "\f105";
     font: var(--fa-font-brands);
 }
-

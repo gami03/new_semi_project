@@ -1,5 +1,6 @@
 package com.sale.model;
 
+import java.io.Console;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -58,7 +59,7 @@ public class SaleDAO {
 	public void openConn() {
         String driver = "org.mariadb.jdbc.Driver";
         
-        String url = "jdbc:mariadb://192.168.40.3:3306/semi";
+        String url = "jdbc:mariadb://211.42.114.149:3306/semi";
            
         String user  = "root";
               
@@ -104,7 +105,7 @@ public class SaleDAO {
 		try {
 			openConn();
 			
-			sql = "select count(*) from sale";
+			sql = "select count(*) from product";
 			
 			pstmt = con.prepareStatement(sql);
 			
@@ -133,7 +134,7 @@ public class SaleDAO {
 		try {
 			openConn();
 			
-			sql = "select * from sale";
+			sql = "select * from product";
 			
 			pstmt = con.prepareStatement(sql);
 			
@@ -143,16 +144,14 @@ public class SaleDAO {
 				SaleDTO dto = new SaleDTO();
 				
 				dto.setSale_no(rs.getInt("sale_no"));
-				dto.setSale_no(rs.getInt("user_no"));
+				dto.setUser_no(rs.getInt("user_no"));
 				dto.setSale_title(rs.getString("sale_title"));
 				dto.setSale_content(rs.getString("sale_content"));
-				dto.setSale_price(rs.getDouble("sale_price"));
-				dto.setSale_file(rs.getString("sale_file"));
+				dto.setSale_price(rs.getInt("sale_price"));
+				dto.setSale_file1(rs.getString("sale_file1"));
 				dto.setSale_date(rs.getString("sale_date"));
 				// 댓글 기능때문에 group으로 묶어서 하려면 컬럼 하나 더 추가해야할지도 
-				dto.setSale_reply(rs.getInt("sale_reply"));
 				dto.setSale_hit(rs.getInt("sale_hit"));
-				dto.setSale_check(rs.getInt("sale_check"));
 				
 				list.add(dto);
 			}
@@ -165,5 +164,677 @@ public class SaleDAO {
 		
 		return list;
 	}	// getindexList() 메서드 end
+	
+	
+	// 선택된 경매물품의 상세정보를 가져오는 메서드.
+	public SaleDTO getProductDetail(int no) {
+		
+		SaleDTO dto = null;
+		
+		try {
+			openConn();
+			
+			sql = "select * from product where sale_no = ?";
+			
+			pstmt = con.prepareStatement(sql);
+			
+			pstmt.setInt(1, no);
+			
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()) {
+				
+				dto = new SaleDTO();
+				
+				dto.setSale_no(rs.getInt("sale_no"));
+				dto.setUser_no(rs.getInt("user_no"));
+				dto.setSale_title(rs.getString("sale_title"));
+				dto.setSale_content(rs.getString("sale_content"));
+				dto.setSale_price(rs.getInt("sale_price"));
+				dto.setSale_end_price(rs.getInt("end_price"));
+				dto.setSale_file1(rs.getString("sale_file1"));
+				dto.setSale_file2(rs.getString("sale_file2"));
+				dto.setSale_file3(rs.getString("sale_file3"));
+				dto.setSale_file4(rs.getString("sale_file4"));
+				dto.setSale_date(rs.getString("sale_date"));
+				dto.setSale_date(rs.getString("end_date"));
+				dto.setSale_hit(rs.getInt("sale_hit"));
+				
+				System.out.println(rs.getString("sale_file3"));
+				System.out.println(rs.getString("sale_file4"));
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			closeConn(rs, pstmt, con);
+		}
+		return dto;
+	}
+	
+	
+	// 로그인된 user_id를 이용하여 user_no를 가져오는 메서드.
+	public int getUserNo(String id) {
+		
+		int result = 0;
+		
+		try {
+			openConn();
+			
+			sql = "select user_no from user_table where user_id = ?";
+			
+			pstmt = con.prepareStatement(sql);
+			
+			pstmt.setString(1, id);
+			
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()) {
+				
+				result = rs.getInt("user_no");
+				
+			}
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			closeConn(rs, pstmt, con);
+		}
+		return result;
+	}	// getUserNo() 메서드 end
+	
+	
+	// 현재 경매품을 상회 입찰한 사람의 회원 번호를 가져오는 메서드
+	public int getUserUpperNo(int sale_no) {
+		
+		int result = 0;
+		
+		try {
+			openConn();
+			
+			sql = "select * from upper where sale_no = ?";
+			
+			pstmt = con.prepareStatement(sql);
+			
+			pstmt.setInt(1, sale_no);
+			
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()) {
+				
+				result = rs.getInt("user_no");
+				
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			closeConn(rs, pstmt, con);
+		}
+		return result;
+	}	// getUserUpperNo() 메서드 end
+	
+	// 경매품을 등록한 회원의 유저 번호를 가져오는 메서드
+	public int getProductUserNo(int product_no) {
+		
+		int result = 0;
+		
+		try {
+			openConn();
+			
+			sql = "select * from product where product_no = ?";
+			
+			pstmt = con.prepareStatement(sql);
+			
+			pstmt.setInt(1, product_no);
+			
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()) {
+				result = rs.getInt("user_no");
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			closeConn(rs, pstmt, con);
+		}
+		return result;
+	}
+	
+	
+	
+	// 상회입찰가를 불러오는 메서드.
+	public String getProductUpper(int no) {
+		
+		String result = "";
+		
+		try {
+			openConn();
+			
+			sql = "select * from upper where sale_no =?";
+			
+			pstmt = con.prepareStatement(sql);
+			
+			pstmt.setInt(1, no);
+			
+			rs = pstmt.executeQuery();
+			
+			result += "<uppers>";
+			
+			if(rs.next()) {
+				result += "<upper>";
+				result += "<sale_no>"+rs.getInt("sale_no") +"</sale_no>";
+				result += "<user_no>"+rs.getInt("user_no") +"</user_no>";
+				result += "<user_upper>"+rs.getInt("user_upper") +"</user_upper>";
+				result += "</upper>";
+			}
+			
+			
+			result += "</uppers>";
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			closeConn(rs, pstmt, con);
+		}
+		return result;
+	}	//getProductUpper() 메서드 end
+	
+	// 현재 경매품의 시작 값을 불러오는 메서드
+	public int getStrat_value(int no) {
+		
+		int result = 0;
+		
+		try {
+			
+			openConn();
+			
+			// 현재 경매품의 시작 값을 불러오는 코드
+			sql = "select * from product where sale_no = ?";
+			
+			pstmt = con.prepareStatement(sql);
+			
+			pstmt.setInt(1, no);
+			
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()) {
+				result = rs.getInt("sale_price");
+			}
+		
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			closeConn(rs, pstmt, con);
+		}
+		return result;
+	}	// getStart_value() 메서드 end
+	
+	
+	// 현재 경매품의 상회 입찰가를 불러오는 메서드.
+	public int getUpper_value(int no) {
+		
+		int result = 0;
+		
+		try {
+			openConn();
+			
+			sql = "select * from upper where sale_no = ?";
+			
+			pstmt = con.prepareStatement(sql);
+			
+			pstmt.setInt(1, no);
+			
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()) {
+				
+				result = rs.getInt("user_upper");
+				
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			closeConn(rs, pstmt, con);
+		}
+		return result;
+	}	// getUpper_value() 메서드 end
+	
+	
+	// 입찰한 회원의 소지금을 불러오는 메서드
+	public int getUser_money(int user_no) {
+		
+		int result = 0;
+		
+		try {
+			openConn();
+			
+			sql = "select user_money from user_table where user_no = ?";
+			
+			pstmt = con.prepareStatement(sql);
+			
+			pstmt.setInt(1, user_no);
+			
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()) {
+				
+				result = rs.getInt("user_money");
+				
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			closeConn(rs, pstmt, con);
+		}
+		return result;
+	}	// getUser_money() 메서드 end
+	
+	
+	// 현재 경매품의 즉시 구매가를 불러오는 메서드
+	public int getEnd_price(int sale_no) {
+		
+		int result = 0;
+		
+		try {
+			openConn();
+			
+			sql = "select * from product where sale_no = ?";
+			
+			pstmt = con.prepareStatement(sql);
+			
+			pstmt.setInt(1, sale_no);
+			
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()) {
+				
+				result = rs.getInt("end_price");
+				
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			closeConn(rs, pstmt, con);
+		}
+		return result;
+	} 	// getEnd_price() 메서드 end
+	
+	
+	
+	// 입찰을 뺏긴 회원의 입찰금액을 user_tabled의 user_money 에 더해주는 메서드
+	public void InputUser_money(int sale_no) {
+		
+		try {
+			openConn();
+			
+			sql = "select * from upper where sale_no = ? ";
+			
+			pstmt = con.prepareStatement(sql);
+			
+			pstmt.setInt(1, sale_no);
+			
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()) {
+				
+				int sale_user_no = rs.getInt("user_no");
+				
+				int sale_user_money = rs.getInt("user_upper");
+				
+				sql = "select * from user_table where user_no = ?";
+				
+				pstmt = con.prepareStatement(sql);
+				
+				pstmt.setInt(1, sale_user_no);
+				
+				rs = pstmt.executeQuery();
+				
+				if(rs.next()) {
+					
+					sale_user_money += rs.getInt("user_money");
+					
+				}
+				
+				sql = "update user_table set user_money = ? where user_no = ?";
+				
+				pstmt = con.prepareStatement(sql);
+				
+				pstmt.setInt(1, sale_user_money);
+				
+				pstmt.setInt(2, sale_user_no);
+				
+				int check = pstmt.executeUpdate();
+				
+				System.out.println(check);
+				
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			closeConn(rs, pstmt, con);
+		}
+	} 	// InputUser_money() 메서드 end
+	
+	
+	// 입찰한 유저의 유저 번호와 금액을 upper 테이블에 업데이트 하는 메서드
+	public int InputUser_upper(int upper_value, int user_no, int sale_no) {
+		
+		// 결과값을 보내기위한 변수
+		int result = 0;
+		
+		try {
+			openConn();
+			
+			sql = "update upper set user_upper = ?, user_no = ? where sale_no = ?";
+			
+			pstmt = con.prepareStatement(sql);
+			
+			pstmt.setInt(1, upper_value);
+			
+			pstmt.setInt(2, user_no);
+			
+			pstmt.setInt(3, sale_no);
+			
+			result = pstmt.executeUpdate();
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			closeConn(rs, pstmt, con);
+		}
+		return result;
+	}	// InputUser_upper() 메서드 end
+	
+	
+	// 입찰한 유저의 소지금에서 입찰금액 만큼 뺴주는 메서드
+	public void InputMoney(int total, int user_no) {
+		
+		try {
+			openConn();
+			
+			sql = "update user_table set user_money = ? where user_no = ?";
+			
+			pstmt = con.prepareStatement(sql);
+			
+			pstmt.setInt(1, total);
+			
+			pstmt.setInt(2, user_no);
+			
+			pstmt.executeUpdate();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			closeConn(rs, pstmt, con);
+		}
+	}	// InputMoney() 메서드 end
+	
+	// result 각 결과 값의 의미
+	//  1 = 정상 작동
+	// -1 = user_money 부족, -2 = 최소 금액에 맞지 않는 금액이 입력 되었을때 , -3 = 직접 입력한 금액이 최소 입찰가보다 적을 경우, 
+	// -4 = 직접 입력한 금액이 즉시 구매가보다 높을 경우 -5 = 유저가 입찰한 금액보다 즉시 구매가가 낮을 경우
+	// 즉시 입찰 버튼을 누르시 동작하는 메서드
+	public int updateMini(int sale_no, int user_no) {
+		
+		int result = 0, upper_value = 0, start_value = 0, user_money = 0, end_price = 0;
+		
+		// 현재 경매품의 시작 값을 불러오는 코드
+		start_value = getStrat_value(sale_no);
+		
+		// 현재 경매품의 상회 입찰가를 불러오는 코드
+		upper_value = getUpper_value(sale_no);
+		
+		// 입찰한 회원의 소지금을 불러오는 코드
+		user_money = getUser_money(user_no);
+		
+		end_price = getEnd_price(sale_no);
+		
+		if(upper_value > start_value) {	// 상회 입찰 금액이 있을때.
+			
+			// upper_price 에 10% 만큼 더해줘야 된다.
+			int upper_price = (int) (upper_value * 1.1);
+			
+			if(upper_price >= end_price) {	// 즉시 입찰가가 즉시 구매가 보다 높을 경우
+				// 즉시 입찰가가 즉시 구매가보다 높으면 안되므로 입찰한 유저의 차감 금액을 end_price로 잡는다.
+				
+				if(user_money >= end_price) {	// 회원 소지금이 즉시 입찰금액보다 많을 경우
+					
+					// 입찰을 뺏긴 회원의 입찰금액을 user_tabled의 user_money 에 더해주는 코드
+					InputUser_money(sale_no);
+					
+					// 입찰한 유저의 유저 번호와 금액을 upper 테이블에 업데이트 하는 코드.
+					result = InputUser_upper(end_price, user_no, sale_no);
+					
+					// 입찰한 유저의 소지금에서 입찰 금액 만큼 빼주는 코드
+					int total = user_money - end_price;
+					
+					InputMoney(total, user_no);
+				} 	// if(user_money >= end_price) end
+				
+			}	// if(upper_price >= end_price) end 
+			else {
+				if(user_money >= upper_price) {	// 회원 소지금이 상회 입찰금 보다 많거나 같을때.
+					
+					// 입찰을 뺏긴 회원의 입찰금액을 user_tabled의 user_money 에 더해주는 코드
+					InputUser_money(sale_no);
+					
+					// 입찰한 유저의 유저 번호와 금액을 upper 테이블에 업데이트 하는 코드.
+					result = InputUser_upper(upper_price, user_no, sale_no);
+					
+					// 입찰한 유저의 소지금에서 입찰 금액 만큼 빼주는 코드
+					int total = user_money - upper_price;
+					
+					InputMoney(total, user_no);
+				} else {
+					
+					// 회원 소지금이 상회입찰가 보다 적을때 
+					result = -1;
+				} // if(user_money >= upper_price) end
+			}	// if(upper_price >= end_price) else 문 end 
+			
+		} else if(start_value > upper_value) {	// 상회 입찰 금액이 없을때.
+			
+			int start_price = (int)(start_value * 1.1);
+			
+			if(user_money >= start_price) {
+				
+				if(start_price >= end_price) {
+					
+					// 입찰한 유저의 유저 번호와 금액을 upper 테이블에 업데이트 하는 코드.
+					result = InputUser_upper(end_price, user_no, sale_no);
+					
+					// 입찰한 유저의 소지금에서 입찰 금액 만큼 빼주는 코드
+					int total = user_money - end_price;
+					
+					InputMoney(total, user_no);
+					
+				} else {
+					
+					// 입찰한 유저의 유저 번호와 금액을 upper 테이블에 업데이트 하는 코드.
+					result = InputUser_upper(start_price, user_no, sale_no);
+					
+					// 입찰한 유저의 소지금에서 입찰 금액 만큼 빼주는 코드
+					int total = user_money - start_price;
+					
+					InputMoney(total, user_no);
+					
+				}
+			} else {
+				
+				// 회원 소지금이 상회입찰가 보다 적을때 
+				result = -1;
+			}
+		} else {
+			// 최소 금액에 맞지 않는 금액이 입력 되었을 때.
+			result = -2;
+		}
+		
+		
+		return result;
+		
+	}	// updateMini() 메서드 end
+	
+	
+	// 사용자가 집적입찰을 했을때 작동하는 메서드
+	public int updateBid(int sale_no, int bid, int user_no) {
+		
+		int result = 0, upper_value = 0, start_value = 0, user_money = 0;
+		
+		// 현재 경매품의 시작 값을 불러오는 코드
+		start_value = getStrat_value(sale_no);
+		
+		// 현재 경매품의 상회 입찰가를 불러오는 코드
+		upper_value = getUpper_value(sale_no);
+		
+		// 입찰한 회원의 소지금을 불러오는 코드
+		user_money = getUser_money(user_no);
+		
+		// 현재 경매품의 즉시 구매가를 불러오는 코드
+		int end_price = getEnd_price(sale_no);
+		
+		// 상회 입찰가가 있을 경우
+		if(upper_value > start_value) {
+			
+			upper_value += upper_value * 0.1;
+			
+			// 입찰한 금액이 최소 입찰가 보다 높은 경우
+			if(bid >= upper_value) {
+				// 입찰한 금액 즉시구매가 보다 적을 경우
+				if(end_price > bid) {
+					// 입찰한 금액이 자신의 소지금 만큼 있을경우
+					if(user_money > bid) {
+						
+						// 입찰을 뺏긴 회원의 입찰금액을 user_tabled의 user_money 에 더해주는 코드
+						InputUser_money(sale_no);
+						
+						// 입찰한 유저의 유저 번호와 금액을 upper 테이블에 업데이트 하는 코드.
+						result = InputUser_upper(bid, user_no, sale_no);
+						
+						// 입찰한 유저의 소지금에서 입찰 금액 만큼 빼주는 코드
+						int total = user_money - bid;
+						
+						InputMoney(total, user_no);
+						
+					} else {
+						result = -1;
+					}	// if(user_money > bid) end
+				} else {
+					result = -4;	// 직접 입력한 금액이 즉시 구매가보다 적을 경우
+				}	// if(end_price > bid) end
+				
+			} else {
+				result = -3;	// 직접 입력한 금액이 최소 입찰가 보다 낮을 경우
+			}	// if(bid > user_value) end
+			
+		// 상회 입찰가가 없을 경우
+		} else if(upper_value < start_value) {
+			start_value += start_value * 1.1;
+			
+			// 입찰한 금액이 최소 입찰가 보다 높은 경우
+			if(bid > start_value) {
+				// 입찰한 금액이 즉시구매가 보다 적을 경우
+				if(end_price >= bid) {
+					
+					// 입찰한 금액이 자신의 소지금 만큼 있을경우
+					if(user_money > bid) {
+						
+						// 입찰한 유저의 유저 번호와 금액을 upper 테이블에 업데이트 하는 코드.
+						result = InputUser_upper(bid, user_no, sale_no);
+						
+						// 입찰한 유저의 소지금에서 입찰 금액 만큼 빼주는 코드
+						int total = start_value - bid;
+						
+						InputMoney(total, user_no);
+						
+					} else {
+						result = -1;
+					} // if(user_money > bid) end
+				} else {
+					result = -5;	// 직접 입력한 금액이 즉시 구매가보다 높을 경우
+				}	// if(end_price >= bid) end
+			} else {
+				result = -3;	// 직접 입력한 금액이 최소 입찰가 보다 낮을 경우
+			}	// if(bid > start_value) end
+		} else {
+			result = -2;
+		}	// else if(upper_value < start_value) end
+		return result;
+	}	// updateBid() 메서드 end
+	
+	
+	// 즉시 구매 버튼을 눌렀을때 동작하는 메서드.
+	public int updateNow(int sale_no, int user_no) {
+		
+		int result = 0, user_money = 0, start_value = 0, upper_value =0, end_price = 0;
+		
+		// 현재 경매품의 시작 값을 불러오는 코드
+		start_value = getStrat_value(sale_no);
+		
+		// 현재 경매품의 상회 입찰가를 불러오는 코드
+		upper_value = getUpper_value(sale_no);
+		
+		// 현재 경매 물품의 즉시 구매가를 불러오는 코드
+		end_price = getEnd_price(sale_no);
+		
+		// 입찰한 회원의 소지금을 불러오는 코드
+		user_money = getUser_money(user_no);
+		
+		// 상회 입찰가가 있을 경우
+		if(upper_value > start_value) {
+			// 회원 소지금이 즉시 구매가 보다 같거나 많을 경우.
+			if(user_money >= end_price) {
+				
+				// 입찰을 뺏긴 회원의 입찰금액을 user_tabled의 user_money 에 더해주는 코드
+				InputUser_money(sale_no);
+				
+				// 입찰한 유저의 유저 번호와 금액을 upper 테이블에 업데이트 하는 코드.
+				result = InputUser_upper(end_price, user_no, sale_no);
+				
+				// 입찰한 유저의 소지금에서 입찰 금액 만큼 빼주는 코드
+				int total = user_money - end_price;
+				
+				InputMoney(total, user_no);
+			} else {
+				result = - 5;
+			}	// if(user_money >= end_price) end
+			
+			// 상회 입찰가가 없을 경우
+		} else if(upper_value < start_value) {
+			
+			if(user_money >= end_price) {
+				
+				// 입찰한 유저의 유저 번호와 금액을 upper 테이블에 업데이트 하는 코드.
+				result = InputUser_upper(end_price, user_no, sale_no);
+				
+				// 입찰한 유저의 소지금에서 입찰 금액 만큼 빼주는 코드
+				int total = user_money - end_price;
+				
+				InputMoney(total, user_no);
+			} else {
+				result = - 5;
+			}	// if(user_money >= end_price) end
+		} else {
+			result = -2;
+		}
+		
+		return result;
+		
+	}	//updateNow() 메서드 end
+	
+	
+	
+	
+	
+	
+	
 	
 }

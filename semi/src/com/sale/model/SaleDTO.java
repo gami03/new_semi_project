@@ -7,8 +7,12 @@ public class SaleDTO {
 	// private String user_nickname;
 	private String sale_title;
 	private String sale_content;
-	private double sale_price;
-	private String sale_file;
+	private int sale_price;
+	private int sale_end_price;
+	private String sale_file1;
+	private String sale_file2;
+	private String sale_file3;
+	private String sale_file4;
 	private String sale_date;
 	private int sale_reply;
 	private int sale_hit;
@@ -38,17 +42,17 @@ public class SaleDTO {
 	public void setSale_content(String sale_content) {
 		this.sale_content = sale_content;
 	}
-	public double getSale_price() {
+	public int getSale_price() {
 		return sale_price;
 	}
-	public void setSale_price(double sale_price) {
+	public void setSale_price(int sale_price) {
 		this.sale_price = sale_price;
 	}
-	public String getSale_file() {
-		return sale_file;
+	public int getSale_end_price() {
+		return sale_end_price;
 	}
-	public void setSale_file(String sale_file) {
-		this.sale_file = sale_file;
+	public void setSale_end_price(int sale_end_price) {
+		this.sale_end_price = sale_end_price;
 	}
 	public String getSale_date() {
 		return sale_date;
@@ -74,6 +78,31 @@ public class SaleDTO {
 	public void setSale_check(int sale_check) {
 		this.sale_check = sale_check;
 	}
+	public String getSale_file1() {
+		return sale_file1;
+	}
+	public void setSale_file1(String sale_file1) {
+		this.sale_file1 = sale_file1;
+	}
+	public String getSale_file2() {
+		return sale_file2;
+	}
+	public void setSale_file2(String sale_file2) {
+		this.sale_file2 = sale_file2;
+	}
+	public String getSale_file3() {
+		return sale_file3;
+	}
+	public void setSale_file3(String sale_file3) {
+		this.sale_file3 = sale_file3;
+	}
+	public String getSale_file4() {
+		return sale_file4;
+	}
+	public void setSale_file4(String sale_file4) {
+		this.sale_file4 = sale_file4;
+	}
+	
 	
 	
 }
