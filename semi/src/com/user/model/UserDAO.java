@@ -51,7 +51,7 @@ public class UserDAO {
 			public void openConn() {
 				String driver = "org.mariadb.jdbc.Driver";
 		         
-		        String url = "jdbc:mariadb://192.168.40.3:3306/semi";
+		        String url = "jdbc:mariadb://211.42.114.149:3306/semi";
 		            
 		        String user  = "root";
 		               
@@ -162,6 +162,36 @@ public class UserDAO {
 		}
 		return result;
 	}
+ 	
+ 	public int getUserApprove(String id) {
+ 		
+ 		int result = 0;
+ 		
+ 		try {
+ 			openConn();
+ 	 		
+ 	 		sql = "select user_approve from user_table where user_id = ?";
+ 	 		
+			pstmt = con.prepareStatement(sql);
+			
+			pstmt.setString(1, id);
+			
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()) {
+				result = rs.getInt(1);
+			}
+			
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			closeConn(rs, pstmt, con);
+		}
+ 		
+ 		return result;
+ 	} // getUserApprove() 메서드 end
 
  	
  	

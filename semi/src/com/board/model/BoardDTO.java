@@ -14,6 +14,8 @@ public class BoardDTO {
 	private String board_file1;
 	private String board_file2;
 	private String board_category;
+	private int board_reply;
+	
 	
 	
 	public int getUser_no() {
@@ -97,6 +99,13 @@ public class BoardDTO {
 	}
 	public void setBoard_category(String board_category) {
 		this.board_category = board_category;
+	}
+	
+	public int getBoard_reply() {
+		return board_reply;
+	}
+	public void setBoard_reply(int board_reply) {
+		this.board_reply = board_reply;
 	}
 	
 }
