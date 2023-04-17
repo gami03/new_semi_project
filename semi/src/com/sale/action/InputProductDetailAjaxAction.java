@@ -101,6 +101,11 @@ public class InputProductDetailAjaxAction implements Action {
 			out.println("alert('오류가 발생하였습니다.')");
 			out.println("history.back()");
 			out.println("</script>");
+		} else if(check == -6) {
+			out.println("<script>");
+			out.println("alert('이미 구매가 완료된 경매품 입니다.')");
+			out.println("history.back()");
+			out.println("</script>");
 		} else {
 			out.println("<script>");
 			out.println("alert('입찰에 실패 하였습니다')");

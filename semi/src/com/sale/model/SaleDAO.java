@@ -581,7 +581,8 @@ public class SaleDAO {
 	// result 각 결과 값의 의미
 	//  1 = 정상 작동
 	// -1 = user_money 부족, -2 = 최소 금액에 맞지 않는 금액이 입력 되었을때 , -3 = 직접 입력한 금액이 최소 입찰가보다 적을 경우, 
-	// -4 = 직접 입력한 금액이 즉시 구매가보다 높을 경우 -5 = 유저가 입찰한 금액보다 즉시 구매가가 낮을 경우
+	// -4 = 직접 입력한 금액이 즉시 구매가보다 높을 경우 -5 = 유저가 입찰한 금액보다 즉시 구매가가 낮을 경우 
+	// -6 = 즉시구매가 만큼의 가격이 이미 입찰 되어 있을때.
 	// 즉시 입찰 버튼을 누르시 동작하는 메서드
 	public int updateMini(int sale_no, int user_no) {
 		
@@ -788,40 +789,51 @@ public class SaleDAO {
 		// 입찰한 회원의 소지금을 불러오는 코드
 		user_money = getUser_money(user_no);
 		
+		
 		// 상회 입찰가가 있을 경우
 		if(upper_value > start_value) {
-			// 회원 소지금이 즉시 구매가 보다 같거나 많을 경우.
-			if(user_money >= end_price) {
-				
-				// 입찰을 뺏긴 회원의 입찰금액을 user_tabled의 user_money 에 더해주는 코드
-				InputUser_money(sale_no);
-				
-				// 입찰한 유저의 유저 번호와 금액을 upper 테이블에 업데이트 하는 코드.
-				result = InputUser_upper(end_price, user_no, sale_no);
-				
-				// 입찰한 유저의 소지금에서 입찰 금액 만큼 빼주는 코드
-				int total = user_money - end_price;
-				
-				InputMoney(total, user_no);
+			if(upper_value == end_price ) {
+				result = -6;
 			} else {
-				result = - 5;
-			}	// if(user_money >= end_price) end
+				// 회원 소지금이 즉시 구매가 보다 같거나 많을 경우.
+				if(user_money >= end_price) {
+					
+					// 입찰을 뺏긴 회원의 입찰금액을 user_tabled의 user_money 에 더해주는 코드
+					InputUser_money(sale_no);
+					
+					// 입찰한 유저의 유저 번호와 금액을 upper 테이블에 업데이트 하는 코드.
+					result = InputUser_upper(end_price, user_no, sale_no);
+					
+					// 입찰한 유저의 소지금에서 입찰 금액 만큼 빼주는 코드
+					int total = user_money - end_price;
+					
+					InputMoney(total, user_no);
+				
+				} else {
+					result = - 5;
+				}	// if(user_money >= end_price) end
+			}
 			
 			// 상회 입찰가가 없을 경우
 		} else if(upper_value < start_value) {
 			
-			if(user_money >= end_price) {
-				
-				// 입찰한 유저의 유저 번호와 금액을 upper 테이블에 업데이트 하는 코드.
-				result = InputUser_upper(end_price, user_no, sale_no);
-				
-				// 입찰한 유저의 소지금에서 입찰 금액 만큼 빼주는 코드
-				int total = user_money - end_price;
-				
-				InputMoney(total, user_no);
+			if(upper_value == end_price) {
+				result = -6;
 			} else {
-				result = - 5;
-			}	// if(user_money >= end_price) end
+				
+				if(user_money >= end_price) {
+					
+					// 입찰한 유저의 유저 번호와 금액을 upper 테이블에 업데이트 하는 코드.
+					result = InputUser_upper(end_price, user_no, sale_no);
+					
+					// 입찰한 유저의 소지금에서 입찰 금액 만큼 빼주는 코드
+					int total = user_money - end_price;
+					
+					InputMoney(total, user_no);
+				} else {
+					result = - 5;
+				}	// if(user_money >= end_price) end
+			}
 		} else {
 			result = -2;
 		}

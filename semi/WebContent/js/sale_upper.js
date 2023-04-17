@@ -20,6 +20,7 @@ var sale_value = formatNumber(sale_price);
 
 var end_value = formatNumber(end_price);
 
+// 회원이 입찰한 가격의의 소수점을 제거하고 세 자리수 마다 컴마(,)를 넣어준 1.1을 곱해준 변수
 var user_value;
   
 $(function () {
@@ -116,9 +117,15 @@ $(function () {
             
             table += "<tr>";
             table += "<th bgcolor='#F6F6F6'>직접 입찰가</th>";
-            if ($(this).find("user_upper").text() > 1) {
-                table += "<td bgcolor='white'> <input type='text' name='user_bid' value='" + formatNumber($(this).find("user_upper").text() * 1.1) + "'></td>";
-              } else {
+            if ($(this).find("user_upper").text() > sale_price) {
+              	
+				if(user_count >= end_price){
+               		 table += "<td bgcolor='white'> <input type='text' name='user_bid' value='" + end_value + "'></td>";
+				} else{
+                	table += "<td bgcolor='white'> <input type='text' name='user_bid' value='" + formatNumber($(this).find("user_upper").text() * 1.1) + "'></td>";
+				}
+				
+			} else {
                 table += "<td bgcolor='white'> <input type='text' name='user_bid' value='" + formatNumber(sale_price * 1.1) + "'></td>";
               }
             table += "<td> <input type='submit' value='직접 입찰' class='primary' onclick=\"return confirm('입찰 하시겠습니까?')\"> </td>";
