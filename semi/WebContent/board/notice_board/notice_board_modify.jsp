@@ -22,30 +22,9 @@
 <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.js"></script>
 
 
-<!-- <script src="../assets/js/summernote/summernote-lite.js"></script>
-<script src="../assets/js/summernote/lang/summernote-ko-KR.js"></script>
-
-<link rel="stylesheet" href="../assets/css/summernote/summernote-lite.css">
-
-<script type="text/javascript">
-$(document).ready(function() {
-	//여기 아래 부분
-	$('#summernote').summernote({
-		  height: 300,                 // 에디터 높이
-		  minHeight: null,             // 최소 높이
-		  maxHeight: null,             // 최대 높이
-		  focus: true,                  // 에디터 로딩후 포커스를 맞출지 여부
-		  lang: "ko-KR",					// 한글 설정
-		  placeholder: '최대 2048자까지 쓸 수 있습니다'	//placeholder 설정
-          
-	});
-});
-</script> -->
-<!-- summernote 위해 필요한 js, css end-->
-
 <style type="text/css">
 
-#free_board_title{
+#notice_board_title{
 	border-left: none;
 	border-top: none;
 	border-right: none;
@@ -68,15 +47,7 @@ justify-content: center;
 			alert("글쓰기 권한이 없습니다.");
 	}
 	
-	// upload_file1이 존재할 경우 upload_file2를 활성화시키는 등의 작업 수행
-	function checkUpload1() {
-		  var file1 = document.getElementsByName('upload_file1')[0];
-		  if (file1.value == "") {
-		    alert("1번 파일을 먼저 선택해주세요.");
-		    return false;
-		  }
-		return true;
-	}
+	
 </script>
 
 </head>
@@ -85,7 +56,7 @@ justify-content: center;
 	<!-- Main -->
 	<div align="center" style="margin-bottom: 150px;">
 		<hr width="50%" color="marmoon">
-			<h3>자유게시판</h3>
+			<h3>공지사항</h3>
 		<hr width="50%" color="marmoon">
 		<br>
 		
@@ -97,18 +68,6 @@ justify-content: center;
 				<tr>
 					<th>제목</th>
 					<td> <input name="notice_board_title" id="notice_board_title" value="${dto.getBoard_title() }"> </td>
-				</tr>
-				
-				<tr>
-					<th>카테고리</th>
-					<td>
-						<select name="notice_board_category" style="width:30%;">
-				            <option value="auction" ${dto.getBoard_category() == 'auction' ? 'selected' : ''}>경매</option>
-				            <option value="funny" ${dto.getBoard_category() == 'funny' ? 'selected' : ''}>유머</option>
-				            <option value="curious" ${dto.getBoard_category() == 'curious' ? 'selected' : ''}>궁금해요</option>
-				            <option value="etc" ${dto.getBoard_category() == 'etc' ? 'selected' : ''}>기타</option>
-				        </select>
-					</td>
 				</tr>
 				
 				<tr>
@@ -124,7 +83,7 @@ justify-content: center;
 						 <span>현재 첨부된 파일 2 : ${dto.getBoard_file2() }</span>
 						 <br>
 						 </c:if>
-						 <input type="file" name="upload_file2" onclick="return checkUpload1()">
+						 <input type="file" name="upload_file2">
 						 <br>
 						 <br>
 						 <span>* 첨부파일 형식 : jpg, png, pdf, zip 등 형식으로 10MB 이하 파일 첨부</span>

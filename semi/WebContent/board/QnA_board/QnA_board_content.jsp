@@ -80,11 +80,12 @@ justify-content: center;
 	<!-- Main -->
 	<div align="center">
 		<hr width="50%" color="marmoon">
-			<h3>자주 묻는 질문(FAQ)</h3>
+			<h3>묻고 답하기(Q&A)</h3>
 		<hr width="50%" color="marmoon">
 		<br>
 		
 		<c:set var="dto" value="${Content }"/>
+		
 		<table border="1" cellspacing="0" width="50%" class="col-9">
 			
 			<c:if test="${!empty dto }">
@@ -96,12 +97,12 @@ justify-content: center;
 					<c:set var="board_id" value="${board_id }" />
 					<c:if test="${!empty dto.getBoard_file1() }">
 						<td> 첨부파일 1
-							<a href="<%=request.getContextPath() %>/board/FAQ_board/FAQ_board_fileUpload/${dto.getBoard_file1() }" target="_blank">${dto.getBoard_file1() }</a>
+							<a href="<%=request.getContextPath() %>/board/free_board/free_board_fileUpload/${dto.getBoard_file1() }" target="_blank">${dto.getBoard_file1() }</a>
 						
 						<c:if test="${!empty dto.getBoard_file2() }">
 						    <br><br>
 							첨부파일 2
-							<a href="<%=request.getContextPath() %>/board/FAQ_board/FAQ_board_fileUpload/${dto.getBoard_file2() }" target="_blank">${dto.getBoard_file2() }</a>
+							<a href="<%=request.getContextPath() %>/board/free_board/free_board_fileUpload/${dto.getBoard_file2() }" target="_blank">${dto.getBoard_file2() }</a>
 					</c:if>
 						</td>
 					</c:if>
@@ -115,80 +116,6 @@ justify-content: center;
 		
 		<c:set var="id" value="${user_id }" />
 		
-		<%-- 추천 기능 --%>
-		<div align="left" style="margin-left: 13%;">
-			<div class="w3-border w3-center w3-padding">
-				<c:if test="${empty id }">
-					좋아요 <i class="fa fa-heart" style="font-size:16px;color:red" onclick="heartcheck()"></i>
-					<span class="rec_count"></span>					
-				</c:if>
-				<c:if test="${!empty id }">
-					<button class="w3-button w3-black w3-round" id="rec_update" style="width: 125px; height: 40px;">
-						<span style="font-size: 14px; letter-spacing: 3px;">좋아요</span> <i class="fa fa-heart" style="font-size:16px;color:red"></i>
-						&nbsp;<span class="rec_count"></span>
-					</button> 
-				</c:if>
-			</div>
-		</div>
-		<br>
-		
-<script type="text/javascript">
-
-$(function() {
-	  // 추천버튼 클릭시(추천 추가 또는 추천 제거)
-	  $("#rec_update").click(function() {
-	    $.ajax({
-	      url: "board_rec_update.do",
-	      type: "post",
-	      data: {
-	        no: ${dto.getBoard_no()},
-	        id: "${id}"
-	      },
-	      success: function(data) {
-	        alert(data);
-	        recCount();
-	      },
-	      error: function() {
-	        alert("데이터 통신 오류입니다!!!");
-	      }
-	    });
-	  });
-
-	  // 게시글 추천수
-	  function recCount() {
-	    $.ajax({
-	      url: "board_rec_count.do",
-	      type: "post",
-	      data: {
-	        no: ${dto.getBoard_no()}
-	      },
-	      success: function(count) {
-	        $(".rec_count").html(count);
-	      },
-	      error: function() {
-	        alert("데이터 통신 오류입니다!!!");
-	      }
-	    });
-	  };
-	  
-	  recCount(); // 처음 시작했을 때 실행되도록 해당 함수 호출
-	});
-
-</script>
-			
-			<%-- 삭제 폼 처리 --%>
-			<c:set var="session_nickname" value="${session_nickname }" />
-			
-			<c:if test="${Nickname == session_nickname }">
-				<input type="button" name="delete" value="삭제" onclick="if(confirm('게시글을 정말 삭제 하시겠습니까?')) {
-														location.href='board_delete.do?board_no=${dto.getBoard_no() }&page=${Page }&board_name=${dto.getBoard_name() }'
-													}else { return; }">&nbsp;
-			</c:if>
-			
-			<%--수정  폼 처리 --%>
-			<c:if test="${Nickname == session_nickname }">
-				<input type="button" name="modify" value="수정" onclick="location.href='board_modify.do?no=${dto.getBoard_no() }&page=${Page }&board_name=${dto.getBoard_name() }'" style="margin-bottom: 20px;">
-			</c:if>
 			
 			<%-- 게시글 데이터가 없는 경우 --%>
 			<c:if test="${empty dto }">
@@ -199,11 +126,14 @@ $(function() {
 				</tr>
 			</c:if>
 			
+		
 		<%-- 댓글 기능 --%>
 		<table border="1" cellspacing="0" width="50%" class="col-9" id="list">
 			<tr>
 			</tr>
 		</table>
+		<%-- user_approve 0: 일반사용자, 1: 판매 가능 사용자, 2: 관리자, 3: 총관리자 --%>
+		<c:if test="${user_approve >= 2 }">
 		<div id="reply-wrap">
 			<div class="reply">
 				<textarea style="height: 75px; width: 85%; background-color: white;" name="re_content" id="re_content" placeholder="댓글을 입력하세요."></textarea>&nbsp;
@@ -218,7 +148,15 @@ $(function() {
 				<br>통신예절에 어긋나는 글이나 상업적인 글, 타 사이트에 관련된 글은 관리자에 의해 사전 통보없이 삭제될 수 있습니다.
 			</span>
 		</div>
-		
+		</c:if>
+		<%-- 삭제 폼 처리 --%>
+			<c:set var="session_nickname" value="${session_nickname }" />
+			
+			<c:if test="${Nickname == session_nickname }">
+				<input type="button" name="delete" style="margin-bottom: 20px;" value="삭제" onclick="if(confirm('게시글을 정말 삭제 하시겠습니까?')) {
+														location.href='board_delete.do?board_no=${dto.getBoard_no() }&page=${Page }&board_name=${dto.getBoard_name() }'
+													}else { return; }">&nbsp;
+			</c:if>
 		<%-- 목록버튼 기능 --%>
 		<c:if test="${empty keyword }">
 			<input type="button" name="golist" value="목록" style="margin-bottom: 100px;" onclick="location.href='board_list.do?page=${Page }&board_name=${dto.getBoard_name() }&orderBy=${orderBy }'">

@@ -39,23 +39,37 @@
 			}
 
 </script>
+
+<style type="text/css">
+
+	#nav_form {
+    float: right;
+}
+
+	#header nav {
+		width: 90%;
+	}
+
+</style>
 	</head>
 	<body class="is-preload">
 		<!-- Wrapper -->
 			<div id="wrapper">
-
+	
 				<!-- Header -->
 					<header id="header">
 						<div class="inner">
 
-							<!-- Logo -->
-								<a href="index.html" class="logo">
-									<span class="symbol"><img src="images/logo.svg" alt="" /></span><span class="title">Phantom</span>
-								</a>
 
 							<!-- Nav -->
 								<nav>
-									<form method="post" name="f"  action="<%=request.getContextPath()%>/login_check.do" onsubmit="return check()" align="center">
+								
+								<!-- Logo -->
+								<a href="index.jsp" class="logo">
+									<span class="symbol"><img src="images/logo.svg" alt="" /></span><span class="title">Phantom</span>
+								</a>
+								
+									<form id="nav_form" method="post" name="f"  action="<%=request.getContextPath()%>/login_check.do" onsubmit="return check()" align="center">
 										
 									<c:set var="id" value="${user_id }" />
 									<c:if test="${empty id }">

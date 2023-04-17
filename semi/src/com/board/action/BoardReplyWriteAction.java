@@ -34,6 +34,8 @@ public class BoardReplyWriteAction implements Action {
 		
 		int check = dao.replyInsert(dto);
 		
+		dao.replyBoardCountupdate(dto);
+		
 		PrintWriter out = response.getWriter();
 		
 		// 결과값을 클라이언트(Ajax)에 보내주면 됨.

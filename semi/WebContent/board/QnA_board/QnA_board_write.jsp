@@ -23,7 +23,7 @@
 
 <style type="text/css">
 
-#FAQ_board_title{
+#QnA_board_title{
 	border-left: none;
 	border-top: none;
 	border-right: none;
@@ -63,23 +63,23 @@ justify-content: center;
 	<!-- Main -->
 	<div align="center" style="margin-bottom: 150px;">
 		<hr width="50%" color="marmoon">
-			<h3>자주 묻는 질문(FAQ)</h3>
+			<h3>묻고 답하기(Q&A)</h3>
 		<hr width="50%" color="marmoon">
 		<br>
 		
 		<c:set var="session" value="${user_id }" />
 		<%-- enctype : 파일을 업로드하기 위한 속성 --%>
-		<form method="post" enctype="multipart/form-data" action="<%=request.getContextPath() %>/board_write_ok.do?id=${user_id }&board_name=FAQ_board">
+		<form method="post" enctype="multipart/form-data" action="<%=request.getContextPath() %>/board_write_ok.do?id=${user_id }&board_name=QnA_board">
 			<table border="1" cellspacing="0" width="50%" class="col-9">
 				<tr>
 					<th>제목</th>
-					<td> <input name="FAQ_board_title" id="FAQ_board_title"> </td>
+					<td> <input name="QnA_board_title" id="QnA_board_title" style=""> </td>
 				</tr>
 				
 				<tr>
 					<th>카테고리</th>
 					<td>
-						<select name="FAQ_board_category" style="width:30%;">
+						<select name="QnA_board_category" style="width:30%;">
 				   			<option value="홈페이지 이용">홈페이지 이용</option>
 				   			<option value="결제/영수증">결제/영수증</option>
 				   			<option value="회원정보">회원정보</option>

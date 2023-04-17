@@ -12,6 +12,30 @@
 .pagination{
 justify-content: center;
 }
+
+table td {
+	vertical-align: middle;
+}
+
+table tr {
+	height: 60px;
+}
+
+table th {
+	vertical-align: middle;
+}
+
+#title_tr {
+	height: 40px;
+}
+
+#title_tr th {
+	text-align: center;
+}
+
+#cont_tr td {
+	text-align: center;
+}
 </style>
 
 
@@ -88,14 +112,14 @@ justify-content: center;
 						var html = "";
 						var no = response.totalEndNo + 1;
 						$.each(response.list, function(index, board) {
-							html += "<tr>"
+							html += "<tr id='cont_tr'>"
 										+ "<td>";
 							no--;
 										
 							html += no;
 							
 							html += "</td>"
-								+ "<td><a href='<%=request.getContextPath() %>/board_content.do?no=" + board.board_no + "&page=" + response.page + "&id=${user_id }&nickname=" + board.user_nickname + "&orderBy=hit&board_name="+ board.board_name +"'>"+ board.board_title + "</a></td>"
+								+ "<td style='text-align: left;'><a href='<%=request.getContextPath() %>/board_content.do?no=" + board.board_no + "&page=" + response.page + "&id=${user_id }&nickname=" + board.user_nickname + "&orderBy=hit&board_name="+ board.board_name +"'>"+ board.board_title + "</a></td>"
 										+ "<td>"+board.user_nickname+"</td>"
 										+ "<td>"+board.board_date.substring(0,10)+"</td>"
 										+ "<td>"+board.board_hit+"</td>"
@@ -145,14 +169,14 @@ justify-content: center;
 					var html = "";
 					var no = response.totalEndNo + 1;
 					$.each(response.list, function(index, board) {
-						html += "<tr>"
+						html += "<tr id='cont_tr'>"
 									+ "<td>";
 						no--;
 									
 						html += no;
 						
 						html += "</td>"
-							+ "<td><a href='<%=request.getContextPath() %>/board_content.do?no=" + board.board_no + "&page=" + response.page + "&id=${user_id }&nickname=" + board.user_nickname + "&orderBy=time&board_name="+ board.board_name +"'>"+ board.board_title + "</a></td>"
+							+ "<td style='text-align: left;'><a href='<%=request.getContextPath() %>/board_content.do?no=" + board.board_no + "&page=" + response.page + "&id=${user_id }&nickname=" + board.user_nickname + "&orderBy=time&board_name="+ board.board_name +"'>"+ board.board_title + "</a></td>"
 									+ "<td>"+board.user_nickname+"</td>"
 									+ "<td>"+board.board_date.substring(0,10)+"</td>"
 									+ "<td>"+board.board_hit+"</td>"
@@ -201,13 +225,13 @@ justify-content: center;
 		        var html = "";
 		        var no = response.totalEndNo +1;
 		        $.each(response.list, function(index, board) {
-		          html += "<tr>" + "<td>";
+		          html += "<tr id='cont_tr'>" + "<td>";
 		          no--;
 
 		          html += no;
 
 		          html += "</td>" +
-		            "<td><a href='<%=request.getContextPath() %>/board_content.do?no=" + board.board_no + "&page=" + response.page + "&id=${user_id }&nickname=" + board.user_nickname +"&orderBy=look&board_name="+ board.board_name + "'>"+ board.board_title + "</a></td>" +
+		            "<td style='text-align: left;'><a href='<%=request.getContextPath() %>/board_content.do?no=" + board.board_no + "&page=" + response.page + "&id=${user_id }&nickname=" + board.user_nickname +"&orderBy=look&board_name="+ board.board_name + "'>"+ board.board_title + "</a></td>" +
 		            "<td>" + board.user_nickname + "</td>" +
 		            "<td>" + board.board_date.substring(0, 10) + "</td>" +
 		            "<td>" + board.board_hit + "</td>" +
@@ -314,7 +338,7 @@ justify-content: center;
    		<div id="freeBoard_table">
    		<%-- 공지사항 테이블 --%>
 		<table border="1" cellspacing="0" width="50%" class="col-9">
-			<tr align="center">
+			<tr align="center" id="title_tr">
 				<th>번호</th> <th width="60%">제목</th> <th>작성자</th> <th>작성일</th> <th>조회수</th>
 			</tr>
 			
@@ -323,10 +347,10 @@ justify-content: center;
 			<tbody>
 				<c:if test="${!empty list }">
 					<c:forEach items="${list }" var="dto">
-						<tr>
+						<tr id="cont_tr">
 							<c:set var="totalEndNo" value="${totalEndNo -1 }" />
 									<td> ${totalEndNo + 1 } </td>
-							<td>
+							<td style="text-align: left;">
 								<a href="<%=request.getContextPath() %>/board_content.do?no=${dto.getBoard_no() }
 																							  &page=${page }&id=${user_id }&nickname=${dto.getUser_nickname() }&board_name=${dto.getBoard_name() }">
 									${dto.getBoard_title() }

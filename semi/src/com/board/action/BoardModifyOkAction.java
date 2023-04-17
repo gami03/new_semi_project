@@ -44,8 +44,12 @@ public class BoardModifyOkAction implements Action {
 		
 		// 자료실 폼 페이지에서 넘어온 데이터들을 받아 주자.
 		String upload_title = multi.getParameter(board_name+"_title").trim();
-		String upload_category = multi.getParameter(board_name+"_category").trim();
+		String upload_category = multi.getParameter(board_name+"_category");
 		String upload_summernote = multi.getParameter("editordata").trim();
+		
+		if (upload_category != null && !upload_category.trim().isEmpty()) {
+			upload_category = upload_category.trim();
+		}
 		
 		
 		// 자료실 폼 페이지에서 type="file" 속성으로 되어 있으면 getfile() 메서드로 받아 주어야 함.

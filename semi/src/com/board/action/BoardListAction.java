@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import com.board.model.BoardDTO;
 import com.action.Action;
@@ -29,6 +30,14 @@ public class BoardListAction implements Action  {
 		if (orderBy != null && !orderBy.trim().isEmpty()) {
 			orderBy = orderBy.trim();
 		}
+		
+		HttpSession session =  request.getSession();
+		
+		String session_id = (String)session.getAttribute("user_id");
+		
+		BoardDAO dao = BoardDAO.getInstance();
+		
+		int session_user_no = dao.getUserNo(session_id);
 		
 		// 페이징 처리 작업 진행
 		
@@ -69,8 +78,6 @@ public class BoardListAction implements Action  {
 		// 해당 페이지에서 마지막 블럭
 		int endBlock = (((page - 1) / block) * block) + block;
 		
-
-		BoardDAO dao = BoardDAO.getInstance();
 		
 		// 전체 게시물의 수를 확인하는 메서드 호출
 		totalRecord = dao.getBoardCount(board_name);
@@ -88,9 +95,9 @@ public class BoardListAction implements Action  {
 		// 자유게시판으로 모인 게시글에 번호를 순차적으로 매겨서 보여주기 위함.
 		totalEndNo = totalRecord - ((page-1) * rowsize);
 		
-		
 		// 현재 페이지에 해당하는 게시물을 가져오는 메서드 호출
 		List<BoardDTO> list = dao.getBoardList(page, rowsize, board_name);
+		
 		
 		// 지금까지 페이징 처리 시 작업했던 모든 데이터들을 view page로 이동을 시키자.
 		request.setAttribute("board_name", board_name);
@@ -105,6 +112,7 @@ public class BoardListAction implements Action  {
 		request.setAttribute("endBlock", endBlock);
 		request.setAttribute("List", list);
 		request.setAttribute("orderBy", orderBy);
+		request.setAttribute("session_user_no", session_user_no);
 		
 		// 자유게시판에 모인 게시글을 번호를 순차적으로 매겨서 보여주기 위한 데이터를 view page로 이동.
 		request.setAttribute("totalEndNo", totalEndNo);

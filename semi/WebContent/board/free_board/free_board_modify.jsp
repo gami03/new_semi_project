@@ -103,10 +103,10 @@ justify-content: center;
 					<th>카테고리</th>
 					<td>
 						<select name="free_board_category" style="width:30%;">
-				            <option value="auction" ${dto.getBoard_category() == 'auction' ? 'selected' : ''}>경매</option>
-				            <option value="funny" ${dto.getBoard_category() == 'funny' ? 'selected' : ''}>유머</option>
-				            <option value="curious" ${dto.getBoard_category() == 'curious' ? 'selected' : ''}>궁금해요</option>
-				            <option value="etc" ${dto.getBoard_category() == 'etc' ? 'selected' : ''}>기타</option>
+				            <option value="경매" ${dto.getBoard_category() == '경매' ? 'selected' : ''}>경매</option>
+				            <option value="유머" ${dto.getBoard_category() == '유머' ? 'selected' : ''}>유머</option>
+				            <option value="궁금해요" ${dto.getBoard_category() == '궁금해요' ? 'selected' : ''}>궁금해요</option>
+				            <option value="기타" ${dto.getBoard_category() == '기타' ? 'selected' : ''}>기타</option>
 				        </select>
 					</td>
 				</tr>
