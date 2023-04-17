@@ -60,7 +60,7 @@
 						<div class="inner">
 
 							<!-- Nav -->
-								<nav>
+								<nav style="z-index: 1050">
 								
 								<!-- Logo -->
 								<a href="index.jsp" class="logo">
