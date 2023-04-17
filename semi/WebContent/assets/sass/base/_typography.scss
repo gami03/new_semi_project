@@ -23,13 +23,11 @@
 	}
 
 	a {
-		@include vendor('transition', (
-			'border-bottom-color #{_duration(transition)} ease',
-			'color #{_duration(transition)} ease'
-		));
+		
 		text-decoration: none;
 		color: _palette(fg);
 		border-bottom: none;
+
 
 		&:hover {
 			border-bottom-color: transparent;

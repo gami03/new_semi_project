@@ -5,10 +5,17 @@ public class BoardReplyDTO {
 	private int com_no;
 	private int user_no;
 	private int board_no;
+	private String br_writer;
 	private String br_content;
 	private String br_regdate;
 	
 	
+	public String getBr_writer() {
+		return br_writer;
+	}
+	public void setBr_writer(String br_writer) {
+		this.br_writer = br_writer;
+	}
 	public int getCom_no() {
 		return com_no;
 	}

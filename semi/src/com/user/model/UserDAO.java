@@ -164,17 +164,16 @@ public class UserDAO {
 		}
 		return result;
 	}
-
  	
  	public int getUserApprove(String id) {
  		
  		int result = 0;
  		
- 		openConn();
- 		
- 		sql = "select user_approve from user_table where user_id = ?";
- 		
  		try {
+ 			openConn();
+ 	 		
+ 	 		sql = "select user_approve from user_table where user_id = ?";
+ 	 		
 			pstmt = con.prepareStatement(sql);
 			
 			pstmt.setString(1, id);
@@ -184,6 +183,8 @@ public class UserDAO {
 			if(rs.next()) {
 				result = rs.getInt(1);
 			}
+			
+			
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -192,7 +193,7 @@ public class UserDAO {
 		}
  		
  		return result;
- 	}
+ 	} // getUserApprove() 메서드 end
  	
  	
  	// 세션으로 사용하는 user_id를 가져와서 user_no값을 가져올 떄 사용하는 메서드

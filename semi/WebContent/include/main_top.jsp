@@ -39,25 +39,38 @@
 			}
 
 </script>
+
+<style type="text/css">
+
+	#nav_form {
+    float: right;
+}
+
+	#header nav {
+		width: 90%;
+	}
+
+</style>
 	</head>
 	<body class="is-preload">
 		<!-- Wrapper -->
 			<div id="wrapper">
-
 				<!-- Header -->
 					<header id="header">
 						<div class="inner">
 
-							<!-- Logo -->
-								<a href="index.html" class="logo">
-									<span class="symbol"><img src="images/logo.svg" alt="" /></span><span class="title">Phantom</span>
-								</a>
-
 							<!-- Nav -->
 								<nav>
-									<form method="post" name="f"  action="<%=request.getContextPath()%>/login_check.do" onsubmit="return check()" align="center">
+								
+								<!-- Logo -->
+								<a href="index.jsp" class="logo">
+									<span class="symbol"><img src="images/logo.svg" alt="" /></span><span class="title">Phantom</span>
+								</a>
+								
+									<form id="nav_form" method="post" name="f"  action="<%=request.getContextPath()%>/login_check.do" onsubmit="return check()" align="center">
 										
 									<c:set var="id" value="${user_id }" />
+									<c:set var="user_approve" value="${user_approve }" />
 									<c:if test="${empty id }">
 										<ul>
 											<li><input type="button" class="btn btn-primary" name="login" value="로그인" data-toggle="modal" data-target="#boardModal"></li>
@@ -118,10 +131,16 @@
 					<nav id="menu">
 						<h2>Menu</h2>
 						<ul>
-							<li><a href="index.html">Home</a></li>
-							<li><a href="<%=request.getContextPath() %>/free_board_list.do">자유게시판</a></li>
+							<li><a href="index.jsp">Home</a></li>
 							<li><a href="<%=request.getContextPath() %>/sale_index_list.do">판매게시판</a></li>
-							<li><a href="">Q&A</a></li>
-							<li><a href="">마이페이지</a></li>
+							<li><a href="<%=request.getContextPath() %>/board_list.do?board_name=free_board">자유게시판</a></li>
+							<li><a href="<%=request.getContextPath() %>/board_list.do?board_name=notice_board">공지사항</a></li>
+							<li><a href="<%=request.getContextPath() %>/board_list.do?board_name=FAQ_board">고객지원</a></li>
+							<c:if test="${user_approve == 1 }">
+							<li><a href="<%=request.getContextPath() %>/user_mypage.do?id=${user_id }">마이페이지</a></li>							
+							</c:if>					
+							<c:if test="${user_approve > 1 }">
+							<li><a href="<%=request.getContextPath() %>/admin_page.do?id=${user_id }">관리자 페이지</a></li>
+							</c:if>
 						</ul>
 					</nav>
