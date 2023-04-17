@@ -1,5 +1,9 @@
+<%@page import="com.sale.model.UpperDTO"%>
+<%@page import="com.sale.model.SaleDTO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+	pageEncoding="UTF-8"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
 <!DOCTYPE HTML>
 <!--
@@ -8,164 +12,185 @@
 	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
 -->
 <html>
-	<head>
-		<title>Phantom by HTML5 UP</title>
-		<meta charset="utf-8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
-		<link rel="stylesheet" href="../assets/css/product_view.css">
-		<link rel="stylesheet" href="../assets/css/main.css" />
-		<link rel="stylesheet" href="../assets/css/product.css" />
-		
-		<noscript><link rel="stylesheet" href="../assets/css/noscript.css" /></noscript>
-		<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
-		
-		<link type="text/css" rel="stylesheet" href="../assets/css/slick.css"/>
- 		<link type="text/css" rel="stylesheet" href="../assets/css/slick-theme.css"/>
-	</head>
-	<body class="is-preload">
-		<!-- Wrapper -->
-			<div id="wrapper">
+<head>
+<title>Phantom by HTML5 UP</title>
 
-				<!-- Header -->
-					<header id="header">
-						<div class="inner">
 
-							<!-- Logo -->
-								<a href="index.html" class="logo">
-									<span class="symbol"><img src="../images/logo.svg" alt="" /></span><span class="title">Phantom</span>
-								</a>
 
-							<!-- Nav -->
-								<nav>
-									<ul>
-										<li><input type="button" name="login" value="로그인"></li>
-										<li><a href="#menu">Menu</a></li>
-									</ul>
-								</nav>
+<link rel="stylesheet" href="./assets/css/product_view.css">
+<link rel="stylesheet" href="./assets/css/product.css" />
 
-						</div>
-					</header>
+<jsp:include page="/include/main_top.jsp" />
+<link
+	href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css"
+	rel="stylesheet"
+	integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65"
+	crossorigin="anonymous">
 
-				<!-- Menu -->
-					<nav id="menu">
-						<h2>Menu</h2>
-						<ul>
-							<li><a href="index.html">Home</a></li>
-							<li><a href="">자유게시판</a></li>
-							<li><a href="">판매게시판</a></li>
-							<li><a href="">Q&A</a></li>
-							<li><a href="">마이페이지</a></li>
-						</ul>
-					</nav>
+<link type="text/css" rel="stylesheet" href="./assets/css/slick.css" />
+<link type="text/css" rel="stylesheet"
+	href="./assets/css/slick-theme.css" />
+<script type="text/javascript" src="https://code.jquery.com/jquery-3.6.1.js"></script>
 
-				<!-- Main -->
-					<div id="main">
-						<div class="inner">
-							<header></header>
-							<section>
-								<div class="container">
-									<div class="row">
-									<!-- /Product preview imgs -->
-										<div class="col-2">
-											<div id="product-imgs">
-												<div class="product-preview">
-													<img src="../images/pic01.jpg" alt="">
-												</div>
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 
-												<div class="product-preview">
-													<img src="../images/pic02.jpg" alt="">
-												</div>
 
-												<div class="product-preview">
-													<img src="../images/pic03.jpg" alt="">
-												</div>
+</head>
+	<c:set var="dto" value="${Dto }"/>
+	<c:set var="upper" value="${Upper }"/>
 
-												<div class="product-preview">
-													<img src="../images/pic04.jpg" alt="">
-												</div>
-											</div>
-										</div>
-										<!-- Product main img -->
-										<div class="col-md-5">
-											<div id="product-main-img">
-												<div class="product-preview">
-													<img src="../images/pic01.jpg" alt="">
-												</div>
 
-												<div class="product-preview">
-													<img src="../images/pic02.jpg" alt="">
-												</div>
+		<!-- Main -->
+		<div id="main">
+			<div class="inner">
+				<header></header>
+				<section>
+					<div class="container">
+						<div class="row">
+							<!-- /Product preview imgs -->
+							<div class="col-2">
+								<div id="product-imgs">
+									<div style="height: 123.89px" class="product-preview">
+										<img style="height: 123.89px" src="./images/${dto.getSale_file1() }" alt="">
+									</div>
 
-												<div class="product-preview">
-													<img src="../images/pic03.jpg" alt="">
-												</div>
+									<div style="height: 123.89px" class="product-preview">
+										<img style="height: 123.89px" src="./images/${dto.getSale_file2() }" alt="">
+									</div>
 
-												<div class="product-preview">
-													<img src="../images/pic04.jpg" alt="">
-												</div>
-											</div>
-										</div>
+									<div style="height: 123.89px" class="product-preview">
+										<img style="height: 123.89px" src="./images/${dto.getSale_file3() }" alt="">
+									</div>
+									
+									<div style="height: 123.89px" class="product-preview">
+										<img style="height: 123.89px" src="./images/${dto.getSale_file4() }" alt="">
 									</div>
 								</div>
-							</section>
+							</div>
+							<!-- Product main img -->
+							<div class="col-md-5">
+								<div id="product-main-img">
+								
+									<div style="height: 370px" class="product-preview">
+										<img style="height: 370px" src="./images/${dto.getSale_file1() }" alt="">
+									</div>
+
+									<div style="height: 370px" class="product-preview">
+										<img style="height: 370px" src="./images/${dto.getSale_file2() }" alt="">
+									</div>
+
+									<div style="height: 370px" class="product-preview">
+										<img style="height: 370px" src="./images/${dto.getSale_file3() }" alt="">
+									</div>
+
+									<div style="height: 370px" class="product-preview">
+										<img style="height: 370px" src="./images/${dto.getSale_file4() }" alt="">
+									</div>
+								</div>
+							</div>
+							
+							<div class="col-md-5">
+								
+								<div>
+									<table border="1" cellspacing="0" class="list">
+										<tr>
+											<td align="center" colspan="2"><h5>${dto.getSale_title() }의 현재 경매 정보</h5></td>
+										</tr>
+										
+										<tr>
+											<th bgcolor="#F6F6F6">남은 시간 </td>
+											<td>dsa</td>
+										</tr>
+										
+										<tr>
+											<th>시작 입찰가</th>
+											<td bgcolor="white"><fmt:formatNumber> ${dto.getSale_price() }</fmt:formatNumber>원</td>
+										</tr>
+									</table>
+									
+									
+									
+								</div>
+								
+								<!-- Button trigger modal -->
+								<button type="button" class="button" data-toggle="modal" data-target="#exampleModal">
+								  Launch demo modal
+								</button>
+								
+								<!-- Modal -->
+								<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+								  <div class="modal-dialog modal-lg">
+								    <div class="modal-content">
+								      <div class="modal-header">
+								        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+								      </div>
+								      <div class="modal-body">
+								       <%-- 경매내역 상세 정보 및 입찰 관련 코드 --%>
+								       <div class="container-fluid">
+								       	  <div class="row">
+								       	  	<div class="col-md-5 ml-auto">
+								       	  		<table border="1" cellspacing="0" style="background: #F6F6F6">
+								       	  			<tr>
+								       	  				<td> <img style="width: 100%; height: 100%" src="./images/${dto.getSale_file1() }" alt=""></td>
+								       	  			</tr>
+								       	  			
+								       	  			<tr>
+								       	  			
+								       	  			</tr>
+								       	  		</table>
+								       	  	</div>
+								       	  	<div class="col-md-7 ml">
+								       	  		<h5>경매 정보</h5>
+								       	  		<table border="1" cellspacing="0" class="list_modal"> 
+								       	  			<tr>
+								       	  				<th bgcolor="#F6F6F6">남은 시간</th>
+								       	  				<td bgcolor="white"><span id="time_out">마감 임박 5분 미만</span></td>
+								       	  			</tr>
+								       	  			
+								       	  			<tr>
+								       	  				<th bgcolor="#F6F6F6">시작 입찰가</th>
+								       	  				<td bgcolor="white"><fmt:formatNumber> ${dto.getSale_price() }</fmt:formatNumber>원</td>
+								       	  			</tr>
+								       	  			
+								       	  		</table>
+								       	  		
+								       	  		<br>
+								       	  		
+								       	  		<h5>경매 입찰 정보</h5>
+								       	  		<form method="post" action="<%=request.getContextPath() %>/input_product_detail.do?id=${user_id}">
+								       	  			<input type="hidden" name="product_no" value="${param.no }" >
+									       	  		<table border="1" cellspacing="0" class="list_modal_detail">
+									       	  				
+									       	  		</table>
+								       	  		</form>
+								       	  	</div>
+								       	  </div>
+								       </div>
+								      </div>
+								      <div class="modal-footer">
+								        <button type="button" class="button" data-dismiss="modal">Close</button>
+								      </div>
+								    </div>
+								  </div>
+								</div>
+								<%-- Modal end --%>
+							</div>
 						</div>
 					</div>
-
-				<!-- Footer -->
-					<footer id="footer">
-						<div class="inner">
-							<section>
-								<h2>Get in touch</h2>
-								<!-- form은 추후 삭제 또는 F&B 메시지 보내는 걸로 사용 -->
-								<form method="post" action="#">
-									<div class="fields">
-										<div class="field half">
-											<input type="text" name="name" id="name" placeholder="Name" />
-										</div>
-										<div class="field half">
-											<input type="email" name="email" id="email" placeholder="Email" />
-										</div>
-										<div class="field">
-											<textarea name="message" id="message" placeholder="Message"></textarea>
-										</div>
-									</div>
-									<ul class="actions">
-										<li><input type="submit" value="Send" class="primary" /></li>
-									</ul>
-								</form>
-							</section>
-							<section>
-								<h2>Follow</h2>
-								<ul class="icons">
-									<li><a href="#" class="icon brands style2 fa-twitter"><span class="label">Twitter</span></a></li>
-									<li><a href="#" class="icon brands style2 fa-facebook-f"><span class="label">Facebook</span></a></li>
-									<li><a href="#" class="icon brands style2 fa-instagram"><span class="label">Instagram</span></a></li>
-									<li><a href="#" class="icon brands style2 fa-dribbble"><span class="label">Dribbble</span></a></li>
-									<li><a href="#" class="icon brands style2 fa-github"><span class="label">GitHub</span></a></li>
-									<li><a href="#" class="icon brands style2 fa-500px"><span class="label">500px</span></a></li>
-									<li><a href="#" class="icon solid style2 fa-phone"><span class="label">Phone</span></a></li>
-									<li><a href="#" class="icon solid style2 fa-envelope"><span class="label">Email</span></a></li>
-								</ul>
-							</section>
-							<ul class="copyright">
-								<li>&copy; Untitled. All rights reserved</li><li>Design: <a href="http://html5up.net">HTML5 UP</a></li>
-							</ul>
-						</div>
-					</footer>
-
+				</section>
 			</div>
-
-		<!-- Scripts -->
-			<script src="../assets/js/jquery.min.js"></script>
-			<script src="../assets/js/browser.min.js"></script>
-			<script src="../assets/js/breakpoints.min.js"></script>
-			<script src="../assets/js/slick.min.js"></script>
-			<script src="../assets/js/util.js"></script>
-			<script src="../assets/js/main.js"></script>
-			<script src="../assets/js/Active.js"></script>
-			
-		<!-- bootstrap js -->
-    		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
-
-	</body>
-</html>
+		</div>
+		
+<script type="text/javascript">
+	var sale_no = ${dto.getSale_no() };
+	var sale_price = ${dto.getSale_price() };
+	var end_price =${dto.getSale_end_price() };
+	var user_id = "${user_id }";
+</script>
+<script type="text/javascript" src= "./js/sale_upper.js"></script>		
+		
+		
+<jsp:include page="/include/main_bottom.jsp"/>
