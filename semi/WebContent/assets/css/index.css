@@ -107,6 +107,7 @@
     padding: 0;
     margin: 0;
     width: 100%;
+    position: relative; /* 부모 요소에 position: relative; 추가 */
 }
 
 .product_item .item_inner {
@@ -121,10 +122,10 @@
 	position: absolute;
     display: -webkit-inline-box;
     display: inline-flex;
-    bottom: -240px;
+    top: calc(100% + -150px);
+    left: calc(100% + -45px);
     padding: 5px;
     z-index: 1;
-    transform: translateX(-45px);
     cursor: cell;
 }
 

@@ -95,7 +95,7 @@
 							<div class="info_list">
 								<dl class="info_item">
 									<dt class="business_title">
-										크림 주식회사 · 대표 윤보감
+										갈릭옥션 주식회사 · 대표 홍길동
 										<span class="blank"></span>
 										사업자등록번호 : 000-00-00000
 										<a href="#">사업자정보확인</a>

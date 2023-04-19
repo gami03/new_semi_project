@@ -25,9 +25,10 @@ padding: 0;
 
 #top_inner {
    display: flex;
-   padding: 3px 19% 30px;
    height: 22px;
-   justify-content: flex-end
+   justify-content: flex-end;
+   width: 1220px;
+   margin: auto;
 }
 
 #top_inner a{
@@ -43,7 +44,7 @@ padding: 0;
 	top: 0;
 	border-bottom: 2px solid orange;
 	background-color: white;
-	padding-bottom: 18px;
+	padding-bottom: 29px;
 }
 
 #topnav {
