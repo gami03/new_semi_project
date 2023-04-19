@@ -1,10 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 
-	<div align="center">
-		<hr width="60%" style="border:0; height:1px; background: #bbb;">
-	</div>
-	
 	<!-- Footer -->
 			<div class="footer lg">
 				<div class="inner">

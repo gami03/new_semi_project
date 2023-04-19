@@ -124,8 +124,6 @@ clear: both;
     margin-left: auto;
     margin-right: auto;
     max-width: 1280px;
-    padding-left: 16px;
-    padding-right: 16px;
     grid-template-columns: repeat(5,minmax(0,1fr));
     grid-row-gap: 16px;
     row-gap: 16px;
@@ -317,4 +315,100 @@ dl dt {
 .business_title {
 	font-size: 14px;
 }
+
+.rec_search {
+	margin-bottom: 35px;
+}
+
+.rec_search_inner {
+	display: flex;
+	flex-wrap: wrap;
+    justify-content: flex-start;
+}
+
+
+.rec_search_text {
+	box-shadow: none;
+	background-color: #f6f6f6;
+	border-radius: 30px;
+    font-size: small;
+    margin: 3 3px;
+}
+
+.is-menu-visible {
+	background: black;
+}
+
+.search .btn_search_delete {
+    padding: 0 9px;
+    box-shadow: none;
+}
+
+.input_search {
+	overflow: hidden;
+    -o-text-overflow: ellipsis;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-size: 18px;
+    font-weight: 500;
+    color: #000;
+    line-height: 29px;
+    padding: 0 13px 0 1px;
+    width: 468px;
+    letter-spacing: -.015em;
+}
+
+.search_title_wrap {
+	margin-bottom: 12px;
+}
+
+.title {
+    font-size: 16px;
+    font-weight: 700;
+}
+
+.title_sub_text {
+    float: right;
+}
+
+.search_card_ranking {
+	display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    height: 300px;
+}
+
+
+.search_card_ranking .search_card_ranking_item {
+    padding: 4px 0 16px;
+    cursor: pointer;
+    display: -webkit-box;
+    display: flex;
+}
+
+.ranking_idx {
+	color: black;
+}
+
+.ranking_title {
+	color: black;
+}
+
+.search_card_ranking .ranking_idx {
+    font-weight: 600;
+    margin-right: 6px;
+}
+
+
+.search_card_ranking .ranking_title {
+    font-weight: 400;
+    margin-right: 6px;
+    max-width: 108px;
+    overflow: hidden;
+    -o-text-overflow: ellipsis;
+    text-overflow: ellipsis;
+    display: inline-block;
+    white-space: nowrap;
+}
+
 

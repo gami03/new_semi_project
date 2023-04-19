@@ -2,6 +2,7 @@
 
 #main {
 	padding-top: 6.4em;
+	padding-bottom: 2em;
 	
 }
 
@@ -9,8 +10,6 @@
     margin-left: auto;
     margin-right: auto;
     max-width: 1280px;
-    padding-left: 16px;
-    padding-right: 16px;
     display: grid;
     grid-template-columns: repeat(5,minmax(0,1fr));
     grid-row-gap: 16px;
@@ -19,6 +18,8 @@
     -webkit-column-gap: 8px;
     -moz-column-gap: 8px;
     column-gap: 8px;
+    padding: 30px 16px 90px 0px;
+    border-bottom: 1px solid #ebebeb;
 }
 
 .shortcut_item {
@@ -45,8 +46,6 @@
    	margin-left: auto;
     margin-right: auto;
     max-width: 1280px;
-    padding-left: 16px;
-    padding-right: 16px;
     grid-template-columns: repeat(5,minmax(0,1fr));
     grid-row-gap: 16px;
     row-gap: 16px;
@@ -54,7 +53,8 @@
     -webkit-column-gap: 8px;
     -moz-column-gap: 8px;
     column-gap: 8px;
-    margin-bottom: 100px;
+    padding: 16 16 80 0px;
+    border-bottom: 1px solid #ebebeb;
    }
    
    .lg .product_title {

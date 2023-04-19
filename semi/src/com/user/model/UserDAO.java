@@ -457,4 +457,35 @@ public class UserDAO {
    		return dto;
    	}
  	
+   	// 인기 검색어에 들어갈 리스트 상위 10개만 가져오는 메서드
+   	public List<SearchDTO> getUserSearchHitList() {
+
+   		List<SearchDTO> list = new ArrayList<SearchDTO>();
+   	    try {
+   	        openConn();
+   	        sql = "SELECT keyword, COUNT(*) AS count, MAX(search_time) AS search_time FROM search GROUP BY keyword ORDER BY count DESC, search_time DESC LIMIT 10";
+   	        
+   	        pstmt = con.prepareStatement(sql);
+   	        
+   	        rs = pstmt.executeQuery();
+   	        
+   	        while (rs.next()) {
+   	            SearchDTO dto = new SearchDTO();
+   	           
+   	            dto.setKeyword(rs.getString("keyword"));
+   	            dto.setSearch_count(rs.getInt("count"));
+   	            dto.setSearch_time(rs.getString("search_time"));
+   	            
+   	            list.add(dto);
+   	        }
+   	        
+   	    } catch (SQLException e) {
+   	        e.printStackTrace();
+   	    } finally {
+   	        closeConn(rs, pstmt, con);
+   	    }
+   	    
+   	    return list;
+   	} // getUserSearchHitList() 메서드 end
+   	
 }

@@ -121,7 +121,7 @@
 											<li><button class="topbutton" name="NOTICE" onclick="location.href='board_list.do?board_name=notice_board'">NOTICE</button></li>
 											<li><button class="topbutton" name="FREE" onclick="location.href='board_list.do?board_name=free_board'">FREE</button></li>
 											<li><button class="topbutton" name="SHOP" onclick="location.href='sale_index_list.do'">SHOP</button></li>
-											<li><a href="#menu">Menu</a></li>
+											<li><a href="#menu">search</a></li>
 									</ul>
 								</div>
 								</c:if>
@@ -132,7 +132,7 @@
 											<li><button class="topbutton" name="FREE" onclick="location.href='board_list.do?board_name=free_board'">FREE</button></li>
 											<li><button class="topbutton" name="SHOP" onclick="location.href='sale_index_list.do'">SHOP</button></li>
 											<li><button class="topbutton" name="MY" onclick="location.href='admin_page.do?id=${user_id }'">MY</button></li>
-											<li><a href="#menu">Menu</a></li>
+											<li><a href="#menu">search</a></li>
 									</ul>
 								</div>
 								</c:if>
@@ -143,7 +143,7 @@
 											<li><button class="topbutton" name="FREE" onclick="location.href='board_list.do?board_name=free_board'">FREE</button></li>
 											<li><button class="topbutton" name="SHOP" onclick="location.href='sale_index_list.do'">SHOP</button></li>
 											<li><button class="topbutton" name="ADMIN" onclick="location.href='admin_page.do?id=${user_id }'">ADMIN</button></li>
-											<li><a href="#menu">Menu</a></li>
+											<li><a href="#menu">search</a></li>
 									</ul>
 								</div>
 								</c:if>
@@ -155,21 +155,151 @@
 					
 
 				<!-- Menu -->
-					<nav id="menu">
-						<h2>Menu</h2>
-						<ul>
-							<li><a href="index.jsp">Home</a></li>
-							<li><a href="<%=request.getContextPath() %>/sale_index_list.do">판매게시판</a></li>
-							<li><a href="<%=request.getContextPath() %>/board_list.do?board_name=free_board">자유게시판</a></li>
-							<li><a href="<%=request.getContextPath() %>/board_list.do?board_name=notice_board">공지사항</a></li>
-							<li><a href="<%=request.getContextPath() %>/board_list.do?board_name=FAQ_board">고객지원</a></li>
-							<c:if test="${user_approve == 1 }">
-							<li><a href="<%=request.getContextPath() %>/user_mypage.do?id=${user_id }">마이페이지</a></li>							
-							</c:if>					
-							<c:if test="${user_approve > 1 }">
-							<li><a href="<%=request.getContextPath() %>/admin_page.do?id=${user_id }">관리자 페이지</a></li>
-							</c:if>
-						</ul>
+					<nav id="menu" style="width: 450px; background-color: white;">
+					<br><br>
+						<h2 align="center" style="color: black;">Search</h2>
+						<br>
+						<%-- 검색 폼 페이지 처리 영역 --%>
+						<div align="left" style="margin-bottom: 15px;">
+						   <form method="post" action="<%=request.getContextPath() %>/board_search.do?board_name=${board_name }">
+						   	 <div class="search" style="border-bottom: 3px solid black;">
+						   		<input type="text" name="keyword" placeholder="브랜드명, 모델명, 모델번호 등" class="input_search" style="width:90%; color: black; border-bottom: none; text-decoration: none;" onfocus="this.style.boxShadow = 'none';">
+						   		<button class="btn_search_delete" type="reset">
+								  x
+								</button>
+						   	 </div>
+						   </form>
+						   <br>
+						</div>
+						
+						<%-- 최근 검색어 --%>
+						<div class="recent_search">
+							<div class="">
+								
+							</div>
+						</div>
+						
+						<%-- 추천 검색어 --%>
+						<div class="rec_search">
+							<div style="margin-bottom: 12px;">
+								<span class="title" style="color: black;">추천 검색어</span>
+							</div>
+							<div class="rec_search_inner">
+								<div class="rec_search_item">
+									<button class="rec_search_text">나이키</button>
+								</div>
+								<div class="rec_search_item">
+									<button class="rec_search_text">갈릭옥션</button>
+								</div>
+								<div class="rec_search_item">
+									<button class="rec_search_text">에어팟</button>
+								</div>
+								<div class="rec_search_item">
+									<button class="rec_search_text">반팔</button>
+								</div>
+								<div class="rec_search_item">
+									<button class="rec_search_text">샌들</button>
+								</div>
+								<div class="rec_search_item">
+									<button class="rec_search_text">샤넬</button>
+								</div>
+								<div class="rec_search_item">
+									<button class="rec_search_text">조던</button>
+								</div>
+								<div class="rec_search_item">
+									<button class="rec_search_text">스투시</button>
+								</div>
+								<div class="rec_search_item">
+									<button class="rec_search_text">가젤</button>
+								</div>
+								<div class="rec_search_item">
+									<button class="rec_search_text">리퍼비시</button>
+								</div>
+							</div>
+						</div>
+						
+						<br>
+						
+						<%-- 인기 검색어 --%>
+						<div class="hit_search">
+							<div class="ranking">
+								<div class="search_title_wrap">
+									<span class="title" style="color: black;">실시간 인기 검색어</span>
+									<div class="title_sub_text">
+										<span style="color: black;"></span>
+									</div>
+								</div>
+								<div class="search_item_content_wrap">
+									<div class="search_card">
+										<ol class="search_card_ranking" style="padding-left: 5;">
+										</ol>
+									</div>
+								</div>
+							</div>
+							
+						</div>
+						
+<script type="text/javascript">
+
+	$(function() {
+		
+	    // ajax에서 동일하게 사용되는 속성 설정
+	    $.ajaxSetup({
+	        ContentType : "application/x-www-form-urlencoded;charset=UTF-8",
+	    });
+	    
+	    // 초기 리스트 출력
+	    searchHitList();
+	    
+	});
+	
+	function searchHitList() {
+	    $.ajax({
+	        type: "get",
+	        url: "user_search_hit_list.do",
+	        data: {},
+	        datatype: "json",
+	        success: function(response) {
+	            console.log(response);
+	            var $searchCardList = $("<ol>").addClass("search_card_ranking").css("padding-left", "5px");
+	
+	            $.each(response.searchList, function(index, item) {
+	                var $cardItem = $("<li>").addClass("search_card_ranking_item");
+	                var $rankingIdx = $("<span>").addClass("ranking_idx").text(index+1);
+	                var $rankingTitle = $("<span>").addClass("ranking_title").text(item.keyword);
+	                var $link = $("<a>").append($rankingTitle);
+	                $cardItem.append($rankingIdx).append($link);
+	                $searchCardList.append($cardItem);
+	            });
+	
+	            // "시간" 부분 수정
+	            var currentTime = new Date();
+	            var currentMonth = (currentTime.getMonth() + 1).toString().padStart(2, '0');
+	            var currentDay = currentTime.getDate().toString().padStart(2, '0');
+	            var currentHour = currentTime.getHours().toString().padStart(2, '0');
+	            var currentMinute = currentTime.getMinutes().toString().padStart(2, '0');
+	            var currentTimeStr = currentMonth + "." + currentDay + " " + currentHour + ":" + currentMinute;
+	            $(".title_sub_text span").text(currentTimeStr + " 기준");
+	
+	            // 애니메이션 적용
+	            $('.search_card').slideUp(800, function() {
+	                $(".search_card_ranking").replaceWith($searchCardList);
+	                $('.search_card').slideDown(800);
+	            });
+	        },
+	        error: function() {
+	            alert("searchHitList() 통신 에러가 발생했습니다.");
+	        }
+	    });
+	}
+	
+	// 5초 간격으로 updateData 함수를 실행하는 코드
+	setInterval(searchHitList, 10000);
+
+	
+
+</script>
+						
 					</nav>
 					
 					</header>
