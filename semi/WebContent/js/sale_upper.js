@@ -14,7 +14,7 @@ function formatNumberCount(num) {
   return formatted.replace(/\.$/, '');
 }
 
-  
+
   
 var sale_value = formatNumber(sale_price);
 
@@ -50,6 +50,7 @@ $(function () {
 		  user_count = formatNumberCount($(this).find("user_upper").text() * 1.1);
           console.log($(this).find("user_upper").text());
           console.log("usercount >>> " + user_count);
+		  
     	  
           table += "<tr>";
           table += "<th bgcolor='#F6F6F6'>현재 입찰가</th>";
@@ -102,64 +103,82 @@ $(function () {
         
         table = "";
         
+			
         $(data).find("upper").each(function () {
-            table += "<tr>";
-            table += "<th bgcolor='#F6F6F6'>즉시 입찰가</th>";
-            if ($(this).find("user_upper").text() > sale_price) {
+			if(user_id != ""){	// 유저가 로그인을 했을 경우
+				if($(this).find("user_upper").text() != end_price){	// 입찰된 금액이 즉시 입찰가와 같지 않을 경우
+	            table += "<tr>";
+	            table += "<th bgcolor='#F6F6F6'>즉시 입찰가</th>";
+	            if ($(this).find("user_upper").text() > sale_price) {
+		
+					if(user_count > end_price){
+				  	  table += "<td bgcolor='white'>" + end_value + "원</td>";
+					} else {
+	    	          table += "<td bgcolor='white'>" + user_value + "원</td>";
+					}
+					
+	            } else {
+	              table += "<td bgcolor='white'>" + sale_value + "원</td>";
+	            }
 	
-				if(user_count > end_price){
-			  	  table += "<td bgcolor='white'>" + end_value + "원</td>";
-				} else {
-    	          table += "<td bgcolor='white'>" + user_value + "원</td>";
-				}
-				
-            } else {
-              table += "<td bgcolor='white'>" + sale_value + "원</td>";
-            }
-
-			if(end_price == $(this).find("user_upper").text()){
-				table += "<td>입찰 완료</td>";				
-			} else{
-            	table += "<td> <input type='button' value='즉시 입찰' class='primary' onclick=\"if(confirm('즉시 입찰 하시겠습니까?')){ location.href='update_mini.do?no="+sale_no+"&id="+user_id+"'; } else {return; }\"> </td>";
-			}
-            table += "</tr>";
-            
-            table += "<tr>";
-            table += "<th bgcolor='#F6F6F6'>직접 입찰가</th>";
-            if ($(this).find("user_upper").text() > sale_price) {
-              	
-				if(user_count >= end_price){
-               		 table += "<td bgcolor='white'> <input type='text' name='user_bid' value='" + end_value + "'></td>";
+				if(end_price == $(this).find("user_upper").text()){
+					table += "<td>입찰 완료</td>";				
 				} else{
-                	table += "<td bgcolor='white'> <input type='text' name='user_bid' value='" + formatNumber($(this).find("user_upper").text() * 1.1) + "'></td>";
+	            	table += "<td> <input type='button' value='즉시 입찰' class='primary' onclick=\"if(confirm('즉시 입찰 하시겠습니까?')){ location.href='update_mini.do?no="+sale_no+"&id="+user_id+"'; } else {return; }\"> </td>";
 				}
+	            table += "</tr>";
+	            
+	            table += "<tr>";
+	            table += "<th bgcolor='#F6F6F6'>직접 입찰가</th>";
+	            if ($(this).find("user_upper").text() > sale_price) {
+	              	
+					if(user_count >= end_price){
+	               		 table += "<td bgcolor='white'> <input type='text' name='user_bid' value='" + end_value + "'></td>";
+					} else{
+	                	table += "<td bgcolor='white'> <input type='text' name='user_bid' value='" + formatNumber($(this).find("user_upper").text() * 1.1) + "'></td>";
+					}
+					
+				} else {
+	                table += "<td bgcolor='white'> <input type='text' name='user_bid' placeholder='" + formatNumber(sale_price * 1.1) + " 원' pattern='[0-9]+'  ></td>";
+	              }
 				
-			} else {
-                table += "<td bgcolor='white'> <input type='text' name='user_bid' value='" + formatNumber(sale_price * 1.1) + "'></td>";
-              }
-			
-			if(end_price == $(this).find("user_upper").text()){
-				table += "<td>입찰 완료</td>";
-			} else{
-	            table += "<td> <input type='submit' value='직접 입찰' class='primary' onclick=\"return confirm('입찰 하시겠습니까?')\"> </td>";
-			}
-            table += "</tr>"
-            
-            table += "<tr>";
-            table += "<th bgcolor='#F6F6F6'>즉시 구매가</th>";
-            table += "<td bgcolor='white'>" + formatNumber(end_price) + "원</td>";
-			
-			if(end_price == $(this).find("user_upper").text()){
-				table += "<td>입찰 완료</td>";
-			} else{
-	            table += "<td bgcolor='white'> <input type='button' value ='즉시 구매' class='primary' onclick=\"if(confirm('즉시 구매 하시겠습니까?')){ location.href='update_end.do?no="+sale_no+"&id="+user_id+"'; } else {return; }\">";
-			}
-            table += "</tr>";
-            
+				if(end_price == $(this).find("user_upper").text()){
+					table += "<td>입찰 완료</td>";
+				} else{
+		            table += "<td> <input type='submit' value='직접 입찰' class='primary' onclick=\"return confirm('입찰 하시겠습니까?')\"> </td>";
+				}
+	            table += "</tr>"
+	            
+	            table += "<tr>";
+	            table += "<th bgcolor='#F6F6F6'>즉시 구매가</th>";
+	            table += "<td bgcolor='white'>" + formatNumber(end_price) + "원</td>";
+			    table += "<td bgcolor='white'> <input type='button' value ='즉시 구매' class='primary' onclick=\"if(confirm('즉시 구매 하시겠습니까?')){ location.href='update_end.do?no="+sale_no+"&id="+user_id+"'; } else {return; }\">";
+	            table += "</tr>";
+
+				table += "<tr>";
+				table += "<th bgcolor='#F6F6F6'>소지금(+입찰금)</th>";
+				table += "<td bgcolor='white'>"
+				} else {
+					table += "<tr>";
+					
+					table += "<td bgcolor='white'> <h5>입찰이 완료된 경매품 입니다</h5></td>";
+					
+					table += "</tr>";
+					
+				}	// if($(this).find("user_upper").text() != end_price) end
+            } else {	// 유저가 로그인을 안했을경우
+				table += "<tr>";
+				
+				table += "<td bgcolor ='white'> <h5>로그인 후 이용 가능합니다</h5></td>";
+				
+				table += "</tr>";
+			} // if(user_id != "") end
+
           });
+
           $(".list_modal_detail").append(table);
         
-        
+	        
       },
       
       error: function () {

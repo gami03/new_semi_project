@@ -3,7 +3,7 @@
 
 
 	<div align="center">
-		가나다
+		
 	</div>
 
 

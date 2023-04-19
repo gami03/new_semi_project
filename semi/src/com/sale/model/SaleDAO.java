@@ -193,7 +193,7 @@ public class SaleDAO {
 				dto.setSale_file3(rs.getString("sale_file3"));
 				dto.setSale_file4(rs.getString("sale_file4"));
 				dto.setSale_date(rs.getString("sale_date"));
-				dto.setSale_date(rs.getString("end_date"));
+				dto.setEnd_date(rs.getString("end_date"));
 				dto.setSale_hit(rs.getInt("sale_hit"));
 				
 				System.out.println(rs.getString("sale_file3"));
@@ -279,7 +279,7 @@ public class SaleDAO {
 		try {
 			openConn();
 			
-			sql = "select * from product where product_no = ?";
+			sql = "select * from product where sale_no = ?";
 			
 			pstmt = con.prepareStatement(sql);
 			
@@ -853,6 +853,69 @@ public class SaleDAO {
 	}	//updateNow() 메서드 end
 	
 	
+	
+	// 경매물품의 시간을 가져오는 메서드.
+	public SaleDTO getTime(int no) {
+		
+		SaleDTO dto = null;
+		
+		try {
+			openConn();
+			
+			sql = "select * from product where sale_no = ?";
+			
+			pstmt = con.prepareStatement(sql);
+			
+			pstmt.setInt(1, no);
+			
+			rs = pstmt.executeQuery(sql);
+			
+			if(rs.next()) {
+				
+				dto = new SaleDTO();
+				
+				dto.setSale_date(rs.getString("sale_date"));
+				dto.setEnd_date(rs.getString("end_date"));
+			}
+			
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			closeConn(rs, pstmt, con);
+		}
+		return dto;
+	}	// getTime(int no) end
+	
+	
+	// 회원의 경매물품 판매 이력을 가져오는 메서드
+	public int getCountProduct(int no) {
+		
+		int result = 0;
+		
+		try {
+			openConn();
+			
+			sql = "select count(*) from product where user_no = ?";
+			
+			pstmt = con.prepareStatement(sql);
+			
+			pstmt.setInt(1, no);
+			
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()) {
+				result = rs.getInt(1);
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			closeConn(rs, pstmt, con);
+		} 
+		return result;
+	}	// getCountProduct() 메서드 end
 	
 	
 	

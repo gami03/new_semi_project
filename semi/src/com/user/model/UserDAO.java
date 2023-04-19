@@ -393,5 +393,38 @@ public class UserDAO {
    		
    		return list;
    	}
+   	
+   	// 회원의 정보를 가져오는 메서드
+   	public UserDTO getUserOne(int no) {
+   		
+   		UserDTO dto = null;
+   		
+   		try {
+   			openConn();
+   			
+   			sql = "select * from user_table where user_no = ?";
+   			
+			pstmt = con.prepareStatement(sql);
+			
+			pstmt.setInt(1, no);
+			
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()) {
+				
+				dto = new UserDTO();
+				
+				dto.setUser_nickname(rs.getString("user_nickname"));
+				dto.setUser_email(rs.getString("user_email"));
+				
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			closeConn(rs, pstmt, con);
+		}
+   		return dto;
+   	}
  	
 }

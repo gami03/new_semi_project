@@ -31,6 +31,8 @@ public class UpdateEndAction implements Action {
 		// 현재 경매 물품을 상회입찰한 유저 번호를 가져오는 메서드
 		int user_upper_no = dao.getUserUpperNo(product_no);
 		
+		System.out.println("user_upper_no >>>" + user_upper_no);
+		
 		// 현재 경매 물품을 등록한 판매자의 번호를 가져오는 메서드.
 		int product_user_no = dao.getProductUserNo(product_no);
 		

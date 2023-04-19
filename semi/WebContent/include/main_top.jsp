@@ -42,90 +42,224 @@
 
 <style type="text/css">
 
-	#nav_form {
-    float: right;
-}
-
-	#header nav {
-		width: 90%;
+	body {
+		overflow-x: hidden;
 	}
 
+	#wrapper {
+		margin: auto;
+	}
+
+	#nav_form {
+	}
+
+	#header {
+    padding: 0;
+    background-color: white;
+    height: 8em;
+    margin-bottom: 8em;
+    position: fixed;
+    }
+    
+	#wrapper > * > .inner {
+    width: 60%;
+    max-width: 90em;
+    margin: 0 auto;
+	padding: 0;
+	}
+	
+	#top_inner {
+    display: flex;
+    padding: 3px 19% 30px;
+    height: 22px;
+    justify-content: flex-end
+	}
+
+	#top_inner a{
+		font-size: 13px;
+		color: gray;
+		margin-left: 35px;
+	}
+    
+	#header nav {
+		padding-top: 10px;
+		right: 0;
+		top: 0;
+		border-bottom: 2px solid orange;
+		background-color: white;
+	}
+	
+	#topnav {
+		width: 100% !important;
+		margin: auto;
+	}
+	
+	input[type="button"].btn {
+		box-shadow: revert;
+	}
+	
+    
+	
+	#nav ul {
+		justify-content: space-around; 
+		background-color: #fda6a5;
+		height: 70px;
+	}
+	
+	#footer {
+		margin-left: calc(-50vw + 50%);
+		width: 100vw;
+	
+	}
+	
+	#navdiv {
+		width: 60%;
+	}
+	
+	#header .logo {
+		margin-left: 20%;
+	}
+	
+	#header .logo .logotitle img {
+    display: block;
+    width: 15em;
+    height: auto;
+	}
+	
+	.topbutton {
+		box-shadow: none;
+	}
+	
+	.topbyttondiv {
+	float: right;
+	clear: both;
+	}
+	
+	#header nav ul {
+		justify-content: flex-end;
+		margin-right: 75%;
+	}
+	
+	#main {
+		padding-top: 15em;
+	}
+	
+	.modal-header .close {
+    	box-shadow: none;
+	}
+	
 </style>
 	</head>
 	<body class="is-preload">
+	<form id="nav_form" method="post" name="f"  action="<%=request.getContextPath()%>/login_check.do" onsubmit="return check()" align="center">
+	<c:set var="id" value="${user_id }" />
+	<c:set var="user_approve" value="${user_approve }" />
+	<c:if test="${empty id }">
+		<!-- Modal -->
+		<div class="modal fade" id="boardModal" tabindex="-1" aria-labelledby="boardModalLabel" aria-hidden="true" style="z-index: 3000;">
+		  <div class="modal-dialog">
+		    <div class="modal-content">
+		      <div class="modal-header">
+		        <h5 class="modal-title" id="boardModalLabel">로그인 모달창</h5>
+		        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+		          <span aria-hidden="true">&times;</span>
+		        </button>
+		      </div>
+		      <div class="modal-body">
+			
+				<table border="1" cellspacing="0" width="400">
+					<tr>
+						<th>아이디</th>
+						<td> <input type="text" name="user_id"></td>
+					</tr>
+				
+					<tr>
+						<th>비밀번호</th>
+						<td> <input type="password" name="user_pwd"></td>
+					</tr>
+				
+					
+				
+				</table>
+				<br>
+				<div class="submit1" align="center">
+					<input class="submit_btn btn-primary" type="submit" value="로그인" >
+				</div>
+
+
+	      </div>
+	    </div>
+	  </div>
+	</div>
+	</c:if>
+	<br>
+	
+	</form>
 		<!-- Wrapper -->
 			<div id="wrapper">
 				<!-- Header -->
-					<header id="header" style="background: #F6F6F6">
+					<header id="header" style=" z-index: 2000;">
+					
 						<div class="inner">
 
 							<!-- Nav -->
-								<nav style="z-index: 1050">
+							<div id="navdiv">
+								<nav id="topnav"style=" z-index: 1050;">
+								<div id="top_inner">
+									<a href="<%=request.getContextPath() %>/board_list.do?board_name=FAQ_board">고객센터</a>
+									<a>관심상품</a>
+									<c:if test="${empty id }">
+										<a data-toggle="modal" data-target="#boardModal">로그인</a>
+									</c:if>
+									<c:if test="${!empty id }">
+										<a href="logintest/logout.jsp">로그아웃</a>
+									</c:if>
+									
 								
+							</div>
+								<div class="topimage">
 								<!-- Logo -->
 								<a href="index.jsp" class="logo">
-									<span class="symbol"><img src="images/logo.svg" alt="" /></span><span class="title">Phantom</span>
+									<span class="logotitle"><img src="./images/galicaction_logotitle.png" /></span>
 								</a>
-								
-									<form id="nav_form" method="post" name="f"  action="<%=request.getContextPath()%>/login_check.do" onsubmit="return check()" align="center">
-										
-									<c:set var="id" value="${user_id }" />
-									<c:set var="user_approve" value="${user_approve }" />
-									<c:if test="${empty id }">
-										<ul>
-											<li><input type="button" class="btn btn-primary" name="login" value="로그인" data-toggle="modal" data-target="#boardModal"></li>
+								<c:if test="${empty user_id }">
+								<div class="topbyttondiv" style="margin-right: 4.2%;">
+									<ul>
+											<li><button class="topbutton" name="home" onclick="location.href='index.jsp'">HOME</button></li>
+											<li><button class="topbutton" name="FREE" onclick="location.href='board_list.do?board_name=free_board'">FREE</button></li>
+											<li><button class="topbutton" name="SHOP" onclick="location.href='sale_index_list.do'">SHOP</button></li>
 											<li><a href="#menu">Menu</a></li>
-										</ul>
-										
-										<!-- Modal -->
-										<div class="modal fade" id="boardModal" tabindex="-1" aria-labelledby="boardModalLabel" aria-hidden="true">
-										  <div class="modal-dialog">
-										    <div class="modal-content">
-										      <div class="modal-header">
-										        <h5 class="modal-title" id="boardModalLabel">로그인 모달창</h5>
-										        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-										          <span aria-hidden="true">&times;</span>
-										        </button>
-										      </div>
-										      <div class="modal-body">
-											
-												<table border="1" cellspacing="0" width="400">
-													<tr>
-														<th>아이디</th>
-														<td> <input type="text" name="user_id"></td>
-													</tr>
-												
-													<tr>
-														<th>비밀번호</th>
-														<td> <input type="password" name="user_pwd"></td>
-													</tr>
-												
-													
-												
-												</table>
-												<br>
-												<div class="submit1" align="center">
-													<input class="submit_btn btn-primary" type="submit" value="로그인" >
-												</div>
-			
-			
-									      </div>
-									    </div>
-									  </div>
-									</div>
-									</c:if>
-									<br>
+									</ul>
+								</div>
+								</c:if>
+								<c:if test="${!empty user_id and user_approve <= 1 }">
+								<div class="topbyttondiv" style="margin-right: 1.2%;">
+									<ul>
+											<li><button class="topbutton" name="home" onclick="location.href='index.jsp'">HOME</button></li>
+											<li><button class="topbutton" name="FREE" onclick="location.href='board_list.do?board_name=free_board'">FREE</button></li>
+											<li><button class="topbutton" name="SHOP" onclick="location.href='sale_index_list.do'">SHOP</button></li>
+											<li><button class="topbutton" name="MY" onclick="location.href='admin_page.do?id=${user_id }'">MY</button></li>
+											<li><a href="#menu">Menu</a></li>
+									</ul>
+								</div>
+								</c:if>
+								<c:if test="${!empty user_id and user_approve > 1 }">
+								<div class="topbyttondiv" style="margin-right: -0.5%;">
+									<ul>
+											<li><button class="topbutton" name="home" onclick="location.href='index.jsp'">HOME</button></li>
+											<li><button class="topbutton" name="FREE" onclick="location.href='board_list.do?board_name=free_board'">FREE</button></li>
+											<li><button class="topbutton" name="SHOP" onclick="location.href='sale_index_list.do'">SHOP</button></li>
+											<li><button class="topbutton" name="ADMIN" onclick="location.href='admin_page.do?id=${user_id }'">ADMIN</button></li>
+											<li><a href="#menu">Menu</a></li>
+									</ul>
+								</div>
+								</c:if>
+								</div>
 									
-									<c:if test="${!empty id }">
-										<ul>
-											<li><input type="button" name="login" value="로그아웃" onclick="location.href='logintest/logout.jsp'"></li>
-											<li><a href="#menu">Menu</a></li>
-										</ul>
-									</c:if>
-								</form>
 							</nav>
+							</div>
 						</div>
-					</header>
+					
 
 				<!-- Menu -->
 					<nav id="menu">
@@ -142,8 +276,8 @@
 							<c:if test="${user_approve > 1 }">
 							<li><a href="<%=request.getContextPath() %>/admin_page.do?id=${user_id }">관리자 페이지</a></li>
 							</c:if>
-							<c:if test="${user_approve >= 1 }">
-							<li><a href="<%=request.getContextPath() %>/product_page.do?id=${user_id }">판매자 페이지</a></li>
-							</c:if>
 						</ul>
 					</nav>
+					
+					</header>
+					
