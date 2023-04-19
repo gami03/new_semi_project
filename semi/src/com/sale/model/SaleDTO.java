@@ -14,6 +14,7 @@ public class SaleDTO {
 	private String sale_file3;
 	private String sale_file4;
 	private String sale_date;
+	private String end_date;
 	private int sale_reply;
 	private int sale_hit;
 	private int sale_check;
@@ -59,6 +60,12 @@ public class SaleDTO {
 	}
 	public void setSale_date(String sale_date) {
 		this.sale_date = sale_date;
+	}
+	public String getEnd_date() {
+		return end_date;
+	}
+	public void setEnd_date(String end_date) {
+		this.end_date = end_date;
 	}
 	public int getSale_reply() {
 		return sale_reply;

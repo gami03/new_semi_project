@@ -1,6 +1,5 @@
 package com.sale.model;
 
-import java.io.Console;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -9,9 +8,6 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.naming.Context;
-import javax.naming.InitialContext;
-import javax.sql.DataSource;
 
 public class SaleDAO {
 
@@ -197,7 +193,7 @@ public class SaleDAO {
 				dto.setSale_file3(rs.getString("sale_file3"));
 				dto.setSale_file4(rs.getString("sale_file4"));
 				dto.setSale_date(rs.getString("sale_date"));
-				dto.setSale_date(rs.getString("end_date"));
+				dto.setEnd_date(rs.getString("end_date"));
 				dto.setSale_hit(rs.getInt("sale_hit"));
 				
 				System.out.println(rs.getString("sale_file3"));
@@ -283,7 +279,7 @@ public class SaleDAO {
 		try {
 			openConn();
 			
-			sql = "select * from product where product_no = ?";
+			sql = "select * from product where sale_no = ?";
 			
 			pstmt = con.prepareStatement(sql);
 			
@@ -599,84 +595,91 @@ public class SaleDAO {
 		
 		end_price = getEnd_price(sale_no);
 		
-		if(upper_value > start_value) {	// 상회 입찰 금액이 있을때.
+		if(end_price != upper_value) {
 			
-			// upper_price 에 10% 만큼 더해줘야 된다.
-			int upper_price = (int) (upper_value * 1.1);
-			
-			if(upper_price >= end_price) {	// 즉시 입찰가가 즉시 구매가 보다 높을 경우
-				// 즉시 입찰가가 즉시 구매가보다 높으면 안되므로 입찰한 유저의 차감 금액을 end_price로 잡는다.
+			if(upper_value > start_value) {	// 상회 입찰 금액이 있을때.
 				
-				if(user_money >= end_price) {	// 회원 소지금이 즉시 입찰금액보다 많을 경우
-					
-					// 입찰을 뺏긴 회원의 입찰금액을 user_tabled의 user_money 에 더해주는 코드
-					InputUser_money(sale_no);
-					
-					// 입찰한 유저의 유저 번호와 금액을 upper 테이블에 업데이트 하는 코드.
-					result = InputUser_upper(end_price, user_no, sale_no);
-					
-					// 입찰한 유저의 소지금에서 입찰 금액 만큼 빼주는 코드
-					int total = user_money - end_price;
-					
-					InputMoney(total, user_no);
-				} 	// if(user_money >= end_price) end
+				// upper_price 에 10% 만큼 더해줘야 된다.
+				int upper_price = (int) (upper_value * 1.1);
 				
-			}	// if(upper_price >= end_price) end 
-			else {
-				if(user_money >= upper_price) {	// 회원 소지금이 상회 입찰금 보다 많거나 같을때.
+				if(upper_price >= end_price) {	// 즉시 입찰가가 즉시 구매가 보다 높을 경우
+					// 즉시 입찰가가 즉시 구매가보다 높으면 안되므로 입찰한 유저의 차감 금액을 end_price로 잡는다.
 					
-					// 입찰을 뺏긴 회원의 입찰금액을 user_tabled의 user_money 에 더해주는 코드
-					InputUser_money(sale_no);
+					if(user_money >= end_price) {	// 회원 소지금이 즉시 입찰금액보다 많을 경우
+						
+						// 입찰을 뺏긴 회원의 입찰금액을 user_tabled의 user_money 에 더해주는 코드
+						InputUser_money(sale_no);
+						
+						// 입찰한 유저의 유저 번호와 금액을 upper 테이블에 업데이트 하는 코드.
+						result = InputUser_upper(end_price, user_no, sale_no);
+						
+						// 입찰한 유저의 소지금에서 입찰 금액 만큼 빼주는 코드
+						int total = user_money - end_price;
+						
+						InputMoney(total, user_no);
+					} 	// if(user_money >= end_price) end
 					
-					// 입찰한 유저의 유저 번호와 금액을 upper 테이블에 업데이트 하는 코드.
-					result = InputUser_upper(upper_price, user_no, sale_no);
+				}	// if(upper_price >= end_price) end 
+				else {
+					if(user_money >= upper_price) {	// 회원 소지금이 상회 입찰금 보다 많거나 같을때.
+						
+						// 입찰을 뺏긴 회원의 입찰금액을 user_tabled의 user_money 에 더해주는 코드
+						InputUser_money(sale_no);
+						
+						// 입찰한 유저의 유저 번호와 금액을 upper 테이블에 업데이트 하는 코드.
+						result = InputUser_upper(upper_price, user_no, sale_no);
+						
+						// 입찰한 유저의 소지금에서 입찰 금액 만큼 빼주는 코드
+						int total = user_money - upper_price;
+						
+						InputMoney(total, user_no);
+					} else {
+						
+						// 회원 소지금이 상회입찰가 보다 적을때 
+						result = -1;
+					} // if(user_money >= upper_price) end
+				}	// if(upper_price >= end_price) else 문 end 
+				
+			} else if(start_value > upper_value) {	// 상회 입찰 금액이 없을때.
+				
+				int start_price = (int)(start_value * 1.1);
+				
+				if(user_money >= start_price) {
 					
-					// 입찰한 유저의 소지금에서 입찰 금액 만큼 빼주는 코드
-					int total = user_money - upper_price;
-					
-					InputMoney(total, user_no);
+					if(start_price >= end_price) {
+						
+						// 입찰한 유저의 유저 번호와 금액을 upper 테이블에 업데이트 하는 코드.
+						result = InputUser_upper(end_price, user_no, sale_no);
+						
+						// 입찰한 유저의 소지금에서 입찰 금액 만큼 빼주는 코드
+						int total = user_money - end_price;
+						
+						InputMoney(total, user_no);
+						
+					} else {
+						
+						// 입찰한 유저의 유저 번호와 금액을 upper 테이블에 업데이트 하는 코드.
+						result = InputUser_upper(start_price, user_no, sale_no);
+						
+						// 입찰한 유저의 소지금에서 입찰 금액 만큼 빼주는 코드
+						int total = user_money - start_price;
+						
+						InputMoney(total, user_no);
+						
+					}
 				} else {
 					
 					// 회원 소지금이 상회입찰가 보다 적을때 
 					result = -1;
-				} // if(user_money >= upper_price) end
-			}	// if(upper_price >= end_price) else 문 end 
-			
-		} else if(start_value > upper_value) {	// 상회 입찰 금액이 없을때.
-			
-			int start_price = (int)(start_value * 1.1);
-			
-			if(user_money >= start_price) {
-				
-				if(start_price >= end_price) {
-					
-					// 입찰한 유저의 유저 번호와 금액을 upper 테이블에 업데이트 하는 코드.
-					result = InputUser_upper(end_price, user_no, sale_no);
-					
-					// 입찰한 유저의 소지금에서 입찰 금액 만큼 빼주는 코드
-					int total = user_money - end_price;
-					
-					InputMoney(total, user_no);
-					
-				} else {
-					
-					// 입찰한 유저의 유저 번호와 금액을 upper 테이블에 업데이트 하는 코드.
-					result = InputUser_upper(start_price, user_no, sale_no);
-					
-					// 입찰한 유저의 소지금에서 입찰 금액 만큼 빼주는 코드
-					int total = user_money - start_price;
-					
-					InputMoney(total, user_no);
-					
 				}
 			} else {
-				
-				// 회원 소지금이 상회입찰가 보다 적을때 
-				result = -1;
+				// 최소 금액에 맞지 않는 금액이 입력 되었을 때.
+				result = -2;
 			}
+			
 		} else {
-			// 최소 금액에 맞지 않는 금액이 입력 되었을 때.
-			result = -2;
+			// 상품이 이미 구매가 완료 되었을때.
+			result = -6;
 		}
 		
 		
@@ -702,74 +705,81 @@ public class SaleDAO {
 		// 현재 경매품의 즉시 구매가를 불러오는 코드
 		int end_price = getEnd_price(sale_no);
 		
-		// 상회 입찰가가 있을 경우
-		if(upper_value > start_value) {
+		if(end_price != upper_value) {
 			
-			upper_value += upper_value * 0.1;
-			
-			// 입찰한 금액이 최소 입찰가 보다 높은 경우
-			if(bid >= upper_value) {
-				// 입찰한 금액 즉시구매가 보다 적을 경우
-				if(end_price > bid) {
-					// 입찰한 금액이 자신의 소지금 만큼 있을경우
-					if(user_money > bid) {
-						
-						// 입찰을 뺏긴 회원의 입찰금액을 user_tabled의 user_money 에 더해주는 코드
-						InputUser_money(sale_no);
-						
-						// 입찰한 유저의 유저 번호와 금액을 upper 테이블에 업데이트 하는 코드.
-						result = InputUser_upper(bid, user_no, sale_no);
-						
-						// 입찰한 유저의 소지금에서 입찰 금액 만큼 빼주는 코드
-						int total = user_money - bid;
-						
-						InputMoney(total, user_no);
-						
-					} else {
-						result = -1;
-					}	// if(user_money > bid) end
-				} else {
-					result = -4;	// 직접 입력한 금액이 즉시 구매가보다 적을 경우
-				}	// if(end_price > bid) end
+			// 상회 입찰가가 있을 경우
+			if(upper_value > start_value) {
 				
-			} else {
-				result = -3;	// 직접 입력한 금액이 최소 입찰가 보다 낮을 경우
-			}	// if(bid > user_value) end
-			
-		// 상회 입찰가가 없을 경우
-		} else if(upper_value < start_value) {
-			start_value += start_value * 1.1;
-			
-			// 입찰한 금액이 최소 입찰가 보다 높은 경우
-			if(bid > start_value) {
-				// 입찰한 금액이 즉시구매가 보다 적을 경우
-				if(end_price >= bid) {
-					
-					// 입찰한 금액이 자신의 소지금 만큼 있을경우
-					if(user_money > bid) {
-						
-						// 입찰한 유저의 유저 번호와 금액을 upper 테이블에 업데이트 하는 코드.
-						result = InputUser_upper(bid, user_no, sale_no);
-						
-						// 입찰한 유저의 소지금에서 입찰 금액 만큼 빼주는 코드
-						int total = start_value - bid;
-						
-						InputMoney(total, user_no);
-						
+				upper_value += upper_value * 0.1;
+				
+				// 입찰한 금액이 최소 입찰가 보다 높은 경우
+				if(bid >= upper_value) {
+					// 입찰한 금액 즉시구매가 보다 적을 경우
+					if(end_price > bid) {
+						// 입찰한 금액이 자신의 소지금 만큼 있을경우
+						if(user_money > bid) {
+							
+							// 입찰을 뺏긴 회원의 입찰금액을 user_tabled의 user_money 에 더해주는 코드
+							InputUser_money(sale_no);
+							
+							// 입찰한 유저의 유저 번호와 금액을 upper 테이블에 업데이트 하는 코드.
+							result = InputUser_upper(bid, user_no, sale_no);
+							
+							// 입찰한 유저의 소지금에서 입찰 금액 만큼 빼주는 코드
+							int total = user_money - bid;
+							
+							InputMoney(total, user_no);
+							
+						} else {
+							result = -1;
+						}	// if(user_money > bid) end
 					} else {
-						result = -1;
-					} // if(user_money > bid) end
+						result = -4;	// 직접 입력한 금액이 즉시 구매가보다 적을 경우
+					}	// if(end_price > bid) end
+					
 				} else {
-					result = -5;	// 직접 입력한 금액이 즉시 구매가보다 높을 경우
-				}	// if(end_price >= bid) end
+					result = -3;	// 직접 입력한 금액이 최소 입찰가 보다 낮을 경우
+				}	// if(bid > user_value) end
+				
+				// 상회 입찰가가 없을 경우
+			} else if(upper_value < start_value) {
+				start_value += start_value * 1.1;
+				
+				// 입찰한 금액이 최소 입찰가 보다 높은 경우
+				if(bid > start_value) {
+					// 입찰한 금액이 즉시구매가 보다 적을 경우
+					if(end_price >= bid) {
+						
+						// 입찰한 금액이 자신의 소지금 만큼 있을경우
+						if(user_money > bid) {
+							
+							// 입찰한 유저의 유저 번호와 금액을 upper 테이블에 업데이트 하는 코드.
+							result = InputUser_upper(bid, user_no, sale_no);
+							
+							// 입찰한 유저의 소지금에서 입찰 금액 만큼 빼주는 코드
+							int total = start_value - bid;
+							
+							InputMoney(total, user_no);
+							
+						} else {
+							result = -1;
+						} // if(user_money > bid) end
+					} else {
+						result = -5;	// 직접 입력한 금액이 즉시 구매가보다 높을 경우
+					}	// if(end_price >= bid) end
+				} else {
+					result = -3;	// 직접 입력한 금액이 최소 입찰가 보다 낮을 경우
+				}	// if(bid > start_value) end
 			} else {
-				result = -3;	// 직접 입력한 금액이 최소 입찰가 보다 낮을 경우
-			}	// if(bid > start_value) end
+				result = -2;
+			}	// else if(upper_value < start_value) end
 		} else {
-			result = -2;
-		}	// else if(upper_value < start_value) end
+			result = -6;
+		}
+		
 		return result;
 	}	// updateBid() 메서드 end
+		
 	
 	
 	// 즉시 구매 버튼을 눌렀을때 동작하는 메서드.
@@ -843,6 +853,69 @@ public class SaleDAO {
 	}	//updateNow() 메서드 end
 	
 	
+	
+	// 경매물품의 시간을 가져오는 메서드.
+	public SaleDTO getTime(int no) {
+		
+		SaleDTO dto = null;
+		
+		try {
+			openConn();
+			
+			sql = "select * from product where sale_no = ?";
+			
+			pstmt = con.prepareStatement(sql);
+			
+			pstmt.setInt(1, no);
+			
+			rs = pstmt.executeQuery(sql);
+			
+			if(rs.next()) {
+				
+				dto = new SaleDTO();
+				
+				dto.setSale_date(rs.getString("sale_date"));
+				dto.setEnd_date(rs.getString("end_date"));
+			}
+			
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			closeConn(rs, pstmt, con);
+		}
+		return dto;
+	}	// getTime(int no) end
+	
+	
+	// 회원의 경매물품 판매 이력을 가져오는 메서드
+	public int getCountProduct(int no) {
+		
+		int result = 0;
+		
+		try {
+			openConn();
+			
+			sql = "select count(*) from product where user_no = ?";
+			
+			pstmt = con.prepareStatement(sql);
+			
+			pstmt.setInt(1, no);
+			
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()) {
+				result = rs.getInt(1);
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			closeConn(rs, pstmt, con);
+		} 
+		return result;
+	}	// getCountProduct() 메서드 end
 	
 	
 	

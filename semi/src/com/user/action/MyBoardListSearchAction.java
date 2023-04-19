@@ -1,9 +1,7 @@
-/**
- * 
- */
 package com.user.action;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -14,17 +12,29 @@ import com.action.ActionForward;
 import com.board.model.BoardDAO;
 import com.board.model.BoardDTO;
 import com.user.model.UserDAO;
+import com.user.model.UserDTO;
 
-/**
- * @author zjql7
- *
- */
-public class MyBoardListDetailAction implements Action {
+public class MyBoardListSearchAction implements Action {
 
 	@Override
 	public ActionForward excute(HttpServletRequest request, HttpServletResponse response) throws IOException {
-
-		String search_id = request.getParameter("searchId").trim();        
+		request.setCharacterEncoding("UTF-8");
+        response.setContentType("text/html; charset=UTF-8");
+        
+        String field = request.getParameter("field").trim();
+        String search = request.getParameter("keyword").trim();
+        String search_id = request.getParameter("searchId").trim();
+        
+        System.out.println(field);
+        System.out.println(search);
+        
+        if (field != null && !field.trim().isEmpty()) {
+            field = field.trim();
+        }
+        
+        if (search != null && !search.trim().isEmpty()) {
+        	search = search.trim();
+        }
         
 		// 페이징 처리 작업 진행
 		
@@ -91,7 +101,7 @@ public class MyBoardListDetailAction implements Action {
  		// 자유게시판으로 모인 게시글에 번호를 순차적으로 매겨서 보여주기 위함.
  		totalEndNo = totalRecord - ((page-1) * rowsize);
         
-        List<BoardDTO> list = dao.getUserBoardPage(search_id, page, rowsize);
+        List<BoardDTO> list = dao.getUserBoardSearch(search_id, field, search, page, rowsize);
         
         // 마이페이지 유저의 닉네임 가져오기.
      	String user_nickname = dao.getUserNickname(search_id);
@@ -110,28 +120,19 @@ public class MyBoardListDetailAction implements Action {
 		request.setAttribute("endNo", endNo);
 		request.setAttribute("startBlock", startBlock);
 		request.setAttribute("endBlock", endBlock);
+		request.setAttribute("field", field);
+		request.setAttribute("keyword", search);
 		
 		// 자유게시판에 모인 게시글을 번호를 순차적으로 매겨서 보여주기 위한 데이터를 view page로 이동.
 		request.setAttribute("totalEndNo", totalEndNo);
- 		
- 		System.out.println("page: " + page);
- 		System.out.println("rowsize: " + rowsize);
- 		System.out.println("block: "+block);
- 		System.out.println("totalRecord: "+totalRecord);
- 		System.out.println("allPage: "+allPage);
- 		System.out.println("startNo: "+startNo);
- 		System.out.println("endNo: "+endNo);
- 		System.out.println("startBlock: "+startBlock);
- 		System.out.println("endBlock: "+endBlock);
  		
 		ActionForward forward = new ActionForward();
 		
 		forward.setRedirect(false);
 		
-		forward.setPath("user_page/user_mypage_all.jsp");
+		forward.setPath("user_page/user_mypage_search.jsp");
 		
 		return forward;
-
 	}
 
 }
