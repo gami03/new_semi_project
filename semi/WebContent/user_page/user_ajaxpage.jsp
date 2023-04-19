@@ -21,12 +21,11 @@
 
 				<header></header>
 				<section>
-					<h2>작성 게시글 목록</h2>
-						<div align="right"><input type="button" ></div>
-						<div class="table-wrapper"> 
-							<table class="alt">
+					<div class="Board_table">
+						<div id="table-wrapper">
+							<table border="1" cellspacing="0" width="50%" class="alt col-9" id="Board_table">
 								<thead>
-									<tr>
+									<tr align="center" id="title_tr">
 										<th>게시판 명</th>
 										<th>카테고리명</th>
 										<th>제목</th>
@@ -34,10 +33,29 @@
 										<th>작성 일자</th> 
 									</tr>
 								</thead>
-								<c:set var="list" value="${BoardList }" />
-									<tbody>
+								
+								<c:set var="list" value="${BoardList }"/>
+								<tbody>
 									<c:if test="${!empty list }">
-										
+										<c:forEach items="${list}" var="dto">
+														
+											<tr>
+												<td>${dto.getBoard_name() }</td>
+												<td>${dto.getBoard_category() }</td>
+												<td>${dto.getBoard_title() }</td>
+												<td>${dto.getBoard_hit() }</td>
+												
+												<c:if test="${empty dto.getBoard_update() }">
+													<td> ${dto.getBoard_date().substring(0, 10) }</td>
+												</c:if>
+			
+												<c:if test="${!empty dto.getBoard_update() }">
+													<td> ${dto.getBoard_update().substring(0, 10) }</td>
+												</c:if>
+												
+											</tr>
+
+										</c:forEach>
 									</c:if>
 								
 									<c:if test="${empty list }">
@@ -50,14 +68,59 @@
 								</tbody>
 							</table>
 						</div>
+						
+						<%-- 페이징 처리 영역 --%>
+						<div style="margin-left: 30%;">
+						   <nav style ="float:left; width: 55%;">
+						      <ul class="pagination">
+							      <li class="page-item">
+							         <a class="page-link" href="board_list.do?page=1&board_name=${board_name }">처음</a>
+							      </li>
+							      <li>
+							      	<c:if test="${page > 1 }">
+							         <a class="page-link" href="board_list.do?page=${page-1 }&board_name=${board_name }">이전</a>
+							        </c:if>
+							        <c:if test="${page <= 1 }">
+							         <a class="page-link">이전</a>
+							        </c:if>
+							      </li>
+							      
+							      <c:forEach begin="${startBlock }" end="${endBlock }" var="i">
+							      <c:if test="${ i == page }">
+							         <li class="page-item active" aria-current="page">
+							         <a class="page-link" href="board_list.do?page=${i }&board_name=${board_name }">${i }</a>
+							         </li>   
+							      </c:if>
+							      
+							      <c:if test="${ i != page }">
+							         <li class="page-item">
+							         <a class="page-link" href="board_list.do?page=${i }&board_name=${board_name }">${i }</a>
+							         </li>   
+							      </c:if>
+							      </c:forEach>
+							      
+							      <c:if test="${endBlock < allPage }">
+							         <li class="page-item">
+							            <a class="page-link" href="board_list.do?page=${page+1 }&board_name=${board_name }">다음</a>
+							         </li>   
+							      </c:if>
+							      
+							      <c:if test="${page < allPage }">
+							      <li class="page-item">
+							            <a class="page-link" href="board_list.do?page=${allPage }&board_name=${board_name }">끝</a>
+							      </li>
+							      </c:if>
+						      </ul>
+						   </nav>
+						</div>
+						
+					</div>
 				</section>
 			</div>
 		</div>
 		<br>
-
-	<jsp:include page="../include/main_bottom.jsp" />
-
-	<script type="text/javascript">
+		
+		<script type="text/javascript">
 	
 $(function() {
 		
@@ -68,25 +131,16 @@ $(function() {
 		
 	});
 	
-	// orderBy 파라미터 값을 확인하여, 해당 옵션이 선택된 경우에만 각각 맞는 함수를 호출하도록 처리
-	function onOrderChange(orderBy) {
-	    if (orderBy === 'hit') {
-	      getHitSortList();
-	    }else if(orderBy === 'time') {
-	      getTimeSortList();
-	    }else if(orderBy === 'look') {
-	      getLookSortList();
-	    }
-	  } // onOrderChange() 함수 end
-	
-	  function getHitSortList(page) {
+	  function getUserList(page) {
 			
 			$.ajax({
 				type : "get",
-				url : "board_Hit_list.do",
+				url : "admin_ajax.do",
 				data : {
+					approve: "${dto.getUser_approve()}",
 					board_name : "${board_name }",
-				    page : page
+				    page : page,
+				    field : "${field}"
 				},
 				datatype : "json",
 				success : function(response) {
@@ -99,34 +153,17 @@ $(function() {
 						
 						// 동적으로 데이터 생성
 						var html = "";
-						var no = response.totalEndNo + 1;
+						// var no = response.totalEndNo + 1;
 						$.each(response.list, function(index, board) {
 							html += "<tr id='cont_tr'>"
-										+ "<td>";
-							no--;
-										
-							html += no;
-							
-							html += "</td>"
-								+ "<td style='text-align: left;'><a href='<%=request.getContextPath() %>/board_content.do?no=" + board.board_no + "&page=" + response.page + "&id=${user_id }&nickname=" + board.user_nickname + "&orderBy=hit&board_name="+ board.board_name +"'>"+"["+board.board_category+"]"+"&nbsp;"+ board.board_title + "</a></td>"
-										+ "<td>"+board.user_nickname+"</td>"
-										+ "<td>"+board.board_date.substring(0,10)+"</td>"
-										+ "<td>"+board.board_hit+"</td>"
-										+ "</tr>";
+									+ '<td>'+${dto.getUser_id()}+'</td>'
+		                          	+ '<td>'+user_name+'</td>'
+		                          	+ '<td>'+user_nickname+'</td>'
+		                          	+ '<td>'+user_approve+'</td>'
+		                          	+ '<td><button type="button" class="blueS" onclick="printPopUp(\''+resv_name+'\',\''+resv_birth+'\');">인쇄</button></td>'
+								+ "</tr>";
 						});
 						$("#Board_table tr:eq(0)").after(html);
-						
-						// 페이징처리
-				        var htmlStr = "";
-				        htmlStr = pageLink(response.page, response.allPage, "getHitSortList");
-				        // common.js - pageLink
-				        
-				        // 기존에 추가된 페이지 링크를 삭제
-				        $("#Board_table .pagination").remove();
-
-				        // 수정된 코드로 페이지 링크 추가
-				        $("#Board_table").append(htmlStr);
-					}
 					
 				},
 				error : function() {
@@ -134,79 +171,13 @@ $(function() {
 				}
 			});
 			
-		} // getHitSortList() 함수 end
+		} // getUserList() 함수 end
+		
+		getUserList(page);
 	
-   $(function() {
-      
-      // ajax에서 동일하게 사용되는 속성 설정
-      $.ajaxSetup({
-         // ajax에서 한글 깨짐 문제 해결
-         ContentType : "application/x-www-form-urlencoded;charset=UTF-8",
-         type : "post"
-      });
-      
-      // TBL_BOARD 테이블의 전체 데이터를 가져오는 함수.
-      function getList() {
-         
-         $.ajax({
-            url : "admin_ajax.do",
-            data : {
-            	id: ${dto.getUser_id()},
-            	name: ${dto.getUser_name()},
-            	nickname: ${dto.getUser_nickname()},
-            	approve: ${dto.getUser_approve()},
-            },
-            datatype : "xml",
-            success : function(response) {
-            	
-            	// 리스트 초기화
-                $("data.list tr:gt(1)").remove();
-                
-                let table = "";
-                
-                $(data).find("reply").each(function() {
-                   table += "<tr>";
-                   table += "<td colspan='2'>"+$(this).find("rewriter").text()+"</td>";
-                   table += "</tr>";
-                   
-                   table += "<tr>";
-                   table += "<td>"+$(this).find("recont").text()+"</td>";
-                   table += "<td>"+$(this).find("redate").text()+"</td>";
-                   table += "</tr>";
-                   
-                   table += "<tr>";
-                   table += "<td colspan='2'>&nbsp;</td>";
-                   table += "</tr>";
-                });
-                
-                $(".list tr:eq(1)").after(table);
-                
-                var addTag = "";
-                for(var k in data.reserveData){
-               
-                 var user_id = ${dto.getUser_id()};
-                 var user_name = ${dto.getUser_name()};
-                 var user_nickname = ${dto.getUser_nickname()};
-                 var user_approve = ${dto.getUser_approve()};
-                 
-                 addTag = '<tr class="tagDel">'
-                          + '<td>'+${dto.getUser_id()}+'</td>'
-                          + '<td>'+user_name+'</td>'
-                          + '<td>'+user_nickname+'</td>'
-                          + '<td>'+user_approve+'</td>'
-                          + '<td><button type="button" class="blueS" onclick="printPopUp(\''+resv_name+'\',\''+resv_birth+'\');">인쇄</button></td>'
-                          + '</tr>';
-                 $("#addTable").append(addTag);
-                }
-            },
-            
-            error : function() {
-               alert("데이터 통신 오류입니다!!!");
-            }
-         });
-      } // getList() 함수 end
-   });
 </script>  
+
+	<jsp:include page="../include/main_bottom.jsp" />
 
 </body>
 </html>

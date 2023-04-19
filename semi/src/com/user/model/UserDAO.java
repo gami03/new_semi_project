@@ -209,6 +209,8 @@ public class UserDAO {
  	 		
 			pstmt = con.prepareStatement(sql);
 			
+			pstmt.setString(1, session_id);
+			
 			rs = pstmt.executeQuery();
 			
 			if(rs.next()) {
@@ -314,15 +316,43 @@ public class UserDAO {
    		return result;
    	}
    	
+   	// 전체 유저의 수를 확인하는 메서드 호출
+   	public int getUserCount() {
+   		
+   		int count = 0;
+   		
+   		openConn();
+   		
+   		sql = "select count(*) from user_table";
+   		
+   		try {
+			pstmt = con.prepareStatement(sql);
+			
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()) {
+				count = rs.getInt(1);
+			}
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			closeConn(rs, pstmt, con);
+		}
+   		
+   		return count;
+   	}
    	
- // user 회원 목록 전체를 가져오는 메서드
+   	
+   	// user 회원 목록 전체를 가져오는 메서드
    	public List<UserDTO> getUserInfoSearch(String search, String data) {	// user_no 혹은 user_id
    		
    		List<UserDTO> list = new ArrayList<UserDTO>();
    		
    		openConn();
    		
-   		sql = "select * from user_table where ? = ? ";
+   		sql = "select * from user_table where ? like ? ";
    		
    		try {
   			pstmt = con.prepareStatement(sql);
@@ -356,7 +386,7 @@ public class UserDAO {
    	
    	
  // user 회원 목록 전체를 가져오는 메서드
-   	public List<UserDTO> getUserInfoSearch(String search, int data) {	// user_no 혹은 user_id
+   	public List<UserDTO> getUserInfoSearchI(String search, int data) {	// user_no 혹은 user_id
    		
    		List<UserDTO> list = new ArrayList<UserDTO>();
    		
