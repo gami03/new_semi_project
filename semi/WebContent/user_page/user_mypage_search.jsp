@@ -18,7 +18,7 @@
 
 				<header></header>
 				<section>
-				
+					
 					<h2>작성 게시글 목록</h2>
 						<%-- 검색 폼 페이지 처리 영역 --%>
 						<div align="right" style="margin-bottom: 10px;">
