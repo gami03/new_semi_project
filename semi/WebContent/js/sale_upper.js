@@ -2,6 +2,8 @@ var sale_no = window.sale_no;
 var sale_price = window.sale_price;
 var end_price = window.end_price;
 var user_id = window.user_id;
+var user_money = window.money;
+var user_no = window.user_no;
 
 // 숫자를 세 자리마다 콤마(,)로 구분하는 함수
 function formatNumber(num) {
@@ -156,8 +158,14 @@ $(function () {
 	            table += "</tr>";
 
 				table += "<tr>";
-				table += "<th bgcolor='#F6F6F6'>소지금(+입찰금)</th>";
-				table += "<td bgcolor='white'>"
+				table += "<th bgcolor='#F6F6F6' style='font-size: 13px'>소지금(+입찰금)</th>";
+				if($(this).find("user_no").text() == user_no){
+					table += "<td bgcolor='white'>"+formatNumber(user_money)+"원</td>";
+					table += "<td bgcolor='white'>"+formatNumber($(this).find("user_upper").text())+"원</td>";
+				} else {
+					table += "<td bgcolor='white'>"+formatNumber(user_money)+"원</td>";
+				}
+				table += "</tr>";
 				} else {
 					table += "<tr>";
 					

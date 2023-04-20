@@ -463,6 +463,36 @@ public class UserDAO {
 			closeConn(rs, pstmt, con);
 		}
    		return dto;
-   	}
+   	}	// getUserOne() 메서드 end
  	
+   	
+   	// 회원의 소지금을 가져오는 메서드
+   	public int getUserMoney(int no) {
+   		
+   		int result = 0;
+   		
+   		try {
+   			openConn();
+   			
+   			sql = "select user_money from user_table where user_no = ?";
+   			
+			pstmt = con.prepareStatement(sql);
+			
+			pstmt.setInt(1, no);
+			
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()) {
+				result = rs.getInt(1);
+			}
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			closeConn(rs, pstmt, con);
+		}
+   		return result;
+   	}
+   	
 }
