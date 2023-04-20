@@ -213,11 +213,11 @@
 														
 														<tr>
 															<td>${dto.getUser_id() }</td>
-															<td><a href="<%=request.getContextPath() %>/user_search_page.do?id=${user_id }&searchId=${dto.getUser_id() }&total=0">${dto.getUser_nickname() }</a></td>
+															<td>${dto.getUser_nickname() }</td>
 															<td>${dto.getUser_name() }</td>
 															<td>${dto.getUser_approve() }</td>
 															<td>
-																<a href="#">회원 글 목록</a>
+																<a href="<%=request.getContextPath() %>/user_search_page.do?id=${user_id }&searchId=${dto.getUser_id() }&total=0">회원 글 목록</a>
 																	&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
 																<a href="#">등급 변경</a>
 																	&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;

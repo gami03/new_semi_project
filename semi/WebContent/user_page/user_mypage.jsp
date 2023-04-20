@@ -189,9 +189,7 @@
 										</table>
 										
 										<div align="right">
-											<h4><a href="<%=request.getContextPath() %>/user_board_all.do?id=${user_id }&searchId=${mypage }">작성 글 목록 전체보기 >> </a></h4>
-											<h4><a href="<%=request.getContextPath() %>/admin_ajax.do?field=${user_id }&search=${mypage }&approve=${appr}">작성 글 목록 전체보기 >> </a></h4>
-										</div>
+											<h4><a href="<%=request.getContextPath() %>/user_board_all.do?id=${user_id }&searchId=${mypage }">작성 글 목록 전체보기 >> </a></h4>										</div>
 										
 									</div>
 									

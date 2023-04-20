@@ -1598,6 +1598,48 @@ public class BoardDAO {
 	} // getBoardCount 메서드 end
 	
 	
+	// 검색한 게시판 글 갯수를 구해주는 메서드.
+	public int getBoardCountSearch(int no, String field, String keyword) {
+		
+		int count = 0;
+		
+		try {
+			openConn();
+			
+			sql = "select count(*) from board where user_no = ?";
+			
+			if(field.equals("title")) {
+				sql += " and board_title like ?";
+			}else if(field.equals("cont")) {
+				sql += " and board_content like ?";
+			}else if(field.equals("title_cont")) {
+				sql += " and (board_title like ? or board_content like ?)";
+			}else {
+				sql += " and board_category like ?";
+			}
+			
+			pstmt = con.prepareStatement(sql);
+			
+			pstmt.setInt(1, no);
+			pstmt.setString(2, '%'+keyword+'%');
+			
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()) {
+				count = rs.getInt(1);
+			} 
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			closeConn(rs, pstmt, con);
+		}
+		
+		return count;
+	} // getBoardCount 메서드 end
+	
+	
 	// 유저가 작성한 게시글을 모아주는 메서드
 	public List<BoardDTO> getUserBoard(String id) {
 		
@@ -1739,37 +1781,36 @@ public class BoardDAO {
 				number = rs.getInt(1);
 			}
 			
-			// sql = "select * from board where user_no = ?, ? like ? order by board_no desc";
-			sql = "select * from (select row_number() over(order by board_no desc) rnum, b.* from board b where user_no = ? and ? like ?) Y";
+			sql = "select * from (select row_number() over(order by board_no desc) rnum, b.* from board b where user_no = ?";
 			
 			if(field.equals("title")) {
-				sql += " where board_title like ? and board_name = ?) Y";
+				sql += " and board_title like ?) Y";
 			}else if(field.equals("cont")) {
-				sql += " where board_content like ? and board_name = ?) Y";
+				sql += " and board_content like ?) Y";
 			}else if(field.equals("title_cont")) {
-				sql += " where (board_title like ? or board_content like ?) and board_name = ?) Y";
-			}else if(field.equals("writer")){
-				sql += " where user_nickname like ? and board_name = ?) Y";
+				sql += " and board_title like ? or board_content like ?) Y";
 			}else {
-				sql += " where board_category like ? and board_name = ?) Y";
+				sql += " and board_category like ?) Y";
 			}
 			
 			sql += " where rnum >=? and rnum <=?";
-
+			
 			pstmt = con.prepareStatement(sql);
 			
 			if(field.equals("title_cont")) {
 				pstmt.setInt(1, number);
-				pstmt.setString(2, "%"+keyword+"%");
-				pstmt.setString(3, "%"+keyword+"%");
+				pstmt.setString(2, '%'+keyword+'%');
+				pstmt.setString(3, '%'+keyword+'%');
 				pstmt.setInt(4, startNo);
 				pstmt.setInt(5, endNo);
 			}else {
 				pstmt.setInt(1, number);
-				pstmt.setString(2, "%"+keyword+"%");
+				pstmt.setString(2, '%'+keyword+'%');
 				pstmt.setInt(3, startNo);
 				pstmt.setInt(4, endNo);
 			}
+			
+			System.out.println(sql);
 			
 			rs = pstmt.executeQuery();
 			

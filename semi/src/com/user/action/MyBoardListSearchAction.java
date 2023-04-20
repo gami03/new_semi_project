@@ -86,7 +86,7 @@ public class MyBoardListSearchAction implements Action {
         BoardDAO dao = BoardDAO.getInstance();
         
         // 전체 게시물의 수를 확인하는 메서드 호출
-     	totalRecord = dao.getBoardCount(search_no);
+     	totalRecord = dao.getBoardCountSearch(search_no, field, search);
      	
  		// 전체 게시물의 수를 한 페이지당 보여질 게시물의 수로 나누어 주어야 함.
  		// 이 과정을 거치면 전체 페이지 수가 나오게 됨.
@@ -105,8 +105,10 @@ public class MyBoardListSearchAction implements Action {
         
         // 마이페이지 유저의 닉네임 가져오기.
      	String user_nickname = dao.getUserNickname(search_id);
-                
-        request.setAttribute("BoardList", list);
+               
+     	System.out.println(list);
+     	
+        request.setAttribute("SearchList", list);
         request.setAttribute("mypage_id", search_id);
         request.setAttribute("user_nickname", user_nickname);
         
@@ -122,6 +124,16 @@ public class MyBoardListSearchAction implements Action {
 		request.setAttribute("endBlock", endBlock);
 		request.setAttribute("field", field);
 		request.setAttribute("keyword", search);
+		
+		System.out.println("page: " + page);
+ 		System.out.println("rowsize: " + rowsize);
+ 		System.out.println("block: "+block);
+ 		System.out.println("totalRecord: "+totalRecord);
+ 		System.out.println("allPage: "+allPage);
+ 		System.out.println("startNo: "+startNo);
+ 		System.out.println("endNo: "+endNo);
+ 		System.out.println("startBlock: "+startBlock);
+ 		System.out.println("endBlock: "+endBlock);
 		
 		// 자유게시판에 모인 게시글을 번호를 순차적으로 매겨서 보여주기 위한 데이터를 view page로 이동.
 		request.setAttribute("totalEndNo", totalEndNo);
