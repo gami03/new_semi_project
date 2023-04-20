@@ -62,7 +62,7 @@
                 document.getElementsByClassName("countdown")[0].innerHTML = hours + "시간 " + minutes + "분 " + seconds + "초";
                 countdownElement.style.cssText = "color: red; font-weight: bold;";
                 document.getElementsByClassName("countdown")[0].style.cssText = "color: red; font-weight: bold;";
-            } else if (hours <= 0 && minutes <= 0 && seconds <= 0) {
+            } else if (hours <= 0 && minutes <= 0 && seconds <= 0 || ${Upper} == ${Dto.getSale_end_price()}) {
                 countdownElement.innerHTML = "마감 되었습니다.";
                 countdownElement.style.cssText = "color: red; font-weight: bold;";
                 document.getElementsByClassName("countdown")[0].innerHTML = "마감 되었습니다.";
@@ -110,6 +110,7 @@
 	<c:set var="upper" value="${Upper }"/>
 	<c:set var="udto" value="${Udto }"/>
 	<c:set var="user_money" value="${User_money }"/>
+	<c:set var="date_check" value="${Date_check }"/>
 
 
 		<!-- Main -->
@@ -203,7 +204,8 @@
 	var end_price =${dto.getSale_end_price() };
 	var user_id = "${user_id }";
 	var money = ${user_money};
-	var user_no = ${User_no};
+	var user_no = "${User_no}";
+	var date = ${date_check};
 </script>
 
 

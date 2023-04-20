@@ -453,6 +453,7 @@ public class UserDAO {
 				dto = new UserDTO();
 				
 				dto.setUser_nickname(rs.getString("user_nickname"));
+				
 				dto.setUser_email(rs.getString("user_email"));
 				
 			}

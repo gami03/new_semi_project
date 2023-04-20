@@ -5,6 +5,8 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -370,7 +372,7 @@ public class SaleDAO {
 	}	// getStart_value() 메서드 end
 	
 	
-	// 현재 경매품의 상회 입찰가를 불러오는 메서드.
+	// 현재 경매품의 입찰가를 불러오는 메서드.
 	public int getUpper_value(int no) {
 		
 		int result = 0;
@@ -573,6 +575,9 @@ public class SaleDAO {
 			closeConn(rs, pstmt, con);
 		}
 	}	// InputMoney() 메서드 end
+	
+	// 입찰한 유저가 
+	
 	
 	// result 각 결과 값의 의미
 	//  1 = 정상 작동
@@ -918,7 +923,44 @@ public class SaleDAO {
 	}	// getCountProduct() 메서드 end
 	
 	
-	
+	// 현재시간이 경매물품의 시간을 넘었을 경우 특정 값을 받아오는 메서드
+	public int getEndDate(int no) {
+		
+        LocalDateTime now = LocalDateTime.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        String date = now.format(formatter);
+
+		int result = 0;
+		
+		try {
+			openConn();
+			
+			sql = "select * from product where sale_no = ? and end_date < ?";
+			
+			pstmt = con.prepareStatement(sql);
+			
+			pstmt.setInt(1, no);
+			
+			pstmt.setString(2, date);
+			
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()) {
+				
+				result = 3;
+				
+			} else {
+				result = 2;
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			closeConn(rs, pstmt, con);
+		}
+		
+		return result;
+	}
 	
 	
 	
