@@ -21,71 +21,86 @@
 <link rel="stylesheet" href="./assets/css/product.css" />
 
 <jsp:include page="/include/main_top.jsp" />
-<link
+
+
+ <!-- <link
 	href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css"
 	rel="stylesheet"
 	integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65"
-	crossorigin="anonymous">
-
+	crossorigin="anonymous"> -->
+ 
 <link type="text/css" rel="stylesheet" href="./assets/css/slick.css" />
 <link type="text/css" rel="stylesheet"
 	href="./assets/css/slick-theme.css" />
-<script type="text/javascript" src="https://code.jquery.com/jquery-3.6.1.js"></script>
 
-<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<!-- jQuery first, then Popper.js, then Bootstrap JS 
 <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+-->
+
 
 <script>
+
+
     // 서버에서 전달된 남은 시간 정보를 가져옵니다.
     var hours = <%= request.getAttribute("hours") %>;
     var minutes = <%= request.getAttribute("minutes") %>;
     var seconds = <%= request.getAttribute("seconds") %>;
-
-    // 남은 시간을 표시하는 함수
-    function displayCountdown() {
-        // 남은 시간을 계산하여 표시합니다.
-       if(hours == 0 && minutes > 5){
- 			document.getElementsByClassName("countdown")[0].innerHTML = hours + "시간 " + minutes + "분 " + seconds + "초";
-   	   } else if(hours == 0 && minutes == 0 && seconds == 0){
-   			document.getElementsByClassName("countdown")[0].innerHTML = "마감 되었습니다.";
-   	   } else {
-   			document.getElementsByClassName("countdown")[0].style.cssText = "color: red; font-weight: bold;";
-   			document.getElementsByClassName("countdown")[0].innerHTML = hours + "시간 " + minutes + "분 " + seconds + "초";
-       }
-        // 1초마다 갱신
-        setTimeout(updateCountdown, 1000);
-    }
-
-    // 남은 시간을 1초마다 갱신하는 함수
-    function updateCountdown() {
-        // 남은 시간을 1초 감소
-        seconds--;
-        if (seconds < 0) {
-            minutes--;
-            seconds = 59;
-        }
-        if (minutes < 0) {
-            hours--;
-            minutes = 59;
-        }
-
-        // 남은 시간이 0보다 작아지면 갱신을 멈춥니다.
-        if (hours < 0) {
-            hours = 0;
-            minutes = 0;
-            seconds = 0;
-        }
-
-        // 갱신된 남은 시간을 표시합니다.
+	
+    $(function(){
+        
+        // 페이지 로드 시에 남은 시간 표시를 시작합니다.
         displayCountdown();
-    }
+        
+        // 남은 시간을 표시하는 함수
+        function displayCountdown() {
+            // 남은 시간을 계산하여 표시합니다.
+            var countdownElement = document.getElementById("countdown"); // 요소의 ID를 사용하여 선택
+            if (hours == 0 && minutes > 5) {
+                countdownElement.innerHTML = hours + "시간 " + minutes + "분 " + seconds + "초";
+                document.getElementsByClassName("countdown")[0].innerHTML = hours + "시간 " + minutes + "분 " + seconds + "초";
+                countdownElement.style.cssText = "color: red; font-weight: bold;";
+                document.getElementsByClassName("countdown")[0].style.cssText = "color: red; font-weight: bold;";
+            } else if (hours <= 0 && minutes <= 0 && seconds <= 0) {
+                countdownElement.innerHTML = "마감 되었습니다.";
+                countdownElement.style.cssText = "color: red; font-weight: bold;";
+                document.getElementsByClassName("countdown")[0].innerHTML = "마감 되었습니다.";
+                document.getElementsByClassName("countdown")[0].style.cssText = "color: red; font-weight: bold;";
+                return;
+            } else {
+                countdownElement.innerHTML = hours + "시간 " + minutes + "분 " + seconds + "초";
+                document.getElementsByClassName("countdown")[0].innerHTML = hours + "시간 " + minutes + "분 " + seconds + "초";
+            }
+            // 1초마다 갱신
+            setTimeout(updateCountdown, 1000);
+        }
+        
+        // 남은 시간을 1초마다 갱신하는 함수
+        function updateCountdown() {
+            // 남은 시간을 1초 감소
+            seconds--;
+            if (seconds < 0) {
+                minutes--;
+                seconds = 59;
+            }
+            if (minutes < 0) {
+                hours--;
+                minutes = 59;
+            }
 
-    // 페이지 로드 시에 남은 시간 표시를 시작합니다.
-    window.onload = function() {
-        displayCountdown();
-    };
+            // 남은 시간이 0보다 작아지면 갱신을 멈춥니다.
+            if (hours < 0) {
+                hours = 0;
+                minutes = 0;
+                seconds = 0;
+            }
+            // 갱신된 남은 시간을 표시합니다.
+            displayCountdown();
+
+        }
+    });
+
 </script>
 
 
@@ -94,6 +109,7 @@
 	<c:set var="dto" value="${Dto }"/>
 	<c:set var="upper" value="${Upper }"/>
 	<c:set var="udto" value="${Udto }"/>
+	<c:set var="user_money" value="${User_money }"/>
 
 
 		<!-- Main -->
@@ -169,7 +185,7 @@
 								</div>
 								
 								<!-- Button trigger modal -->
-								<button type="button" class="button" data-toggle="modal" data-target="#exampleModal">
+								<button type="button" id="modalbutton" class="button" data-toggle="modal" data-target="#myModal">
 								  Launch demo modal
 								</button>
 								
@@ -186,11 +202,13 @@
 	var sale_price = ${dto.getSale_price() };
 	var end_price =${dto.getSale_end_price() };
 	var user_id = "${user_id }";
+	var money = ${user_money};
+	var user_no = ${User_no};
 </script>
 
 
 	<!-- Modal -->
-	<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" style="z-index: 3000">
+	<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" style="z-index: 3000">
 	  <div class="modal-dialog modal-lg">
 	    <div class="modal-content">
 	      <div class="modal-header">
@@ -236,7 +254,7 @@
 	       	  		<table border="1" cellspacing="0" class="list_modal"> 
 	       	  			<tr>
 	       	  				<th bgcolor="#F6F6F6">남은 시간</th>
-	       	  				<td bgcolor="white" style="font-weight: bold;"><span  class="countdown"></span></td>
+	       	  				<td bgcolor="white"><span id="countdown"></span></td>
 	       	  			</tr>
 	       	  			
 	       	  			<tr>

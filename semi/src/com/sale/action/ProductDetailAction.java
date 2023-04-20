@@ -21,10 +21,24 @@ public class ProductDetailAction implements Action {
     public ActionForward excute(HttpServletRequest request, HttpServletResponse response) throws IOException {
 
         int sale_no = Integer.parseInt(request.getParameter("no").trim());
-
+        
+        String user_noStr = request.getParameter("user");
+        
+        int user_no = 0;
+        
+        if (user_noStr != null && !user_noStr.trim().isEmpty()) {
+            user_no = Integer.parseInt(user_noStr.trim());
+        }
+        
+        System.out.println(user_no);
+        
         SaleDAO dao = SaleDAO.getInstance();
         
         UserDAO udao = UserDAO.getInstance();
+        
+        // 로그인한 회원의 정보를 가져오는 메서드
+        int user_money = udao.getUserMoney(user_no);
+        
         // 경매물품의 상세정보를 가져오는 메서드
         SaleDTO dto = dao.getProductDetail(sale_no);
 
@@ -57,6 +71,8 @@ public class ProductDetailAction implements Action {
         request.setAttribute("Dto", dto);
         request.setAttribute("Udto", udto);
         request.setAttribute("Count", count);
+        request.setAttribute("User_money", user_money);
+        System.out.println(user_money);
         ActionForward forward = new ActionForward();
 
         // view page로 이동 시에는 false 값 지정.

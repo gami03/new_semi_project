@@ -1,3 +1,4 @@
+<%@page import="java.io.Console"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 
@@ -22,7 +23,6 @@
 	crossorigin="anonymous">
 
 <jsp:include page="/include/main_top.jsp" />
-
 		<!-- Main -->
 		<div id="main">
 			<div class="inner">
@@ -30,13 +30,14 @@
 				<section>
 					<div class="container">
 						<div class="row">
+							<c:set var="user_no" value="${User_no }" />
 							<c:set var="count" value="${Count }" />
 							<c:set var="dto" value="${Index }" />
 							<c:if test="${!empty count}">
 								<c:forEach var="i" begin="0" end="${Count-1 }">
 									<div class="col-md-4">
 										<div class="product">
-											<a href="product_detail.do?no=${dto[i].getSale_no() }">
+											<a href="product_detail.do?no=${dto[i].getSale_no() }&user=${User_no}">
 												<div class="product-img">
 													<img style="height: 300px"
 														src="./images/${dto[i].getSale_file1() }" alt="" />
