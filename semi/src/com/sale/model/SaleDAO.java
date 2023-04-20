@@ -5,6 +5,8 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -370,7 +372,7 @@ public class SaleDAO {
 	}	// getStart_value() 메서드 end
 	
 	
-	// 현재 경매품의 상회 입찰가를 불러오는 메서드.
+	// 현재 경매품의 입찰가를 불러오는 메서드.
 	public int getUpper_value(int no) {
 		
 		int result = 0;
@@ -573,6 +575,9 @@ public class SaleDAO {
 			closeConn(rs, pstmt, con);
 		}
 	}	// InputMoney() 메서드 end
+	
+	// 입찰한 유저가 
+	
 	
 	// result 각 결과 값의 의미
 	//  1 = 정상 작동
@@ -918,64 +923,44 @@ public class SaleDAO {
 	}	// getCountProduct() 메서드 end
 	
 	
-	// 유저 no를 통해서 낙찰받은 물건의 정보를 받아오는 메서드
-	public SaleDTO getBuyProductInfo(int no) {
-		
-		SaleDTO dto = null;
-		int sale_no = 0;
-		
-		try {
-			openConn();
+	// 현재시간이 경매물품의 시간을 넘었을 경우 특정 값을 받아오는 메서드
+		public int getEndDate(int no) {
 			
-			sql = "select sale_no from upper where user_no = ?";
+	        LocalDateTime now = LocalDateTime.now();
+	        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+	        String date = now.format(formatter);
+
+			int result = 0;
 			
-			pstmt = con.prepareStatement(sql);
-			
-			pstmt.setInt(1, no);
-			
-			rs = pstmt.executeQuery();
-			
-			if(rs.next()) {
-				sale_no = rs.getInt(1);
+			try {
+				openConn();
+				
+				sql = "select * from product where sale_no = ? and end_date < ?";
+				
+				pstmt = con.prepareStatement(sql);
+				
+				pstmt.setInt(1, no);
+				
+				pstmt.setString(2, date);
+				
+				rs = pstmt.executeQuery();
+				
+				if(rs.next()) {
+					
+					result = 3;
+					
+				} else {
+					result = 2;
+				}
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} finally {
+				closeConn(rs, pstmt, con);
 			}
 			
-			sql = "select * from product where sale_no = ?";
-			
-			pstmt = con.prepareStatement(sql);
-			
-			pstmt.setInt(1, sale_no);
-			
-			rs = pstmt.executeQuery();
-			
-			if(rs.next()) {
-				
-				dto = new SaleDTO();
-				
-				dto.setSale_no(rs.getInt("sale_no"));
-				dto.setUser_no(rs.getInt("user_no"));
-				dto.setSale_title(rs.getString("sale_title"));
-				dto.setSale_content(rs.getString("sale_content"));
-				dto.setSale_price(rs.getInt("sale_price"));
-				dto.setSale_end_price(rs.getInt("end_price"));
-				dto.setSale_file1(rs.getString("sale_file1"));
-				dto.setSale_file2(rs.getString("sale_file2"));
-				dto.setSale_file3(rs.getString("sale_file3"));
-				dto.setSale_file4(rs.getString("sale_file4"));
-				dto.setSale_date(rs.getString("sale_date"));
-				dto.setEnd_date(rs.getString("end_date"));
-				dto.setSale_hit(rs.getInt("sale_hit"));
-				
-			}
-			
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} finally {
-			closeConn(rs, pstmt, con);
+			return result;
 		}
-		
-		return dto;
-	}
 	
 	
 	
