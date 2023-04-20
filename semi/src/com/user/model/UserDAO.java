@@ -240,10 +240,13 @@ public class UserDAO {
   		
   		openConn();
   		
-  		sql = "select * from (select row_number() over(order by board_no desc) rnum, u.* from user_table u where user_no = ?) Y  where rnum >= ? and rnum <= ? order by user_no desc";
+  		sql = "select * from (select row_number() over(order by user_no desc) rnum, u.* from user_table u) Y  where rnum >= ? and rnum <= ? order by user_no desc";
   		
   		try {
  			pstmt = con.prepareStatement(sql);
+ 			
+ 			pstmt.setInt(1, startNo);
+ 			pstmt.setInt(2, endNo);
  			
  			rs = pstmt.executeQuery();
  			
@@ -453,6 +456,7 @@ public class UserDAO {
 				dto = new UserDTO();
 				
 				dto.setUser_nickname(rs.getString("user_nickname"));
+				
 				dto.setUser_email(rs.getString("user_email"));
 				
 			}

@@ -54,7 +54,8 @@ public class FrontController extends HttpServlet {
 		
 		String path2 = FrontController.class.getResource("").getPath();
 	      
-	    FileInputStream fis = new FileInputStream("C:\\Users\\YBG\\Documents\\GitHub\\new_semi_project\\semi\\src\\com\\reply\\controller\\mapping.properties");
+
+	    FileInputStream fis = new FileInputStream("C:\\Users\\USER\\Documents\\GitHub\\new_semi_project\\semi\\src\\com\\reply\\controller\\mapping.properties");
 	      
 		prop.load(fis);
 		

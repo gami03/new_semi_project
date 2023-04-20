@@ -36,6 +36,14 @@ public class ProductDetailAction implements Action {
         
         UserDAO udao = UserDAO.getInstance();
         
+        // 상회입찰가의 정보를 가져오는 메서드
+        int upper = dao.getUpper_value(sale_no);
+        
+        // DB에 저장된 경매물품의 마감 시간이 지났는지 확인하는 메서드
+        int date_check = dao.getEndDate(sale_no);
+        
+        System.out.println("date_check >>> " +date_check);
+        
         // 로그인한 회원의 정보를 가져오는 메서드
         int user_money = udao.getUserMoney(user_no);
         
@@ -72,6 +80,8 @@ public class ProductDetailAction implements Action {
         request.setAttribute("Udto", udto);
         request.setAttribute("Count", count);
         request.setAttribute("User_money", user_money);
+        request.setAttribute("Date_check", date_check);
+        request.setAttribute("Upper", upper);
         System.out.println(user_money);
         ActionForward forward = new ActionForward();
 

@@ -10,6 +10,8 @@ import com.action.Action;
 import com.action.ActionForward;
 import com.board.model.BoardDAO;
 import com.board.model.BoardDTO;
+import com.user.model.UserDAO;
+import com.user.model.UserDTO;
 
 public class SearchBoardListAction implements Action {
 
@@ -22,6 +24,14 @@ public class SearchBoardListAction implements Action {
         
         String search_id = request.getParameter("searchId").trim();
         if(!search_id.equals(user_id)) {	user_id = search_id;	}
+        
+        UserDAO udao = UserDAO.getInstance();
+        
+        int user_no = udao.getUserNo(search_id);
+ 		
+        UserDTO dto = udao.getUserInfoDetail(user_no);
+ 		
+        request.setAttribute("UserInfo", dto);
         
         BoardDAO dao = BoardDAO.getInstance();
         
