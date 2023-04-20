@@ -12,6 +12,7 @@ public class UserDTO {
 	private String user_addr;
 	private String user_birth;
 	private int user_approve;
+	private int user_money;
 	
 	
 	public int getUser_no() {
@@ -74,7 +75,12 @@ public class UserDTO {
 	public void setUser_approve(int user_approve) {
 		this.user_approve = user_approve;
 	}
-	
+	public int getUser_money() {
+		return user_money;
+	}
+	public void setUser_money(int user_money) {
+		this.user_money = user_money;
+	}
 	
 	
 }

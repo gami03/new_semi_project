@@ -37,9 +37,11 @@ public class UserLoginAction implements Action {
             session.setAttribute("user_pwd", user_pwd);
             
             int user_approve = dao.getUserApprove(user_id);
+            int user_no = dao.getUserNo(user_id);
             
             session.setAttribute("user_approve", user_approve);
-            
+            session.setAttribute("User_no", user_no);
+            System.out.println(user_no);
             // 세션 값 확인
             System.out.println("세션에 저장된 user_id: " + session.getAttribute("user_id"));
             System.out.println("세션에 저장된 user_pwd: " + session.getAttribute("user_pwd"));

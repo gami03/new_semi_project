@@ -18,7 +18,8 @@
 
 				<header></header>
 				<section>
-				
+					<c:set var="nickname" value="${user_nickname}" />
+					<c:set var="mypage" value="${mypage_id}" />
 					<h2>작성 게시글 목록</h2>
 						<%-- 검색 폼 페이지 처리 영역 --%>
 						<div align="right" style="margin-bottom: 10px;">
@@ -27,7 +28,6 @@
 						   			<option value="title">제목</option>
 						   			<option value="cont">내용</option>
 						   			<option value="title_cont">제목+내용</option>
-						   			<option value="writer">작성자</option>
 						   			<option value="category">카테고리</option>
 						   		</select>
 						   		
