@@ -294,7 +294,7 @@
 	}
 	
 	// 5초 간격으로 updateData 함수를 실행하는 코드
-	setInterval(searchHitList, 10000);
+	setInterval(searchHitList, 3600000);
 
 	
 
