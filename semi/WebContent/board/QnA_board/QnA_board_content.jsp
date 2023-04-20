@@ -43,7 +43,6 @@ justify-content: center;
 	background-color: #f7f7f7;
     padding-top: 30px;
     padding-bottom: 20px;
-    width: 75%;
 }
 
 </style>
@@ -86,7 +85,7 @@ justify-content: center;
 		
 		<c:set var="dto" value="${Content }"/>
 		
-		<table border="1" cellspacing="0" width="50%" class="col-9">
+		<table border="1" cellspacing="0">
 			
 			<c:if test="${!empty dto }">
 				<tr>
@@ -128,7 +127,7 @@ justify-content: center;
 			
 		
 		<%-- 댓글 기능 --%>
-		<table border="1" cellspacing="0" width="50%" class="col-9" id="list">
+		<table border="1" cellspacing="0" id="list">
 			<tr>
 			</tr>
 		</table>

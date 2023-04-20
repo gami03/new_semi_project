@@ -13,14 +13,11 @@
    <link rel="stylesheet" href="assets/css/index.css" />
    
       <!-- Main -->
-         <div id="main">
-            <div id="carouselExampleFade" class="carousel slide carousel-fade" data-bs-interval="4000" data-bs-ride="carousel">
+      	<div id="carouselExampleFade" class="carousel slide carousel-fade" data-bs-interval="4000" data-bs-ride="carousel" style="margin-top: 104px;">
               <div class="carousel-inner">
                 <div class="carousel-item active">
                   <img src="./images/style_event_banner.png" class="d-block w-100" height="45%">
                   <div class="carousel-caption d-none d-md-block">
-                    <h3 style="letter-spacing: inherit;color: black;font-weight: bold;">garlicAction 스타일 컬렉터 1기 모집</h3>
-                    <p style="letter-spacing: inherit;color: black;font-weight: bold;">활동비 40만P & 베스트 8 선택권</p>
                   </div>
                 </div>
                 <div class="carousel-item">
@@ -32,8 +29,6 @@
                 <div class="carousel-item carousel-fade">
                   <img src="./images/style_event_banner.png" class="d-block w-100" height="45%">
                   <div class="carousel-caption d-none d-md-block">
-                    <h3 style="letter-spacing: inherit;color: black;font-weight: bold;">garlicAction 스타일 컬렉터 1기 모집</h3>
-                    <p style="letter-spacing: inherit;color: black;font-weight: bold;">활동비 40만P & 베스트 8 선택권</p>
                   </div>
                 </div>
               </div>
@@ -46,8 +41,9 @@
                 <span class="visually-hidden">Next</span>
               </button>
             </div>
+      	
+         <div id="main" style="padding-top: 0;">
 
-         
          <br>
          
          <div class="shortcut_items_wrap">

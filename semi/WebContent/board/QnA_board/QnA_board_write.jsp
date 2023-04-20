@@ -70,7 +70,7 @@ justify-content: center;
 		<c:set var="session" value="${user_id }" />
 		<%-- enctype : 파일을 업로드하기 위한 속성 --%>
 		<form method="post" enctype="multipart/form-data" action="<%=request.getContextPath() %>/board_write_ok.do?id=${user_id }&board_name=QnA_board">
-			<table border="1" cellspacing="0" width="50%" class="col-9">
+			<table border="1" cellspacing="0">
 				<tr>
 					<th>제목</th>
 					<td> <input name="QnA_board_title" id="QnA_board_title" style=""> </td>

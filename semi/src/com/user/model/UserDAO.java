@@ -525,4 +525,41 @@ public class UserDAO {
    		return result;
    	}
    	
+   	// 해당 유저의 최근 검색어 4개 가져오는 메서드.
+   	public List<SearchDTO> getUserSearchRecentList(int user_no) {
+   		
+   		List<SearchDTO> list = new ArrayList<SearchDTO>();
+   		
+   		try {
+   			openConn();
+   	   		
+   			sql = "SELECT keyword FROM search WHERE user_no = ? ORDER BY search_time DESC LIMIT 4";
+   	   		
+			pstmt = con.prepareStatement(sql);
+			
+			pstmt.setInt(1, user_no);
+			
+			rs = pstmt.executeQuery();
+			
+			while(rs.next()) {
+				SearchDTO dto = new SearchDTO();
+				
+				dto.setKeyword(rs.getString("keyword"));
+				
+				System.out.println(rs.getString("keyword"));
+				
+				list.add(dto);
+				
+			}
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			closeConn(rs, pstmt, con);
+		}
+   		
+   		return list;
+   	} // getUserSearchRecentList() 메서드 end
+   	
 }

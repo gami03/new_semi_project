@@ -97,8 +97,12 @@ clear: both;
 	justify-content: flex-end;
 }
 
+
 #main {
 	padding-top: 15em;
+	margin-left: auto;
+    margin-right: auto;
+    max-width: 1280px;
 }
 
 .modal-header .close {
@@ -411,4 +415,35 @@ dl dt {
     white-space: nowrap;
 }
 
+.recent_search {
+	margin-bottom: 35px;
+}
 
+.recent_search_inner {
+	display: flex;
+	flex-wrap: wrap;
+    justify-content: flex-start;
+}
+
+
+.recent_search_text {
+	box-shadow: none;
+	background-color: #f6f6f6;
+	border-radius: 30px;
+    font-size: small;
+    margin: 3 3px;
+}
+
+.write {
+	float: right;
+    display: flex;
+    width: 21%;
+    margin-left: 10%;
+    justify-content: flex-end;
+}
+
+#freeBoard_order_list {
+	display: flex;
+    justify-content: flex-end;
+
+}

@@ -64,7 +64,7 @@ justify-content: center;
 		<c:set var="dto" value="${Modify }" />
 		<%-- enctype : 파일을 업로드하기 위한 속성 --%>
 		<form method="post" enctype="multipart/form-data" action="<%=request.getContextPath() %>/board_modify_ok.do?id=${user_id }&board_no=${dto.getBoard_no() }&page=${Page }&board_name=${dto.getBoard_name() }">
-			<table border="1" cellspacing="0" width="50%" class="col-9">
+			<table border="1" cellspacing="0">
 				<tr>
 					<th>제목</th>
 					<td> <input name="notice_board_title" id="notice_board_title" value="${dto.getBoard_title() }"> </td>

@@ -15,7 +15,6 @@ justify-content: center;
 }
 
 
-
 table td {
 	vertical-align: middle;
 }
@@ -39,6 +38,8 @@ table th {
 #cont_tr td {
 	text-align: center;
 }
+
+
 </style>
 
 
@@ -61,7 +62,7 @@ table th {
 		
 		<%-- 게시판 테이블 게시물 정렬 기능 --%>
 		<div id="freeBoard_order_list">
-			<select name="field" style="width:10%; margin-left: 65%;" onchange="onOrderChange(this.value)">
+			<select name="field" onchange="onOrderChange(this.value)" style="width:10%">
 				<option value="time">시간순</option>
 	   			<option value="hit">인기순</option>
 	   			<option value="look">조회순</option>
@@ -343,7 +344,7 @@ table th {
 
    		<div id="Board_table">
 	   		<%-- 자유게시판 테이블 --%>
-			<table border="1" cellspacing="0" width="50%" class="col-9">
+			<table border="1" cellspacing="0" class="board_table_inner">
 				<tr align="center" id="title_tr">
 					<th>번호</th> <th width="60%">제목</th> <th>작성자</th> <th>작성일</th> <th>조회수</th>
 				</tr>
@@ -427,7 +428,7 @@ table th {
 	</div>
 	
 		
-			<div style ="float:left; width:20%; margin-left: 6%">
+			<div class="write">
 				<%-- 글쓰기 폼 처리 --%>
 				<c:set var="id" value="${user_id }" />
 				<c:if test="${!empty id }">

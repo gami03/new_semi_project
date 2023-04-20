@@ -46,7 +46,6 @@ justify-content: center;
 	background-color: #f7f7f7;
     padding-top: 30px;
     padding-bottom: 20px;
-    width: 75%;
 }
 
 </style>
@@ -87,7 +86,7 @@ justify-content: center;
 		<br>
 		
 		<c:set var="dto" value="${Content }"/>
-		<table border="1" cellspacing="0" width="50%" class="col-9">
+		<table border="1" cellspacing="0">
 			
 			<c:if test="${!empty dto }">
 				<tr>
@@ -118,7 +117,7 @@ justify-content: center;
 		<c:set var="id" value="${user_id }" />
 		
 		<%-- 추천 기능 --%>
-		<div align="left" style="margin-left: 13%;">
+		<div align="left">
 			<div class="w3-border w3-center w3-padding">
 				<c:if test="${empty id }">
 					좋아요 <i class="fa fa-heart" style="font-size:16px;color:red" onclick="heartcheck()"></i>
@@ -202,7 +201,7 @@ $(function() {
 			</c:if>
 			
 		<%-- 댓글 기능 --%>
-		<table border="1" cellspacing="0" width="50%" class="col-9" id="list">
+		<table border="1" cellspacing="0" id="list">
 			<tr>
 			</tr>
 		</table>

@@ -36,6 +36,8 @@ table th {
 #cont_tr td {
 	text-align: center;
 }
+
+
 </style>
 
 
@@ -59,7 +61,7 @@ table th {
 		
 		<%-- 게시판 테이블 게시물 정렬 기능 --%>
 		<div id="freeBoard_order_list">
-			<select name="field" style="width:10%; margin-left: 65%;" onchange="onOrderChange(this.value)">
+			<select name="field" style="width:10%;" onchange="onOrderChange(this.value)">
 				<option value="time">시간순</option>
 	   			<option value="hit">인기순</option>
 	   			<option value="look">조회순</option>
@@ -337,7 +339,7 @@ table th {
 
    		<div id="freeBoard_table">
    		<%-- 공지사항 테이블 --%>
-		<table border="1" cellspacing="0" width="50%" class="col-9">
+		<table border="1" cellspacing="0">
 			<tr align="center" id="title_tr">
 				<th>번호</th> <th width="60%">제목</th> <th>작성자</th> <th>작성일</th> <th>조회수</th>
 			</tr>
@@ -421,7 +423,7 @@ table th {
 	</div>
 	
 		
-			<div style ="float:left; width:20%; margin-left: 6%">
+			<div class="write">
 				<%-- 글쓰기 폼 처리 --%>
 				<%-- user_approve 0: 일반사용자, 1: 판매 가능 사용자, 2: 관리자, 3: 총관리자 --%>
 				<c:if test="${user_approve >= 2 }">

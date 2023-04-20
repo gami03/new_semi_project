@@ -22,6 +22,15 @@
 		<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
 		<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.min.js" integrity="sha384-+sLIOodYLS7CIrQpBjl+C7nPvqq+FbNUBDunl/OZv93DB7Ln/533i8e/mZXLi/P+" crossorigin="anonymous"></script>
 		
+		
+		
+		<script type="text/javascript">
+
+			var user_no = "${User_no}";
+			console.log(user_no);
+
+		</script>
+		
 		<script type="text/javascript">
 
 			function check(){
@@ -160,7 +169,7 @@
 						<h2 align="center" style="color: black;">Search</h2>
 						<br>
 						<%-- 검색 폼 페이지 처리 영역 --%>
-						<div align="left" style="margin-bottom: 15px;">
+						<div align="left">
 						   <form method="post" action="<%=request.getContextPath() %>/board_search.do?board_name=${board_name }">
 						   	 <div class="search" style="border-bottom: 3px solid black;">
 						   		<input type="text" name="keyword" placeholder="브랜드명, 모델명, 모델번호 등" class="input_search" style="width:90%; color: black; border-bottom: none; text-decoration: none;" onfocus="this.style.boxShadow = 'none';">
@@ -172,12 +181,21 @@
 						   <br>
 						</div>
 						
-						<%-- 최근 검색어 --%>
-						<div class="recent_search">
-							<div class="">
-								
+						<%-- 최근 검색어 (로그인 했을 때만) --%>
+						<c:if test="${!empty user_id }">
+						
+							<div class="recent_search">
+								<div class="recent_search_wrap" style="margin-bottom: 12px;">
+									<span class="title" style="color: black;">최근 검색어</span>
+									<div class="recent_search_inner">
+										
+									</div>
+								</div>
 							</div>
-						</div>
+						</c:if>
+						
+		
+	<script src="assets/js/recentSearchList.js"></script>
 						
 						<%-- 추천 검색어 --%>
 						<div class="rec_search">
@@ -253,6 +271,8 @@
 	    
 	});
 	
+	
+	// 실시간 인기 검색어 불러오는 ajax
 	function searchHitList() {
 	    $.ajax({
 	        type: "get",
@@ -260,7 +280,7 @@
 	        data: {},
 	        datatype: "json",
 	        success: function(response) {
-	            console.log(response);
+	            console.log("실시간 인기검색어 top10 >>>"+response);
 	            var $searchCardList = $("<ol>").addClass("search_card_ranking").css("padding-left", "5px");
 	
 	            $.each(response.searchList, function(index, item) {
@@ -294,9 +314,7 @@
 	}
 	
 	// 5초 간격으로 updateData 함수를 실행하는 코드
-	setInterval(searchHitList, 10000);
-
-	
+	setInterval(searchHitList, 3600000);
 
 </script>
 						

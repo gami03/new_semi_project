@@ -16,10 +16,6 @@
 	justify-content: center;
 }
 
-#table_top {
-	align: left;
-	margin-left: 13%;
-}
 
 .fa-eye {
 	color: #77767c;
@@ -52,28 +48,32 @@ table td {
 		<hr width="50%" color="marmoon">
 			<h3>묻고 답하기(Q&A)</h3>
 		<hr width="50%" color="marmoon">
-		<br><br>
-		
+		<div align="center">
+		<br>
+			<input type="button" value="자주 묻는 질문(F&Q)" style="margin-right: 3%;" onclick="location.href='board_list.do?board_name=FAQ_board'">
+			<input type="button" value="묻고 답하기(Q&A)" onclick="location.href='board_list.do?board_name=${board_name }'">
+		</div>
+		<br>
+		<br>
 		<%-- 테이블 위쪽 --%>
-		<div id="table_top" align="left" style="display: inline-block; width: 90%;">
+		<div id="table_top" align="left">
 			<%-- 검색 폼 페이지 처리 영역 --%>
-			<div align="left">
-			
-			   <form method="post" action="<%=request.getContextPath() %>/board_search.do?board_name=${board_name }">
-			   	<span style="font-size: 19px;">전체 ${totalRecord }건 | 페이지 ${page }/${allPage }</span>
-			   	
-			   		<select name="field" style="width:10%; margin-left: 31%;">
-			   			<option value="title">제목</option>
-			   			<option value="cont">내용</option>
-			   			<option value="title_cont">제목+내용</option>
-			   			<option value="writer">작성자</option>
-			   			<option value="category">카테고리</option>
-			   		</select>
-			   		
-			   		<input type="text" name="keyword" placeholder="검색어를 입력해주세요" style="width:20%;">&nbsp;&nbsp;
-			   		<input type="submit" value="검색">
+			<div>
+			   <form method="post" action="<%=request.getContextPath() %>/board_search.do?board_name=${board_name }" style="display: flex;
+																												    justify-content: space-between;">
+			   		<span style="font-size: 19px; padding-top: 10px;">전체 ${totalRecord }건 | 페이지 ${page }/${allPage }</span>
+			   		<div>
+				   		<select name="field" style="width:25%;">
+				   			<option value="title">제목</option>
+				   			<option value="cont">내용</option>
+				   			<option value="title_cont">제목+내용</option>
+				   			<option value="writer">작성자</option>
+				   			<option value="category">카테고리</option>
+				   		</select>
+				   		<input type="text" name="keyword" placeholder="검색어를 입력해주세요" style="width:51%;">&nbsp;&nbsp;
+				   		<input type="submit" value="검색">
+			   		</div>
 			   </form>
-			   <br>
 			</div>
 		</div>
 		<br>
@@ -82,7 +82,7 @@ table td {
 		<c:set var="session" value="${user_id }" />
    		<div id="Board_table">
 	   		<%-- 자유게시판 테이블 --%>
-			<table border="1" cellspacing="0" width="50%" class="col-9">
+			<table border="1" cellspacing="0">
 				
 				<tbody>
 				<c:if test="${!empty list }">
@@ -180,7 +180,7 @@ table td {
 		</div>
 	</div>
 		
-			<div style ="float:left; width:20%; margin-left: 6%">
+			<div class="write">
 				<%-- 글쓰기 폼 처리 --%>
 				<c:set var="id" value="${user_id }" />
 				<c:if test="${!empty id }">

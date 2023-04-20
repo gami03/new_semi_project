@@ -24,7 +24,6 @@ justify-content: center;
 }
 
 .word_search {
-	width: 75%;
 	box-sizing: border-box;
 	padding: 30px 40px;
 	background: #f8f8f8;
@@ -32,9 +31,6 @@ justify-content: center;
 	border: 1px solid #e2e2e2;
 }
 
-.accordion {
-	width: 75%;
-}
 
 .accordion-button {
 	box-shadow: none;
@@ -459,7 +455,7 @@ justify-content: center;
 	</div>
 	
 		
-			<div style ="float:left; width:20%; margin-left: 6%">
+			<div class="write">
 				<%-- 글쓰기 폼 처리 --%>
 				<%-- user_approve 0: 일반사용자, 1: 판매 가능 사용자, 2: 관리자, 3: 총관리자 --%>
 				<c:if test="${user_approve >= 2 }">
