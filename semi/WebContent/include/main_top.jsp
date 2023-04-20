@@ -131,7 +131,7 @@
 											<li><button class="topbutton" name="NOTICE" onclick="location.href='board_list.do?board_name=notice_board'">NOTICE</button></li>
 											<li><button class="topbutton" name="FREE" onclick="location.href='board_list.do?board_name=free_board'">FREE</button></li>
 											<li><button class="topbutton" name="SHOP" onclick="location.href='sale_index_list.do'">SHOP</button></li>
-											<li><button class="topbutton" name="MY" onclick="location.href='admin_page.do?id=${user_id }'">MY</button></li>
+											<li><button class="topbutton" name="MY" onclick="location.href='user_mypage.do?id=${user_id }&searchId=${user_id }'">MY</button></li>
 											<li><a href="#menu">search</a></li>
 									</ul>
 								</div>

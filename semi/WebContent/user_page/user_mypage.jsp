@@ -135,14 +135,22 @@
 					<div id="main">
 						<div class="inner">
 							<header>
-								<h1>This is Phantom, a free, fully responsive site<br />
-								template designed by <a href="http://html5up.net">HTML5 UP</a>.</h1>
-								<p>Etiam quis viverra lorem, in semper lorem. Sed nisl arcu euismod sit amet nisi euismod sed cursus arcu elementum ipsum arcu vivamus quis venenatis orci lorem ipsum et magna feugiat veroeros aliquam. Lorem ipsum dolor sit amet nullam dolore.</p>
+								<c:set var="dto" value="${UserInfo}" />
+									<h2>프로필</h2>
+									<div align="center">
+										<h4>${dto.getUser_nickname()} 님</h4>
+										<br>
+										<p>유저명 : ${dto.getUser_nickname() }</p>
+										<p>아이디 : ${dto.getUser_id() }</p>
+										<p>이메일 : ${dto.getUser_email() }</p>
+										<p>연락처 : ${dto.getUser_phone() }</p>
+									</div>
+								
 							</header>
 							<section>
 								<c:set var="nickname" value="${user_nickname}" />
 								<c:set var="mypage" value="${mypage_id}" />
-									<h2>${nickname} 회원의 게시글 목록</h2>
+									<h2><a href="<%=request.getContextPath() %>/user_info_detail.do?searchId=${mypage }">${nickname} 회원의 게시글 목록</a></h2>
 										<div class="table-wrapper"> 
 											<table class="alt">
 												<thead>

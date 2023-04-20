@@ -918,7 +918,64 @@ public class SaleDAO {
 	}	// getCountProduct() 메서드 end
 	
 	
-	
+	// 유저 no를 통해서 낙찰받은 물건의 정보를 받아오는 메서드
+	public SaleDTO getBuyProductInfo(int no) {
+		
+		SaleDTO dto = null;
+		int sale_no = 0;
+		
+		try {
+			openConn();
+			
+			sql = "select sale_no from upper where user_no = ?";
+			
+			pstmt = con.prepareStatement(sql);
+			
+			pstmt.setInt(1, no);
+			
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()) {
+				sale_no = rs.getInt(1);
+			}
+			
+			sql = "select * from product where sale_no = ?";
+			
+			pstmt = con.prepareStatement(sql);
+			
+			pstmt.setInt(1, sale_no);
+			
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()) {
+				
+				dto = new SaleDTO();
+				
+				dto.setSale_no(rs.getInt("sale_no"));
+				dto.setUser_no(rs.getInt("user_no"));
+				dto.setSale_title(rs.getString("sale_title"));
+				dto.setSale_content(rs.getString("sale_content"));
+				dto.setSale_price(rs.getInt("sale_price"));
+				dto.setSale_end_price(rs.getInt("end_price"));
+				dto.setSale_file1(rs.getString("sale_file1"));
+				dto.setSale_file2(rs.getString("sale_file2"));
+				dto.setSale_file3(rs.getString("sale_file3"));
+				dto.setSale_file4(rs.getString("sale_file4"));
+				dto.setSale_date(rs.getString("sale_date"));
+				dto.setEnd_date(rs.getString("end_date"));
+				dto.setSale_hit(rs.getInt("sale_hit"));
+				
+			}
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			closeConn(rs, pstmt, con);
+		}
+		
+		return dto;
+	}
 	
 	
 	
