@@ -26,7 +26,7 @@ justify-content: center;
 .word_search {
 	box-sizing: border-box;
 	padding: 30px 40px;
-	background: #f8f8f8;
+	background: antiquewhite;
 	border-radius: 20px;
 	border: 1px solid #e2e2e2;
 }
@@ -50,7 +50,9 @@ justify-content: center;
 	box-shadow: none;
 }
 
-.accordion-body p {
+
+.accordion-item p{
+	font-family: 'LINESeedKR-Bd';
 }
 
 </style>
@@ -67,10 +69,12 @@ justify-content: center;
 
 
 	<!-- Main -->
-	<div align="center" id="main">
-		<hr width="50%" color="marmoon">
-			<h3>자주 묻는 질문(FAQ)</h3>
-		<hr width="50%" color="marmoon">
+	<div align="center" id="main" style="padding-top: 0;">
+		
+		<div class="QnAFAQ_board_banner">
+			<p style="font-family: 'Cafe24Ssurround'; font-size: 45px;">자주 묻는 질문(F&Q)</p>
+		</div>
+		
 		<div align="center">
 		<br>
 			<input type="button" value="자주 묻는 질문(F&Q)" style="margin-right: 3%;" onclick="location.href='board_list.do?board_name=${board_name }'">
@@ -96,7 +100,7 @@ justify-content: center;
 			</div>
 			<br>
 		
-   		<div align="right" style="margin-right: 12%;">
+   		<div align="right">
 			<button id="category" onclick="getcategorySortAllList()" name="전체">전체</button>&nbsp;&nbsp;
 	   		<button id="category" onclick="getcategorySortList(this)" name="홈페이지 이용">홈페이지 이용</button>&nbsp;&nbsp;
 	   		<button id="category" onclick="getcategorySortList(this)" name="결제/영수증">결제/영수증</button>&nbsp;&nbsp;
@@ -398,11 +402,11 @@ justify-content: center;
 				  <div class="accordion-item">
 				    <h2 class="accordion-header" id="flush-heading${dto.getBoard_no() }">
 				      <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapse${dto.getBoard_no() }" aria-expanded="false" aria-controls="flush-collapse${dto.getBoard_no() }">
-				       <small>[${totalEndNo + 1 }]</small>&nbsp;&nbsp; ${dto.getBoard_title() }
+				       <p><small>[${totalEndNo + 1 }]</small></p>&nbsp;&nbsp; <p>${dto.getBoard_title() }</p>
 				      </button>
 				    </h2>
 				    <div id="flush-collapse${dto.getBoard_no() }" class="accordion-collapse collapse" aria-labelledby="flush-heading${dto.getBoard_no() }" data-bs-parent="#accordionFlushExample">
-				      <div class="accordion-body" align="left">${dto.getBoard_content() }</div>
+				      <div class="accordion-body" align="left"><p>${dto.getBoard_content() }</p></div>
 				    </div>
 				  </div>
 				</div>

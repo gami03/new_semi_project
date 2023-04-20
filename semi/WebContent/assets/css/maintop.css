@@ -1,5 +1,9 @@
 @charset "UTF-8";
 
+p {
+	margin-bottom: 0;
+}
+
 body {
 	overflow-x: hidden;
 }
@@ -148,6 +152,8 @@ clear: both;
     justify-content: space-between;
     padding-bottom: 56px;
     border-bottom: 1px solid #ebebeb;
+    padding-top: 40px;
+    border-top: 1px solid #ebebeb;
 }
 
 .menu_box {
@@ -447,3 +453,50 @@ dl dt {
     justify-content: flex-end;
 
 }
+
+.board_banner {
+	padding-top: 166px;
+	padding-bottom: 3px;
+	margin-bottom: 20px;
+    display: flex;
+    justify-content: flex-start;
+    border-bottom: outset;
+    border-bottom-color: ghostwhite;
+}
+
+#title_tr {
+	
+	background-color: antiquewhite;
+	
+}
+
+.QnAFAQ_board_banner {
+	padding-top: 166px;
+	padding-bottom: 16px;
+	margin-bottom: 20px;
+    display: flex;
+    justify-content: space-around;
+}
+
+#title_td {
+	display: flex;
+    justify-content: space-between;
+	
+}
+
+@font-face {
+    font-family: 'Cafe24Ssurround';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2105_2@1.0/Cafe24Ssurround.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+/* 라인  */
+@font-face {
+    font-family: 'LINESeedKR-Bd';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_11-01@1.0/LINESeedKR-Bd.woff2') format('woff2');
+    font-weight: 600;
+    font-style: normal;
+}
+
+

@@ -30,6 +30,8 @@
 table td {
 	vertical-align: middle;
 }
+
+
 </style>
 
 
@@ -44,10 +46,12 @@ table td {
 	<jsp:include page="/include/main_top.jsp" />
 
 	<!-- Main -->
-	<div align="center" id="main">
-		<hr width="50%" color="marmoon">
-			<h3>묻고 답하기(Q&A)</h3>
-		<hr width="50%" color="marmoon">
+	<div align="center" id="main" style="padding-top: 0;">
+	
+		<div class="QnAFAQ_board_banner">
+			<p style="font-family: 'Cafe24Ssurround'; font-size: 45px;">묻고 답하기(Q&A)</p>
+		</div>
+		
 		<div align="center">
 		<br>
 			<input type="button" value="자주 묻는 질문(F&Q)" style="margin-right: 3%;" onclick="location.href='board_list.do?board_name=FAQ_board'">
@@ -62,15 +66,11 @@ table td {
 			   <form method="post" action="<%=request.getContextPath() %>/board_search.do?board_name=${board_name }" style="display: flex;
 																												    justify-content: space-between;">
 			   		<span style="font-size: 19px; padding-top: 10px;">전체 ${totalRecord }건 | 페이지 ${page }/${allPage }</span>
-			   		<div>
+			   		<div align="right" style="width: 400px;">
 				   		<select name="field" style="width:25%;">
-				   			<option value="title">제목</option>
-				   			<option value="cont">내용</option>
-				   			<option value="title_cont">제목+내용</option>
 				   			<option value="writer">작성자</option>
-				   			<option value="category">카테고리</option>
 				   		</select>
-				   		<input type="text" name="keyword" placeholder="검색어를 입력해주세요" style="width:51%;">&nbsp;&nbsp;
+				   		<input type="text" name="keyword" placeholder="검색어를 입력해주세요" style="width:45%;">&nbsp;&nbsp;
 				   		<input type="submit" value="검색">
 			   		</div>
 			   </form>

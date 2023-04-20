@@ -52,44 +52,44 @@
                   <img src="images/pic10.jpg" class="shortcut_image">
                </div>
                <br>
-               <p>남성 추천</p>
+               <p style="font-family: 'LINESeedKR-Bd'; font-size: 18px;">남성 추천</p>
             </div>
             <div class="shortcut_item">
                <div class="shortcut_item_img_wrap">
                   <img src="images/pic11.jpg" class="shortcut_image">
                </div>
                <br>
-               <p>여성 추천</p>
+               <p style="font-family: 'LINESeedKR-Bd'; font-size: 18px;">여성 추천</p>
             </div>
             <div class="shortcut_item">
                <div class="shortcut_item_img_wrap">
                   <img src="images/pic12.jpg" class="shortcut_image">
                </div>
                <br>
-               <p>남성 추천</p>
+               <p style="font-family: 'LINESeedKR-Bd'; font-size: 18px;">남성 추천</p>
             </div>
             <div class="shortcut_item">
                <div class="shortcut_item_img_wrap">
                   <img src="images/pic13.jpg" class="shortcut_image">
                </div>
                <br>
-               <p>남성 추천</p>
+               <p style="font-family: 'LINESeedKR-Bd'; font-size: 18px;">남성 추천</p>
             </div>
             <div class="shortcut_item">
                <div class="shortcut_item_img_wrap">
                   <img src="images/pic14.jpg" class="shortcut_image">
                </div>
                <br>
-               <p>남성 추천</p>
+               <p style="font-family: 'LINESeedKR-Bd'; font-size: 18px;">남성 추천</p>
             </div>
          </div>
-         <br><br>
+         <br>
          
          <div class="home_products">
             <div class="product_title">
                <div style="margin-bottom: 15px;">
                   <div class="div_title">
-                     Hot Action
+                     <p style="font-family: 'LINESeedKR-Bd'; font-size: 25px; margin-bottom: 0px;">Hot Action</p>
                   </div>
                   <div class="sub_title">
                      	인기 경매

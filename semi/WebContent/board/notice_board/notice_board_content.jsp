@@ -20,14 +20,10 @@ justify-content: center;
 }
 
 .txt1{
-	padding-right : 20%;
 	font-weight: bold;
 	font-size: 18px;
 }
 
-.txt2{
-	padding-left : 30%;
-}
 
 .content{
 	background-color: white;
@@ -79,18 +75,18 @@ justify-content: center;
 	<jsp:include page="/include/main_top.jsp" />
 
 	<!-- Main -->
-	<div align="center" id="main">
-		<hr width="50%" color="marmoon">
-			<h3>공지사항</h3>
-		<hr width="50%" color="marmoon">
-		<br>
+	<div align="center" id="main" style="padding-top: 0;">
+		
+		<div class="board_banner" style="margin-bottom: 50px;">
+			<img src="./images/notice_title01.png" style="width: 170px;">
+		</div>
 		
 		<c:set var="dto" value="${Content }"/>
 		<table border="1" cellspacing="0">
 			
 			<c:if test="${!empty dto }">
-				<tr>
-					<td><span class="txt1">${dto.getBoard_title() }</span> <span class="txt2">${Nickname } | ${dto.getBoard_date().substring(0, 10) }</span></td>
+				<tr id="title_tr">
+					<td id="title_td"><span class="txt1">${dto.getBoard_title() }</span> <span class="txt2">${Nickname } | ${dto.getBoard_date().substring(0, 10) }</span></td>
 				</tr>
 				
 				<tr>

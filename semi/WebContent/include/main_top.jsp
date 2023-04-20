@@ -49,6 +49,18 @@
 
 </script>
 
+<style type="text/css">
+
+	.search_card_ranking li {
+		font-family: 'LINESeedKR-Bd';
+	}
+	
+	.title_sub_text span {
+		font-family: 'LINESeedKR-Bd';
+	}
+
+</style>
+
 	<link rel="stylesheet" href="assets/css/maintop.css" />
 
 	</head>
@@ -166,13 +178,13 @@
 				<!-- Menu -->
 					<nav id="menu" style="width: 450px; background-color: white;">
 					<br><br>
-						<h2 align="center" style="color: black;">Search</h2>
+						<h2 align="center" style="color: black; font-family: 'LINESeedKR-Bd';">Search</h2>
 						<br>
 						<%-- 검색 폼 페이지 처리 영역 --%>
 						<div align="left">
 						   <form method="post" action="<%=request.getContextPath() %>/board_search.do?board_name=${board_name }">
 						   	 <div class="search" style="border-bottom: 3px solid black;">
-						   		<input type="text" name="keyword" placeholder="브랜드명, 모델명, 모델번호 등" class="input_search" style="width:90%; color: black; border-bottom: none; text-decoration: none;" onfocus="this.style.boxShadow = 'none';">
+						   		<input type="text" name="keyword" placeholder="브랜드명, 모델명, 모델번호 등" class="input_search" style="width:90%; color: black; border-bottom: none; text-decoration: none; font-family: 'LINESeedKR-Bd';" onfocus="this.style.boxShadow = 'none';">
 						   		<button class="btn_search_delete" type="reset">
 								  x
 								</button>
@@ -200,7 +212,7 @@
 						<%-- 추천 검색어 --%>
 						<div class="rec_search">
 							<div style="margin-bottom: 12px;">
-								<span class="title" style="color: black;">추천 검색어</span>
+								<span class="title" style="color: black; font-family: 'LINESeedKR-Bd';">추천 검색어</span>
 							</div>
 							<div class="rec_search_inner">
 								<div class="rec_search_item">
@@ -242,7 +254,7 @@
 						<div class="hit_search">
 							<div class="ranking">
 								<div class="search_title_wrap">
-									<span class="title" style="color: black;">실시간 인기 검색어</span>
+									<span class="title" style="color: black; font-family: 'LINESeedKR-Bd';">실시간 인기 검색어</span>
 									<div class="title_sub_text">
 										<span style="color: black;"></span>
 									</div>

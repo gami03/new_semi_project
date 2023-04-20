@@ -22,20 +22,41 @@
 	integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65"
 	crossorigin="anonymous">
 
+<style type="text/css">
+
+	.product_list_wrap {
+		flex: 0 0 315px;
+	}
+	
+	
+	.shop_board_banner {
+		padding-top: 166px;
+		padding-bottom: 16px;
+		margin-bottom: 50px;
+	    display: flex;
+	    justify-content: space-around;
+	}
+	
+</style>
+
 <jsp:include page="/include/main_top.jsp" />
 		<!-- Main -->
-		<div id="main">
+		<div id="main" style="padding-top: 0;">
+		
+			<div class="shop_board_banner">
+				<img src="./images/shop_title.png" style="width: 460px;">
+			</div>
 			<div class="inner">
 				<header></header>
 				<section>
-					<div class="container">
-						<div class="row">
+					<div class="container" style="padding: 0; margin: 0; max-width: 1280px;">
+						<div class="row" style="padding:0; margin: 0;">
 							<c:set var="user_no" value="${User_no }" />
 							<c:set var="count" value="${Count }" />
 							<c:set var="dto" value="${Index }" />
 							<c:if test="${!empty count}">
 								<c:forEach var="i" begin="0" end="${Count-1 }">
-									<div class="col-md-4">
+									<div class="product_list_wrap">
 										<div class="product">
 											<a href="product_detail.do?no=${dto[i].getSale_no() }&user=${User_no}">
 												<div class="product-img">

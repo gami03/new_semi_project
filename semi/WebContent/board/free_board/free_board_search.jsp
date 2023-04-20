@@ -31,11 +31,16 @@ table th {
 
 #title_tr th {
 	text-align: center;
+	vertical-align: bottom;
+    font-size: 15px;
+    padding-top: 14px;
+    font-family: 'LINESeedKR-Bd';
+    
 }
 
 #cont_tr td {
 	text-align: center;
-	
+	font-family: 'LINESeedKR-Bd';
 }
 
 
@@ -54,11 +59,11 @@ table th {
 	<jsp:include page="/include/main_top.jsp" />
 
 	<!-- Main -->
-	<div align="center" id="main">
-		<hr width="50%" color="marmoon">
-			<h3>자유게시판</h3>
-		<hr width="50%" color="marmoon">
-		<br>
+	<div align="center" id="main" style="padding-top: 0;">
+	
+		<div class="board_banner">
+			<p style="font-family: 'Cafe24Ssurround'; font-size: 40px;">자유게시판</p>
+		</div>
 		
 		<%-- 게시판 테이블 게시물 정렬 기능 --%>
 		<div id="freeBoard_order_list">
@@ -440,7 +445,7 @@ table th {
 			<br>
 			<br>
 			<%-- 검색 폼 페이지 처리 영역 --%>
-			<div align="center" style="margin-bottom: 100px;">
+			<div align="center">
 			   <form method="post" action="<%=request.getContextPath() %>/board_search.do?board_name=${board_name }">
 			   		<select name="field" style="width:10%;">
 			   			<option value="title">제목</option>

@@ -26,7 +26,7 @@ justify-content: center;
 .word_search {
 	box-sizing: border-box;
 	padding: 30px 40px;
-	background: #f8f8f8;
+	background: antiquewhite;
 	border-radius: 20px;
 	border: 1px solid #e2e2e2;
 }
@@ -36,11 +36,13 @@ justify-content: center;
 	box-shadow: none;
 	border-bottom: revert;
 	border-bottom-color: #f8f8f8;
+	height: 75px;
 }
 
 .accordion-body{
 	border-bottom: solid;
 	border-bottom-color: lightgray;
+	height: 120px;
 }
 
 #category {
@@ -60,14 +62,16 @@ justify-content: center;
 
 
 	<!-- Main -->
-	<div align="center" id="main">
-		<hr width="50%" color="marmoon">
-			<h3>자주 묻는 질문(FAQ)</h3>
-		<hr width="50%" color="marmoon">
+	<div align="center" id="main" style="padding-top: 0;">
+		
+		<div class="QnAFAQ_board_banner">
+			<p style="font-family: 'Cafe24Ssurround'; font-size: 45px;">자주 묻는 질문(F&Q)</p>
+		</div>
+		
 		<div align="center">
 		<br>
 			<input type="button" value="자주 묻는 질문(F&Q)" style="margin-right: 3%;" onclick="location.href='board_list.do?board_name=${board_name }'">
-			<input type="button" value="묻고 답하기(Q&A)">
+			<input type="button" value="묻고 답하기(Q&A)" onclick="location.href='board_list.do?board_name=QnA_board'">
 		</div>
 		<br>
 		<br>
@@ -89,7 +93,7 @@ justify-content: center;
 			</div>
 			<br>
 		
-   		<div align="right" style="margin-right: 12%;">
+   		<div align="right">
 			<button id="category" onclick="getcategorySortAllList()" name="전체">전체</button>&nbsp;&nbsp;
 	   		<button id="category" onclick="getcategorySortList(this)" name="홈페이지 이용">홈페이지 이용</button>&nbsp;&nbsp;
 	   		<button id="category" onclick="getcategorySortList(this)" name="결제/영수증">결제/영수증</button>&nbsp;&nbsp;
