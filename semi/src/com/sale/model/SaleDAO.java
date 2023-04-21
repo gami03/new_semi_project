@@ -10,6 +10,8 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.board.model.BoardDTO;
+
 
 public class SaleDAO {
 
@@ -902,7 +904,7 @@ public class SaleDAO {
 		try {
 			openConn();
 			
-			sql = "select count(*) from product where user_no = ?";
+			sql = "select count(*) from product where user_no = ? and successful_bid > 0";
 			
 			pstmt = con.prepareStatement(sql);
 			
@@ -924,33 +926,96 @@ public class SaleDAO {
 	
 	
 	// 현재시간이 경매물품의 시간을 넘었을 경우 특정 값을 받아오는 메서드
-		public int getEndDate(int no) {
-			
-	        LocalDateTime now = LocalDateTime.now();
-	        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-	        String date = now.format(formatter);
+	public int getEndDate(int no) {
+		
+        LocalDateTime now = LocalDateTime.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        String date = now.format(formatter);
 
-			int result = 0;
+		int result = 0;
+		
+		try {
+			openConn();
+			
+			sql = "select * from product where sale_no = ? and end_date < ?";
+			
+			pstmt = con.prepareStatement(sql);
+			
+			pstmt.setInt(1, no);
+			
+			pstmt.setString(2, date);
+			
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()) {
+				
+				result = 3;
+				
+			} else {
+				result = 2;
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			closeConn(rs, pstmt, con);
+		}
+		
+		return result;
+	}
+
+	
+	// 유저 no를 통해서 낙찰받은 물건의 판매번호를 받아오는 메서드
+   public int getBuyProduct(int no) {
+
+      int sale_no = 0;
+
+      try {
+         openConn();
+
+         sql = "select sale_no from upper where user_no = ?";
+
+         pstmt = con.prepareStatement(sql);
+
+         pstmt.setInt(1, no);
+
+         rs = pstmt.executeQuery();
+         
+         if(rs.next()) {
+             sale_no = rs.getInt(1);
+          }
+          
+          // getProductDetail(sale_no)로 데이터 받아오기
+
+       } catch (SQLException e) {
+          // TODO Auto-generated catch block
+          e.printStackTrace();
+       } finally {
+          closeConn(rs, pstmt, con);
+       }
+
+       return sale_no;
+    }	// getBuyProduct() 메서드 end
+
+         
+	// 세션으로 넘어온 아이디로 닉네임 보여주는 메서드 작성
+		public String getUserNickname(String id) {
+			
+			String nickname = null;
 			
 			try {
 				openConn();
 				
-				sql = "select * from product where sale_no = ? and end_date < ?";
+				sql = "select user_nickname from user_table where user_id=?";
 				
 				pstmt = con.prepareStatement(sql);
 				
-				pstmt.setInt(1, no);
-				
-				pstmt.setString(2, date);
+				pstmt.setString(1, id);
 				
 				rs = pstmt.executeQuery();
 				
 				if(rs.next()) {
-					
-					result = 3;
-					
-				} else {
-					result = 2;
+					nickname = rs.getString(1);
 				}
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
@@ -959,72 +1024,78 @@ public class SaleDAO {
 				closeConn(rs, pstmt, con);
 			}
 			
-			return result;
-		}
-	
+			return nickname;
+		} // getUserNickname() 메서드 end
 		
-		// 유저 no를 통해서 낙찰받은 물건의 판매번호를 받아오는 메서드
-	   public int getBuyProduct(int no) {
+		// 판매페이지 업로드() 메서드
+		public int saleBoardWrite(SaleDTO dto) {
+			
+			int result = 0, count = 0;
+			
+			try {
+				openConn();
+				
+				sql = "select max(board_no) from board";
+				
+				pstmt = con.prepareStatement(sql);
+				
+				rs = pstmt.executeQuery();
+				
+				if(rs.next()) {
+					count = rs.getInt(1) + 1;
+				}
+				
+				sql = "insert into board values(?, ?, 0, ?, ?, ?, ?, now(), 0, 0, ?, ?, ?, ?, 0, ?)";
+				
+				pstmt = con.prepareStatement(sql);
+				
+				pstmt.setInt(1, count);
+				pstmt.setInt(2, dto.getUser_no());
+				pstmt.setString(3, dto.getSale_title());
+				pstmt.setString(4, dto.getSale_content());
+				pstmt.setInt(5, dto.getSale_price());
+				pstmt.setInt(6, dto.getSale_end_price());
+				pstmt.setString(7, dto.getSale_file1());
+				pstmt.setString(8, dto.getSale_file2());
+				pstmt.setString(9, dto.getSale_file3());
+				pstmt.setString(10, dto.getSale_file4());
+				pstmt.setString(11, dto.getUpload_category());
+				
+				result = pstmt.executeUpdate();
+				
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} finally {
+				closeConn(rs, pstmt, con);
+			}
+			
+			return result;
+		} // 판매페이지 업로드() 메서드 end
+            
+   
+	// 낙찰된 금액을 product 테이블의 successful_bid 컬럼에 넣는 메서드
+	public void inputBid(int upper_val, int no) {
 
-	      int sale_no = 0;
+		try {
+			openConn();
 
-	      try {
-	         openConn();
+			sql = "update product set successful_bid = ? where sale_no = ?";
 
-	         sql = "select sale_no from upper where user_no = ?";
+			pstmt = con.prepareStatement(sql);
 
-	         pstmt = con.prepareStatement(sql);
+			pstmt.setInt(1, upper_val);
+			pstmt.setInt(2, no);
 
-	         pstmt.setInt(1, no);
+			pstmt.executeQuery();
 
-	         rs = pstmt.executeQuery();
-
-	         if(rs.next()) {
-	            sale_no = rs.getInt(1);
-	         }
-	         
-	         // getProductDetail(sale_no)로 데이터 받아오기
-
-	      } catch (SQLException e) {
-	         // TODO Auto-generated catch block
-	         e.printStackTrace();
-	      } finally {
-	         closeConn(rs, pstmt, con);
-	      }
-
-	      return sale_no;
-	   }
-	   
-	   // 동일 상품에 대한 이전 추천 여부 확인하는 메서드.
-	   public int wishListCheck(int user_no, int sale_no) {
-		   
-		   int result = 0;
-		   
-		   try {
-			   openConn();
-			   
-			   sql = "select count(*) from wishlist where user_no = ? and sale_no = ?";
-			   
-			   pstmt = con.prepareStatement(sql);
-			   
-			   pstmt.setInt(1, user_no);
-			   pstmt.setInt(2, sale_no);
-			   
-			   rs = pstmt.executeQuery();
-			   
-			   if(rs.next()) {
-				   result = rs.getInt(1);
-			   }
-			   
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} finally {
 			closeConn(rs, pstmt, con);
 		}
-		   
-		   return result;
-	   } // wishListCheck() 메서드 end
+	} // inputBid() 메서드 end
 
 	   
 	   // wishlist 상품 추가 메서드

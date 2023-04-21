@@ -12,16 +12,18 @@
 <html>
 	<head>
 		<title>garlicAuction</title>
-		<meta charset="utf-8" />
+		<meta charset="UTF-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
-		<link rel="stylesheet" href="assets/css/main.css" />
-		<noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
+		<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.1.3/js/bootstrap.bundle.min.js"></script>
 		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
-		<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
-		<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-Fy6S3B9q64WdZWQUiU+q4/2Lc9npb8tCaSX9FK7E8HnRr0Jz8D6OP9dO5Vg3Q9ct" crossorigin="anonymous"></script>
 		<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
 		<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.min.js" integrity="sha384-+sLIOodYLS7CIrQpBjl+C7nPvqq+FbNUBDunl/OZv93DB7Ln/533i8e/mZXLi/P+" crossorigin="anonymous"></script>
-		
+		<link rel="stylesheet" href="assets/css/main.css" />
+		<noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
+		<script src="js/find.js"></script>
+		<script src="js/join.js"></script>
+		<script src="js/user.js"></script>
 		
 		
 		<script type="text/javascript">
@@ -32,21 +34,19 @@
 		
 		<script type="text/javascript">
 
-			function check(){
-				
-				if(f.user_id.value==""){
-					alert("아이디를 입력하세요.");
-					f.user_id.focus();
-					return false;
+		function openModal() {
+			var modal = document.getElementById("signup-modal"); // 회원가입 모달창의 id를 가진 엘리먼트를 가져옴
+			modal.style.display = "block"; // 모달창을 보이도록 스타일 변경
+		}
+		$(function() {
+			$("#id_find_email").keydown(function(event) {
+				if (event.keyCode === 13) {
+					event.preventDefault();
+					$("#find_id_btn").click();
 				}
-				if(f.user_pwd.value==""){
-					alert("비밀번호를 입력하세요.");
-					f.user_pwd.focus();
-					return false;
-				}
-			}
-
-</script>
+			});
+		});
+		</script>
 
 <style type="text/css">
 
@@ -64,50 +64,260 @@
 
 	</head>
 	<body class="is-preload">
-	<form id="nav_form" method="post" name="f"  action="<%=request.getContextPath()%>/login_check.do" onsubmit="return check()" align="center">
+	<form id="nav_form" method="post" name="f"  action="<%=request.getContextPath()%>/login_check.do" onsubmit="return login_check();" align="center">
 	<c:set var="id" value="${user_id }" />
 	<c:set var="user_approve" value="${user_approve }" />
 	<c:if test="${empty id }">
 		<!-- Modal -->
-		<div class="modal fade" id="boardModal" tabindex="-1" aria-labelledby="boardModalLabel" aria-hidden="true" style="z-index: 3000;">
-		  <div class="modal-dialog">
-		    <div class="modal-content">
-		      <div class="modal-header">
-		        <h5 class="modal-title" id="boardModalLabel">로그인</h5>
-		        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-		          <span aria-hidden="true">&times;</span>
-		        </button>
-		      </div>
-		      <div class="modal-body">
-			
-				<table border="1" cellspacing="0" width="400">
-					<tr>
-						<th>아이디</th>
-						<td> <input type="text" name="user_id"></td>
-					</tr>
-				
-					<tr>
-						<th>비밀번호</th>
-						<td> <input type="password" name="user_pwd"></td>
-					</tr>
-				
-					
-				
-				</table>
-				<br>
-				<div class="submit1" align="center">
-					<input class="submit_btn btn-primary" type="submit" value="로그인" >
+			<div class="modal fade" id="boardModal" tabindex="-1" aria-labelledby="boardModalLabel" aria-hidden="true" style="z-index: 3000">
+				<div class="modal-dialog">
+					<div class="modal-content">
+						<div class="modal-header">
+							<h5 class="modal-title" id="boardModalLabel">로그인</h5>
+							<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+								<span aria-hidden="true">&times;</span>
+							</button>
+						</div>
+						<div class="modal-body">
+							<table border="1" cellspacing="0" width="400">
+								<tr>
+									<th>아이디</th>
+									<td> <input type="text" name="login_id" id="login_id"></td>
+								</tr>
+								<tr>
+									<th>비밀번호</th>
+									<td> <input type="password" name="login_pwd" id="login_pwd"></td>
+								</tr>
+							</table>
+							<br>
+							<div class="submit1" align="center">
+								<input class="submit_btn btn-primary" type="submit" value="로그인">
+								<input class="submit_btn btn-primary" type="button" value="회원가입" data-toggle="modal" data-target="#signupModal">
+								<br>
+           					 <a href="#" data-toggle="modal" data-target="#findIdModal" data-dismiss="modal">아이디 찾기</a> / 
+							<a href="#" data-toggle="modal" data-target="#findPwdModal" data-dismiss="modal">비밀번호 재설정</a>
+							</div>
+						</div>
+					</div>
 				</div>
-
-
-	      </div>
-	    </div>
-	  </div>
-	</div>
+			</div>
 	</c:if>
-	<br>
 	
 	</form>
+		<!-- 회원가입 Modal -->
+	<form action="<%=request.getContextPath() %>/join_ok.do" method="POST" name = "j" onsubmit="return join_check()" >	
+	<div class="modal fade" id="signupModal" tabindex="-1" aria-labelledby="signupModalLabel" aria-hidden="true" style="z-index: 4000;">
+	
+	  <div class="modal-dialog">
+	    <div class="modal-content">
+	      <div class="modal-header">
+	        <h5 class="modal-title" id="signupModalLabel">회원가입</h5>
+	        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+	          <span aria-hidden="true">&times;</span>
+	        </button>
+	      </div>
+	      <div class="modal-body">		
+        	<input type="hidden" name="user_no">
+          <div class="form-group">
+            <label for="userid">아이디</label>
+            <input type="text" class="form-control" id="user_id" name="user_id" placeholder="영문+숫자 16자리">
+            <span id="idcheck"></span>
+          </div>
+          <div class="form-group">
+            <label for="password">비밀번호</label>
+            <input type="password" class="form-control" id="password" name="user_password" placeholder="영문+숫자 조합 16자리">
+            <span id="pwdcheck"></span>
+          </div>
+          <div class="form-group">
+            <label for="confirm_password">비밀번호 확인</label>
+            <input type="password" class="form-control" id="confirm_password" name="confirm_password" placeholder="비밀번호 재입력" >
+            <span id="confirm_pwdcheck"></span>
+          </div>
+          <div class="form-group">
+            <label for="name">이름</label>
+            <input type="text" class="form-control" id="user_name" name="user_name">
+          </div>
+          <div class="form-group">
+            <label for="nickname">닉네임</label>
+            <input type="text" class="form-control" id="user_nickname" name="user_nickname">
+             <span id="nickcheck"></span>
+          </div>
+          <div class="form-group">
+            <label for="user_phone">연락처</label>
+            <input type="text" class="form-control" id="user_phone" name="user_phone" placeholder=" - 없이 입력">
+             <span id="phonecheck"></span>
+          </div>
+          <div class="form-group">
+            <label for="user_birth">생년월일</label>
+            <input type="text" class="form-control" id="user_birth" name="user_birth" placeholder="yyyymmdd">
+          </div>
+          
+          
+          <div class="form-group">
+           <label for="user_addr">주소</label><br>
+          <input type="text" class="user_addr" id="sample4_postcode" placeholder="우편번호">
+			<input type="button"class="user_addr" onclick="sample4_execDaumPostcode()" value="우편번호 찾기"><br>
+			<input type="text" class="user_addr" id="sample4_roadAddress" placeholder="도로명주소">
+			<input type="text" class="user_addr" id="sample4_jibunAddress" placeholder="지번주소">
+			<span id="guide" style="color:#999;display:none"></span>
+			<input type="text" class="user_addr" id="sample4_detailAddress" name="user_addr" placeholder="상세주소">
+			<input type="text" class="user_addr" id="sample4_extraAddress" placeholder="참고항목">
+			
+			<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+			<script>
+			    function sample4_execDaumPostcode() {
+			        new daum.Postcode({
+			            oncomplete: function(data) {
+			                var roadAddr = data.roadAddress; // 도로명 주소 변수
+			                var extraRoadAddr = ''; // 참고 항목 변수
+			
+			                if(data.bname !== '' && /[동|로|가]$/g.test(data.bname)){
+			                    extraRoadAddr += data.bname;
+			                }
+			                if(data.buildingName !== '' && data.apartment === 'Y'){
+			                   extraRoadAddr += (extraRoadAddr !== '' ? ', ' + data.buildingName : data.buildingName);
+			                }
+			                if(extraRoadAddr !== ''){
+			                    extraRoadAddr = ' (' + extraRoadAddr + ')';
+			                }
+			
+			                document.getElementById('sample4_postcode').value = data.zonecode;
+			                document.getElementById("sample4_roadAddress").value = roadAddr;
+			                document.getElementById("sample4_jibunAddress").value = data.jibunAddress;
+			                
+			                if(roadAddr !== ''){
+			                    document.getElementById("sample4_extraAddress").value = extraRoadAddr;
+			                } else {
+			                    document.getElementById("sample4_extraAddress").value = '';
+			                }
+			
+			                var guideTextBox = document.getElementById("guide");
+			                if(data.autoRoadAddress) {
+			                    var expRoadAddr = data.autoRoadAddress + extraRoadAddr;
+			                    guideTextBox.innerHTML = '(예상 도로명 주소 : ' + expRoadAddr + ')';
+			                    guideTextBox.style.display = 'block';
+			
+			                } else if(data.autoJibunAddress) {
+			                    var expJibunAddr = data.autoJibunAddress;
+			                    guideTextBox.innerHTML = '(예상 지번 주소 : ' + expJibunAddr + ')';
+			                    guideTextBox.style.display = 'block';
+			                } else {
+			                    guideTextBox.innerHTML = '';
+			                    guideTextBox.style.display = 'none';
+			                }
+			            }
+			        }).open();
+			    }
+			</script>
+			
+<!--  -->
+          
+          
+          <div class="form-group">
+            <label for="user_email">이메일</label>
+            <input type="email" class="form-control" id="user_email" name="user_email" placeholder="example@example.com">
+            <span id="emailcheck"></span>
+            
+          </div>
+        
+        <div class="modal-footer">
+          <div>
+          	<input type="submit" value="회원가입" class="btn btn-primary" >
+          	<input type="reset" value="취소" class="btn btn-primary"  data-dismiss="modal">
+          </div>
+          </div>
+          </div>
+          </div>
+          </div>
+          </div>
+      </div>
+      </form>
+	<!--  회원가입 폼 end -->
+	
+	<!-- 아이디 찾기 폼 -->
+
+	<div class="modal fade" id="findIdModal" tabindex="-1" role="dialog"
+		aria-labelledby="findIdModalLabel" aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="findIdModalLabel">아이디 찾기</h5>
+					<button type="button" class="close" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body">
+						<div class="form-group">
+							<label for="id_find_email">이메일</label> <input type="email"
+								class="form-control" id="id_find_email" name="id_find_email"
+								required>
+						</div>
+						<button type="button" id="find_id_btn" class="btn btn-primary"
+							data-toggle="modal" data-target="#IdModal" data-dismiss="modal">아이디 찾기</button>
+					
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="modal fade" id="IdModal" tabindex="-1" role="dialog"
+		aria-labelledby="findIdModalLabel" aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="findIdModalLabel">아이디 찾기 결과</h5>
+					<button type="button" class="close" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body">
+					<form>
+						<span id="foundId"></span>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<!-- 비밀번호 재설정 모달 -->
+	<div class="modal fade" id="findPwdModal" tabindex="-1" role="dialog"
+		aria-labelledby="resetPwdModalLabel" aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="resetPwdModalLabel">비밀번호 재설정</h5>
+					<button type="button" class="close" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<form id="reset_pwd_form">
+					<div class="modal-body">
+						<div class="form-group">
+							<label for="reset_pwd_id">아이디</label> <input type="text"
+								class="form-control" id="reset_pwd_id" required>
+						</div>
+						<div class="form-group">
+							<label for="reset_pwd_name">이름</label> <input type="text"
+								class="form-control" id="reset_pwd_name" required>
+						</div>
+						<div class="form-group">
+							<label for="reset_pwd_email">이메일</label> <input type="email"
+								class="form-control" id="reset_pwd_email" required>
+						</div>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-secondary"
+							data-dismiss="modal">닫기</button>
+						<button type="button" class="btn btn-primary" id="reset_pwd_btn">비밀번호
+							재발급</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+	
 		<!-- Wrapper -->
 			<div id="wrapper">
 				<!-- Header -->

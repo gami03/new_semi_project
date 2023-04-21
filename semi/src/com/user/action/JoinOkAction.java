@@ -7,15 +7,18 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.action.Action;
+import com.action.ActionForward;
 import com.user.model.UserDAO;
 import com.user.model.UserDTO;
 
 public class JoinOkAction implements Action {
 
-	@Override
-	public ActionForward execute(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException, Exception {
 
+		
+
+	@Override
+	public ActionForward excute(HttpServletRequest request, HttpServletResponse response) throws IOException {
 		String user_id = request.getParameter("user_id").trim();
 		String user_password = request.getParameter("user_password").trim();
 		String user_name = request.getParameter("user_name").trim();
@@ -32,7 +35,6 @@ public class JoinOkAction implements Action {
 		dto.setUser_name(user_name);
 		dto.setUser_nickname(user_nickname);
 		dto.setUser_email(user_email);
-		dto.setUser_email(user_email);
 		dto.setUser_addr(user_addr);
 		dto.setUser_phone(user_phone);
 		dto.setUser_birth(user_birth);
@@ -45,20 +47,19 @@ public class JoinOkAction implements Action {
 
 		if(res>0) {
 			out.println("<script>");
-			out.println("alert('회원가입을 환영합니다'"+user_name+"')");
+			out.println("alert('회원가입을 환영합니다')");
 			out.println("</script>");
 			forward.setRedirect(true);
-			forward.setPath("index.html");
+			forward.setPath("index.jsp");
 		}else {
 			out.println("<script>");
 			out.println("alert('회원가입 실패. 입력정보를 확인 바랍니다.')");
 			out.println("</script>");
 			forward.setRedirect(false);
-			forward.setPath("join.jsp");
+			forward.setPath("index.jsp");
 		}
 		
 				
 		return forward;
 	}
-
 }

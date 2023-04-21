@@ -18,8 +18,8 @@ public class UserLoginAction implements Action {
 		request.setCharacterEncoding("UTF-8");
         response.setContentType("text/html; charset=UTF-8");
 
-        String user_id = request.getParameter("user_id").trim();
-        String user_pwd = request.getParameter("user_pwd").trim();
+        String user_id = request.getParameter("login_id").trim();
+        String user_pwd = request.getParameter("login_pwd").trim();
 
         System.out.println("입력한 user_id"+ user_id);
         System.out.println("입력한 user_pwd"+user_pwd);
