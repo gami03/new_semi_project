@@ -1385,4 +1385,35 @@ public class SaleDAO {
 		   return list;
 	   } // getProductHighList() 메서드 end
 	   
+	   // 동일 상품에 대한 이전 추천 여부 검색
+	   public int wishListCheck(int user_no, int sale_no) {
+		   
+		   int result = 0;
+		   
+		   try {
+			   openConn();
+			   
+			   sql = "select count(*) from wishlist where user_no = ? and sale_no = ?";
+			   
+			   pstmt = con.prepareStatement(sql);
+			   
+			   pstmt.setInt(1, user_no);
+			   pstmt.setInt(2, sale_no);
+			   
+			   rs = pstmt.executeQuery();
+			   
+			   if(rs.next()) {
+				   result = rs.getInt(1);
+			   }
+			   
+			   
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			closeConn(rs, pstmt, con);
+		}
+		   return result;
+	   }// wishListCheck() 메서드 end
+	   
 }
