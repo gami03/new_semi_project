@@ -902,7 +902,7 @@ public class SaleDAO {
 		try {
 			openConn();
 			
-			sql = "select count(*) from product where user_no = ?";
+			sql = "select count(*) from product where user_no = ? and successful_bid > 0";
 			
 			pstmt = con.prepareStatement(sql);
 			
@@ -924,76 +924,100 @@ public class SaleDAO {
 	
 	
 	// 현재시간이 경매물품의 시간을 넘었을 경우 특정 값을 받아오는 메서드
-		public int getEndDate(int no) {
-			
-	        LocalDateTime now = LocalDateTime.now();
-	        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-	        String date = now.format(formatter);
-
-			int result = 0;
-			
-			try {
-				openConn();
-				
-				sql = "select * from product where sale_no = ? and end_date < ?";
-				
-				pstmt = con.prepareStatement(sql);
-				
-				pstmt.setInt(1, no);
-				
-				pstmt.setString(2, date);
-				
-				rs = pstmt.executeQuery();
-				
-				if(rs.next()) {
-					
-					result = 3;
-					
-				} else {
-					result = 2;
-				}
-			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} finally {
-				closeConn(rs, pstmt, con);
-			}
-			
-			return result;
-		}
-	
+	public int getEndDate(int no) {
 		
-		// 유저 no를 통해서 낙찰받은 물건의 판매번호를 받아오는 메서드
-	   public int getBuyProduct(int no) {
+        LocalDateTime now = LocalDateTime.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        String date = now.format(formatter);
 
-	      int sale_no = 0;
+		int result = 0;
+		
+		try {
+			openConn();
+			
+			sql = "select * from product where sale_no = ? and end_date < ?";
+			
+			pstmt = con.prepareStatement(sql);
+			
+			pstmt.setInt(1, no);
+			
+			pstmt.setString(2, date);
+			
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()) {
+				
+				result = 3;
+				
+			} else {
+				result = 2;
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			closeConn(rs, pstmt, con);
+		}
+		
+		return result;
+	}
 
-	      try {
-	         openConn();
+	
+	// 유저 no를 통해서 낙찰받은 물건의 판매번호를 받아오는 메서드
+   public int getBuyProduct(int no) {
 
-	         sql = "select sale_no from upper where user_no = ?";
+      int sale_no = 0;
 
-	         pstmt = con.prepareStatement(sql);
+      try {
+         openConn();
 
-	         pstmt.setInt(1, no);
+         sql = "select sale_no from upper where user_no = ?";
 
-	         rs = pstmt.executeQuery();
+         pstmt = con.prepareStatement(sql);
 
-	         if(rs.next()) {
-	            sale_no = rs.getInt(1);
-	         }
-	         
-	         // getProductDetail(sale_no)로 데이터 받아오기
+         pstmt.setInt(1, no);
 
-	      } catch (SQLException e) {
-	         // TODO Auto-generated catch block
-	         e.printStackTrace();
-	      } finally {
-	         closeConn(rs, pstmt, con);
-	      }
+         rs = pstmt.executeQuery();
 
-	      return sale_no;
-	   }
+         if(rs.next()) {
+            sale_no = rs.getInt(1);
+         }
+         
+         // getProductDetail(sale_no)로 데이터 받아오기
+
+      } catch (SQLException e) {
+         // TODO Auto-generated catch block
+         e.printStackTrace();
+      } finally {
+         closeConn(rs, pstmt, con);
+      }
+
+      return sale_no;
+   }	// getBuyProduct() 메서드 end
+   
+   
+	// 낙찰된 금액을 product 테이블의 successful_bid 컬럼에 넣는 메서드
+	public void inputBid(int upper_val, int no) {
+
+		try {
+			openConn();
+
+			sql = "update product set successful_bid = ? where sale_no = ?";
+
+			pstmt = con.prepareStatement(sql);
+
+			pstmt.setInt(1, upper_val);
+			pstmt.setInt(2, no);
+
+			pstmt.executeQuery();
+
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			closeConn(rs, pstmt, con);
+		}
+	} // inputBid() 메서드 end
 
 	
 }
