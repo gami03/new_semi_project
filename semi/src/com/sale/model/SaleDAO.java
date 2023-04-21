@@ -962,6 +962,38 @@ public class SaleDAO {
 			return result;
 		}
 	
-	
+		
+		// 유저 no를 통해서 낙찰받은 물건의 판매번호를 받아오는 메서드
+	   public int getBuyProduct(int no) {
+
+	      int sale_no = 0;
+
+	      try {
+	         openConn();
+
+	         sql = "select sale_no from upper where user_no = ?";
+
+	         pstmt = con.prepareStatement(sql);
+
+	         pstmt.setInt(1, no);
+
+	         rs = pstmt.executeQuery();
+
+	         if(rs.next()) {
+	            sale_no = rs.getInt(1);
+	         }
+	         
+	         // getProductDetail(sale_no)로 데이터 받아오기
+
+	      } catch (SQLException e) {
+	         // TODO Auto-generated catch block
+	         e.printStackTrace();
+	      } finally {
+	         closeConn(rs, pstmt, con);
+	      }
+
+	      return sale_no;
+	   }
+
 	
 }
