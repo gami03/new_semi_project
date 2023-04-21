@@ -10,6 +10,8 @@ import com.action.Action;
 import com.action.ActionForward;
 import com.board.model.BoardDAO;
 import com.board.model.BoardDTO;
+import com.sale.model.SaleDAO;
+import com.sale.model.SaleDTO;
 import com.user.model.UserDAO;
 import com.user.model.UserDTO;
 
@@ -27,8 +29,8 @@ public class MyBoardListAction implements Action {
         
         UserDAO udao = UserDAO.getInstance();
         
+        // 유저 프로필 정보를 가져오는 메서드
         int user_no = udao.getUserNo(search_id);
- 		
         UserDTO dto = udao.getUserInfoDetail(user_no);
  		
         request.setAttribute("UserInfo", dto);
@@ -38,7 +40,17 @@ public class MyBoardListAction implements Action {
         
         BoardDAO dao = BoardDAO.getInstance();
         
+        // 유저가 작성한 게시판 게시글을 가져오는 메서드
         List<BoardDTO> list = dao.getUserBoard(user_id);
+        
+		// 유저가 구매한 제품 번호를 가져오는 메서드
+		SaleDAO sdao = SaleDAO.getInstance();
+		int sale_no = sdao.getBuyProduct(user_no);
+		
+		// 제품 번호에 해당하는 제품 내용을 반환하는 메서드
+		SaleDTO sdto = sdao.getProductDetail(sale_no);
+		
+		request.setAttribute("OrderList", dto);
         
         // 마이페이지 유저의 닉네임 가져오기.
      	String user_nickname = dao.getUserNickname(user_id);
