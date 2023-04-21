@@ -28,7 +28,8 @@ public class HitProductListAction implements Action {
 		
 		SaleDAO dao = SaleDAO.getInstance();
 		
-		if(user_no != 0) {
+		
+		if(user_no != 0) { // 로그인이 되있을 때 리스트 가져오는 메서드.
 			List<SaleDTO> list = dao.getProductHitList(user_no);
 			
 			// JSON 형태로 데이터 반환
