@@ -1382,5 +1382,5 @@ public class SaleDAO {
 		}
 		   return list;
 	   } // getProductHighList() 메서드 end
-	
+	   
 }
