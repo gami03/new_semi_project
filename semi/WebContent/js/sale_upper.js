@@ -6,6 +6,7 @@ var user_money = window.money;
 var user_no = window.user_no;
 var date = window.date;
 
+
 // 숫자를 세 자리마다 콤마(,)로 구분하는 함수
 function formatNumber(num) {
   var formatted = num.toString().replace(/\.\d*/, "").replace(/\B(?=(\d{3})+(?!\d))/g, ",");
@@ -43,13 +44,14 @@ var end_value = formatNumber(end_price);
 var user_value;
   
 $(function () {
+	
   $.ajaxSetup({
     ContentType: "application/x-www-form-urlencoded;charset=UTF-8",
     type: "post",
 	cache : "false"
   });
 
-  function getList() {
+ getList =  function () {
     $.ajax({
       url: "/semi/product_detail_ajax.do",
       data: { no: sale_no },
@@ -222,8 +224,10 @@ $(function () {
 
 
   getList();
-  
-  
-  
-  
-});
+  	
+
+	
+			
+			
+	  
+ });

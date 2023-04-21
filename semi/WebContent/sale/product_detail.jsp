@@ -1,9 +1,14 @@
+<%@page import="com.sale.model.SaleDAO"%>
 <%@page import="com.sale.model.UpperDTO"%>
 <%@page import="com.sale.model.SaleDTO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+
+<%
+	SaleDAO dao = SaleDAO.getInstance();
+%>
 
 <!DOCTYPE HTML>
 <!--
@@ -42,12 +47,13 @@
 
 <script>
 
-
     // 서버에서 전달된 남은 시간 정보를 가져옵니다.
+    
     var hours = <%= request.getAttribute("hours") %>;
     var minutes = <%= request.getAttribute("minutes") %>;
     var seconds = <%= request.getAttribute("seconds") %>;
-	var end = 0;
+    
+    
     $(function(){
         
         // 페이지 로드 시에 남은 시간 표시를 시작합니다.
@@ -57,17 +63,29 @@
         function displayCountdown() {
             // 남은 시간을 계산하여 표시합니다.
             var countdownElement = document.getElementById("countdown"); // 요소의 ID를 사용하여 선택
-            if (hours == 0 && minutes > 5) {
+            if (hours == 0 && minutes < 5 && seconds > 0) {
                 countdownElement.innerHTML = hours + "시간 " + minutes + "분 " + seconds + "초";
-                document.getElementsByClassName("countdown")[0].innerHTML = hours + "시간 " + minutes + "분 " + seconds + "초";
                 countdownElement.style.cssText = "color: red; font-weight: bold;";
+                document.getElementsByClassName("countdown")[0].innerHTML = hours + "시간 " + minutes + "분 " + seconds + "초";
                 document.getElementsByClassName("countdown")[0].style.cssText = "color: red; font-weight: bold;";
             } else if (hours <= 0 && minutes <= 0 && seconds <= 0 || ${Upper} == ${Dto.getSale_end_price()}) {
-            	end = 1;
                 countdownElement.innerHTML = "마감 되었습니다.";
                 countdownElement.style.cssText = "color: red; font-weight: bold;";
                 document.getElementsByClassName("countdown")[0].innerHTML = "마감 되었습니다.";
                 document.getElementsByClassName("countdown")[0].style.cssText = "color: red; font-weight: bold;";
+                <%
+				    String upper = request.getParameter("Upper"); // request 객체에서 파라미터 값 가져오기
+				    String no = request.getParameter("no"); // request 객체에서 파라미터 값 가져오기
+				
+				    // 값이 null 또는 빈 문자열인 경우 기본값 설정
+				    int upperValue = (upper == null || upper.isEmpty()) ? 0 : Integer.parseInt(upper);
+				    int NoValue = (no == null || no.isEmpty()) ? 0 : Integer.parseInt(no);
+				
+				    // dao.inputBid() 메서드 호출
+				    dao.inputBid(upperValue, NoValue);
+				%>
+                date = 3;
+                getList();
                 return;
             } else {
                 countdownElement.innerHTML = hours + "시간 " + minutes + "분 " + seconds + "초";
@@ -76,7 +94,6 @@
             // 1초마다 갱신
             setTimeout(updateCountdown, 1000);
         }
-        
         // 남은 시간을 1초마다 갱신하는 함수
         function updateCountdown() {
             // 남은 시간을 1초 감소
@@ -101,7 +118,6 @@
 
         }
     });
-
 </script>
 
 
@@ -177,7 +193,7 @@
 										</tr>
 										
 										<tr>
-											<th>시작 입찰가</th>
+											<th bgcolor="#F6F6F6">시작 입찰가</th>
 											<td bgcolor="white"><fmt:formatNumber> ${dto.getSale_price() }</fmt:formatNumber>원</td>
 										</tr>
 									</table>
@@ -207,7 +223,7 @@
 	var money = ${user_money};
 	var user_no = "${User_no}";
 	var date = ${date_check};
-	var end_date = end;
+	
 </script>
 
 
@@ -290,7 +306,8 @@
 	<%-- Modal end --%>
 
 
-<script type="text/javascript" src= "./js/sale_upper.js"></script>		
+		
+<script type="text/javascript" src= "./js/sale_upper.js"></script>
 		
 		
 <jsp:include page="/include/main_bottom.jsp"/>

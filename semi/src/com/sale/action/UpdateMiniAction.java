@@ -61,7 +61,7 @@ public class UpdateMiniAction implements Action {
 		if(check == 1) {
 			out.println("<script>");
 			out.println("alert('입찰이 완료 되었습니다.')");
-			out.println("location.href='sale_index_list.do'");
+			out.println("location.href='product_detail.do?no="+product_no+"&user="+user_no+"'");
 			out.println("</script>");
 		} else if(check == 2) {
 			out.println("<script>");
