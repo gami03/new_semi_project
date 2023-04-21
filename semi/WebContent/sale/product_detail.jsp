@@ -47,7 +47,7 @@
     var hours = <%= request.getAttribute("hours") %>;
     var minutes = <%= request.getAttribute("minutes") %>;
     var seconds = <%= request.getAttribute("seconds") %>;
-	
+	var end = 0;
     $(function(){
         
         // 페이지 로드 시에 남은 시간 표시를 시작합니다.
@@ -63,6 +63,7 @@
                 countdownElement.style.cssText = "color: red; font-weight: bold;";
                 document.getElementsByClassName("countdown")[0].style.cssText = "color: red; font-weight: bold;";
             } else if (hours <= 0 && minutes <= 0 && seconds <= 0 || ${Upper} == ${Dto.getSale_end_price()}) {
+            	end = 1;
                 countdownElement.innerHTML = "마감 되었습니다.";
                 countdownElement.style.cssText = "color: red; font-weight: bold;";
                 document.getElementsByClassName("countdown")[0].innerHTML = "마감 되었습니다.";
@@ -206,6 +207,7 @@
 	var money = ${user_money};
 	var user_no = "${User_no}";
 	var date = ${date_check};
+	var end_date = end;
 </script>
 
 

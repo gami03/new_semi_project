@@ -565,5 +565,253 @@ public class UserDAO {
    		
    		return list;
    	} // getUserSearchRecentList() 메서드 end
+	
+	
+	public int joinUser(UserDTO dto) {
+		
+		int result=0 ,count=0;
+		
+		
+		
+		try {
+			openConn();
+			
+			sql ="select max(user_no) from usertable";
+			pstmt = con.prepareStatement(sql);
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()) {
+				count= rs.getInt(1)+1;
+			}
+			
+			sql= "insert into usertable values(?,?,?,?,?,?,?,?,?,default)";
+			pstmt = con.prepareStatement(sql);
+			
+			pstmt.setInt(1, count);
+			pstmt.setString(2, dto.getUser_id());
+			pstmt.setString(3, dto.getUser_name());
+			pstmt.setString(4, dto.getUser_nickname());
+			pstmt.setString(5, dto.getUser_pwd());
+			pstmt.setString(6, dto.getUser_email());
+			pstmt.setString(7, dto.getUser_phone());
+			pstmt.setString(8, dto.getUser_addr());
+			pstmt.setString(9, dto.getUser_birth());
+			
+			result = pstmt.executeUpdate();
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			closeConn(rs, pstmt, con);
+		}
+		return result;
+	}
+
+	public int idCheck(String user_id) {
+ 		
+		int result =0;
+ 		
+ 		try {
+ 			openConn();
+	 		
+	 		sql ="select * from usertable where user_id= ?";
+			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, user_id);
+			
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()){
+				//true 이면 중복인 경우
+				result= -1;
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			closeConn(rs, pstmt, con);
+			
+		}
+ 		return result;
+ 		
+ 	} //idCheck() end
+
+	public int nickCheck(String nick) {
+		
+		int result = 0;
+		
+		
+		
+		try {
+			
+			openConn();
+			
+			sql = "select * from usertable where user_nickname=?";
+			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, nick);
+			
+			rs=pstmt.executeQuery();
+			
+			if(rs.next()) {
+				result=-1;
+				
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			closeConn(rs, pstmt, con);
+			
+		}
+		return result;
+	}
+	
+	public int emailCheck(String email) {
+		int result=0;
+		
+		
+		try {
+			openConn();
+			
+			sql ="select * from usertable where user_email = ?";
+			pstmt =con.prepareStatement(sql);
+			pstmt.setString(1, email);
+			
+			rs= pstmt.executeQuery();
+			
+			if(rs.next()) {
+				result=-1;
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			closeConn(rs, pstmt, con);
+		}
+		
+		return result;
+	}
+	public int phoneCheck(String phone) {
+		int result=0;
+		
+		
+		try {
+			openConn();
+			
+			sql ="select * from usertable where user_phone = ?";
+			pstmt =con.prepareStatement(sql);
+			pstmt.setString(1, phone);
+			
+			rs= pstmt.executeQuery();
+			
+			if(rs.next()) {
+				result=-1;
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			closeConn(rs, pstmt, con);
+		}
+		
+		return result;
+	}
+	
+	public String findId(String email) {
+		
+		String foundId = null;
+			try {
+			openConn();
+			
+			sql="select user_id from usertable where user_email = ?";
+			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, email);
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()) {
+               foundId = rs.getString("user_id");
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			closeConn(rs, pstmt, con);
+		}
+		return foundId;
+	}
+	
+	  public UserDTO UserFindPwd(String userId, String userName, String userEmail) {
+
+	      UserDTO dto = null;
+
+	      int result = 0;
+
+	      openConn();
+	      
+	      System.out.println("DAO ID :"+userId);
+	      System.out.println("DAO NAME :"+userName);
+	      System.out.println("DAO EMAIL :"+userEmail);
+	      
+	      try {
+	         String sql = "select * from usertable where user_id = ? and user_name =? and user_email = ?";
+
+	         pstmt = con.prepareStatement(sql);
+
+	         pstmt.setString(1, userId);
+	         pstmt.setString(2, userName);
+	         pstmt.setString(3, userEmail);
+
+	         rs = pstmt.executeQuery();
+
+	         if (rs.next()) {
+
+	            dto = new UserDTO();
+
+	            dto.setUser_id(rs.getString("User_id"));
+	            dto.setUser_name(rs.getString("User_name"));
+	            dto.setUser_email(rs.getString("User_email"));
+	            dto.setUser_no(rs.getInt("User_no"));
+
+	            System.out.println("아이디 : " + dto.getUser_id());
+	            System.out.println("이름 : " + dto.getUser_name());
+	            System.out.println("이메일 : " + dto.getUser_email());
+
+	         } else {
+	            dto = new UserDTO();
+
+	            dto.setUser_id("없음");
+	         }
+
+	      } catch (Exception e) {
+	         e.printStackTrace();
+	      } finally {
+	         closeConn(rs, pstmt, con);
+	      }
+	      return dto;
+	   }
+	   // 임시비밀번호 DB에 저장
+	   public void TempPwdUpdate(int no, String encode) {
+
+	      openConn();
+
+	      String sql = "update usertable set user_pwd = ? where user_no = ?";
+
+	      try {
+
+	         pstmt = con.prepareStatement(sql);
+
+	         pstmt.setString(1, encode);
+
+	         pstmt.setInt(2, no);
+
+	         pstmt.executeUpdate();
+
+	      } catch (Exception e) {
+	         e.printStackTrace();
+	      } finally {
+	         closeConn(rs, pstmt, con);
+	      }
+
+	   }
    	
 }
