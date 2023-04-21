@@ -18,20 +18,41 @@ public class HighProductListAction implements Action {
 	@Override
 	public ActionForward excute(HttpServletRequest request, HttpServletResponse response) throws IOException {
 		
+		String user_noStr = request.getParameter("user_no");
+		
+		int user_no = 0;
+        
+        if (user_noStr != null && !user_noStr.trim().isEmpty()) {
+            user_no = Integer.parseInt(user_noStr.trim());
+        }
+		
 		SaleDAO dao = SaleDAO.getInstance();
 		
-		List<SaleDTO> list = dao.getProductHighList();
+		if(user_no != 0) { // 로그인이 되있을 때 리스트 가져오는 메서드.
+			List<SaleDTO> list = dao.getProductHighList(user_no);
+			
+			// JSON 형태로 데이터 반환
+	        JsonObject data = new JsonObject();
+	        
+	        data.add("productList", new Gson().toJsonTree(list));
+			
+	        // 응답 데이터로 전송
+	        response.setContentType("application/json;charset=UTF-8");
+	        response.getWriter().write(new Gson().toJson(data));
+		}else { // 로그인 되지 않았을때 리스트 가져오는 메서드.
+			List<SaleDTO> list = dao.nlogingetProductHighList();
+			
+			// JSON 형태로 데이터 반환
+	        JsonObject data = new JsonObject();
+	        
+	        data.add("productList", new Gson().toJsonTree(list));
+			
+	        // 응답 데이터로 전송
+	        response.setContentType("application/json;charset=UTF-8");
+	        response.getWriter().write(new Gson().toJson(data));
 		
-		System.out.println("list >>>" + list);
-		
-		// JSON 형태로 데이터 반환
-        JsonObject data = new JsonObject();
-        
-        data.add("productList", new Gson().toJsonTree(list));
-		
-     // 응답 데이터로 전송
-        response.setContentType("application/json;charset=UTF-8");
-        response.getWriter().write(new Gson().toJson(data));
+			
+		}
 		
 		
 		return null;

@@ -11,7 +11,9 @@ $(function() {
 			$.ajax({
 				type: "get",
 	            url: "high_product_list.do",
-				data: {},
+				data: {
+					user_no: user_no
+				},
 				dataType: "json",
 				success: function(response) {
 					console.log("최고가상품 가져오기 >>>"+response.productList);
@@ -24,7 +26,7 @@ $(function() {
 					                        <div class="thumb_box">\
 					                          <div class="product">\
 					                            <img src="images/'+ product.sale_file1 +'" class="product_image" width="100%" height="auto">\
-					                            <span aria-label="관심상품" class="btn_wish"><img src="./images/bookmark.png" width="26px" height="24px" onclick="location.href=\'wish_list_click.do?user_no=' + user_no + '&sale_no=' + product.sale_no + '\'"></span>\
+					                            <span aria-label="관심상품" class="btn_wish"><img src="./images/'+product.bookmark+'" width="26px" height="24px" onclick="location.href=\'wish_list_click.do?user_no=' + user_no + '&sale_no=' + product.sale_no + '\'"></span>\
 					                          </div>\
 					                        </div>\
 					                        <div class="info_box">\
