@@ -83,6 +83,8 @@ public class UserListAction implements Action {
  		
         request.setAttribute("UserList", list);
         
+        System.out.println(list);
+        
         // 지금까지 페이징 처리 시 작업했던 모든 데이터들을 view page로 이동을 시키자.
  		request.setAttribute("page", page);
  		request.setAttribute("rowsize", rowsize);

@@ -43,14 +43,22 @@ public class MyBoardListAction implements Action {
         // 유저가 작성한 게시판 게시글을 가져오는 메서드
         List<BoardDTO> list = dao.getUserBoard(user_id);
         
-		// 유저가 구매한 제품 번호를 가져오는 메서드
 		SaleDAO sdao = SaleDAO.getInstance();
-		int sale_no = sdao.getBuyProduct(user_no);
 		
 		// 제품 번호에 해당하는 제품 내용을 반환하는 메서드
-		SaleDTO sdto = sdao.getProductDetail(sale_no);
+		List<SaleDTO> saleList = sdao.getUserindexList(user_no);
+		int saleCount = sdao.getUserindexCount(user_no);
 		
-		request.setAttribute("OrderList", dto);
+		request.setAttribute("SaleList", saleList);
+		request.setAttribute("SCount", saleCount);
+		
+		// 특정 유저의 구매 상품 index list를 가져오는 메서드
+		List<SaleDTO> buyList = sdao.getUserBuyList(user_no);
+		
+		int buyCount = sdao.getUserBuyCount(user_no);
+		
+		request.setAttribute("BuyList", buyList);
+		request.setAttribute("BCount", buyCount);
         
         // 마이페이지 유저의 닉네임 가져오기.
      	String user_nickname = dao.getUserNickname(user_id);

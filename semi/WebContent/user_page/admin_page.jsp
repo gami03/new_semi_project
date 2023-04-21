@@ -8,19 +8,24 @@
 <title>Insert title here</title>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <meta charset="UTF-8" />
+<script>
+  $('#approveModal').on('show.bs.modal', function (event) {
+    var button = $(event.relatedTarget);
+    var userNickname = button.data('book-id');
+    $('#user-nickname').text(userNickname);
+  });
+</script>
 </head>
 <body>
 
 	<jsp:include page="../include/main_top.jsp" />
 
+	<c:set var="userlist" value="${UserList }" />
+
 				<!-- Main -->
 					<div id="main">
 						<div class="inner">
 							<header>
-								<h1>This is Phantom, a free, fully responsive site<br />
-								template designed by <a href="http://html5up.net">HTML5 UP</a>.</h1>
-								<p>Etiam quis viverra lorem, in semper lorem. Sed nisl arcu euismod sit amet nisi euismod sed cursus arcu elementum ipsum arcu vivamus quis venenatis orci lorem ipsum et magna feugiat veroeros aliquam. Lorem ipsum dolor sit amet nullam dolore.</p>
-								<div><img src="./images/pic13.jpg" alt="" /></div>
 							</header>
 							<section>
 								<c:set var="nickname" value="${user_nickname}" />
@@ -88,10 +93,9 @@
 													<th>회원 등급 변경</th>
 												</tr>
 											</thead>
-											<c:set var="list" value="${UserList }" />
 												<tbody>
-												<c:if test="${!empty list }">
-													<c:forEach items="${list }" var="dto">
+												<c:if test="${!empty userlist }">
+													<c:forEach items="${userlist }" var="dto">
 														
 														<tr>
 															<td>${dto.getUser_id() }</td>
@@ -101,7 +105,7 @@
 															<td>
 																<a href="<%=request.getContextPath() %>/user_search_page.do?id=${user_id }&searchId=${dto.getUser_id() }&total=0">회원 글 목록</a>
 																	&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
-																<a href="#">등급 변경</a>
+																<a data-toggle="modal" data-target="#approveModal" data-book-id="${dto.getUser_nickname() }">등급 변경</a>
 																	&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
 																<a href="#">회원 삭제</a>
 															</td>
@@ -122,6 +126,44 @@
 									</div>
 							</section>
 						</div>
+					</div>
+					
+						<!-- Modal -->
+						<div class="modal fade" id="approveModal" tabindex="-1" aria-labelledby="approveModalLabel" aria-hidden="true" style="z-index: 3000;">
+						  <div class="modal-dialog">
+						    <div class="modal-content">
+						      <div class="modal-header">
+						        <h5 class="modal-title" id="approveModalLabel">등업 신청</h5>
+						        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						          <span aria-hidden="true">&times;</span>
+						        </button>
+						      </div>
+						      <div class="modal-body">
+						      	<p>User nickname: ${userlist[i].getUser_nickname() }</p>
+							
+								<table border="1" cellspacing="0" width="400">
+									<tr>
+										<th>유저명</th>
+										<td>${dto.getUser_nickname() }</td>
+									</tr>
+								
+									<tr>
+										<th>비밀번호</th>
+										<td> <input type="password" name="user_pwd"></td>
+									</tr>
+								
+									
+								
+								</table>
+								<br>
+								<div class="submit1" align="center">
+									<input class="submit_btn btn-primary" type="submit" value="로그인" >
+								</div>
+					
+					
+					      </div>
+					    </div>
+					  </div>
 					</div>
 		<jsp:include page="../include/main_bottom.jsp" />
 	</body>
