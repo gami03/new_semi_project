@@ -91,7 +91,7 @@
     padding-right: 40px;
 }
 
-.lg .product_list, .md .product_list {
+.lg .product_list, .product_list_high , .md .product_list {
     display: grid;
     grid-template-columns: repeat(4,minmax(0,1fr));
     grid-column-gap: 8px;
@@ -103,6 +103,13 @@
 }
 
 .product_list>.product_item {
+    padding: 0;
+    margin: 0;
+    width: 100%;
+    position: relative; /* 부모 요소에 position: relative; 추가 */
+}
+
+.product_list_high>.product_item {
     padding: 0;
     margin: 0;
     width: 100%;

@@ -7,13 +7,16 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.action.Action;
+import com.action.ActionForward;
 import com.user.model.UserDAO;
 
 public class PhoneCheckAction implements Action {
 
+
+
 	@Override
-	public ActionForward execute(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException, Exception {
+	public ActionForward excute(HttpServletRequest request, HttpServletResponse response) throws IOException {
 		response.setContentType("text/html; charset=UTF-8");
 
 		PrintWriter out = response.getWriter();
@@ -28,7 +31,6 @@ public class PhoneCheckAction implements Action {
 
 		
 		out.println(str);
-		
 		return null;
 	}
 

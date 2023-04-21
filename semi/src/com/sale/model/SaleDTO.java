@@ -18,6 +18,45 @@ public class SaleDTO {
 	private int sale_reply;
 	private int sale_hit;
 	private int sale_check;
+	private String bookmark;
+	
+	private String user_nickname;
+	private String upload_title;
+	private String upload_category;
+	private String upload_summernote;
+	private String sale_name;
+	
+	public String getUser_nickname() {
+		return user_nickname;
+	}
+	public void setUser_nickname(String user_nickname) {
+		this.user_nickname = user_nickname;
+	}
+	public String getUpload_title() {
+		return upload_title;
+	}
+	public void setUpload_title(String upload_title) {
+		this.upload_title = upload_title;
+	}
+	public String getUpload_category() {
+		return upload_category;
+	}
+	public void setUpload_category(String upload_category) {
+		this.upload_category = upload_category;
+	}
+	public String getUpload_summernote() {
+		return upload_summernote;
+	}
+	public void setUpload_summernote(String upload_summernote) {
+		this.upload_summernote = upload_summernote;
+	}
+	public String getSale_name() {
+		return sale_name;
+	}
+	public void setSale_name(String sale_name) {
+		this.sale_name = sale_name;
+	}
+	
 	
 	public int getSale_no() {
 		return sale_no;
@@ -109,7 +148,12 @@ public class SaleDTO {
 	public void setSale_file4(String sale_file4) {
 		this.sale_file4 = sale_file4;
 	}
-	
+	public String getBookmark() {
+		return bookmark;
+	}
+	public void setBookmark(String bookmark) {
+		this.bookmark = bookmark;
+	}
 	
 	
 }

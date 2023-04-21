@@ -106,7 +106,7 @@ public class UserDAO {
 				count = rs.getInt(1);
 			}
 			
-			sql="insert into user_table values(?, ?, ?, ?, ?, ?, ?, ?, sysdate)";
+			sql="insert into user_table values(?, ?, ?, ?, ?, ?, ?, ?, sysdate, 0)";
 			pstmt = con.prepareStatement(sql);
 			
 			pstmt.setInt(1, count+1);
@@ -576,7 +576,7 @@ public class UserDAO {
 		try {
 			openConn();
 			
-			sql ="select max(user_no) from usertable";
+			sql ="select max(user_no) from user_table";
 			pstmt = con.prepareStatement(sql);
 			rs = pstmt.executeQuery();
 			
@@ -584,7 +584,7 @@ public class UserDAO {
 				count= rs.getInt(1)+1;
 			}
 			
-			sql= "insert into usertable values(?,?,?,?,?,?,?,?,?,default)";
+			sql= "insert into user_table values(?,?,?,?,?,?,?,?,?,0,0)";
 			pstmt = con.prepareStatement(sql);
 			
 			pstmt.setInt(1, count);
@@ -615,7 +615,7 @@ public class UserDAO {
  		try {
  			openConn();
 	 		
-	 		sql ="select * from usertable where user_id= ?";
+	 		sql ="select * from user_table where user_id= ?";
 			pstmt = con.prepareStatement(sql);
 			pstmt.setString(1, user_id);
 			
@@ -646,7 +646,7 @@ public class UserDAO {
 			
 			openConn();
 			
-			sql = "select * from usertable where user_nickname=?";
+			sql = "select * from user_table where user_nickname=?";
 			pstmt = con.prepareStatement(sql);
 			pstmt.setString(1, nick);
 			
@@ -673,7 +673,7 @@ public class UserDAO {
 		try {
 			openConn();
 			
-			sql ="select * from usertable where user_email = ?";
+			sql ="select * from user_table where user_email = ?";
 			pstmt =con.prepareStatement(sql);
 			pstmt.setString(1, email);
 			
@@ -698,7 +698,7 @@ public class UserDAO {
 		try {
 			openConn();
 			
-			sql ="select * from usertable where user_phone = ?";
+			sql ="select * from user_table where user_phone = ?";
 			pstmt =con.prepareStatement(sql);
 			pstmt.setString(1, phone);
 			
@@ -723,7 +723,7 @@ public class UserDAO {
 			try {
 			openConn();
 			
-			sql="select user_id from usertable where user_email = ?";
+			sql="select user_id from user_table where user_email = ?";
 			pstmt = con.prepareStatement(sql);
 			pstmt.setString(1, email);
 			rs = pstmt.executeQuery();
@@ -753,7 +753,7 @@ public class UserDAO {
 	      System.out.println("DAO EMAIL :"+userEmail);
 	      
 	      try {
-	         String sql = "select * from usertable where user_id = ? and user_name =? and user_email = ?";
+	         String sql = "select * from user_table where user_id = ? and user_name =? and user_email = ?";
 
 	         pstmt = con.prepareStatement(sql);
 
@@ -794,7 +794,7 @@ public class UserDAO {
 
 	      openConn();
 
-	      String sql = "update usertable set user_pwd = ? where user_no = ?";
+	      String sql = "update user_table set user_pwd = ? where user_no = ?";
 
 	      try {
 
