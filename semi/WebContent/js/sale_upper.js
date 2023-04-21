@@ -186,7 +186,7 @@ $(function () {
 					} else {
 						table += "<tr>";
 						
-						table += "<td bgcolor='white'> <h5>입찰이 완료된 경매품 입니다</h5></td>";
+						table += "<td bgcolor='white'> <h5>da경매가 낙찰 되었습니다.</h5></td>";
 						
 						table += "</tr>";
 						
@@ -198,16 +198,20 @@ $(function () {
 					
 					table += "</tr>";
 				} // if(user_id != "") end
+			} else if(date == 3 && sale_price > user_count) {
+				
+				table += "<tr>";
+				table += "<td><h5>경매가 유찰 되었습니다.</h5></td>";
+				table += "<tr>";
 			} else {
 				table += "<tr>";
-				table += "<td><h5>경매가 종료 되었습니다.</h5></td>";
+				table += "<td><h5>경매가 낙찰 되었습니다.</h5></td>";
 				table += "<tr>";
 			}
           });
 
           $(".list_modal_detail").append(table);
         
-	        
       },
       
       error: function () {
