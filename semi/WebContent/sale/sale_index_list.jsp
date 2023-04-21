@@ -83,5 +83,33 @@
 				</section>
 			</div>
 		</div>
+		
+			<div class="write">
+				<%-- 글쓰기 폼 처리 -판매페이지 --%>
+				<c:set var="id" value="${user_id }" />
+				<c:if test="${!empty id }">
+					<input type="button" name="write" value="글쓰기" onclick="location.href='sale_board_write.do'">
+				</c:if>
+			</div>
+			<br>
+			<br>
+			<br>
+			<br>
+			<%-- 판매페이지 검색 폼 페이지 처리 영역 --%>
+			<div align="center">
+			   <form method="post" action="<%=request.getContextPath() %>/sale_search.do?board_name=${board_name }">
+			   		<select name="field" style="width:10%;">
+			   			<option value="title">제목</option>
+			   			<option value="cont">내용</option>
+			   			<option value="title_cont">제목+내용</option>
+			   			<option value="writer">작성자</option>
+			   			<option value="category">카테고리</option>
+			   		</select>
+			   		
+			   		<input type="text" name="keyword" style="width:20%;">&nbsp;&nbsp;
+			   		<input type="submit" value="검색">
+			   </form>
+			   <br>
+			</div>
 
 <jsp:include page="/include/main_bottom.jsp"/>

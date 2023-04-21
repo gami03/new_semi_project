@@ -10,6 +10,8 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.board.model.BoardDTO;
+
 
 public class SaleDAO {
 
@@ -994,6 +996,78 @@ public class SaleDAO {
 
 	      return sale_no;
 	   }
-
-	
+	// 세션으로 넘어온 아이디로 닉네임 보여주는 메서드 작성
+		public String getUserNickname(String id) {
+			
+			String nickname = null;
+			
+			try {
+				openConn();
+				
+				sql = "select user_nickname from user_table where user_id=?";
+				
+				pstmt = con.prepareStatement(sql);
+				
+				pstmt.setString(1, id);
+				
+				rs = pstmt.executeQuery();
+				
+				if(rs.next()) {
+					nickname = rs.getString(1);
+				}
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} finally {
+				closeConn(rs, pstmt, con);
+			}
+			
+			return nickname;
+		} // getUserNickname() 메서드 end
+		
+		// 판매페이지 업로드() 메서드
+		public int saleBoardWrite(SaleDTO dto) {
+			
+			int result = 0, count = 0;
+			
+			try {
+				openConn();
+				
+				sql = "select max(board_no) from board";
+				
+				pstmt = con.prepareStatement(sql);
+				
+				rs = pstmt.executeQuery();
+				
+				if(rs.next()) {
+					count = rs.getInt(1) + 1;
+				}
+				
+				sql = "insert into board values(?, ?, 0, ?, ?, ?, ?, now(), 0, 0, ?, ?, ?, ?, 0, ?)";
+				
+				pstmt = con.prepareStatement(sql);
+				
+				pstmt.setInt(1, count);
+				pstmt.setInt(2, dto.getUser_no());
+				pstmt.setString(3, dto.getSale_title());
+				pstmt.setString(4, dto.getSale_content());
+				pstmt.setInt(5, dto.getSale_price());
+				pstmt.setInt(6, dto.getSale_end_price());
+				pstmt.setString(7, dto.getSale_file1());
+				pstmt.setString(8, dto.getSale_file2());
+				pstmt.setString(9, dto.getSale_file3());
+				pstmt.setString(10, dto.getSale_file4());
+				pstmt.setString(11, dto.getUpload_category());
+				
+				result = pstmt.executeUpdate();
+				
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} finally {
+				closeConn(rs, pstmt, con);
+			}
+			
+			return result;
+		} // 판매페이지 업로드() 메서드 end
 }

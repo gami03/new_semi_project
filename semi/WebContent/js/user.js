@@ -4,79 +4,79 @@
     type : "post"
   });
 
-  $('#user_id').on('keyup', function() {
-    checkDuplicateId();
-  });
- //아이디 중복+유효성검사
-  function checkDuplicateId() {
-    var userId = $('#user_id').val();
-	 var regex = /^[a-z0-9]{4,16}$/;
-	
-  
-  
-	if (!regex.test($.trim($("#user_id").val()))) {
-	  let warningTxt = '<font color="black">영문 소문자 + 숫자로 이루어진 4자 이상 16자 이하로 입력해주세요.'
-	  $("#idcheck").text(""); // span 태그 영역 초기화
-	  $("#idcheck").show();
-	  $("#idcheck").append(warningTxt);
-	  return false;
+ // 아이디 중복 + 유효성 검사
+$('#user_id').on('keyup', function() {
+checkDuplicateId();
+});
+
+function checkDuplicateId() {
+var userId = $('#user_id').val();
+var regex = /^[a-z0-9]{4,16}$/;
+
+if (!regex.test($.trim($("#user_id").val()))) {
+let warningTxt = '<font color="black">영문 소문자 + 숫자로 이루어진 4자 이상 16자 이하로 입력해주세요.'
+$("#idcheck").text(""); // span 태그 영역 초기화
+$("#idcheck").show();
+$("#idcheck").append(warningTxt);
+return false;
 }
-  if (userId) {
-    $.post('idcheck.do', { paramId: userId }, function(data) {
-      if (data == -1) { // DB에 아이디가 존재.중복된 경우.
-        let warningTxt = '<font color="pink"> 중복된 아이디입니다.'
-        $("#idcheck").text(""); // span 태그 영역 초기화
-        $("#idcheck").show();
-        $("#idcheck").append(warningTxt);
-      } else { //DB에 아이디값이 없음.사용가능.
-        let warningTxt = '<font color="green">사용 가능한 아이디입니다.'
-        $("#idcheck").text(""); // span 태그 영역 초기화
-        $("#idcheck").show();
-        $("#idcheck").append(warningTxt);
-      }
-    });
-  }
+
+if (userId) {
+$.ajax({
+type: 'POST',
+url: 'idcheck.do',
+data: { paramId: userId },
+dataType: 'json',
+success: function(data) {
+if (data == -1) { // DB에 아이디가 존재.중복된 경우.
+let warningTxt = '<font color="pink"> 중복된 아이디입니다.'
+$("#idcheck").text(""); // span 태그 영역 초기화
+$("#idcheck").show();
+$("#idcheck").append(warningTxt);
+} else { //DB에 아이디값이 없음.사용가능.
+let warningTxt = '<font color="green">사용 가능한 아이디입니다.'
+$("#idcheck").text(""); // span 태그 영역 초기화
+$("#idcheck").show();
+$("#idcheck").append(warningTxt);
 }
-  
+},
+error: function(data) {
+alert('데이터 통신 오류');
+}
+});
+}
+}
   
   // 닉네임 중복+유효성검사
   $('#user_nickname').on('keyup', function() {
     checkDuplicateNick();
   });
     function checkDuplicateNick() {
-			    var userNick = $('#user_nickname').val();
-			    if (userNick) {
-			      if ($.trim($("#user_nickname").val()).length < 2) {
-			        let warningTxt = '<font color="black">닉네임은 2자 이상이어야 합니다.'
-			        $("#nickcheck").text(""); // span 태그 영역 초기화
-			        $("#nickcheck").show();
-			        $("#nickcheck").append(warningTxt);
-			        return false;
-			      }
-			      if ($.trim($("#user_nickname").val()).length > 16) {
-			        let warningTxt = '<font color="black">닉네임은 16자 이하이어야 합니다.'
-			        $("#nickcheck").text(""); // span 태그 영역 초기화
-			        $("#nickcheck").show();
-			        $("#nickcheck").append(warningTxt);
-			        return false;
-			      }
-
-			      $.post('nickcheck.do', { paramNick: userNick }, function(data) {
+		    var userNick = $('#user_nickname').val();
+		
+			    $.ajax({
+			      type: 'POST',
+			      url: 'nickcheck.do',
+			      data: { paramNick: userNick },
+			      dataType: 'json',
+			      success: function(data) {
 			        if (data == -1) { // DB에 아이디가 존재.중복된 경우.
-			          let warningTxt = '<font color="pink"> 중복된 닉네임입니다.'
+			          let warningTxt = '<font color="orange"> 중복된 닉네임 입니다.'
 			          $("#nickcheck").text(""); // span 태그 영역 초기화
 			          $("#nickcheck").show();
 			          $("#nickcheck").append(warningTxt);
 			        } else { //DB에 아이디값이 없음.사용가능.
-			          let warningTxt = '<font color="green">사용 가능한 닉네임입니다.'
+			          let warningTxt = '<font color="green">사용 가능한 닉네임 입니다.'
 			          $("#nickcheck").text(""); // span 태그 영역 초기화
 			          $("#nickcheck").show();
 			          $("#nickcheck").append(warningTxt);
 			        }
-			      });
-			    }
-			  }
-			  
+			      },
+			      error: function(data) {
+			        alert('데이터 통신 오류2');
+			      }
+			});	
+			}		  
 	// 연락처 중복+유효성검사
    $('#user_phone').on('keyup', function() {
     checkDuplicatePhone();
@@ -156,38 +156,51 @@ function checkDuplicateEmail() {
 			      });
 			    }
 		
+		
+	//비밀번호 유효성 검사
+		
+	$(function() {
+  $('#password').on('keyup', function() {
+    checkPassword();
+  });
+
+  $('#confirm_password').on('keyup', function() {
+    checkConfirmPassword();
+  });
 });
 
-	//아이디 중복+유효성검사
-	function checkDuplicateId() {
-		    var userId = $('#user_id').val();
-		    return userId;
-		}
+function checkPassword() {
+  var password = $('#password').val();
+  var regex = /^(?=.*[a-zA-Z])(?=.*\d)[a-zA-Z\d]{8,16}$/;
+  
+  if (!regex.test(password)) {
+    let warningTxt = '<font color="black">영문+숫자 조합으로 8자이상 16자이하 비밀번호를 입력하세요.'
+    $("#pwdcheck").text(""); 
+    $("#pwdcheck").show();
+    $("#pwdcheck").append(warningTxt);
+    return false;
+  } else {
+    $("#pwdcheck").hide();
+    return true;
+  }
+}
 
-		function ajaxCall() {
-		    var userId = checkDuplicateId();
+function checkConfirmPassword() {
+  var password = $('#password').val();
+  var confirm_password = $('#confirm_password').val();
 
-		    $.ajax({
-		        type: 'POST',
-		        url: 'js/user.js',
-		        data: { paramId: userId },
-		        dataType: 'json',
-		        success: function(data) {
-		            if (data == -1) { // DB에 아이디가 존재.중복된 경우.
-		                let warningTxt = '<font color="orange"> 중복된 닉네임 입니다.'
-		                $("#idcheck").text(""); // span 태그 영역 초기화
-		                $("#idcheck").show();
-		                $("#idcheck").append(warningTxt);
-		            } else { //DB에 아이디값이 없음.사용가능.
-		                let warningTxt = '<font color="green">사용 가능한 닉네임 입니다.'
-		                $("#idcheck").text(""); // span 태그 영역 초기화
-		                $("#idcheck").show();
-		                $("#idcheck").append(warningTxt);
-		            }
-		        },
-		        error: function(data) {
-		            alert('데이터 통신 오류1');
-		        }
-		    });
-		}
+  if (password != confirm_password) {
+    let warningTxt = '<font color="red">비밀번호가 일치하지 않습니다.'
+    $("#confirm_pwdcheck").text(""); 
+    $("#confirm_pwdcheck").show();
+    $("#confirm_pwdcheck").append(warningTxt);
+    return false;
+  } else {
+    $("#confirm_pwdcheck").hide();
+    return true;
+  }
+}
+});
+
+	
 		
