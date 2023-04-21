@@ -994,6 +994,322 @@ public class SaleDAO {
 
 	      return sale_no;
 	   }
+	   
+	   // 동일 상품에 대한 이전 추천 여부 확인하는 메서드.
+	   public int wishListCheck(int user_no, int sale_no) {
+		   
+		   int result = 0;
+		   
+		   try {
+			   openConn();
+			   
+			   sql = "select count(*) from wishlist where user_no = ? and sale_no = ?";
+			   
+			   pstmt = con.prepareStatement(sql);
+			   
+			   pstmt.setInt(1, user_no);
+			   pstmt.setInt(2, sale_no);
+			   
+			   rs = pstmt.executeQuery();
+			   
+			   if(rs.next()) {
+				   result = rs.getInt(1);
+			   }
+			   
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			closeConn(rs, pstmt, con);
+		}
+		   
+		   return result;
+	   } // wishListCheck() 메서드 end
 
+	   
+	   // wishlist 상품 추가 메서드
+	   public void wishListInsert(int user_no, int sale_no) {
+		   
+		   try {
+			   openConn();
+			   
+			   sql = "insert into wishlist values(?, ?, default)";
+			   
+			   pstmt = con.prepareStatement(sql);
+			   
+			   pstmt.setInt(1, user_no);
+			   pstmt.setInt(2, sale_no);
+			   
+			   pstmt.executeUpdate();
+			   
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			closeConn(rs, pstmt, con);
+		}
+		   
+	   } // wishListInsert() 메서드 end
+	   
+	// wishlist 상품 삭제 메서드
+	   public void wishListDelete(int user_no, int sale_no) {
+		   
+		   try {
+			   openConn();
+			   
+			   sql = "delete from wishlist where user_no = ? and sale_no = ?";
+			   
+			   pstmt = con.prepareStatement(sql);
+			   
+			   pstmt.setInt(1, user_no);
+			   pstmt.setInt(2, sale_no);
+			   
+			   pstmt.executeUpdate();
+			   
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			closeConn(rs, pstmt, con);
+		}
+		   
+	   } // wishListInsert() 메서드 end
+	   
+	   // 관심상품에 추가/삭제 했을 때 product 테이블에서 해당 게시물의 찜 수를 업데이트 하는 메서드.
+	   public void productWishListCount(int sale_no) {
+		   
+		   try {
+			   openConn();
+			   
+			   sql = "select count(*) from wishlist where sale_no = ?";
+			   
+			   pstmt = con.prepareStatement(sql);
+			   
+			   pstmt.setInt(1, sale_no);
+			   
+			   rs = pstmt.executeQuery();
+			   
+			   if(rs.next()) {
+				   sql = "update product set wishlist_count = ? where sale_no = ?";
+				   
+				   pstmt = con.prepareStatement(sql);
+				   
+				   pstmt.setInt(1, rs.getInt(1));
+				   pstmt.setInt(2, sale_no);
+				   
+				   pstmt.executeUpdate();
+				   
+			   }
+			   
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			closeConn(rs, pstmt, con);
+		}
+		   
+	   } //productWishListCount() 메서드 end
+	   
+	// 로그인 안했을 때 때 관심상품으로 많이 등록된(찜 많이 된) 상위 4개만 가져오는 메서드
+	   public List<SaleDTO> nlogingetProductHitList() {
+			   
+			   List<SaleDTO> list = new ArrayList<SaleDTO>();
+			   
+			   try {
+				   openConn();
+				   
+				   sql = "SELECT * FROM product ORDER BY wishlist_count DESC, sale_no DESC LIMIT 4";
+				   
+				   pstmt = con.prepareStatement(sql);
+				   
+				   rs = pstmt.executeQuery();
+				   
+				   while(rs.next()) {
+						   
+						   sql = "select *, count(*) from upper where sale_no = ?";
+						    
+						    // 새로운 PreparedStatement 생성
+						    PreparedStatement pstmt2 = con.prepareStatement(sql); 
+						    
+						    pstmt2.setInt(1, rs.getInt("sale_no"));
+						    
+						    // 새로운 ResultSet을 생성
+						    ResultSet rs2 = pstmt2.executeQuery(); 
+						    
+						    if(rs2.next()) {
+						        int count = rs2.getInt(1);
+						        if(count > 0) {
+						            SaleDTO dto = new SaleDTO();
+						            dto.setSale_no(rs.getInt("sale_no"));
+						            dto.setSale_file1(rs.getString("sale_file1"));
+						            dto.setSale_title(rs.getString("sale_title"));
+						            dto.setSale_content(rs.getString("sale_content"));
+						            dto.setSale_end_price(rs2.getInt("user_upper"));
+						            dto.setBookmark("bookmark.png");
+						            list.add(dto);
+						        } else {
+						            SaleDTO dto = new SaleDTO();
+						            dto.setSale_no(rs.getInt("sale_no"));
+						            dto.setSale_file1(rs.getString("sale_file1"));
+						            dto.setSale_title(rs.getString("sale_title"));
+						            dto.setSale_content(rs.getString("sale_content"));
+						            dto.setSale_end_price(rs.getInt("sale_price"));
+						            dto.setBookmark("bookmark.png");
+						            list.add(dto);
+						        }
+						    }
+						    rs2.close();
+						    pstmt2.close();
+						   
+					   }
+					   
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} finally {
+				closeConn(rs, pstmt, con);
+			}
+			   
+			   return list;
+	   } //nlogingetProductHitList() 메서드 end
+	   
+	   // 로그인 됐을 때 관심상품으로 많이 등록된(찜 많이 된) 상위 4개만 가져오는 메서드
+	   public List<SaleDTO> getProductHitList(int session_no) {
+		    
+		   List<SaleDTO> list = new ArrayList<SaleDTO>();
+		    
+		   try {
+		        openConn();
+		        
+		        String sql = "SELECT * FROM product ORDER BY wishlist_count DESC, sale_no DESC LIMIT 4";
+		       
+		        PreparedStatement pstmt = con.prepareStatement(sql);
+		        
+		        ResultSet rs = pstmt.executeQuery();
+		        
+		        while(rs.next()) {
+		            
+		        	sql = "SELECT COUNT(*) FROM upper WHERE sale_no = ?";
+		            
+		        	PreparedStatement pstmt2 = con.prepareStatement(sql);
+		            
+		        	pstmt2.setInt(1, rs.getInt("sale_no"));
+		            
+		        	ResultSet rs2 = pstmt2.executeQuery();
+		            
+		        	int count = 0;
+		            
+		        	if (rs2.next()) {
+		                count = rs2.getInt(1);
+		            }
+		           
+		        	pstmt2.close();
+		           
+		        	rs2.close();
+		            
+		        	SaleDTO dto = new SaleDTO();
+		            
+		        	dto.setSale_no(rs.getInt("sale_no"));
+		            
+		        	dto.setSale_file1(rs.getString("sale_file1"));
+		            
+		        	dto.setSale_title(rs.getString("sale_title"));
+		            
+		        	dto.setSale_content(rs.getString("sale_content"));
+		            
+		        	if (count > 0) {
+		                
+		        		sql = "SELECT user_upper FROM upper WHERE sale_no = ? ORDER BY user_upper DESC LIMIT 1";
+		                
+		        		PreparedStatement pstmt4 = con.prepareStatement(sql);
+		                
+		        		pstmt4.setInt(1, rs.getInt("sale_no"));
+		                
+		        		ResultSet rs4 = pstmt4.executeQuery();
+		                
+		        		if (rs4.next()) {
+		                    dto.setSale_end_price(rs4.getInt("user_upper"));
+		                
+		        		}
+		                pstmt4.close();
+		                rs4.close();
+		            } else {
+		                dto.setSale_end_price(rs.getInt("sale_price"));
+		            }
+		            
+		        	// Add code to get bookmark value based on session_no
+		            
+		        	sql = "SELECT user_no, bookmark FROM wishlist WHERE sale_no = ? AND user_no = ?";
+		            
+		        	PreparedStatement pstmt3 = con.prepareStatement(sql);
+		            
+		        	pstmt3.setInt(1, rs.getInt("sale_no"));
+		            
+		        	pstmt3.setInt(2, session_no);
+		            
+		        	ResultSet rs3 = pstmt3.executeQuery();
+		            
+		        	String bookmark = "bookmark.png";
+		            
+		        	int user_no = 0;
+		            
+		        	if (rs3.next()) {
+		                bookmark = rs3.getString("bookmark");
+		                user_no = rs3.getInt("user_no");
+		            }
+		            
+		        	pstmt3.close();
+		            
+		        	rs3.close();
+		            
+		        	dto.setBookmark(bookmark);
+		            
+		        	dto.setUser_no(user_no);
+		            
+		        	list.add(dto);
+		        }
+		    } catch (SQLException e) {
+		        e.printStackTrace();
+		    } finally {
+		        closeConn(rs, pstmt, con);
+		    }
+		    return list;
+	   } // getProductHitList() 메서드end
+	   
+	   
+	   // 즉시 구매가가 높은 순으로 상위 리스트 4개 빼는 메서드.
+	   public List<SaleDTO> getProductHighList() {
+		   
+		   List<SaleDTO> list = new ArrayList<SaleDTO>();
+		   
+		   try {
+			   openConn();
+			   
+			   sql = "SELECT * FROM product ORDER BY end_price DESC, sale_no DESC LIMIT 4";
+			   
+			   pstmt = con.prepareStatement(sql);
+			   
+			   rs = pstmt.executeQuery();
+			   
+			   while(rs.next()) {
+				    
+		            SaleDTO dto = new SaleDTO();
+		            dto.setSale_no(rs.getInt("sale_no"));
+		            dto.setSale_file1(rs.getString("sale_file1"));
+		            dto.setSale_title(rs.getString("sale_title"));
+		            dto.setSale_content(rs.getString("sale_content"));
+		            dto.setSale_end_price(rs.getInt("end_price"));
+		            list.add(dto);
+				     
+				}
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			closeConn(rs, pstmt, con);
+		}
+		   return list;
+	   } // getProductHighList() 메서드 end
 	
 }
