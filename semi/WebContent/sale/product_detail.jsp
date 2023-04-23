@@ -73,17 +73,6 @@
                 countdownElement.style.cssText = "color: red; font-weight: bold;";
                 document.getElementsByClassName("countdown")[0].innerHTML = "마감 되었습니다.";
                 document.getElementsByClassName("countdown")[0].style.cssText = "color: red; font-weight: bold;";
-                <%
-				    String upper = request.getParameter("Upper"); // request 객체에서 파라미터 값 가져오기
-				    String no = request.getParameter("no"); // request 객체에서 파라미터 값 가져오기
-				
-				    // 값이 null 또는 빈 문자열인 경우 기본값 설정
-				    int upperValue = (upper == null || upper.isEmpty()) ? 0 : Integer.parseInt(upper);
-				    int NoValue = (no == null || no.isEmpty()) ? 0 : Integer.parseInt(no);
-				
-				    // dao.inputBid() 메서드 호출
-				    dao.inputBid(upperValue, NoValue);
-				%>
                 date = 3;
                 getList();
                 return;
