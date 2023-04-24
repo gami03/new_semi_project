@@ -14,9 +14,7 @@ public class InputProductDetailAjaxAction implements Action {
 
 	@Override
 	public ActionForward excute(HttpServletRequest request, HttpServletResponse response) throws IOException {
-		
 		// 현재 경매 물품에 직접 입찰할 경우 동작하는 비즈니스 로직.
-		
 		SaleDAO dao = SaleDAO.getInstance();
 		
 		int product_no = Integer.parseInt(request.getParameter("product_no").trim());

@@ -602,7 +602,7 @@ public class SaleDAO {
 		
 		if(end_price != upper_value) {
 			
-			if(upper_value > start_value) {	// 상회 입찰 금액이 있을때.
+			if(upper_value >= start_value) {	// 상회 입찰 금액이 있을때.
 				
 				// upper_price 에 10% 만큼 더해줘야 된다.
 				int upper_price = (int) (upper_value * 1.1);
@@ -1086,8 +1086,8 @@ public class SaleDAO {
 			pstmt.setInt(1, upper_val);
 			pstmt.setInt(2, no);
 
-			pstmt.executeQuery();
-
+			pstmt.executeUpdate();
+			
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

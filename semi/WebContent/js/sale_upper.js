@@ -42,6 +42,8 @@ var end_value = formatNumber(end_price);
 
 // 회원이 입찰한 가격의의 소수점을 제거하고 세 자리수 마다 컴마(,)를 넣어준 1.1을 곱해준 변수
 var user_value;
+
+var user_success;
   
 $(function () {
 	
@@ -51,12 +53,15 @@ $(function () {
 	cache : "false"
   });
 
+
  getList =  function () {
+	
     $.ajax({
       url: "/semi/product_detail_ajax.do",
       data: { no: sale_no },
       datatype: "xml",
       success: function (data) {
+	  
     	  
     	// 메인창 list 테이블의 현재 입찰가 즉시 입찰가를 ajax를 통해 갱신 시켜주는 코드
         $(".list tr:gt(2)").remove();
@@ -64,7 +69,8 @@ $(function () {
         let table = "";
 
         $(data).find("upper").each(function () {
-        	
+		  user_up = formatNumberCount($(this).find("user_upper").text());
+  		  user_success = formatNumberCount($(this).find("user_upper").text());
     	  user_value = formatNumber($(this).find("user_upper").text() * 1.1);
 		  user_count = formatNumberCount($(this).find("user_upper").text() * 1.1);
           console.log($(this).find("user_upper").text());
@@ -73,7 +79,7 @@ $(function () {
     	  
           table += "<tr>";
           table += "<th bgcolor='#F6F6F6'>현재 입찰가</th>";
-          if ($(this).find("user_upper").text() > user_value) {
+          if ($(this).find("user_upper").text() != 0) {
             table += "<td>" + formatNumber($(this).find("user_upper").text()) + "원</td>";
           } else {
             table += "<td>" + sale_value + "원</td>";
@@ -209,6 +215,7 @@ $(function () {
 				table += "<tr>";
 				table += "<td><h5>경매가 낙찰 되었습니다.</h5></td>";
 				table += "<tr>";
+				console.log("user_success" + user_success);
 			}
           });
 
@@ -223,9 +230,23 @@ $(function () {
   } // getList() 함수 end
 
 
-  getList();
+	getList();
  
-	
+
+	function input_bid() {
+	    console.log("userval >>> " + user_success);
+		if(user)
+	    setTimeout(function() {
+	        $.ajax({
+	            url: "/semi/success_bid.ajax.do",
+	            data: { 
+	                upper_val: user_success,
+	                no: sale_no
+	            }
+	        });
+	    }, 300); // 0.3초 딜레이
+	}
+
 			
 			
 	  

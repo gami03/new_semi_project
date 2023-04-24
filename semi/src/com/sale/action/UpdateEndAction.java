@@ -51,6 +51,7 @@ public class UpdateEndAction implements Action {
 					
 					System.out.println("check >>> " + check);
 					
+					// 낙찰된 가격을 저장하는 메서드
 					dao.inputBid(end_price, product_no);
 				}
 			} else {
