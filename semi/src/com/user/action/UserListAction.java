@@ -5,9 +5,12 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import com.action.Action;
 import com.action.ActionForward;
+import com.board.model.BoardDAO;
+import com.board.model.BoardDTO;
 import com.user.model.UserDAO;
 import com.user.model.UserDTO;
 
@@ -17,6 +20,8 @@ public class UserListAction implements Action {
 	public ActionForward excute(HttpServletRequest request, HttpServletResponse response) throws IOException {
 		request.setCharacterEncoding("UTF-8");
         response.setContentType("text/html; charset=UTF-8");
+        
+        String user_id = request.getParameter("id").trim();
 
         // 페이징 처리 작업 진행
 		
@@ -82,6 +87,15 @@ public class UserListAction implements Action {
         List<UserDTO> list = dao.getUserInfo(page, rowsize);
  		
         request.setAttribute("UserList", list);
+                
+        BoardDAO bdao = BoardDAO.getInstance();
+        
+        // 유저가 작성한 게시판 게시글을 가져오는 메서드
+        List<BoardDTO> board = bdao.getUserBoard(user_id);
+        
+        request.setAttribute("BoardList", board);
+        
+        request.setAttribute("mypage_id", user_id);
         
         System.out.println(list);
         
@@ -95,7 +109,7 @@ public class UserListAction implements Action {
  		request.setAttribute("endNo", endNo);
  		request.setAttribute("startBlock", startBlock);
  		request.setAttribute("endBlock", endBlock);
-	
+ 		
 		ActionForward forward = new ActionForward();
 		
 		forward.setRedirect(false);

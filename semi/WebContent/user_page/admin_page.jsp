@@ -9,15 +9,21 @@
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <meta charset="UTF-8" />
 <script>
-  $('#approveModal').on('show.bs.modal', function (event) {
-    var button = $(event.relatedTarget);
-    var userNickname = button.data('book-id');
-    $('#user-nickname').text(userNickname);
-  });
   
-  $("#User_approve").change(function(){
-	    var yearVal =  $(this).value;
-	})
+$(document).ready(function(){
+	$("#approveModal${dto.getUser_no()} .submit_btn").click(function() {
+		var approveValue = $("#userApprove-select option:selected").val();
+		$("#approveValue${dto.getUser_no()}").val(approveValue);
+		$("#approveForm${dto.getUser_no()}").submit();
+	});
+});
+
+function submitModal(userNo) {
+	  var selectedValue = document.getElementById("userApprove-select" + userNo).value;
+	  document.getElementById("approveValue" + userNo).value = selectedValue;
+	  document.getElementById("approveForm" + userNo).submit();
+	}
+
   
 </script>
 </head>
@@ -26,15 +32,14 @@
 	<jsp:include page="../include/main_top.jsp" />
 
 	<c:set var="userlist" value="${UserList }" />
-
+	<c:set var="mypage" value="${mypage_id}" />
 				<!-- Main -->
 					<div id="main">
 						<div class="inner">
 							<header>
 							</header>
 							<section>
-								<c:set var="nickname" value="${user_nickname}" />
-								<h2>${nickname} 회원의 게시글 목록</h2>
+								<h2>${mypage} 회원의 게시글 목록</h2>
 									<div class="table-wrapper"> 
 										<table class="alt">
 											<thead>
@@ -108,11 +113,16 @@
 															<td>${dto.getUser_name() }</td>
 															<td>${dto.getUser_approve() }</td>
 															<td>
-																<a href="<%=request.getContextPath() %>/user_search_page.do?id=${user_id }&searchId=${dto.getUser_id() }&total=0">회원 글 목록</a>
+																<div class="row">
+																	<a href="<%=request.getContextPath() %>/user_search_page.do?id=${user_id }&searchId=${dto.getUser_id() }&total=0">회원 글 목록</a>
 																	&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
+																
 																<a data-toggle="modal" data-target="#approveModal${dto.getUser_no() }" data-book-id="${dto.getUser_nickname() }">등급 변경</a>
 																
-																
+																<form id="approveForm${dto.getUser_no() }" method="post" action="<%=request.getContextPath() %>/user_approve.do?id=${user_id}">
+																	<input type="hidden" name="userNo" value="${dto.getUser_no()}">
+																	<input type="hidden" name="userNickname" value="${dto.getUser_nickname()}">
+																	<input type="hidden" name="approveValue" id="approveValue${dto.getUser_no() }" value="">			
 																<!-- Modal -->
 																<div class="modal fade" id="approveModal${dto.getUser_no() }" tabindex="-1" aria-labelledby="approveModalLabel" aria-hidden="true" style="z-index: 3000;">
 																  <div class="modal-dialog">
@@ -135,33 +145,19 @@
 																			<tr>
 																				<th>등급</th>
 																				<td>
-																					<!-- 유저의 등급이 0일떄 -->
-																					<c:if test="${Integer.parseInt(dto.getUser_approve()) == 0 }">
-																						<select name="userApprove" id="userApprove-select">
-																					    	<option value="" >등급을 변경해주세요</option>
-																					    	<option value="0" selected>User</option>
-																					    	<option value="1">Saller</option>
-																					    	<option value="2">admin</option>
-																						</select>
-																					</c:if>
+																				<select name="selectedValue" id="userApprove-select${dto.getUser_no() }">
+																				 <option value="">등급을 변경해주세요</option>
+																				 <option value="0" ${Integer.parseInt(dto.getUser_approve()) == 0 ? 'selected' : ''}>일반 회원</option>
+																				 <option value="1" ${Integer.parseInt(dto.getUser_approve()) == 1 ? 'selected' : ''}>판매자 신청 회원</option>
+																				 <option value="2" ${Integer.parseInt(dto.getUser_approve()) == 2 ? 'selected' : ''}>판매자</option>
+																				 <option value="3" ${Integer.parseInt(dto.getUser_approve()) == 2 ? 'selected' : ''}>관리자</option>
+																				</select>
+																				<input type="hidden" name="selectedValue" id="approveValue${dto.getUser_no() }" value="">
+																																								
 																					
-																					<!-- 유저의 등급이 0일떄 -->
-																					<c:if test="${Integer.parseInt(dto.getUser_approve()) == 0 }">
+																					<c:if test="${Integer.parseInt(dto.getUser_approve()) == 4 }">
 																						<select name="userApprove" id="userApprove-select">
-																					    	<option value="" >등급을 변경해주세요</option>
-																					    	<option value="0">User</option>
-																					    	<option value="1" selected>Saller</option>
-																					    	<option value="2">admin</option>
-																						</select>
-																					</c:if>
-																					
-																					<!-- 유저의 등급이 0일떄 -->
-																					<c:if test="${dto.getUser_approve().equal("2") }">
-																						<select name="userApprove" id="userApprove-select">
-																					    	<option value="" >등급을 변경해주세요</option>
-																					    	<option value="0">User</option>
-																					    	<option value="1">Saller</option>
-																					    	<option value="2" selected>admin</option>
+																					    	<option value="" >총 관리자 입니다.</option>
 																						</select>
 																					</c:if>
 																				</td>
@@ -170,7 +166,7 @@
 																		</table>
 																		<br>
 																		<div class="submitA" align="center">
-																			<input class="submit_btn btn-primary" type="submit" value="변경" >
+																			<input class="submit_btn btn-primary" type="submit" value="변경" onclick="submitModal(${dto.getUser_no()})">
 																		</div>
 															
 															
@@ -178,10 +174,11 @@
 															    </div>
 															  </div>
 															</div>
-																
+														</form>
 																
 																	&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
 																<a href="#">회원 삭제</a>
+																</div>
 															</td>
 														</tr>
 	
