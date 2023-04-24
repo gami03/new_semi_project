@@ -15,9 +15,9 @@
     $('#user-nickname').text(userNickname);
   });
   
-  function changer(){
-      document.getElementById('selectinput').attributes.onchange.nodeValue = "changeSecond()";
-    }
+  $("#User_approve").change(function(){
+	    var yearVal =  $(this).value;
+	})
   
 </script>
 </head>
@@ -124,7 +124,7 @@
 																        </button>
 																      </div>
 																      <div class="modal-body">
-																      	<p>{dto.getUser_nickname() } 회원으로 부터의 등업 요청</p>
+																      	<p>${dto.getUser_nickname() } 회원으로 부터의 등업 요청</p>
 																	
 																		<table border="1" cellspacing="0" width="400">
 																			<tr>
@@ -133,23 +133,43 @@
 																			</tr>
 																		
 																			<tr>
-																				<th>비밀번호</th>
+																				<th>등급</th>
 																				<td>
-																					<div id="User_approve">
-																					<select name="approver" onchange="Changer" style="width:10%">
-																						<option value="0">default</option>
-																			   			<option value="1">saller</option>
-																			   			<option value="2">admin</option>
-																			   		</select>
-																		   		</div>
+																					<!-- 유저의 등급이 0일떄 -->
+																					<c:if test="${Integer.parseInt(dto.getUser_approve()) == 0 }">
+																						<select name="userApprove" id="userApprove-select">
+																					    	<option value="" >등급을 변경해주세요</option>
+																					    	<option value="0" selected>User</option>
+																					    	<option value="1">Saller</option>
+																					    	<option value="2">admin</option>
+																						</select>
+																					</c:if>
+																					
+																					<!-- 유저의 등급이 0일떄 -->
+																					<c:if test="${Integer.parseInt(dto.getUser_approve()) == 0 }">
+																						<select name="userApprove" id="userApprove-select">
+																					    	<option value="" >등급을 변경해주세요</option>
+																					    	<option value="0">User</option>
+																					    	<option value="1" selected>Saller</option>
+																					    	<option value="2">admin</option>
+																						</select>
+																					</c:if>
+																					
+																					<!-- 유저의 등급이 0일떄 -->
+																					<c:if test="${dto.getUser_approve().equal("2") }">
+																						<select name="userApprove" id="userApprove-select">
+																					    	<option value="" >등급을 변경해주세요</option>
+																					    	<option value="0">User</option>
+																					    	<option value="1">Saller</option>
+																					    	<option value="2" selected>admin</option>
+																						</select>
+																					</c:if>
 																				</td>
 																			</tr>
 																		
-																			
-																		
 																		</table>
 																		<br>
-																		<div class="submit1" align="center">
+																		<div class="submitA" align="center">
 																			<input class="submit_btn btn-primary" type="submit" value="변경" >
 																		</div>
 															
