@@ -14,6 +14,11 @@
     var userNickname = button.data('book-id');
     $('#user-nickname').text(userNickname);
   });
+  
+  function changer(){
+      document.getElementById('selectinput').attributes.onchange.nodeValue = "changeSecond()";
+    }
+  
 </script>
 </head>
 <body>
@@ -105,7 +110,56 @@
 															<td>
 																<a href="<%=request.getContextPath() %>/user_search_page.do?id=${user_id }&searchId=${dto.getUser_id() }&total=0">회원 글 목록</a>
 																	&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
-																<a data-toggle="modal" data-target="#approveModal" data-book-id="${dto.getUser_nickname() }">등급 변경</a>
+																<a data-toggle="modal" data-target="#approveModal${dto.getUser_no() }" data-book-id="${dto.getUser_nickname() }">등급 변경</a>
+																
+																
+																<!-- Modal -->
+																<div class="modal fade" id="approveModal${dto.getUser_no() }" tabindex="-1" aria-labelledby="approveModalLabel" aria-hidden="true" style="z-index: 3000;">
+																  <div class="modal-dialog">
+																    <div class="modal-content">
+																      <div class="modal-header">
+																        <h5 class="modal-title" id="approveModalLabel">등업 신청</h5>
+																        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+																          <span aria-hidden="true">&times;</span>
+																        </button>
+																      </div>
+																      <div class="modal-body">
+																      	<p>{dto.getUser_nickname() } 회원으로 부터의 등업 요청</p>
+																	
+																		<table border="1" cellspacing="0" width="400">
+																			<tr>
+																				<th>유저명</th>
+																				<td>${dto.getUser_nickname() }</td>
+																			</tr>
+																		
+																			<tr>
+																				<th>비밀번호</th>
+																				<td>
+																					<div id="User_approve">
+																					<select name="approver" onchange="Changer" style="width:10%">
+																						<option value="0">default</option>
+																			   			<option value="1">saller</option>
+																			   			<option value="2">admin</option>
+																			   		</select>
+																		   		</div>
+																				</td>
+																			</tr>
+																		
+																			
+																		
+																		</table>
+																		<br>
+																		<div class="submit1" align="center">
+																			<input class="submit_btn btn-primary" type="submit" value="변경" >
+																		</div>
+															
+															
+															      </div>
+															    </div>
+															  </div>
+															</div>
+																
+																
 																	&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
 																<a href="#">회원 삭제</a>
 															</td>
@@ -128,43 +182,6 @@
 						</div>
 					</div>
 					
-						<!-- Modal -->
-						<div class="modal fade" id="approveModal" tabindex="-1" aria-labelledby="approveModalLabel" aria-hidden="true" style="z-index: 3000;">
-						  <div class="modal-dialog">
-						    <div class="modal-content">
-						      <div class="modal-header">
-						        <h5 class="modal-title" id="approveModalLabel">등업 신청</h5>
-						        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-						          <span aria-hidden="true">&times;</span>
-						        </button>
-						      </div>
-						      <div class="modal-body">
-						      	<p>User nickname: ${userlist[i].getUser_nickname() }</p>
-							
-								<table border="1" cellspacing="0" width="400">
-									<tr>
-										<th>유저명</th>
-										<td>${dto.getUser_nickname() }</td>
-									</tr>
-								
-									<tr>
-										<th>비밀번호</th>
-										<td> <input type="password" name="user_pwd"></td>
-									</tr>
-								
-									
-								
-								</table>
-								<br>
-								<div class="submit1" align="center">
-									<input class="submit_btn btn-primary" type="submit" value="로그인" >
-								</div>
-					
-					
-					      </div>
-					    </div>
-					  </div>
-					</div>
 		<jsp:include page="../include/main_bottom.jsp" />
 	</body>
 </html>

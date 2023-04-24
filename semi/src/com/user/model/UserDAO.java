@@ -420,7 +420,8 @@ public class UserDAO {
   				dto.setUser_pwd(rs.getString("user_pwd"));
   				dto.setUser_email(rs.getString("user_email"));
   				dto.setUser_phone(rs.getString("user_phone"));
-  				dto.setUser_addr(rs.getString("user_birth"));
+  				dto.setUser_addr(rs.getString("user_addr"));
+  				dto.setUser_birth(rs.getString("user_birth"));
   				dto.setUser_approve(rs.getInt("user_approve"));
   				dto.setUser_money(rs.getInt("user_money"));
   			
@@ -813,5 +814,84 @@ public class UserDAO {
 	      }
 
 	   }
-   	
+	   
+	   //회원 정보 수정. - 닉네임, 연락처, 이메일, 주소
+	   public int updateUser(UserDTO dto) {
+			int res = 0;
+			try {
+				
+				openConn();
+				sql = "UPDATE user_table SET user_nickname = ?, user_phone = ?, user_email = ?, user_addr = ? WHERE user_id = ?";
+				pstmt = con.prepareStatement(sql);
+				pstmt.setString(1, dto.getUser_nickname());
+				pstmt.setString(2, dto.getUser_phone());
+				pstmt.setString(3, dto.getUser_email());
+				pstmt.setString(4, dto.getUser_addr());
+				pstmt.setString(5, dto.getUser_id());
+				res = pstmt.executeUpdate();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			} finally {
+				closeConn(rs, pstmt, con);
+			}
+			return res;
+		}
+	   public UserDTO getUser(String user_id) {
+		    
+		    UserDTO dto = null;
+
+		    try {
+		        
+		    	openConn();
+		        sql = "SELECT * FROM users WHERE user_id=?";
+		        pstmt = con.prepareStatement(sql);
+		        pstmt.setString(1, user_id);
+		        rs = pstmt.executeQuery();
+
+		        if (rs.next()) {
+		            dto = new UserDTO();
+		            dto.setUser_id(rs.getString("user_id"));
+		            dto.setUser_pwd(rs.getString("user_password"));
+		            dto.setUser_name(rs.getString("user_name"));
+		            dto.setUser_nickname(rs.getString("user_nickname"));
+		            dto.setUser_phone(rs.getString("user_phone"));
+		            dto.setUser_email(rs.getString("user_email"));
+		            dto.setUser_addr(rs.getString("user_addr"));
+		            dto.setUser_birth(rs.getString("user_birth"));
+		            dto.setUser_money(rs.getInt("user_money"));
+		        }
+		    } catch (Exception e) {
+		        e.printStackTrace();
+		    } finally {
+		        closeConn(rs, pstmt, con);
+		    }
+
+		    return dto;
+		}
+	   
+	   public boolean checkPassword(String userId, String password) {
+		   boolean result = false;
+
+		   try {
+		     openConn();
+		     sql = "select user_pwd from user_table where user_id = ?";
+		     pstmt = con.prepareStatement(sql);
+		     pstmt.setString(1, userId);
+		     rs = pstmt.executeQuery();
+
+		     if (rs.next()) {
+		       String storedPassword = rs.getString("user_pwd");
+		       if (storedPassword.equals(password)) {
+		         result = true;
+		       }
+		     }
+		   } catch (SQLException e) {
+		     e.printStackTrace();
+		   } finally {
+		     closeConn(rs, pstmt, con);
+		   }
+
+		   return result;
+		 }
+
 }

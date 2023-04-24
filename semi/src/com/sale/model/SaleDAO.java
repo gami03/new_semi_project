@@ -602,7 +602,7 @@ public class SaleDAO {
 		
 		if(end_price != upper_value) {
 			
-			if(upper_value > start_value) {	// 상회 입찰 금액이 있을때.
+			if(upper_value >= start_value) {	// 상회 입찰 금액이 있을때.
 				
 				// upper_price 에 10% 만큼 더해줘야 된다.
 				int upper_price = (int) (upper_value * 1.1);
@@ -647,7 +647,7 @@ public class SaleDAO {
 				
 			} else if(start_value > upper_value) {	// 상회 입찰 금액이 없을때.
 				
-				int start_price = (int)(start_value * 1.1);
+				int start_price = start_value;
 				
 				if(user_money >= start_price) {
 					
@@ -806,7 +806,7 @@ public class SaleDAO {
 		
 		
 		// 상회 입찰가가 있을 경우
-		if(upper_value > start_value) {
+		if(upper_value >= start_value) {
 			if(upper_value == end_price ) {
 				result = -6;
 			} else {
@@ -1086,8 +1086,8 @@ public class SaleDAO {
 			pstmt.setInt(1, upper_val);
 			pstmt.setInt(2, no);
 
-			pstmt.executeQuery();
-
+			pstmt.executeUpdate();
+			
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -1646,5 +1646,10 @@ public class SaleDAO {
 			
 			return count;
 		}	// getindexList() 메서드 end
+	   
+	   
+	   
+	   
+	   
 	   
 }
