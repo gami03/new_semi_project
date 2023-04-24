@@ -31,6 +31,8 @@ public class UpdateEndAction implements Action {
 		// 현재 경매 물품을 상회입찰한 유저 번호를 가져오는 메서드
 		int user_upper_no = dao.getUserUpperNo(product_no);
 		
+		int end_price = dao.getEnd_price(product_no);
+		
 		System.out.println("user_upper_no >>>" + user_upper_no);
 		
 		// 현재 경매 물품을 등록한 판매자의 번호를 가져오는 메서드.
@@ -48,6 +50,9 @@ public class UpdateEndAction implements Action {
 					check = dao.updateNow(product_no, user_no);
 					
 					System.out.println("check >>> " + check);
+					
+					// 낙찰된 가격을 저장하는 메서드
+					dao.inputBid(end_price, product_no);
 				}
 			} else {
 				check = 2;

@@ -45,82 +45,6 @@
 -->
 
 
-<script>
-
-    // 서버에서 전달된 남은 시간 정보를 가져옵니다.
-    
-    var hours = <%= request.getAttribute("hours") %>;
-    var minutes = <%= request.getAttribute("minutes") %>;
-    var seconds = <%= request.getAttribute("seconds") %>;
-    
-    
-    $(function(){
-        
-        // 페이지 로드 시에 남은 시간 표시를 시작합니다.
-        displayCountdown();
-        
-        // 남은 시간을 표시하는 함수
-        function displayCountdown() {
-            // 남은 시간을 계산하여 표시합니다.
-            var countdownElement = document.getElementById("countdown"); // 요소의 ID를 사용하여 선택
-            if (hours == 0 && minutes < 5 && seconds > 0) {
-                countdownElement.innerHTML = hours + "시간 " + minutes + "분 " + seconds + "초";
-                countdownElement.style.cssText = "color: red; font-weight: bold;";
-                document.getElementsByClassName("countdown")[0].innerHTML = hours + "시간 " + minutes + "분 " + seconds + "초";
-                document.getElementsByClassName("countdown")[0].style.cssText = "color: red; font-weight: bold;";
-            } else if (hours <= 0 && minutes <= 0 && seconds <= 0 || ${Upper} == ${Dto.getSale_end_price()}) {
-                countdownElement.innerHTML = "마감 되었습니다.";
-                countdownElement.style.cssText = "color: red; font-weight: bold;";
-                document.getElementsByClassName("countdown")[0].innerHTML = "마감 되었습니다.";
-                document.getElementsByClassName("countdown")[0].style.cssText = "color: red; font-weight: bold;";
-                <%
-				    String upper = request.getParameter("Upper"); // request 객체에서 파라미터 값 가져오기
-				    String no = request.getParameter("no"); // request 객체에서 파라미터 값 가져오기
-				
-				    // 값이 null 또는 빈 문자열인 경우 기본값 설정
-				    int upperValue = (upper == null || upper.isEmpty()) ? 0 : Integer.parseInt(upper);
-				    int NoValue = (no == null || no.isEmpty()) ? 0 : Integer.parseInt(no);
-				
-				    // dao.inputBid() 메서드 호출
-				    dao.inputBid(upperValue, NoValue);
-				%>
-                date = 3;
-                getList();
-                return;
-            } else {
-                countdownElement.innerHTML = hours + "시간 " + minutes + "분 " + seconds + "초";
-                document.getElementsByClassName("countdown")[0].innerHTML = hours + "시간 " + minutes + "분 " + seconds + "초";
-            }
-            // 1초마다 갱신
-            setTimeout(updateCountdown, 1000);
-        }
-        // 남은 시간을 1초마다 갱신하는 함수
-        function updateCountdown() {
-            // 남은 시간을 1초 감소
-            seconds--;
-            if (seconds < 0) {
-                minutes--;
-                seconds = 59;
-            }
-            if (minutes < 0) {
-                hours--;
-                minutes = 59;
-            }
-
-            // 남은 시간이 0보다 작아지면 갱신을 멈춥니다.
-            if (hours < 0) {
-                hours = 0;
-                minutes = 0;
-                seconds = 0;
-            }
-            // 갱신된 남은 시간을 표시합니다.
-            displayCountdown();
-
-        }
-    });
-</script>
-
-
 </head>
 	<c:set var="count" value="${Count }"/>
 	<c:set var="dto" value="${Dto }"/>
@@ -307,7 +231,77 @@
 
 
 		
+
 <script type="text/javascript" src= "./js/sale_upper.js"></script>
 		
+<script>
+
+    // 서버에서 전달된 남은 시간 정보를 가져옵니다.
+    
+    var hours = <%= request.getAttribute("hours") %>;
+    var minutes = <%= request.getAttribute("minutes") %>;
+    var seconds = <%= request.getAttribute("seconds") %>;
+    
+    
+    $(function(){
+        
+    	
+    	
+        // 페이지 로드 시에 남은 시간 표시를 시작합니다.
+        displayCountdown();
+        
+        // 남은 시간을 표시하는 함수
+        function displayCountdown() {
+            // 남은 시간을 계산하여 표시합니다.
+            var countdownElement = document.getElementById("countdown"); // 요소의 ID를 사용하여 선택
+            if (hours == 0 && minutes < 5 && seconds > 0) {
+                countdownElement.innerHTML = hours + "시간 " + minutes + "분 " + seconds + "초";
+                countdownElement.style.cssText = "color: red; font-weight: bold;";
+                document.getElementsByClassName("countdown")[0].innerHTML = hours + "시간 " + minutes + "분 " + seconds + "초";
+                document.getElementsByClassName("countdown")[0].style.cssText = "color: red; font-weight: bold;";
+            } else if (hours <= 0 && minutes <= 0 && seconds <= 0 || ${Upper} == ${Dto.getSale_end_price()}) {
+                countdownElement.innerHTML = "마감 되었습니다.";
+                countdownElement.style.cssText = "color: red; font-weight: bold;";
+                document.getElementsByClassName("countdown")[0].innerHTML = "마감 되었습니다.";
+                document.getElementsByClassName("countdown")[0].style.cssText = "color: red; font-weight: bold;";
+                date = 3;
+                getList();
+                input_bid();
+                return;
+            } else {
+                countdownElement.innerHTML = hours + "시간 " + minutes + "분 " + seconds + "초";
+                document.getElementsByClassName("countdown")[0].innerHTML = hours + "시간 " + minutes + "분 " + seconds + "초";
+            }
+            // 1초마다 갱신
+            setTimeout(updateCountdown, 1000);
+        }
+        // 남은 시간을 1초마다 갱신하는 함수
+        function updateCountdown() {
+            // 남은 시간을 1초 감소
+            seconds--;
+            if (seconds < 0) {
+                minutes--;
+                seconds = 59;
+            }
+            if (minutes < 0) {
+                hours--;
+                minutes = 59;
+            }
+
+            // 남은 시간이 0보다 작아지면 갱신을 멈춥니다.
+            if (hours < 0) {
+                hours = 0;
+                minutes = 0;
+                seconds = 0;
+            }
+            // 갱신된 남은 시간을 표시합니다.
+            displayCountdown();
+
+        }
+        
+    });
+</script>
+
+
 		
 <jsp:include page="/include/main_bottom.jsp"/>

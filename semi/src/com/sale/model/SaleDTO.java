@@ -4,6 +4,7 @@ public class SaleDTO {
 
 	private int sale_no;
 	private int user_no;
+	private int successful_bid;
 	// private String user_nickname;
 	private String sale_title;
 	private String sale_content;
@@ -69,6 +70,12 @@ public class SaleDTO {
 	}
 	public void setUser_no(int user_no) {
 		this.user_no = user_no;
+	}
+	public int getSuccessful_bid() {
+		return successful_bid;
+	}
+	public void setSuccessful_bid(int successful_bid) {
+		this.successful_bid = successful_bid;
 	}
 	public String getSale_title() {
 		return sale_title;
