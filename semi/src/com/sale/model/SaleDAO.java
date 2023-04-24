@@ -1648,6 +1648,45 @@ public class SaleDAO {
 		}	// getindexList() 메서드 end
 	   
 	   
+	   public List<SaleDTO> getUserWishList(int user_no) {
+		   
+		   List<SaleDTO> list = new ArrayList<SaleDTO>();
+		   
+		   try {
+			   openConn();
+			   
+			   sql = "SELECT * FROM product p JOIN wishlist w ON p.sale_no = w.sale_no where w.user_no = ?;";
+			   
+			   pstmt = con.prepareStatement(sql);
+			   
+			   pstmt.setInt(1, user_no);
+			   
+			   rs = pstmt.executeQuery();
+		
+			   while(rs.next()) {
+				   
+				   SaleDTO dto = new SaleDTO();
+				   
+				   dto.setSale_file1(rs.getString("sale_file1"));
+				   dto.setSale_title(rs.getString("sale_title"));
+				   dto.setSale_content(rs.getString("sale_content"));
+				   dto.setSale_end_price(rs.getInt("end_price"));
+				   dto.setEnd_date(rs.getString("end_date"));
+				   dto.setSale_no(rs.getInt("sale_no"));
+				   dto.setUser_no(rs.getInt("user_no"));
+				   
+				   list.add(dto);
+			   }
+			   
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			closeConn(rs, pstmt, con);
+		}
+		   
+		   return list;
+	   } // getUserWishList() 메서드 end
 	   
 	   
 	   

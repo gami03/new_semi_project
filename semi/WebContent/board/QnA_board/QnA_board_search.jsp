@@ -63,7 +63,7 @@ table td {
 			<div>
 			   <form method="post" action="<%=request.getContextPath() %>/board_search.do?board_name=${board_name }" style="display: flex;
 																												    justify-content: space-between;">
-			   		<span style="font-size: 19px; padding-top: 10px;">전체 ${totalRecord }건 | 페이지 ${page }/${allPage }</span>
+			   		<span style="font-size: 19px; padding-top: 10px; font-family: 'LINESeedKR-Bd';">전체 ${totalRecord }건 | 페이지 ${page }/${allPage }</span>
 			   		<div align="right" style="width: 400px;">
 				   		<select name="field" style="width:25%; font-size: initial"">
 				   			<option value="writer">작성자</option>
@@ -74,7 +74,6 @@ table td {
 			   </form>
 			</div>
 		</div>
-		<br>
 		<c:set var="listCount" value="${listCount }" />
 		<c:set var="list" value="${List }"/>
 		<c:set var="session" value="${user_id }" />
