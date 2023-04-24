@@ -47,6 +47,8 @@
 				}
 			});
 		});
+		
+		
 		</script>
 
 <style type="text/css">
@@ -156,14 +158,15 @@
           
           <div class="form-group">
            <label for="user_addr">주소</label><br>
-          <input type="text" class="user_addr" id="sample4_postcode" placeholder="우편번호">
+			<input type="text" class="user_addr" id="sample4_postcode" name="postcode" placeholder="우편번호">
 			<input type="button"class="user_addr" onclick="sample4_execDaumPostcode()" value="우편번호 찾기"><br>
-			<input type="text" class="user_addr" id="sample4_roadAddress" placeholder="도로명주소">
-			<input type="text" class="user_addr" id="sample4_jibunAddress" placeholder="지번주소">
-			<span id="guide" style="color:#999;display:none"></span>
-			<input type="text" class="user_addr" id="sample4_detailAddress" name="user_addr" placeholder="상세주소">
-			<input type="text" class="user_addr" id="sample4_extraAddress" placeholder="참고항목">
 			
+			<input type="text" class="user_addr" id="sample4_roadAddress" name="road_address" placeholder="도로명주소">
+			<input type="text" class="user_addr" id="sample4_jibunAddress" name="jibun_address" placeholder="지번주소">
+			<span id="guide" style="color:#999;display:none"></span>
+			<input type="text" class="user_addr" id="sample4_detailAddress" name="detail_address" placeholder="상세주소">
+			<input type="text" class="user_addr" id="sample4_extraAddress" name="extra_address" placeholder="참고항목">
+					
 			<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 			<script>
 			    function sample4_execDaumPostcode() {
@@ -198,10 +201,7 @@
 			                    guideTextBox.innerHTML = '(예상 도로명 주소 : ' + expRoadAddr + ')';
 			                    guideTextBox.style.display = 'block';
 			
-			                } else if(data.autoJibunAddress) {
-			                    var expJibunAddr = data.autoJibunAddress;
-			                    guideTextBox.innerHTML = '(예상 지번 주소 : ' + expJibunAddr + ')';
-			                    guideTextBox.style.display = 'block';
+			                
 			                } else {
 			                    guideTextBox.innerHTML = '';
 			                    guideTextBox.style.display = 'none';
