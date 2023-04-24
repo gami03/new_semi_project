@@ -85,7 +85,7 @@
          </div>
          <br>
          
-         <div class="home_products">
+         <div class="home_products" style="border-bottom: 1px solid #ebebeb">
             <div class="product_title">
                <div style="margin-bottom: 15px;">
                   <div class="div_title">
@@ -98,12 +98,14 @@
             </div>
             <div class="product_list_wrap lg">
                <div class="product_list list_first horizontal_product_collection">
-                  <div class="product_item">
+                  
+                  <%-- ajax로 생성  --%>
+                  <%-- <div class="product_item">
                      <a class="item_inner">
                         <div class="thumb_box">
                          <div class="product">
                             <img src="images/pic02.jpg" class="product_image" width="100%" height="auto">
-                            <span aria-label="관심상품" class="btn_wish"><img src="./images/bookmark.png" width="26px" height="24px" onclick=""></span>
+                            <span aria-label="관심상품" class="btn_wish"><img src="./images/bookmark.png" width="26px" height="24px" onclick="wishListClick()"></span>
                          </div>
                         </div>
                         <div class="info_box">
@@ -123,89 +125,35 @@
                            </div>
                         </div>
                      </a>
-                  </div>
-                  <div class="product_item">
-                     <a class="item_inner">
-                        <div class="thumb_box">
-                         <div class="product">
-                            <img src="images/pic04.jpg" class="product_image" width="100%" height="auto">
-                            <span aria-label="관심상품" class="btn_wish"><img src="./images/bookmark.png" width="26px" height="24px"></span>
-                         </div>
-                        </div>
-                        <div class="info_box">
-                           <div class="brand">
-                              <p class="brand-text"> 샤넬 </p>
-                           </div>
-                           <p class="name"> 샤넬 백 </p>
-                           <div class="price">
-                              <div class="amount">
-                                 <em class="num">
-                                    1,300,000원
-                                 </em>
-                              </div>
-                              <div class="desc">
-                                 <p>즉시 구매가</p>
-                              </div>
-                           </div>
-                        </div>
-                     </a>
-                  </div>
-                  <div class="product_item">
-                     <a class="item_inner">
-                        <div class="thumb_box">
-                         <div class="product">
-                            <img src="images/pic05.jpg" class="product_image" width="100%" height="auto">
-                            <span aria-label="관심상품" class="btn_wish"><img src="./images/bookmark.png" width="26px" height="24px"></span>
-                         </div>
-                        </div>
-                        <div class="info_box">
-                           <div class="brand">
-                              <p class="brand-text"> 샤넬 </p>
-                           </div>
-                           <p class="name"> 샤넬 백 </p>
-                           <div class="price">
-                              <div class="amount">
-                                 <em class="num">
-                                    1,300,000원
-                                 </em>
-                              </div>
-                              <div class="desc">
-                                 <p>즉시 구매가</p>
-                              </div>
-                           </div>
-                        </div>
-                     </a>
-                  </div>
-                  <div class="product_item">
-                     <a class="item_inner">
-                        <div class="thumb_box">
-                         <div class="product">
-                            <img src="images/pic06.jpg" class="product_image" width="100%" height="auto">
-                            <span aria-label="관심상품" class="btn_wish"><img src="./images/bookmark.png" width="26px" height="24px"></span>
-                         </div>
-                        </div>
-                        <div class="info_box">
-                           <div class="brand">
-                              <p class="brand-text"> 샤넬 </p>
-                           </div>
-                           <p class="name"> 샤넬 백 </p>
-                           <div class="price">
-                              <div class="amount">
-                                 <em class="num">
-                                    1,300,000원
-                                 </em>
-                              </div>
-                              <div class="desc">
-                                 <p>즉시 구매가</p>
-                              </div>
-                           </div>
-                        </div>
-                     </a>
-                  </div>
+                  </div> class="product_item end" --%>
+                  
+                  <script src="assets/js/hitproduct.js"></script>
+                  
                </div>
             </div>
          </div>
-      </div>
+         
+         <div class="home_products">
+            <div class="product_title">
+               <div style="margin-bottom: 15px;">
+                  <div class="div_title">
+                     <p style="font-family: 'LINESeedKR-Bd'; font-size: 25px; margin-bottom: 0px;">High Action</p>
+                  </div>
+                  <div class="sub_title">
+                     	최고가 경매
+                  </div>
+               </div>
+            </div>
+            <div class="product_list_wrap lg">
+               <div class="product_list_high list_first horizontal_product_collection">
+                  
+                  <script src="assets/js/highproduct.js"></script>
+                  
+               </div>
+            </div>
+         </div>
+         
+      </div> <%-- main end --%>
          
          
          

@@ -29,7 +29,6 @@
 		<script type="text/javascript">
 
 			var user_no = "${User_no}";
-			console.log(user_no);
 
 		</script>
 		

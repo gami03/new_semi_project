@@ -18,6 +18,7 @@ public class SaleDTO {
 	private int sale_reply;
 	private int sale_hit;
 	private int sale_check;
+	private String bookmark;
 	
 	private String user_nickname;
 	private String upload_title;
@@ -147,7 +148,12 @@ public class SaleDTO {
 	public void setSale_file4(String sale_file4) {
 		this.sale_file4 = sale_file4;
 	}
-	
+	public String getBookmark() {
+		return bookmark;
+	}
+	public void setBookmark(String bookmark) {
+		this.bookmark = bookmark;
+	}
 	
 	
 }

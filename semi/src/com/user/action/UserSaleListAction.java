@@ -1,6 +1,7 @@
 package com.user.action;
 
 import java.io.IOException;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -25,13 +26,13 @@ public class UserSaleListAction implements Action{
 		
 		SaleDAO dao = SaleDAO.getInstance();
 		
-		// 유저가 구매한 제품 번호를 가져오는 메서드
-		int sale_no = dao.getBuyProduct(user_no);
+		// 특정 유저의 구매 상품 index list를 가져오는 메서드
+		List<SaleDTO> buyList = dao.getUserBuyList(user_no);
 		
-		// 제품 번호에 해당하는 제품 내용을 반환하는 메서드
-		SaleDTO dto = dao.getProductDetail(sale_no);
+		int buyCount = dao.getUserBuyCount(user_no);
 		
-		request.setAttribute("OrderList", dto);
+		request.setAttribute("BuyList", buyList);
+		request.setAttribute("BCount", buyCount);
 		
 		ActionForward forward = new ActionForward();
 		
