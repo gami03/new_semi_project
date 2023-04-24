@@ -61,11 +61,10 @@ justify-content: center;
 
 
 	<!-- Main -->
-	<div align="center" style="margin-bottom: 150px;" id="main">
-		<hr width="50%" color="marmoon">
-			<h3>자유게시판</h3>
-		<hr width="50%" color="marmoon">
-		<br>
+	<div align="center" style="margin-bottom: 150px; padding-top: 0;" id="main">
+		<div class="board_banner">
+			<p style="font-family: 'Cafe24Ssurround'; font-size: 40px;">자유게시판</p>
+		</div>
 		
 		<c:set var="session" value="${user_id }" />
 		<%-- enctype : 파일을 업로드하기 위한 속성 --%>

@@ -73,7 +73,6 @@ table th {
 	   			<option value="look">조회순</option>
 	   		</select>
    		</div>
-   		<br>
    		
 <script type="text/javascript">
 

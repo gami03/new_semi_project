@@ -81,6 +81,7 @@
     text-overflow: ellipsis;
     white-space: nowrap;
     max-width: 262px;
+    font-family: 'LINESeedKR-Bd';
 }
 
 .lg .product_list_wrap {
@@ -136,17 +137,17 @@
 }
 
 .product_item .info_box {
-    padding-top: 9px;
+    padding-top: 10px;
 }
 
 .brand-text {
     overflow: hidden;
     display: inline-block;
     vertical-align: top;
-    height: 17px;
-    line-height: 17px;
+    height: 28px;
+    line-height: 28px;
     padding-bottom: 2px;
-    font-size: 13px;
+    font-size: 18px;
     font-weight: 700;
     color: #222;
     white-space: nowrap;
@@ -156,6 +157,7 @@
     width: -moz-fit-content;
     width: fit-content;
     max-width: 100%;
+    font-family: 'LINESeedKR-Bd';
 }
 
 .product_item .name {
@@ -164,6 +166,8 @@
     font-weight: normal;
     color: #222;
     white-space: nowrap;
+    font-size: 15px;
+    font-family: 'LINESeedKR-Bd';
 }
 
 .product_item .price {
@@ -179,16 +183,18 @@
 	display: inline-block;
     vertical-align: top;
     line-height: 17px;
-    font-size: 14px;
+    font-size: 16px;
     font-weight: 700;
     letter-spacing: -.04px;
+    font-family: 'LINESeedKR-Bd';
 }
 
 .product_item .desc {
     line-height: 13px;
-    font-size: 11px;
+    font-size: 14px;
     color: rgba(34,34,34,.5);
     margin-top: 2px;
+    font-family: 'LINESeedKR-Bd';
 }
 
 .product_image {

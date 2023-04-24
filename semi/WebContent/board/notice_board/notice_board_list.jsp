@@ -71,7 +71,6 @@ table th {
 	   			<option value="look">조회순</option>
 	   		</select>
    		</div>
-   		<br>
    		
 <script type="text/javascript">
 
@@ -341,7 +340,7 @@ table th {
     });
 </script>
 
-   		<div id="freeBoard_table">
+   		<div id="Board_table">
    		<%-- 공지사항 테이블 --%>
 		<table border="1" cellspacing="0">
 			<tr align="center" id="title_tr">

@@ -1196,7 +1196,7 @@ public class SaleDAO {
 				   
 				   while(rs.next()) {
 						   
-						   sql = "select *, count(*) from upper where sale_no = ?";
+						   sql = "select *, count(*) from upper where sale_no = ? and user_upper > 0";
 						    
 						    // 새로운 PreparedStatement 생성
 						    PreparedStatement pstmt2 = con.prepareStatement(sql); 
@@ -1260,7 +1260,7 @@ public class SaleDAO {
 		        
 		        while(rs.next()) {
 		            
-		        	sql = "SELECT COUNT(*) FROM upper WHERE sale_no = ?";
+		        	sql = "SELECT COUNT(*) FROM upper WHERE sale_no = ? and user_upper > 0";
 		            
 		        	PreparedStatement pstmt2 = con.prepareStatement(sql);
 		            
@@ -1364,24 +1364,6 @@ public class SaleDAO {
 		        
 		        while(rs.next()) {
 		            
-		        	sql = "SELECT COUNT(*) FROM upper WHERE sale_no = ?";
-		            
-		        	PreparedStatement pstmt2 = con.prepareStatement(sql);
-		            
-		        	pstmt2.setInt(1, rs.getInt("sale_no"));
-		            
-		        	ResultSet rs2 = pstmt2.executeQuery();
-		            
-		        	int count = 0;
-		            
-		        	if (rs2.next()) {
-		                count = rs2.getInt(1);
-		            }
-		           
-		        	pstmt2.close();
-		           
-		        	rs2.close();
-		            
 		        	SaleDTO dto = new SaleDTO();
 		            
 		        	dto.setSale_no(rs.getInt("sale_no"));
@@ -1391,26 +1373,8 @@ public class SaleDAO {
 		        	dto.setSale_title(rs.getString("sale_title"));
 		            
 		        	dto.setSale_content(rs.getString("sale_content"));
-		            
-		        	if (count > 0) {
-		                
-		        		sql = "SELECT user_upper FROM upper WHERE sale_no = ? ORDER BY user_upper DESC LIMIT 1";
-		                
-		        		PreparedStatement pstmt4 = con.prepareStatement(sql);
-		                
-		        		pstmt4.setInt(1, rs.getInt("sale_no"));
-		                
-		        		ResultSet rs4 = pstmt4.executeQuery();
-		                
-		        		if (rs4.next()) {
-		                    dto.setSale_end_price(rs4.getInt("user_upper"));
-		                
-		        		}
-		                pstmt4.close();
-		                rs4.close();
-		            } else {
-		                dto.setSale_end_price(rs.getInt("sale_price"));
-		            }
+		        	
+		        	dto.setSale_end_price(rs.getInt("end_price"));
 		            
 		        	// Add code to get bookmark value based on session_no
 		            
@@ -1466,43 +1430,16 @@ public class SaleDAO {
 			   rs = pstmt.executeQuery();
 			   
 			   while(rs.next()) {
-					   
-					   sql = "select *, count(*) from upper where sale_no = ?";
 					    
-					    // 새로운 PreparedStatement 생성
-					    PreparedStatement pstmt2 = con.prepareStatement(sql); 
-					    
-					    pstmt2.setInt(1, rs.getInt("sale_no"));
-					    
-					    // 새로운 ResultSet을 생성
-					    ResultSet rs2 = pstmt2.executeQuery(); 
-					    
-					    if(rs2.next()) {
-					        int count = rs2.getInt(1);
-					        if(count > 0) {
-					            SaleDTO dto = new SaleDTO();
-					            dto.setSale_no(rs.getInt("sale_no"));
-					            dto.setSale_file1(rs.getString("sale_file1"));
-					            dto.setSale_title(rs.getString("sale_title"));
-					            dto.setSale_content(rs.getString("sale_content"));
-					            dto.setSale_end_price(rs2.getInt("user_upper"));
-					            dto.setBookmark("bookmark.png");
-					            list.add(dto);
-					        } else {
-					            SaleDTO dto = new SaleDTO();
-					            dto.setSale_no(rs.getInt("sale_no"));
-					            dto.setSale_file1(rs.getString("sale_file1"));
-					            dto.setSale_title(rs.getString("sale_title"));
-					            dto.setSale_content(rs.getString("sale_content"));
-					            dto.setSale_end_price(rs.getInt("sale_price"));
-					            dto.setBookmark("bookmark.png");
-					            list.add(dto);
-					        }
-					    }
-					    rs2.close();
-					    pstmt2.close();
-					   
-				   }
+		            SaleDTO dto = new SaleDTO();
+		            dto.setSale_no(rs.getInt("sale_no"));
+		            dto.setSale_file1(rs.getString("sale_file1"));
+		            dto.setSale_title(rs.getString("sale_title"));
+		            dto.setSale_content(rs.getString("sale_content"));
+		            dto.setSale_end_price(rs.getInt("end_price"));
+		            dto.setBookmark("bookmark.png");
+		            list.add(dto);
+			   }
 				   
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block

@@ -61,11 +61,10 @@ justify-content: center;
 
 
 	<!-- Main -->
-	<div align="center" style="margin-bottom: 150px;" id="main">
-		<hr width="50%" color="marmoon">
-			<h3>자주 묻는 질문(FAQ)</h3>
-		<hr width="50%" color="marmoon">
-		<br>
+	<div align="center" style="margin-bottom: 150px; padding-top: 0;" id="main">
+		<div class="QnAFAQ_board_banner">
+			<p style="font-family: 'Cafe24Ssurround'; font-size: 45px;">자주 묻는 질문(F&Q)</p>
+		</div>
 		
 		<c:set var="session" value="${user_id }" />
 		<%-- enctype : 파일을 업로드하기 위한 속성 --%>

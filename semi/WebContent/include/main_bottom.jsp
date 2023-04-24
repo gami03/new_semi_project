@@ -19,7 +19,7 @@
 							</div>
 							<p class="service_noti">1:1 문의하기는 게시판에서만 가능합니다.</p>
 							<div class="service_btn_box">
-								<input type="button" value="자주 묻는 질문" onclick="location.href='board_list.do?board_name=FAQ_board'">
+								<input type="button" value="자주 묻는 질문" onclick="location.href='board_list.do?board_name=FAQ_board'" style="letter-spacing: 2px; font-size: 13px; height: 43px;">
 							</div>
 					   </div>
 					   <div class="footer_menu">
@@ -105,7 +105,7 @@
 						</div>
 						
 					</div>
-					<br><br><br>
+					<br><br>
 					
 					<div class="notice_area">
 						<p class="notice">

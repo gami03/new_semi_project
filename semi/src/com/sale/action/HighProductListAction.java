@@ -21,6 +21,7 @@ public class HighProductListAction implements Action {
 		String user_noStr = request.getParameter("user_no");
 		
 		int user_no = 0;
+		
         
         if (user_noStr != null && !user_noStr.trim().isEmpty()) {
             user_no = Integer.parseInt(user_noStr.trim());

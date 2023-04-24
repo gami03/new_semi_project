@@ -61,11 +61,10 @@ justify-content: center;
 
 
 	<!-- Main -->
-	<div align="center" style="margin-bottom: 150px;" id="main">
-		<hr width="50%" color="marmoon">
-			<h3>공지사항</h3>
-		<hr width="50%" color="marmoon">
-		<br>
+	<div align="center" style="margin-bottom: 150px; padding-top: 0;" id="main">
+		<div class="board_banner">
+			<p style="font-family: 'Cafe24Ssurround'; font-size: 40px;">공지사항</p>
+		</div>
 		
 		<c:set var="session" value="${user_id }" />
 		<c:set var="dto" value="${Modify }" />

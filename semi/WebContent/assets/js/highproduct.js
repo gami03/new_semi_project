@@ -22,7 +22,7 @@ $(function() {
 					$.each(response.productList, function(index, product) {
 						
 					  var productItem = '<div class="product_item">\
-					                      <a class="item_inner">\
+					                      <a class="item_inner" href=\"product_detail.do?no='+product.sale_no+'&user='+user_no+'">\
 					                        <div class="thumb_box">\
 					                          <div class="product">\
 					                            <img src="images/'+ product.sale_file1 +'" class="product_image" width="100%" height="auto">\
@@ -56,7 +56,7 @@ $(function() {
 					alert("최고가 상품을 불러오는 도중 오류가 발생했습니다.");
 				}
 			});
-		}, 800); // 0.8초(800밀리초) 딜레이
+		}, 1000); // 0.8초(800밀리초) 딜레이
 	}
 	
 	// 페이지가 열리면 자동으로 hitProductList() 함수를 실행

@@ -31,12 +31,14 @@ padding: 0;
    display: flex;
    height: 22px;
    justify-content: flex-end;
-   width: 1220px;
+   width: 1202px;
    margin: auto;
+   font-family: 'LINESeedKR-Bd';
+   font-size: 15px;
 }
 
 #top_inner a{
-	font-size: 13px;
+	font-size: 15px;
 	color: gray;
 	margin-left: 35px;
 	cursor: grab;
@@ -84,12 +86,14 @@ input[type="button"].btn {
 
 #header .logo .logotitle img {
    display: block;
-   width: 15em;
+   width: 12em;
    height: auto;
 }
 
 .topbutton {
 	box-shadow: none;
+	font-family: 'yg-jalnan';
+	font-size: 15px
 }
 
 .topbyttondiv {
@@ -150,7 +154,7 @@ clear: both;
     flex-direction: row-reverse;
     -webkit-box-pack: justify;
     justify-content: space-between;
-    padding-bottom: 56px;
+    padding-bottom: 20px;
     border-bottom: 1px solid #ebebeb;
     padding-top: 40px;
     border-top: 1px solid #ebebeb;
@@ -161,12 +165,15 @@ clear: both;
 }
 
 .menu_title {
-    font-size: 17px;
+    font-size: 18px;
     letter-spacing: -.16px;
+    font-family: 'LINESeedKR-Bd';
 }
 
 .menu_list {
     padding-top: 16px;
+    font-family: 'LINESeedKR-Bd';
+    font-size: 16px;
 }
 
 ul li {
@@ -245,6 +252,7 @@ dl dt {
     padding-bottom: 16px;
     display: -webkit-inline-box;
     display: inline-flex;
+    font-family: 'LINESeedKR-Bd';
 }
 
 .term_item {
@@ -280,6 +288,7 @@ dl dt {
 
 .info_item:last-child {
     margin-right: 0;
+    margin-bottom: 0;
 }
 
 .info_item {
@@ -289,6 +298,7 @@ dl dt {
 
 .lg .business_title {
     max-width: 790px;
+    font-family: 'LINESeedKR-Bd';
 }
 
 .business_title {
@@ -306,10 +316,11 @@ dl dt {
     display: flex;
     -webkit-box-align: end;
     align-items: flex-end;
+    font-family: 'LINESeedKR-Bd';
 }
 
 .notice {
-    max-width: 790px;
+    max-width: 798px;
     font-size: 13px;
     letter-spacing: -.06px;
     color: rgba(34,34,34,.4);
@@ -341,12 +352,16 @@ dl dt {
 	box-shadow: none;
 	background-color: #f6f6f6;
 	border-radius: 30px;
-    font-size: small;
+    font-size: 15px;
     margin: 3 3px;
 }
 
 .is-menu-visible {
 	background: black;
+}
+
+.search {
+	display: flex;
 }
 
 .search .btn_search_delete {
@@ -373,12 +388,14 @@ dl dt {
 }
 
 .title {
-    font-size: 16px;
+    font-size: 17px;
     font-weight: 700;
+    font-family: 'LINESeedKR-Bd';
 }
 
 .title_sub_text {
     float: right;
+    font-family: 'LINESeedKR-Bd';
 }
 
 .search_card_ranking {
@@ -398,6 +415,7 @@ dl dt {
 
 .ranking_idx {
 	color: black;
+	font-size: 18px;
 }
 
 .ranking_title {
@@ -407,6 +425,7 @@ dl dt {
 .search_card_ranking .ranking_idx {
     font-weight: 600;
     margin-right: 6px;
+    font-size: 18px;
 }
 
 
@@ -419,6 +438,7 @@ dl dt {
     text-overflow: ellipsis;
     display: inline-block;
     white-space: nowrap;
+    font-size: 18px;
 }
 
 .recent_search {
@@ -436,7 +456,7 @@ dl dt {
 	box-shadow: none;
 	background-color: #f6f6f6;
 	border-radius: 30px;
-    font-size: small;
+    font-size: 15px;
     margin: 3 3px;
 }
 
@@ -457,7 +477,7 @@ dl dt {
 .board_banner {
 	padding-top: 166px;
 	padding-bottom: 3px;
-	margin-bottom: 20px;
+	margin-bottom: 60px;
     display: flex;
     justify-content: flex-start;
     border-bottom: outset;
@@ -484,6 +504,10 @@ dl dt {
 	
 }
 
+.customer_service {
+	font-family: 'LINESeedKR-Bd';
+}
+
 @font-face {
     font-family: 'Cafe24Ssurround';
     src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2105_2@1.0/Cafe24Ssurround.woff') format('woff');
@@ -499,4 +523,45 @@ dl dt {
     font-style: normal;
 }
 
+@font-face {
+    font-family: 'yg-jalnan';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_four@1.2/JalnanOTF00.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+button {
+	font-family: 'LINESeedKR-Bd';
+}
+
+input {
+	font-family: 'LINESeedKR-Bd';
+}
+
+#cont_tr {
+	font-size: 17px;
+}
+
+#title_tr th {
+	font-size: 17px;
+}
+
+select {
+	font-family: 'LINESeedKR-Bd';
+	font-size: 19px;
+}
+
+#Board_table {
+	margin-top: 13px;
+}
+
+th, td {
+	font-family: 'LINESeedKR-Bd';
+	font-size: 18px;
+}
+
+.page-link {
+	font-family: 'LINESeedKR-Bd';
+	font-size: 19px;
+}
 

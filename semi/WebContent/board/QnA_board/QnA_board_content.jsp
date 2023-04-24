@@ -74,8 +74,8 @@ justify-content: center;
 	<!-- Main -->
 	<div align="center" id="main" style="padding-top: 0;">
 	
-		<div class="QnAFAQ_board_banner" style="margin-bottom: 50px;">
-			<img src="./images/QnA_title.png" style="width: 400px;">
+		<div class="QnAFAQ_board_banner">
+			<p style="font-family: 'Cafe24Ssurround'; font-size: 45px;">묻고 답하기(Q&A)</p>
 		</div>
 		
 		<c:set var="dto" value="${Content }"/>

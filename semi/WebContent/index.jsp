@@ -8,12 +8,12 @@
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
 
+   <link rel="stylesheet" href="assets/css/index.css" />
    <jsp:include page="/include/main_top.jsp" />
    
-   <link rel="stylesheet" href="assets/css/index.css" />
    
       <!-- Main -->
-      	<div id="carouselExampleFade" class="carousel slide carousel-fade" data-bs-interval="4000" data-bs-ride="carousel" style="margin-top: 104px;">
+      	<div id="carouselExampleFade" class="carousel slide carousel-fade" data-bs-interval="4000" data-bs-ride="carousel" style="margin-top: 120px;">
               <div class="carousel-inner">
                 <div class="carousel-item active">
                   <img src="./images/style_event_banner.png" class="d-block w-100" height="45%">
@@ -42,7 +42,7 @@
               </button>
             </div>
       	
-         <div id="main" style="padding-top: 0;">
+         <div id="main" style="padding-top: 0; padding-bottom: 0px;">
 
          <br>
          
@@ -83,7 +83,6 @@
                <p style="font-family: 'LINESeedKR-Bd'; font-size: 18px;">남성 추천</p>
             </div>
          </div>
-         <br>
          
          <div class="home_products" style="border-bottom: 1px solid #ebebeb">
             <div class="product_title">

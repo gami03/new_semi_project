@@ -19,8 +19,9 @@ $(function() {
 				
 				// each() 함수를 사용하여 productList를 반복하면서 product_item 생성
 				$.each(response.productList, function(index, product) {
+					console.log(product.sale_no);
 				  var productItem = '<div class="product_item">\
-				                      <a class="item_inner">\
+				                      <a class="item_inner" href=\"product_detail.do?no='+product.sale_no+'&user='+user_no+'">\
 				                        <div class="thumb_box">\
 				                          <div class="product">\
 				                            <img src="images/'+ product.sale_file1 +'" class="product_image" width="100%" height="auto">\

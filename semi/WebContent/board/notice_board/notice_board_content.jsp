@@ -77,8 +77,8 @@ justify-content: center;
 	<!-- Main -->
 	<div align="center" id="main" style="padding-top: 0;">
 		
-		<div class="board_banner" style="margin-bottom: 50px;">
-			<img src="./images/notice_title01.png" style="width: 170px;">
+		<div class="board_banner">
+			<p style="font-family: 'Cafe24Ssurround'; font-size: 40px;">공지사항</p>
 		</div>
 		
 		<c:set var="dto" value="${Content }"/>

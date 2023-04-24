@@ -65,10 +65,10 @@ table td {
 																												    justify-content: space-between;">
 			   		<span style="font-size: 19px; padding-top: 10px;">전체 ${totalRecord }건 | 페이지 ${page }/${allPage }</span>
 			   		<div align="right" style="width: 400px;">
-				   		<select name="field" style="width:25%;">
+				   		<select name="field" style="width:25%; font-size: initial"">
 				   			<option value="writer">작성자</option>
 				   		</select>
-				   		<input type="text" name="keyword" placeholder="닉네임을 입력해주세요" style="width:45%;">&nbsp;&nbsp;
+				   		<input type="text" name="keyword" placeholder="닉네임을 입력해주세요" style="width:45%; font-size: initial"">&nbsp;&nbsp;
 				   		<input type="submit" value="검색">
 			   		</div>
 			   </form>
@@ -85,7 +85,7 @@ table td {
 				<tbody>
 				<c:if test="${!empty list }">
 					<c:forEach items="${list }" var="dto" >
-						<tr style="height: 70px;">
+						<tr style="height: 70px;" id="cont_tr">
 							<c:set var="totalEndNo" value="${totalEndNo -1 }" />
 									<td> ${totalEndNo + 1 } </td>
 							<td>

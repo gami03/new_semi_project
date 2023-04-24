@@ -29,6 +29,7 @@ justify-content: center;
 	background: antiquewhite;
 	border-radius: 20px;
 	border: 1px solid #e2e2e2;
+	font-family: 'LINESeedKR-Bd';
 }
 
 
