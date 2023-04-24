@@ -72,6 +72,7 @@
 		<div id="main">
 			<div class="inner">
 				<header>
+					<!-- 관리자에게 건의하는 버튼 -->
 					<c:set var="dto" value="${UserInfo}" />
 						<h2>프로필</h2>
 						<div align="center">
@@ -81,6 +82,9 @@
 							<p>아이디 : ${dto.getUser_id() }</p>
 							<p>이메일 : ${dto.getUser_email() }</p>
 							<p>연락처 : ${dto.getUser_phone() }</p>
+						</div>
+						<div align="right">
+							<button></button>
 						</div>
 					
 				</header>
