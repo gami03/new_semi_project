@@ -24,7 +24,16 @@ public class JoinOkAction implements Action {
 		String user_name = request.getParameter("user_name").trim();
 		String user_nickname = request.getParameter("user_nickname").trim();
 		String user_email = request.getParameter("user_email").trim();
-		String user_addr = request.getParameter("user_addr").trim();
+		String postcode = request.getParameter("postcode");
+		String roadAddress = request.getParameter("road_address");
+		String jibunAddress = request.getParameter("jibun_address");
+		String detailAddress = request.getParameter("detail_address");
+		String extraAddress = request.getParameter("extra_address");
+
+		String user_addr = roadAddress + " " + detailAddress + " " + extraAddress + " " + postcode;
+
+		// DB에 회원 정보와 함께 주소 정보를 저장하는 코드
+
 		String user_phone = request.getParameter("user_phone").trim();
 		String user_birth = request.getParameter("user_birth").trim();
 		
