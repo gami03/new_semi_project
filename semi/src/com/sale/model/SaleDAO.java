@@ -1034,7 +1034,7 @@ public class SaleDAO {
 			try {
 				openConn();
 				
-				sql = "select max(board_no) from board";
+				sql = "select max(sale_no) from product";
 				
 				pstmt = con.prepareStatement(sql);
 				
@@ -1044,7 +1044,7 @@ public class SaleDAO {
 					count = rs.getInt(1) + 1;
 				}
 				
-				sql = "insert into board values(?, ?, 0, ?, ?, ?, ?, now(), 0, 0, ?, ?, ?, ?, 0, ?)";
+				sql = "insert into board values(?, ?, 0, ?, ?, ?, ?, now(),now(), 0, ?, ?, ?, ?, 0, ?,default)";
 				
 				pstmt = con.prepareStatement(sql);
 				
@@ -1062,6 +1062,8 @@ public class SaleDAO {
 				
 				result = pstmt.executeUpdate();
 				
+				System.out.println("dao count" +count);
+				System.out.println("dao result"+result);
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
