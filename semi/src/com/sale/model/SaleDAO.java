@@ -10,6 +10,8 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.board.model.BoardDTO;
+
 
 public class SaleDAO {
 
@@ -1763,6 +1765,94 @@ public class SaleDAO {
 	}
 	   return result;
    }	// getUpper() 메서드 end
+   
+   
+   public void inputHit(int product_no) {
+	   
+	   try {
+		    openConn();
+			   
+			sql = "update product set sale_hit = sale_hit + 1 where sale_no = ?";
+			   
+			pstmt = con.prepareStatement(sql);
+			
+			pstmt.setInt(1, product_no);
+		
+			pstmt.executeUpdate();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			closeConn(rs, pstmt, con);
+		}
+	   
+	   
+   }	// inputHit() 메서드 end
+   
+   public List<SaleDTO> getSaleList(int page, int rowsize) {
+		
+		List<SaleDTO> list = new ArrayList<SaleDTO>();
+	
+		// 해당 페이지에서 시작 번호
+		int startNo = (page * rowsize) - (rowsize - 1);
+		
+		// 해당 페이지에서 끝 번호
+		int endNo = (page * rowsize);
+		
+		try {
+			openConn();
+			
+			sql = "SELECT * FROM ( SELECT row_number() OVER (ORDER BY sale_no DESC) AS rnum, b.* FROM semi.product b) AS subquery WHERE rnum BETWEEN ? AND ?";
+			
+			
+			pstmt = con.prepareStatement(sql);
+			
+			pstmt.setInt(1, startNo);
+			pstmt.setInt(2, endNo);
+			
+			rs = pstmt.executeQuery();
+			
+			while(rs.next()) {
+				
+				SaleDTO dto = new SaleDTO();
+				
+				
+				dto.setSale_no(rs.getInt("sale_no"));
+				dto.setUser_no(rs.getInt("user_no"));
+				dto.setSale_title(rs.getString("sale_title"));
+				dto.setSale_content(rs.getString("sale_content"));
+				dto.setSale_price(rs.getInt("sale_price"));
+				dto.setSale_end_price(rs.getInt("end_price"));
+				dto.setSale_file1(rs.getString("sale_file1"));
+				dto.setSale_file2(rs.getString("sale_file2"));
+				dto.setSale_file3(rs.getString("sale_file3"));
+				dto.setSale_file4(rs.getString("sale_file4"));
+				dto.setSale_date(rs.getString("sale_date"));
+				dto.setEnd_date(rs.getString("end_date"));
+				dto.setSale_hit(rs.getInt("sale_hit"));
+				
+				list.add(dto);
+				
+				
+			}
+			
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			closeConn(rs, pstmt, con);
+		}
+		
+		return list;
+	} // getBoardList() 메서드 end
+	
+   
+   
+   
+   
+   
+   
    
    
 }

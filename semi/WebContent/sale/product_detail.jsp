@@ -247,7 +247,7 @@
     
     
     $(function(){
-        
+    	saleDeatailHit();
     	
     	
         // 페이지 로드 시에 남은 시간 표시를 시작합니다.

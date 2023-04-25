@@ -82,6 +82,8 @@ public class BoardListAction implements Action  {
 		// 전체 게시물의 수를 확인하는 메서드 호출
 		totalRecord = dao.getBoardCount(board_name);
 		
+		System.out.println("dsadsadsa >>>> " +totalRecord);
+		
 		// 전체 게시물의 수를 한 페이지당 보여질 게시물의 수로 나누어 주어야 함.
 		// 이 과정을 거치면 전체 페이지 수가 나오게 됨.
 		// 이 때 전체 페이지 수가 나올 때 나머지가 있으면 무조건 전체 페이지 수를 하나 올려 주어야 함.

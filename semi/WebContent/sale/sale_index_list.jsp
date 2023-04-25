@@ -76,22 +76,19 @@
 						<div class="row" style="padding:0; margin: 0;">
 							<c:set var="user_no" value="${User_no }" />
 							<c:set var="count" value="${Count }" />
-							<c:set var="dto" value="${Index }" />
+							<c:set var="list" value="${Index }" />
 							<c:if test="${!empty count}">
-								<c:forEach var="i" begin="0" end="${Count-1 }">
+								<c:forEach var="i" begin="0" end="${list.size() -1 }">
 									<div class="product_list_wrap">
 										<div class="product">
-											<a href="product_detail.do?no=${dto[i].getSale_no() }&user=${User_no}">
+											<a href="product_detail.do?no=${list[i].getSale_no() }&user=${User_no}">
 												<div class="product-img">
 													<img style="height: 300px"
-														src="./images/${dto[i].getSale_file1() }" alt="" />
+														src="./images/${list[i].getSale_file1() }" alt="" />
 													<hr style="margin: 0px" width="black" color="100%">
-													<div class="product-label">
-														<span class="sale">-30%</span>
-													</div>
 												</div>
 												<div class="product-body">
-													<h3 class="product-name">${dto[i].getSale_title() }</h3>
+													<h3 class="product-name">${list[i].getSale_title() }</h3>
 												</div>
 												<div class="product-btns"></div>
 										</div>
@@ -103,8 +100,56 @@
 			
 						</div>
 					</div>
+					
+									<%-- 페이징 처리 영역 --%>
+							<div style="margin-left: 30%;">
+						   <nav style ="float:left; width: 55%;">
+						      <ul class="pagination">
+							      <li class="page-item">
+							         <a class="page-link" href="sale_index_list.do?page=1">처음</a>
+							      </li>
+							      <li>
+							      	<c:if test="${page > 1 }">
+							         <a class="page-link" href="sale_index_list.do?page=${page-1 }">이전</a>
+							        </c:if>
+							        <c:if test="${page <= 1 }">
+							         <a class="page-link">이전</a>
+							        </c:if>
+							      </li>
+							      
+							      <c:forEach begin="${startBlock }" end="${endBlock }" var="i">
+							      <c:if test="${ i == page }">
+							         <li class="page-item active" aria-current="page">
+							         <a class="page-link" href="sale_index_list.do?page=${i }">${i }</a>
+							         </li>   
+							      </c:if>
+							      
+							      <c:if test="${ i != page }">
+							         <li class="page-item">
+							         <a class="page-link" href="sale_index_list.do?page=${i }">${i }</a>
+							         </li>   
+							      </c:if>
+							      </c:forEach>
+							      
+							      <c:if test="${endBlock < allPage }">
+							         <li class="page-item">
+							            <a class="page-link" href="sale_index_list.do?page=${page+1 }">다음</a>
+							         </li>   
+							      </c:if>
+							      
+							      <c:if test="${page < allPage }">
+							      <li class="page-item">
+							            <a class="page-link" href="sale_index_list.do?page=${allPage }">끝</a>
+							      </li>
+							      </c:if>
+						      </ul>
+						   </nav>
+						</div>
+					</div>
 				</section>
 			</div>
 		</div>
+		
+		
 
 <jsp:include page="/include/main_bottom.jsp"/>

@@ -247,7 +247,16 @@ $(function () {
 	    }, 300); // 0.3초 딜레이
 	}
 
-			
+	
+	saleDeatailHit = function(){
+		console.log("product_no sale_no >>>" + sale_no)
+		 $.ajax({
+	            url: "/semi/sale_hit.ajax.do",
+	            data: { 
+	                no: sale_no
+	            }
+	        });
+	}
 			
 	  
  });
