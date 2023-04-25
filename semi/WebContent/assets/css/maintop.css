@@ -481,7 +481,7 @@ dl dt {
     display: flex;
     justify-content: flex-start;
     border-bottom: outset;
-    border-bottom-color: ghostwhite;
+    border-bottom-color:darkcyan;
 }
 
 #title_tr {
@@ -565,3 +565,132 @@ th, td {
 	font-size: 19px;
 }
 
+.txt1{
+	font-weight: bold;
+	font-size: 20px;
+}
+
+.w3-border {
+	font-family: 'LINESeedKR-Bd';
+	font-size: 18px;
+}
+
+.modal-title {
+	font-family: 'LINESeedKR-Bd';
+	font-size: 20px;
+}
+
+.wish_item {
+	display: flex;
+	padding: 20px 0 19px;
+    -webkit-box-align: center;
+    align-items: center;
+    border-bottom: 1px solid #ebebeb;
+    justify-content: space-between;
+}
+
+.wish_product {
+	display: flex;
+}
+
+.product_box {
+	-webkit-box-flex: 0;
+    flex: none;
+    width: 170px;
+    height: 170px;
+}
+
+.product_detail {
+	margin-left: 13px;
+    text-align: left;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    flex-direction: column;
+}
+
+.wish_product_title{
+	font-family: 'LINESeedKR-Bd';
+    overflow: hidden;
+    display: inline-block;
+    vertical-align: top;
+    height: 17px;
+    line-height: 24px;
+    padding-bottom: 2px;
+    font-size: 20px;
+    font-weight: 700;
+    color: #222;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    max-width: 100%;
+}
+
+.wish_product_content {
+	font-family: 'LINESeedKR-Bd';
+	margin-top: 2px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    max-height: 36px;
+    font-size: 16px;
+    line-height: 18px;
+    letter-spacing: -.03px;
+}
+
+.division_btn_box {
+    margin-top: 0;
+    width: 195px;
+    text-align: left;
+}
+
+.division_btn_box .btn_division.buy {
+    background-color: #ef6253;
+}
+
+.division_btn_box .wish_product_title {
+    width: 55px;
+    text-align: center;
+    font-size: 18px;
+    letter-spacing: -.27px;
+}
+
+.division_btn_box .price {
+    margin-left: 10px;
+    line-height: 15px;
+}
+
+.division_btn_box .amount {
+    display: block;
+    font-size: 0;
+}
+
+.division_btn_box .num, .division_btn_box .won {
+    display: inline-block;
+    vertical-align: top;
+    font-weight: 700;
+}
+
+.division_btn_box .won {
+    font-size: 21px;
+    letter-spacing: -.21px;
+    margin: 15px;
+}
+
+.my_interest .division_btn_box .desc {
+    font-weight: 400;
+}
+
+.wish_buy .status_link {
+    margin-top: 6px;
+    padding: 0 3px;
+    display: -webkit-inline-box;
+    display: flex;
+    font-size: 15px;
+    letter-spacing: -.06px;
+    color: rgba(34,34,34,.8);
+    text-decoration: underline;
+    flex-direction: row-reverse;
+    margin-right: 11px;
+}

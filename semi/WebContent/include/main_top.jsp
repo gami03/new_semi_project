@@ -84,21 +84,22 @@
 						<div class="modal-body">
 							<table border="1" cellspacing="0" width="400">
 								<tr>
-									<th>아이디</th>
+									<th style="font-size: 18px;">아이디</th>
 									<td> <input type="text" name="login_id" id="login_id"></td>
 								</tr>
 								<tr>
-									<th>비밀번호</th>
+									<th style="font-size: 18px;">비밀번호</th>
 									<td> <input type="password" name="login_pwd" id="login_pwd"></td>
 								</tr>
 							</table>
-							<br>
 							<div class="submit1" align="center">
 								<input class="submit_btn btn-primary" type="submit" value="로그인">
 								<input class="submit_btn btn-primary" type="button" value="회원가입" data-toggle="modal" data-target="#signupModal">
 								<br>
-           					 <a href="#" data-toggle="modal" data-target="#findIdModal" data-dismiss="modal">아이디 찾기</a> / 
-							<a href="#" data-toggle="modal" data-target="#findPwdModal" data-dismiss="modal">비밀번호 재설정</a>
+						     <div style="margin-top: 12px;">
+	           					 <a href="#" data-toggle="modal" data-target="#findIdModal" data-dismiss="modal" style="font-family: 'LINESeedKR-Bd';">아이디 찾기</a> / 
+								 <a href="#" data-toggle="modal" data-target="#findPwdModal" data-dismiss="modal" style="font-family: 'LINESeedKR-Bd';">비밀번호 재설정</a>
+							 </div>
 							</div>
 						</div>
 					</div>
@@ -254,7 +255,7 @@
 								class="form-control" id="id_find_email" name="id_find_email"
 								required>
 						</div>
-						<button type="button" id="find_id_btn" class="btn btn-primary"
+						<button style="background: white; border: none;" type="button" id="find_id_btn" class="btn btn-primary"
 							data-toggle="modal" data-target="#IdModal" data-dismiss="modal">아이디 찾기</button>
 					
 				</div>
@@ -310,8 +311,8 @@
 					</div>
 					<div class="modal-footer">
 						<button type="button" class="btn btn-secondary"
-							data-dismiss="modal">닫기</button>
-						<button type="button" class="btn btn-primary" id="reset_pwd_btn">비밀번호
+							data-dismiss="modal" style="border: none; background-color: white;">닫기</button>
+						<button type="button" style="border: none; background-color: white;" class="btn btn-primary" id="reset_pwd_btn">비밀번호
 							재발급</button>
 					</div>
 				</form>
@@ -331,11 +332,12 @@
 								<nav id="topnav"style=" z-index: 1050;">
 								<div id="top_inner">
 									<a href="<%=request.getContextPath() %>/board_list.do?board_name=FAQ_board">고객센터</a>
-									<a>관심상품</a>
 									<c:if test="${empty id }">
+										<a data-toggle="modal" data-target="#boardModal">관심상품</a>
 										<a data-toggle="modal" data-target="#boardModal">로그인</a>
 									</c:if>
 									<c:if test="${!empty id }">
+										<a href="<%=request.getContextPath() %>/wish_list.do?user_no=${User_no}">관심상품</a>
 										<a href="logintest/logout.jsp">로그아웃</a>
 									</c:if>
 									

@@ -111,7 +111,7 @@ table th {
 					if(response.list.length > 0) {
 						
 						// 기존 테이블 데이터 삭제
-						$("#freeBoard_table tr:gt(0)").remove();
+						$("#Board_table tr:gt(0)").remove();
 						
 						// 동적으로 데이터 생성
 						var html = "";
@@ -125,12 +125,12 @@ table th {
 							
 							html += "</td>"
 								+ "<td style='text-align: left;'><a href='<%=request.getContextPath() %>/board_content.do?no=" + board.board_no + "&page=" + response.page + "&id=${user_id }&nickname=" + board.user_nickname + "&orderBy=hit&board_name="+ board.board_name +"'>"+ board.board_title + "</a></td>"
-										+ "<td>"+board.user_nickname+"</td>"
+										+ "<td>운영자</td>"
 										+ "<td>"+board.board_date.substring(0,10)+"</td>"
 										+ "<td>"+board.board_hit+"</td>"
 										+ "</tr>";
 						});
-						$("#freeBoard_table tr:eq(0)").after(html);
+						$("#Board_table tr:eq(0)").after(html);
 						
 						// 페이징처리
 				        var htmlStr = "";
@@ -138,10 +138,10 @@ table th {
 				        // common.js - pageLink
 				        
 				        // 기존에 추가된 페이지 링크를 삭제
-				        $("#freeBoard_table .pagination").remove();
+				        $("#Board_table .pagination").remove();
 
 				        // 수정된 코드로 페이지 링크 추가
-				        $("#freeBoard_table").append(htmlStr);
+				        $("#Board_table").append(htmlStr);
 					}
 					
 				},
@@ -168,7 +168,7 @@ table th {
 				if(response.list.length > 0) {
 					
 					// 기존 테이블 데이터 삭제
-					$("#freeBoard_table tr:gt(0)").remove();
+					$("#Board_table tr:gt(0)").remove();
 					
 					// 동적으로 데이터 생성
 					var html = "";
@@ -182,12 +182,12 @@ table th {
 						
 						html += "</td>"
 							+ "<td style='text-align: left;'><a href='<%=request.getContextPath() %>/board_content.do?no=" + board.board_no + "&page=" + response.page + "&id=${user_id }&nickname=" + board.user_nickname + "&orderBy=time&board_name="+ board.board_name +"'>"+ board.board_title + "</a></td>"
-									+ "<td>"+board.user_nickname+"</td>"
+									+ "<td>운영자</td>"
 									+ "<td>"+board.board_date.substring(0,10)+"</td>"
 									+ "<td>"+board.board_hit+"</td>"
 									+ "</tr>";
 					});
-					$("#freeBoard_table tr:eq(0)").after(html);
+					$("#Board_table tr:eq(0)").after(html);
 					
 					// 페이징처리
 			        var htmlStr = "";
@@ -195,10 +195,10 @@ table th {
 			        // common.js - pageLink
 			        
 			        // 기존에 추가된 페이지 링크를 삭제
-			        $("#freeBoard_table .pagination").remove();
+			        $("#Board_table .pagination").remove();
 
 			        // 수정된 코드로 페이지 링크 추가
-			        $("#freeBoard_table").append(htmlStr);
+			        $("#Board_table").append(htmlStr);
 				}
 				
 			},
@@ -224,7 +224,7 @@ table th {
 		      if (response.list.length > 0) {
 
 		        // 기존 테이블 데이터 삭제
-		        $("#freeBoard_table tr:gt(0)").remove();
+		        $("#Board_table tr:gt(0)").remove();
 
 		        // 동적으로 데이터 생성
 		        var html = "";
@@ -237,13 +237,13 @@ table th {
 
 		          html += "</td>" +
 		            "<td style='text-align: left;'><a href='<%=request.getContextPath() %>/board_content.do?no=" + board.board_no + "&page=" + response.page + "&id=${user_id }&nickname=" + board.user_nickname +"&orderBy=look&board_name="+ board.board_name + "'>"+ board.board_title + "</a></td>" +
-		            "<td>" + board.user_nickname + "</td>" +
+		            "<td>운영자</td>" +
 		            "<td>" + board.board_date.substring(0, 10) + "</td>" +
 		            "<td>" + board.board_hit + "</td>" +
 		            "</tr>";
 		        });
 
-		        $("#freeBoard_table tr:eq(0)").after(html);
+		        $("#Board_table tr:eq(0)").after(html);
 				
 		     	// 페이징처리
 		        var htmlStr = "";
@@ -251,10 +251,10 @@ table th {
 		        // common.js - pageLink
 		        
 		        // 기존에 추가된 페이지 링크를 삭제
-		        $("#freeBoard_table .pagination").remove();
+		        $("#Board_table .pagination").remove();
 
 		        // 수정된 코드로 페이지 링크 추가
-		        $("#freeBoard_table").append(htmlStr);
+		        $("#Board_table").append(htmlStr);
 		      }
 
 		    },
@@ -361,7 +361,7 @@ table th {
 									${dto.getBoard_title() }
 								</a>
 							</td>
-							<td> ${dto.getUser_nickname() } </td>
+							<td> 운영자 </td>
 		      				<td> ${dto.getBoard_date().substring(0,10) }</td>
 		      				<td> ${dto.getBoard_hit() }</td>
 						</tr>

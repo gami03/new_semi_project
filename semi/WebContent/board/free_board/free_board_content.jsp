@@ -16,12 +16,6 @@
 justify-content: center;
 }
 
-.txt1{
-	font-weight: bold;
-	font-size: 18px;
-}
-
-
 .content{
 	background-color: white;
 	
@@ -36,9 +30,10 @@ justify-content: center;
 #reply-wrap {
 	align: center;
 	margin-bottom: 80px; 
-	background-color: #f7f7f7;
+	background-color: linen;
     padding-top: 30px;
     padding-bottom: 20px;
+    font-family: 'LINESeedKR-Bd';
 }
 
 </style>
@@ -118,8 +113,8 @@ justify-content: center;
 					<span class="rec_count"></span>					
 				</c:if>
 				<c:if test="${!empty id }">
-					<button class="w3-button w3-black w3-round" id="rec_update" style="width: 125px; height: 40px;">
-						<span style="font-size: 14px; letter-spacing: 3px;">좋아요</span> <i class="fa fa-heart" style="font-size:16px;color:red"></i>
+					<button class="w3-button w3-black w3-round" id="rec_update" style="width: 153px; height: 40px;">
+						<span style="font-size: 16px; letter-spacing: 3px;">좋아요</span> <i class="fa fa-heart" style="font-size:16px;color:red"></i>
 						&nbsp;<span class="rec_count"></span>
 					</button> 
 				</c:if>
@@ -201,7 +196,7 @@ $(function() {
 		</table>
 		<div id="reply-wrap">
 			<div class="reply">
-				<textarea style="height: 75px; width: 85%; background-color: white;" name="re_content" id="re_content" placeholder="댓글을 입력하세요."></textarea>&nbsp;
+				<textarea style="height: 75px; width: 85%; background-color: white; font-size: 17px; font-family: 'LINESeedKR-Bd';" name="re_content" id="re_content" placeholder="댓글을 입력하세요."></textarea>&nbsp;
 				<c:if test="${!empty id }">
 					<input type="button" id="replyBtn" value="등록" onclick="replywrite()">
 				</c:if>
@@ -209,7 +204,7 @@ $(function() {
 					<input type="button" value="등록" onclick="writeCheck()">
 				</c:if>
 			</div>
-			<span style="font-size: 12px; color: gray;">
+			<span style="font-size: 15px; color: gray;">
 				<br>통신예절에 어긋나는 글이나 상업적인 글, 타 사이트에 관련된 글은 관리자에 의해 사전 통보없이 삭제될 수 있습니다.
 			</span>
 		</div>

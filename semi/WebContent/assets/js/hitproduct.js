@@ -25,7 +25,6 @@ $(function() {
 				                        <div class="thumb_box">\
 				                          <div class="product">\
 				                            <img src="images/'+ product.sale_file1 +'" class="product_image" width="100%" height="auto">\
-				                            <span aria-label="관심상품" class="btn_wish"><img src="./images/'+product.bookmark+'" width="26px" height="24px" onclick="location.href=\'wish_list_click.do?user_no=' + user_no + '&sale_no=' + product.sale_no + '\'"></span>\
 				                          </div>\
 				                        </div>\
 				                        <div class="info_box">\
@@ -43,6 +42,7 @@ $(function() {
 				                          </div>\
 				                        </div>\
 				                      </a>\
+				                      <span aria-label="관심상품" class="btn_wish"><img src="./images/'+product.bookmark+'" width="26px" height="24px" onclick="location.href=\'wish_list_click.do?user_no=' + user_no + '&sale_no=' + product.sale_no + '\'"></span>\
 				                    </div>';
 				  // 생성한 productItem을 적절한 위치에 추가
 				  $('.product_list').append(productItem);

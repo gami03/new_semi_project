@@ -39,7 +39,8 @@ function submitModal(userNo) {
 							<header>
 							</header>
 							<section>
-								<h2>${mypage} 회원의 게시글 목록</h2>
+								<c:set var="nickname" value="${user_nickname}" />
+								<h2 style="font-family: 'LINESeedKR-Bd';">${nickname} 회원의 게시글 목록</h2>
 									<div class="table-wrapper"> 
 										<table class="alt">
 											<thead>
@@ -86,11 +87,11 @@ function submitModal(userNo) {
 									</table>
 									
 									<div align="right">
-										<h4><a href="<%=request.getContextPath() %>/user_board_all.do?id=${user_id }&searchId=${mypage }">작성 글 목록 전체보기 >> </a></h4>
+										<h4 style="font-family: 'LINESeedKR-Bd';"><a href="<%=request.getContextPath() %>/user_board_all.do?id=${user_id }&searchId=${mypage }">작성 글 목록 전체보기 >> </a></h4>
 									</div>
 									
 								</div>
-								<h3>회원 목록</h3>
+								<h3 style="font-family: 'LINESeedKR-Bd';">회원 목록</h3>
 								<br>
 									<div class="table-wrapper"> 
 										<table class="alt">

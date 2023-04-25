@@ -114,7 +114,7 @@ public class BoardListAction implements Action  {
 		request.setAttribute("orderBy", orderBy);
 		request.setAttribute("session_user_no", session_user_no);
 		
-		// 자유게시판에 모인 게시글을 번호를 순차적으로 매겨서 보여주기 위한 데이터를 view page로 이동.
+		// 게시판에 모인 게시글을 번호를 순차적으로 매겨서 보여주기 위한 데이터를 view page로 이동.
 		request.setAttribute("totalEndNo", totalEndNo);
 		
 		ActionForward forward = new ActionForward();
