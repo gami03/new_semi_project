@@ -56,6 +56,7 @@ public class FrontController extends HttpServlet {
 	      
 
 		FileInputStream fis = new FileInputStream(request.getServletContext().getRealPath("\\WEB-INF\\classes\\com\\reply\\controller\\mapping.properties"));
+
 	      
 		prop.load(fis);
 		

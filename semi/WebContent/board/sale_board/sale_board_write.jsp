@@ -46,31 +46,37 @@ justify-content: center;
 			alert("글쓰기 권한이 없습니다.");
 	}
 	
-	// upload_file1이 존재할 경우 upload_file2를 활성화시키는 등의 작업 수행
-	function checkUpload1() {
-		  var file1 = document.getElementsByName('upload_file1')[0];
-		  var file2 = document.getElementsByName('upload_file2')[0];
-		  var file3 = document.getElementsByName('upload_file3')[0];
-		  var file4 = document.getElementsByName('upload_file4')[0];
+	// 파일- 사진 업로드를 4장 하라는 조건
+	function checkUpload() {
+    var file1 = document.getElementsByName('upload_file1')[0];
+    var file2 = document.getElementsByName('upload_file2')[0];
+    var file3 = document.getElementsByName('upload_file3')[0];
+    var file4 = document.getElementsByName('upload_file4')[0];
+
+    var fileCount = 0;
+    if (file1.value != "") fileCount++;
+    if (file2.value != "") fileCount++;
+    if (file3.value != "") fileCount++;
+    if (file4.value != "") fileCount++;
+
+    if (fileCount < 4) {
+        alert("상품 사진 4장을 업로드 해주세요.");
+        return false;
+    }
+
+    return true;
+}
+	function checkCategory() {
+		  var selectBox = document.getElementById("categorySelect");
+		  var selectedValue = selectBox.options[selectBox.selectedIndex].value;
 		  
-		  if (file1.value == "") {
-		    alert("상품 사진 4장 업로드 후 글 등록 가능합니다. 사진 업로드 확인 바랍니다.");
+		  if (selectedValue == "") {
+		    alert("카테고리를 선택해주세요.");
 		    return false;
 		  }
-		  if (file2.value == "") {
-		    alert("상품 사진 4장 업로드 후 글 등록 가능합니다. 사진 업로드 확인 바랍니다.");
-		    return false;
-		  }
-		  if (file3.value == "") {
-		    alert("상품 사진 4장 업로드 후 글 등록 가능합니다. 사진 업로드 확인 바랍니다.");
-		    return false;
-		  }
-		  if (file4.value == "") {
-		    alert("상품 사진 4장 업로드 후 글 등록 가능합니다. 사진 업로드 확인 바랍니다.");
-		    return false;
-		  }
-		return true;
-	}
+		  
+		  return true;
+		}
 </script>
 
 </head>
@@ -78,9 +84,9 @@ justify-content: center;
 
 	<!-- Main -->
 	<div align="center" style="margin-bottom: 150px;" id="main">
-		<hr width="50%" color="marmoon">
+		<hr width="50%" color="maroon">
 			<h3>경매 상품 등록 폼 페이지</h3>
-		<hr width="50%" color="marmoon">
+		<hr width="50%" color="maroon">
 		<br>
 		
 		<c:set var="session" value="${user_id }" />
@@ -95,27 +101,51 @@ justify-content: center;
 				<tr>
 					<th>카테고리</th>
 					<td>
-						<select name="sale_board_category" style="width:30%;">
-			   			<option value="전자기기">전자기기</option>
-			   			<option value="의류">의류</option>
-			   			<option value="신발">신발</option>
-			   			<option value="시계">시계</option>
-			   			<option value="기타">기타</option>
-			   		</select>
+						<select name="sale_board_category" style="width:30%;" id="categorySelect">
+							  <option value="" >:::선택:::</option>
+							  <option value="전자기기">전자기기</option>
+							  <option value="의류">의류</option>
+							  <option value="신발">신발</option>
+							  <option value="시계">시계</option>
+							  <option value="기타">기타</option>
+						</select>
 					</td>
 				</tr>
-				
+				<tr>
+				    <th>경매 기간</th>
+				    <td>
+				        <input type="radio" id="threeDays" name="auction_duration" value="3" checked>
+				        <label for="threeDays">3일</label>
+				        <input type="radio" id="fiveDays" name="auction_duration" value="5">
+				        <label for="fiveDays">5일</label>
+				        <input type="radio" id="sevenDays" name="auction_duration" value="7">
+				        <label for="sevenDays">7일</label>
+				    </td>
+				</tr>
+				<tr>
+				    <th>시작 입찰가</th>
+				    <td>
+				        <input type="number" name="starting_bid" min="0" step="1" required>&nbsp;원
+				    </td>
+				</tr>
+				<tr>
+				    <th>즉시 구매 입찰가</th>
+				    <td>
+				        <input type="number" name="buy_now_bid" min="0" step="1" required>&nbsp;원
+				    </td>
+				</tr>
+								
 				<tr>
 					<th>첨부파일</th>
 					<td> 
-						 <input type="file" name="upload_file1" onclick="return checkUpload()" title="이 파일은 썸네일로 지정됩니다.">
+						 <input type="file" name="upload_file1"  title="이 파일은 썸네일로 지정됩니다.">
 						 <label for="upload_file1" style="color:gray"> * 썸네일로 지정되는 사진 </label>
 						 <br><br>
-						 <input type="file" name="upload_file2" onclick="return checkUpload()">
+						 <input type="file" name="upload_file2" >
 						 <br><br>
-						 <input type="file" name="upload_file3" onclick="return checkUpload()">
+						 <input type="file" name="upload_file3" >
 						 <br><br>
-						 <input type="file" name="upload_file4" onclick="return checkUpload()">
+						 <input type="file" name="upload_file4" >
 						 <br><br>
 						 
 						 <span>* 첨부파일 형식 : jpg, png, pdf 10MB이하의 사진 형식 파일 </span>
@@ -136,7 +166,7 @@ justify-content: center;
 				</tr>
 			</table>
 			
-			<input type="submit" value="완료">&nbsp;&nbsp;
+			<input type="submit" value="완료" onclick="return checkUpload() && checkCategory()" >&nbsp;&nbsp;
 			<input type="button" value="취소" onclick="history.back()">
 		</form>
 	</div>

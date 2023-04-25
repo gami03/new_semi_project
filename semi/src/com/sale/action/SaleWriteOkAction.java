@@ -1,4 +1,4 @@
-package com.board.action;
+package com.sale.action;
 
 import java.io.File;
 import java.io.IOException;
@@ -25,7 +25,7 @@ public class SaleWriteOkAction implements Action {
 		
 		// 파일 업로드 시에는 설정해야 할 내용이 있음.
 		// 1. 첨부 파일 저장 경로 지정.
-		String saveFolder = "C:\\Users\\YBG\\Documents\\GitHub\\new_semi_project\\semi\\WebContent\\board\\"+board_name+"\\"+board_name+"_fileUpload";
+		String saveFolder = "/Users/jeongbinkim/Documents/GitHub/new_semi_project/semi/WebContent/board/sale_board/sale_board_file_upload";
 		
 		// 2. 첨부 파일 크기 지정.
 		int fileSize = 10 * 1024 * 1024; // 10MB
@@ -45,13 +45,14 @@ public class SaleWriteOkAction implements Action {
 		String upload_summernote = multi.getParameter("editordata").trim();
 		String upload_category = multi.getParameter(board_name+"_category");
 		
+		/*
 		if (upload_category != null && !upload_category.trim().isEmpty()) {
 		    upload_category = upload_category.trim();
 		} else {
 		    // upload_category가 null인 경우에 대한 예외 처리 코드
 			
 		}
-		
+		*/
 		// 자료실 폼 페이지에서 type="file" 속성으로 되어 있으면 getfile() 메서드로 받아 주어야 함.
 		File upload_file1 = multi.getFile("upload_file1");
 		File upload_file2 = multi.getFile("upload_file2");
@@ -261,8 +262,12 @@ public class SaleWriteOkAction implements Action {
 		dto.setSale_content(upload_summernote);
 		dto.setSale_name(board_name);
 		
+		System.out.println("dto1"+dto);
 		
 		int check = dao.saleBoardWrite(dto);
+		
+		System.out.println("dto2"+dto);
+
 		
 		PrintWriter out = response.getWriter();
 		
