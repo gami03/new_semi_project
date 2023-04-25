@@ -39,8 +39,7 @@ function submitModal(userNo) {
 							<header>
 							</header>
 							<section>
-								<c:set var="nickname" value="${user_nickname}" />
-								<h2 style="font-family: 'LINESeedKR-Bd';">${nickname} 회원의 게시글 목록</h2>
+								<h2 style="font-family: 'LINESeedKR-Bd';">${mypage} 회원의 게시글 목록</h2>
 									<div class="table-wrapper"> 
 										<table class="alt">
 											<thead>
@@ -186,15 +185,60 @@ function submitModal(userNo) {
 												</c:forEach>
 											</c:if>
 											
-											<c:if test="${empty list }">
+											<c:if test="${empty userlist }">
 												<tr>
 													<td colspan="5" align="center">
-														<h3>자유게시판 게시물 리스트가 없습니다</h3>
+														<h3>회원 게시물 리스트가 없습니다</h3>
 													</td>
 												</tr>
 											</c:if>
 											</tbody>
 										</table>
+										
+										<%-- 페이징 처리 영역 --%>
+										<div style="margin-left: 30%;">
+										   <nav style ="float:left; width: 55%;">
+										      <ul class="pagination">
+											      <li class="page-item">
+											         <a class="page-link" href="user_board_all.do?id=${user_id }&searchId=${mypage }&page=1">처음</a>
+											      </li>
+											      <li>
+											      	<c:if test="${page > 1 }">
+											         <a class="page-link" href="user_board_all.do?id=${user_id }&searchId=${mypage }&page=${page-1 }">이전</a>
+											        </c:if>
+											        <c:if test="${page <= 1 }">
+											         <a class="page-link">이전</a>
+											        </c:if>
+											      </li>
+											      
+											      <c:forEach begin="${startBlock }" end="${endBlock }" var="i">
+											      <c:if test="${ i == page }">
+											         <li class="page-item active" aria-current="page">
+											         <a class="page-link" href="user_board_all.do?id=${user_id }&searchId=${mypage }&page=${i }">${i }</a>
+											         </li>   
+											      </c:if>
+											      
+											      <c:if test="${ i != page }">
+											         <li class="page-item">
+											         <a class="page-link" href="user_board_all.do?id=${user_id }&searchId=${mypage }&page=${i }">${i }</a>
+											         </li>   
+											      </c:if>
+											      </c:forEach>
+											      
+											      <c:if test="${endBlock < allPage }">
+											         <li class="page-item">
+											            <a class="page-link" href="user_board_all.do?id=${user_id }&searchId=${mypage }&page=${page+1 }">다음</a>
+											         </li>   
+											      </c:if>
+											      
+											      <c:if test="${page < allPage }">
+											      <li class="page-item">
+											            <a class="page-link" href="user_board_all.do?id=${user_id }&searchId=${mypage }&page=${allPage }">끝</a>
+											      </li>
+											      </c:if>
+										      </ul>
+										   </nav>
+										</div>
 									</div>
 							</section>
 						</div>

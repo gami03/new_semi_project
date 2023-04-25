@@ -21,7 +21,10 @@ function openAddressPopup() {
 	  document.getElementById("addr_modify").value = fullAddress;
 	}
 
-
+function request_approve() {
+	  var user_request = window.open("user_page/user_addr_modify.jsp", "주소변경", "width=500,height=500");
+	}
+	
 
 </script>
 <meta charset="UTF-8" />
@@ -93,6 +96,10 @@ function openAddressPopup() {
                         <tr>
 							<th>소지금</th>
 							<td><input type="text" name="user_money" value="<fmt:formatNumber value="${dto.getUser_money()}" type="number" pattern="#,###"/>원" readonly /></td>
+						</tr>
+						<tr>
+							<th>승급 신청</th>
+							<td><button type="button" name="user_request" onclick="request_approve()">요청하기</button></td>
 						</tr>
                     </table>
                     <div class="text-center">

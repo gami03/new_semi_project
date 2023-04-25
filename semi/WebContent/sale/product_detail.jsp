@@ -106,7 +106,7 @@
 							<div class="col-md-5">
 								
 								<div>
-									<table border="1" cellspacing="0" class="list">
+									<table border="1" cellspacing="0" class="list" style="margin: 0 0 16px 0; width: 443px;">
 										<tr>
 											<td align="center" colspan="2"><h5>${dto.getSale_title() }의 현재 경매 정보</h5></td>
 										</tr>
@@ -127,10 +127,14 @@
 								</div>
 								
 								<!-- Button trigger modal -->
-								<button type="button" id="modalbutton" class="button" data-toggle="modal" data-target="#myModal">
-								  Launch demo modal
+								<button type="button" id="modalbutton" class="button" data-toggle="modal" data-target="#myModal" style="width: 443px; font-size: 20px;">
+								  입찰 / 구매
 								</button>
 								
+								<button style="margin-top: 10px; width: 443px; font-size: 18px;">
+									<img style="vertical-align: middle;" src="images/bookmark.png" width="20px;" height="20px;" style="vertical-align: center;">
+									관심상품
+								</button>
 								
 							</div>
 						</div>
@@ -153,9 +157,9 @@
 	<!-- Modal -->
 	<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" style="z-index: 3000">
 	  <div class="modal-dialog modal-lg">
-	    <div class="modal-content">
+	    <div class="modal-content" style="width: 1029px;">
 	      <div class="modal-header">
-	        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+	        <h5 class="modal-title" id="exampleModalLabel">경매 상세페이지</h5>
 	      </div>
 	      <div class="modal-body">
 	       <%-- 경매내역 상세 정보 및 입찰 관련 코드 --%>

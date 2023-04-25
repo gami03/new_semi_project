@@ -358,7 +358,7 @@
 									</ul>
 								</div>
 								</c:if>
-								<c:if test="${!empty user_id and user_approve <= 1 }">
+								<c:if test="${!empty user_id and user_approve <= 2 }">
 								<div class="topbyttondiv">
 									<ul>
 											<li><button class="topbutton" name="NOTICE" onclick="location.href='board_list.do?board_name=notice_board'">NOTICE</button></li>
@@ -369,7 +369,7 @@
 									</ul>
 								</div>
 								</c:if>
-								<c:if test="${!empty user_id and user_approve > 1 }">
+								<c:if test="${!empty user_id and user_approve > 2 }">
 								<div class="topbyttondiv">
 									<ul>
 											<li><button class="topbutton" name="NOTICE" onclick="location.href='board_list.do?board_name=notice_board'">NOTICE</button></li>
