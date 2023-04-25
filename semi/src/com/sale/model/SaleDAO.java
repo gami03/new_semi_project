@@ -132,7 +132,7 @@ public class SaleDAO {
 		try {
 			openConn();
 			
-			sql = "select * from product";
+			sql = "SELECT * FROM product ORDER BY sale_no DESC";
 			
 			pstmt = con.prepareStatement(sql);
 			

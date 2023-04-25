@@ -182,7 +182,7 @@ $(function () {
 		            table += "</tr>";
 	
 					table += "<tr>";
-					table += "<th bgcolor='#F6F6F6' style='font-size: 13px'>소지금(+입찰금)</th>";
+					table += "<th bgcolor='#F6F6F6' width='123px;'>소지금<span style='font-size: 13px;'>(입찰금)</span></th>";
 					if($(this).find("user_no").text() == user_no){
 							table += "<td bgcolor='white'>"+formatNumber(user_money)+"원</td>";
 							table += "<td bgcolor='white'>"+formatNumber($(this).find("user_upper").text())+"원</td>";

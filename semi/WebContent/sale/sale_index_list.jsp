@@ -1,21 +1,10 @@
-<%@page import="java.io.Console"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="utf-8" />
-<title>Phantom by HTML5 UP</title>
-<meta name="viewport"
-	content="width=device-width, initial-scale=1, user-scalable=no" />
-<link rel="stylesheet" href="./assets/css/main.css" />
+<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
 <link rel="stylesheet" href="./assets/css/product.css" />
-<noscript>
-	<link rel="stylesheet" href="./assets/css/noscript.css" />
-</noscript>
 <link
 	href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css"
 	rel="stylesheet"
@@ -30,11 +19,16 @@
 	
 	
 	.shop_board_banner {
-		padding-top: 166px;
-		padding-bottom: 16px;
+		padding-top: 213px;
+		padding-bottom: 58px;
 		margin-bottom: 50px;
 	    display: flex;
 	    justify-content: space-around;
+	}
+	
+	.sale_top {
+		display: flex;
+    	justify-content: space-between;
 	}
 	
 </style>
@@ -46,6 +40,35 @@
 			<div class="shop_board_banner">
 				<img src="./images/shop_title.png" style="width: 460px;">
 			</div>
+			  <div class="sale_top">
+				<%-- 판매페이지 검색 폼 페이지 처리 영역 --%>
+				<div>
+				   <form method="post" action="<%=request.getContextPath() %>/sale_search.do?board_name=${board_name }" style="margin-left: 40px;">
+				   		<select name="field" style="width:26%;">
+				   			<option value="title">제목</option>
+				   			<option value="cont">내용</option>
+				   			<option value="title_cont">제목+내용</option>
+				   			<option value="writer">작성자</option>
+				   			<option value="category">카테고리</option>
+				   		</select>
+				   		
+				   		<input type="text" name="keyword" style="width:54%;">&nbsp;&nbsp;
+				   		<input type="submit" value="검색">
+				   </form>
+				   <br>
+				</div>
+				
+				<div class="write" style="margin-right: 17px;">
+					<%-- 글쓰기 폼 처리 -판매페이지 --%>
+					<c:set var="id" value="${user_id }" />
+					<c:if test="${!empty id }">
+						<c:if test="${user_approve >= 2 }">
+							<input type="button" name="write" value="글쓰기" onclick="location.href='sale_board_write.do'">
+						</c:if>
+					</c:if>
+				</div>
+			  </div>
+			
 			<div class="inner">
 				<header></header>
 				<section>
@@ -83,33 +106,5 @@
 				</section>
 			</div>
 		</div>
-		
-			<div class="write">
-				<%-- 글쓰기 폼 처리 -판매페이지 --%>
-				<c:set var="id" value="${user_id }" />
-				<c:if test="${!empty id }">
-					<input type="button" name="write" value="글쓰기" onclick="location.href='sale_board_write.do'">
-				</c:if>
-			</div>
-			<br>
-			<br>
-			<br>
-			<br>
-			<%-- 판매페이지 검색 폼 페이지 처리 영역 --%>
-			<div align="center">
-			   <form method="post" action="<%=request.getContextPath() %>/sale_search.do?board_name=${board_name }">
-			   		<select name="field" style="width:10%;">
-			   			<option value="title">제목</option>
-			   			<option value="cont">내용</option>
-			   			<option value="title_cont">제목+내용</option>
-			   			<option value="writer">작성자</option>
-			   			<option value="category">카테고리</option>
-			   		</select>
-			   		
-			   		<input type="text" name="keyword" style="width:20%;">&nbsp;&nbsp;
-			   		<input type="submit" value="검색">
-			   </form>
-			   <br>
-			</div>
 
 <jsp:include page="/include/main_bottom.jsp"/>

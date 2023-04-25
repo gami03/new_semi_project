@@ -49,35 +49,35 @@
          <div class="shortcut_items_wrap">
             <div class="shortcut_item">
                <div class="shortcut_item_img_wrap">
-                  <img src="images/pic10.jpg" class="shortcut_image">
+                  <img src="images/electronic_banner.png" class="shortcut_image" style="background-color: antiquewhite;">
                </div>
                <br>
                <p style="font-family: 'LINESeedKR-Bd'; font-size: 18px;">전자기기 추천</p>
             </div>
             <div class="shortcut_item">
                <div class="shortcut_item_img_wrap">
-                  <img src="images/pic11.jpg" class="shortcut_image">
+                  <img src="images/clothes_banner.png" class="shortcut_image" style="background-color: antiquewhite;">
                </div>
                <br>
                <p style="font-family: 'LINESeedKR-Bd'; font-size: 18px;">의류 추천</p>
             </div>
             <div class="shortcut_item">
                <div class="shortcut_item_img_wrap">
-                  <img src="images/pic12.jpg" class="shortcut_image">
+                  <img src="images/shoose.png" class="shortcut_image" style="background-color: antiquewhite;">
                </div>
                <br>
                <p style="font-family: 'LINESeedKR-Bd'; font-size: 18px;">신발 추천</p>
             </div>
             <div class="shortcut_item">
                <div class="shortcut_item_img_wrap">
-                  <img src="images/pic13.jpg" class="shortcut_image">
+                  <img src="images/watch.png" class="shortcut_image" style="background-color: antiquewhite;">
                </div>
                <br>
                <p style="font-family: 'LINESeedKR-Bd'; font-size: 18px;">시계 추천</p>
             </div>
             <div class="shortcut_item">
                <div class="shortcut_item_img_wrap">
-                  <img src="images/pic14.jpg" class="shortcut_image">
+                  <img src="images/gitar.png" class="shortcut_image" style="background-color: antiquewhite;">
                </div>
                <br>
                <p style="font-family: 'LINESeedKR-Bd'; font-size: 18px;">기타 추천</p>
