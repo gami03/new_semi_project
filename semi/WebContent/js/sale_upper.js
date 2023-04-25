@@ -82,7 +82,7 @@ $(function () {
           if ($(this).find("user_upper").text() != 0) {
             table += "<td>" + formatNumber($(this).find("user_upper").text()) + "원</td>";
           } else {
-            table += "<td>" + sale_value + "원</td>";
+            table += "<td> 0원</td>";
           }
           table += "</tr>";
           table += "<tr>";
@@ -113,7 +113,7 @@ $(function () {
           if ($(this).find("user_upper").text() != 0) {
             table += "<td bgcolor='white'>" + formatNumber($(this).find("user_upper").text()) + "원</td>";
           } else {
-            table += "<td bgcolor='white'>" + formatNumber(sale_price) + "원</td>";
+            table += "<td bgcolor='white'>0 원</td>";
           }
           table += "</tr>";
        
@@ -156,12 +156,12 @@ $(function () {
 		            
 		            table += "<tr>";
 		            table += "<th bgcolor='#F6F6F6'>직접 입찰가</th>";
-		            if ($(this).find("user_upper").text() > sale_price) {
+		            if ($(this).find("user_upper").text() >= sale_price) {
 		              	
 						if(user_count >= end_price){
 		               		 table += "<td bgcolor='white'> <input type='text' name='user_bid' value='" + end_value + "'></td>";
 						} else{
-		                	table += "<td bgcolor='white'> <input type='text' id='inputText' oninput='checkNumber()' name='user_bid' placeholder='" + formatNumber(sale_price * 1.1) + " 원' pattern='[0-9]+')'></td>";
+		                	table += "<td bgcolor='white'> <input type='text' id='inputText' oninput='checkNumber()' name='user_bid' placeholder='" + user_value + " 원' pattern='[0-9]+')'></td>";
 						}
 						
 					} else {
@@ -169,7 +169,7 @@ $(function () {
 		              }
 					
 					if(end_price == $(this).find("user_upper").text()){
-						table += "<td>입찰 완료</td>";
+							table += "<td>입찰 완료</td>";
 						} else{
 				            table += "<td> <input type='submit' value='직접 입찰' class='primary' onclick=\"return confirm('입찰 하시겠습니까?')\"> </td>";
 						}
@@ -233,9 +233,9 @@ $(function () {
 	getList();
  
 
-	function input_bid() {
+	input_bid = function() {
 	    console.log("userval >>> " + user_success);
-		if(user)
+		if(date == 3)
 	    setTimeout(function() {
 	        $.ajax({
 	            url: "/semi/success_bid.ajax.do",

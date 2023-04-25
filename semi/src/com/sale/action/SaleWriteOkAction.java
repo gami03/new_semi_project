@@ -45,14 +45,7 @@ public class SaleWriteOkAction implements Action {
 		String upload_summernote = multi.getParameter("editordata").trim();
 		String upload_category = multi.getParameter(board_name+"_category");
 		
-		/*
-		if (upload_category != null && !upload_category.trim().isEmpty()) {
-		    upload_category = upload_category.trim();
-		} else {
-		    // upload_category가 null인 경우에 대한 예외 처리 코드
-			
-		}
-		*/
+		
 		// 자료실 폼 페이지에서 type="file" 속성으로 되어 있으면 getfile() 메서드로 받아 주어야 함.
 		File upload_file1 = multi.getFile("upload_file1");
 		File upload_file2 = multi.getFile("upload_file2");
@@ -273,9 +266,10 @@ public class SaleWriteOkAction implements Action {
 		
 		if(check > 0) {
 			out.println("<script>");
-			out.println("alert('게시글이 등록 되었습니다.')");
-			out.println("location.href='sale_list.do'");
+			out.println("alert('경매글이 등록 되었습니다.')");
+			out.println("location.href='sale_list.do?board_name="+board_name+"'");
 			out.println("</script>");
+			
 		}else {
 			out.println("<script>");
 			out.println("alert('게시글 등록 오류입니다. 확인 후 다시 시도 부탁드립니다.')");

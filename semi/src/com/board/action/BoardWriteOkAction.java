@@ -29,7 +29,7 @@ public class BoardWriteOkAction implements Action {
 	      
 	    Properties prop = new Properties();
 	      
-	    FileInputStream fis = new FileInputStream(request.getServletContext().getRealPath("\\WEB-INF\\classes\\com\\reply\\controller\\mapping.properties"));
+	    FileInputStream fis = new FileInputStream("/Users/jeongbinkim/Documents/GitHub/new_semi_project/semi/src/com/reply/controller/mapping.properties");
 	      
 	    prop.load(fis);
 	      
