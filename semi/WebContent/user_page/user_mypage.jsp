@@ -9,8 +9,21 @@
 <head>
 <title>Insert title here</title>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="js/modify_user.js"></script>
+<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 
+<script src="js/modify_user.js"></script>
+<script>
+function openAddressPopup() {
+	  var addressPopup = window.open("user_page/user_addr_modify.jsp", "주소변경", "width=500,height=500");
+	}
+
+	function setAddress(fullAddress) {
+	  document.getElementById("addr_modify").value = fullAddress;
+	}
+
+
+
+</script>
 <meta charset="UTF-8" />
 </head>
 <body>
@@ -27,7 +40,7 @@
             <div align="center">
                 <h2>${dto.getUser_nickname()} 님 회원정보 수정</h2>
                 <br>
-                <form action="update_profile.do" method="post" id="updateForm">
+                <form action="update_profile.do" method="post" id="updateForm" name="m">
                     <table class="table table-bordered" width="1000">
                         <tr>
                             <th>아이디</th>
@@ -65,12 +78,14 @@
                             </td>
                         </tr>
                         <tr>
-                            <th>주소</th>
-                            <td>
-                            <input type="text" name="user_addr" value="${dto.getUser_addr()}" readonly/>
-                            <button type="button" onclick="openAddressPopup()">주소변경</button>
-                            </td>
-                        </tr>
+						    <th>주소</th>
+						    <td>
+						        <input type="text" id="addr_modify" name="user_addr" value="${dto.getUser_addr()}" readonly/>
+						        <button type="button" onclick="openAddressPopup()">주소변경</button>
+						    </td>
+						</tr>
+						
+						
                         <tr>
 						    <th>생일</th>
 						    <td><input type="text" name="user_birth" value="${dto.getUser_birth()}"/></td>

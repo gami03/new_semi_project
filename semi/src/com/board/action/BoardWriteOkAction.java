@@ -1,9 +1,11 @@
 package com.board.action;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Calendar;
+import java.util.Properties;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -22,15 +24,25 @@ public class BoardWriteOkAction implements Action {
 		// 자료실 폼 페이지에서 넘어온 데이터들을 DB(upload 테이블)에 저장하는 비지니스 로직.
 		
 		BoardDTO dto = new BoardDTO();
-		
-		String board_name = request.getParameter("board_name");
-		
-		// 파일 업로드 시에는 설정해야 할 내용이 있음.
-		// 1. 첨부 파일 저장 경로 지정.
-		String saveFolder = "C:\\Users\\YBG\\Documents\\GitHub\\new_semi_project\\semi\\WebContent\\board\\"+board_name+"\\"+board_name+"_fileUpload";
-		
-		// 2. 첨부 파일 크기 지정.
-		int fileSize = 10 * 1024 * 1024; // 10MB
+	      
+	      String board_name = request.getParameter("board_name");
+	      
+	      Properties prop = new Properties();
+	      
+	      FileInputStream fis = new FileInputStream(request.getServletContext().getRealPath("\\WEB-INF\\classes\\com\\reply\\controller\\mapping.properties"));
+	      
+	      prop.load(fis);
+	      
+	      String saveFolder = prop.getProperty(System.getenv("USERPROFILE").substring(3));
+	      
+	      System.out.println(System.getenv("USERPROFILE").substring(3));
+	      System.out.println(saveFolder);
+	      // 파일 업로드 시에는 설정해야 할 내용이 있음.
+	      // 1. 첨부 파일 저장 경로 지정.
+	      saveFolder += "\\"+board_name+"\\"+board_name+"_fileUpload";
+	      
+	      // 2. 첨부 파일 크기 지정.
+	      int fileSize = 10 * 1024 * 1024; // 10MB
 		
 		// 3. MultipartRequest 객체 생성
 		//    ==> 파일 업로드를 진행하기 위한 객체 생성.
