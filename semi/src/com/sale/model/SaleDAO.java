@@ -1044,7 +1044,7 @@ public class SaleDAO {
 					count = rs.getInt(1) + 1;
 				}
 				
-				sql = "insert into board values(?, ?, 0, ?, ?, ?, ?, now(),now(), 0, ?, ?, ?, ?, 0, ?,default)";
+				sql = "insert into product values(?, ?, default, ?, ?, ?, ?, now(),now(), default, ?, ?, ?, ?, default, ?)";
 				
 				pstmt = con.prepareStatement(sql);
 				
@@ -1060,10 +1060,31 @@ public class SaleDAO {
 				pstmt.setString(10, dto.getSale_file4());
 				pstmt.setString(11, dto.getUpload_category());
 				
+				System.out.println("syso userno" +count);
+				System.out.println("syso userno" +dto.getUser_no());
+				System.out.println("syso userno" +dto.getSale_title());
+				System.out.println("syso userno" +dto.getSale_content());
+				System.out.println("syso userno" +dto.getSale_price());
+				System.out.println("syso userno" +dto.getSale_end_price());
+				System.out.println("syso userno" +dto.getSale_file1());
+				System.out.println("syso userno" +dto.getSale_file2());
+				System.out.println("syso userno" +dto.getSale_file3());
+				System.out.println("syso userno" +dto.getSale_file4());
+				System.out.println("syso userno" +dto.getUpload_category());
+				
 				result = pstmt.executeUpdate();
 				
-				System.out.println("dao count" +count);
 				System.out.println("dao result"+result);
+				
+				sql = "insert upper into values(?, ?, 0)";
+				
+				pstmt = con.prepareStatement(sql);
+				
+				pstmt.setInt(1, count);
+				pstmt.setInt(2, dto.getUser_no());
+				
+				pstmt.executeUpdate();
+				
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

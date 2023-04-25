@@ -30,7 +30,7 @@ public class JoinOkAction implements Action {
 		String detailAddress = request.getParameter("detail_address");
 		String extraAddress = request.getParameter("extra_address");
 
-		String user_addr = roadAddress + " " + detailAddress + " " + extraAddress + " " + postcode;
+		String user_addr = roadAddress + " " + detailAddress + " " + extraAddress + " " + "("+postcode+")";
 
 		// DB에 회원 정보와 함께 주소 정보를 저장하는 코드
 
