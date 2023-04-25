@@ -34,6 +34,7 @@ public class BoardWriteOkAction implements Action {
 		prop.load(fis);
 		
 		String saveFolder = prop.getProperty(System.getenv("USERPROFILE").substring(3));
+		System.out.println(saveFolder);
 		
 		// 파일 업로드 시에는 설정해야 할 내용이 있음.
 		// 1. 첨부 파일 저장 경로 지정.
