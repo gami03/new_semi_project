@@ -1711,7 +1711,58 @@ public class SaleDAO {
 		   return list;
 	   } // getUserWishList() 메서드 end
 	   
+	   // 시간이 5분 이하로 남았을 때 현재 시간에 5분을 더해 갱신 end_date를 갱신 시키는 메서드
+   public void inputTime(int no) {
 	   
+	   try {
+	    openConn();
+	    
+	    sql = "UPDATE product SET end_date = DATE_ADD(NOW(), INTERVAL 5 MINUTE) WHERE sale_no = ?";
+	    
+	    pstmt = con.prepareStatement(sql);
 	   
+		pstmt.setInt(1, no);
+		
+		pstmt.executeUpdate();
+		
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			closeConn(rs, pstmt, con);
+		}
+	}	// inputTime() 메서드 end
+   
+   
+   // 상회입찰가를 불러오는 메서드
+   public int getUpper(int product_no) {
 	   
+	   int result = 0;
+	   
+	   try {
+	    openConn();
+	   
+	    sql = "select user_upper from upper where sale_no = ?";
+	   
+		pstmt = con.prepareStatement(sql);
+		
+		pstmt.setInt(1, product_no);
+		
+		rs = pstmt.executeQuery();
+		
+		if(rs.next()) {
+			
+			result = rs.getInt(1);
+		}
+		
+	} catch (SQLException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	} finally {
+		closeConn(rs, pstmt, con);
+	}
+	   return result;
+   }	// getUpper() 메서드 end
+   
+   
 }

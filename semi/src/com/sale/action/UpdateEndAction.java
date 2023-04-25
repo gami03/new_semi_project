@@ -2,6 +2,9 @@ package com.sale.action;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.time.Duration;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -9,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import com.action.Action;
 import com.action.ActionForward;
 import com.sale.model.SaleDAO;
+import com.sale.model.SaleDTO;
 
 public class UpdateEndAction implements Action {
 
@@ -34,6 +38,9 @@ public class UpdateEndAction implements Action {
 		int end_price = dao.getEnd_price(product_no);
 		
 		System.out.println("user_upper_no >>>" + user_upper_no);
+		
+		// 경매물품의 상세정보를 가져오는 메서드
+        SaleDTO dto = dao.getProductDetail(product_no);
 		
 		// 현재 경매 물품을 등록한 판매자의 번호를 가져오는 메서드.
 		int product_user_no = dao.getProductUserNo(product_no);
@@ -71,48 +78,50 @@ public class UpdateEndAction implements Action {
 		} else if(check == 2) {
 			out.println("<script>");
 			out.println("alert('이미 입찰하신 상품입니다.')");
-			out.println("history.back()");
+			out.println("location.href='product_detail.do?no="+product_no+"&user="+user_no+"'");
 			out.println("</script>");
 		} else if(check == 3) {
 			out.println("<script>");
 			out.println("alert('상품 판매자는 입찰할 수 없습니다.')");
-			out.println("history.back()");
+			out.println("location.href='product_detail.do?no="+product_no+"&user="+user_no+"'");
 			out.println("</script>");
 		} else if(check == -1) {
 			out.println("<script>");
 			out.println("alert('소지금이 부족합니다.')");
-			out.println("history.back()");
+			out.println("location.href='product_detail.do?no="+product_no+"&user="+user_no+"'");
 			out.println("</script>");
 		} else if(check == -2) {
 			out.println("<script>");
 			out.println("alert('최저 입찰금액보다 낮은 금액이 입력되었습니다."
 					+ "다시 입력해주세요.')");
-			out.println("history.back()");
+			out.println("location.href='product_detail.do?no="+product_no+"&user="+user_no+"'");
 			out.println("</script>");
 		} else if(check == -3) {
 			out.println("<script>");
 			out.println("alert('최저 입찰금액보다 낮은 금액이 입력되었습니다.')");
-			out.println("history.back()");
+			out.println("location.href='product_detail.do?no="+product_no+"&user="+user_no+"'");
 			out.println("</script>");
 		} else if(check == -4) {
 			out.println("<script>");
 			out.println("alert('입력된 금액이 즉시 입찰가보다 높습니다. 확인 후 다시 입력해 주세요.')");
-			out.println("history.back()");
+			out.println("location.href='product_detail.do?no="+product_no+"&user="+user_no+"'");
+			out.println("location.href='product_detail.do?no="+product_no+"&user="+user_no+"'");
 			out.println("</script>");
 		} else if(check == -5) {
 			out.println("<script>");
 			out.println("alert('오류가 발생하였습니다.')");
-			out.println("history.back()");
+			out.println("location.href='product_detail.do?no="+product_no+"&user="+user_no+"'");
 			out.println("</script>");
 		} else if(check == -6) {
 			out.println("<script>");
 			out.println("alert('이미 구매가 완료된 경매품 입니다.')");
-			out.println("history.back()");
+			out.println("location.href='product_detail.do?no="+product_no+"&user="+user_no+"'");
+			out.println("location.href='product_detail.do?no="+product_no+"&user="+user_no+"'");
 			out.println("</script>");
 		} else {
 			out.println("<script>");
 			out.println("alert('입찰에 실패 하였습니다')");
-			out.println("history.back()");
+			out.println("location.href='product_detail.do?no="+product_no+"&user="+user_no+"'");
 			out.println("</script>");
 		}
 
