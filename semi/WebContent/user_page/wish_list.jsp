@@ -41,7 +41,7 @@
 						
 						<div class="wish_buy">
 							<div class="division_btn_box md">
-								<a class="btn_division buy">
+								<a href="<%=request.getContextPath() %>/product_detail.do?no=${dto.getSale_no() }&user=${dto.getUser_no()}" class="btn_division buy">
 								<button type="button" style="background-color: #EF6253; color: white; display: flex; height: 100px; align-items: center; padding-left: 14px; border-radius: 25px;">
 									<div class="price">
 										<span class="amount">
