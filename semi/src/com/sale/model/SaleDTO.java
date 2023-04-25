@@ -5,7 +5,6 @@ public class SaleDTO {
 	private int sale_no;
 	private int user_no;
 	private int successful_bid;
-	// private String user_nickname;
 	private String sale_title;
 	private String sale_content;
 	private int sale_price;
