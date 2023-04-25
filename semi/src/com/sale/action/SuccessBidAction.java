@@ -18,11 +18,10 @@ public class SuccessBidAction implements Action {
 		
 		System.out.println("no >>> " + product_no);
 		
-		int upper_val = Integer.parseInt(request.getParameter("upper_val").trim());
-		
-		System.out.println("upper_val >>> " + upper_val);
 		
 		SaleDAO dao = SaleDAO.getInstance();
+		
+		int upper_val = dao.getUpper(product_no);
 		
 		// 현재 경매물품의 success_bid 컬럼에 입찰가를 넣는 메서드 
 		dao.inputBid(upper_val, product_no);

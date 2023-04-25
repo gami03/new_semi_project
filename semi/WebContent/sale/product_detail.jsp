@@ -147,7 +147,6 @@
 	var money = ${user_money};
 	var user_no = "${User_no}";
 	var date = ${date_check};
-	
 </script>
 
 
