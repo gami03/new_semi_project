@@ -240,7 +240,7 @@ public class UserDAO {
   		
   		openConn();
   		
-  		sql = "select * from (select row_number() over(order by user_no desc) rnum, u.* from user_table u) Y  where rnum >= ? and rnum <= ? order by user_no desc";
+  		sql = "select * from (select row_number() over(order by user_no desc) rnum, u.* from user_table u where u.user_approve < 3) Y  where rnum >= ? and rnum <= ? order by user_no desc";
   		
   		try {
  			pstmt = con.prepareStatement(sql);
@@ -271,6 +271,51 @@ public class UserDAO {
   		
   		return list;
   	}
+  	
+  	// user 회원 목록 전체를 가져오는 메서드
+   	public List<UserDTO> getAdminInfo(int page, int rowsize) {	// user_no 혹은 user_id
+   		
+   		List<UserDTO> list = new ArrayList<UserDTO>();
+   		
+   		// 해당 페이지에서 시작번호
+   		int startNo = (page * rowsize) - (rowsize - 1);
+ 	
+   		// 해당 페이지에서 끝번호
+   		int endNo = (page * rowsize);
+   		
+   		openConn();
+   		
+   		sql = "select * from (select row_number() over(order by user_no desc) rnum, u.* from user_table u where u.user_approve = 3) Y  where rnum >= ? and rnum <= ? order by user_no desc";
+   		
+   		try {
+  			pstmt = con.prepareStatement(sql);
+  			
+  			pstmt.setInt(1, startNo);
+  			pstmt.setInt(2, endNo);
+  			
+  			rs = pstmt.executeQuery();
+  			
+  			while(rs.next()) {
+  				UserDTO dto = new UserDTO();
+  				
+  				dto.setUser_no(rs.getInt("user_no"));
+  				dto.setUser_id(rs.getString("user_id"));
+  				dto.setUser_name(rs.getString("user_name"));
+  				dto.setUser_nickname(rs.getString("user_nickname"));
+  				dto.setUser_pwd(rs.getString("user_pwd"));
+  				dto.setUser_approve(rs.getInt("user_approve"));
+  				
+  				list.add(dto);
+  			}
+  		} catch (SQLException e) {
+  			// TODO Auto-generated catch block
+  			e.printStackTrace();
+  		} finally {
+  			closeConn(rs, pstmt, con);
+  		}
+   		
+   		return list;
+   	}
  	
   	// user 회원 등급 설정
   	public int UpdateApprove(int no, int new_approve) {	// user_no 혹은 user_id

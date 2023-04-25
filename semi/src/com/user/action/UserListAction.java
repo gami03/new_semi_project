@@ -21,6 +21,9 @@ public class UserListAction implements Action {
 		request.setCharacterEncoding("UTF-8");
         response.setContentType("text/html; charset=UTF-8");
         
+        HttpSession session =  request.getSession();
+		int user_approve = (int)session.getAttribute("user_approve");
+        
         String user_id = request.getParameter("id").trim();
 
         // 페이징 처리 작업 진행
@@ -84,7 +87,15 @@ public class UserListAction implements Action {
  		// 자유게시판으로 모인 게시글에 번호를 순차적으로 매겨서 보여주기 위함.
  		totalEndNo = totalRecord - ((page-1) * rowsize);
         
-        List<UserDTO> list = dao.getUserInfo(page, rowsize);
+ 		List<UserDTO> list = null;
+ 		
+ 		System.out.println("approve >>> " + user_approve);
+ 		
+ 		if(user_approve == 3) {
+ 			list = dao.getUserInfo(page, rowsize);
+ 		}else{
+ 			list = dao.getAdminInfo(page, rowsize);
+ 		}
  		
         request.setAttribute("UserList", list);
                 
