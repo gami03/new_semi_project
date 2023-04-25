@@ -13,6 +13,8 @@ import com.action.Action;
 import com.action.ActionForward;
 import com.board.model.BoardDAO;
 import com.board.model.BoardDTO;
+import com.sale.model.SaleDAO;
+import com.sale.model.SaleDTO;
 import com.user.model.UserDAO;
 
 /**
@@ -95,7 +97,7 @@ public class MyBoardListDetailAction implements Action {
         
         // 마이페이지 유저의 닉네임 가져오기.
      	String user_nickname = dao.getUserNickname(search_id);
-                
+     	
         request.setAttribute("BoardList", list);
         request.setAttribute("mypage_id", search_id);
         request.setAttribute("user_nickname", user_nickname);

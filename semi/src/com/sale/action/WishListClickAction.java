@@ -14,7 +14,14 @@ public class WishListClickAction implements Action {
 
 	@Override
 	public ActionForward excute(HttpServletRequest request, HttpServletResponse response) throws IOException {
-		
+			
+			//detail 에서 넘어왔을 때 구별하기 위해
+			String content = request.getParameter("sale_content");
+			
+			if (content != null && !content.trim().isEmpty()) {
+				content = content.trim();
+			}
+			
 			// sale_no와 user_no값을 가져오자.
 			String user_noStr = request.getParameter("user_no");
 			int sale_no = Integer.parseInt(request.getParameter("sale_no").trim());
@@ -34,27 +41,53 @@ public class WishListClickAction implements Action {
 			response.setContentType("text/html; charset=UTF-8");
 	        response.setCharacterEncoding("UTF-8");
 	        
-	        if(user_no > 0) {
-	        	if(result == 0) { // 찜하지 않았다면 찜 추가
-		            dao.wishListInsert(user_no, sale_no);
-		            out.println("<script>");
-		            out.println("alert('관심상품에 등록 되었습니다.')");
-		            out.println("location.href='index.jsp'");
-		            out.println("</script>");
-		            
-		        } else { // 이미 등록되어 있다면 찜 삭제
-		            dao.wishListDelete(user_no, sale_no);
-		            out.println("<script>");
-		            out.println("alert('관심상품이 삭제 되었습니다.')");
-		            out.println("location.href='index.jsp'");
+	        // detail 에서 넘어왔을 때
+	        if(content != null) {
+	        	if(user_no > 0) {
+		        	if(result == 0) { // 찜하지 않았다면 찜 추가
+			            dao.wishListInsert(user_no, sale_no);
+			            out.println("<script>");
+			            out.println("alert('관심상품에 등록 되었습니다.')");
+			            out.println("location.href='product_detail.do?no="+sale_no+"&user="+user_no+"'");
+			            out.println("</script>");
+			            
+			        } else { // 이미 등록되어 있다면 찜 삭제
+			            dao.wishListDelete(user_no, sale_no);
+			            out.println("<script>");
+			            out.println("alert('관심상품이 삭제 되었습니다.')");
+			            out.println("location.href='product_detail.do?no="+sale_no+"&user="+user_no+"'");
+			            out.println("</script>");
+			        }
+		        }else {
+		        	out.println("<script>");
+		            out.println("alert('관심상품 등록은 로그인 후 이용해 주세요.')");
+		            out.println("history.back()");
 		            out.println("</script>");
 		        }
-	        }else {
-	        	out.println("<script>");
-	            out.println("alert('관심상품 등록은 로그인 후 이용해 주세요.')");
-	            out.println("history.back()");
-	            out.println("</script>");
+	        }else { // index 에서 넘어왔을 때
+	        	if(user_no > 0) {
+		        	if(result == 0) { // 찜하지 않았다면 찜 추가
+			            dao.wishListInsert(user_no, sale_no);
+			            out.println("<script>");
+			            out.println("alert('관심상품에 등록 되었습니다.')");
+			            out.println("location.href='index.jsp'");
+			            out.println("</script>");
+			            
+			        } else { // 이미 등록되어 있다면 찜 삭제
+			            dao.wishListDelete(user_no, sale_no);
+			            out.println("<script>");
+			            out.println("alert('관심상품이 삭제 되었습니다.')");
+			            out.println("location.href='index.jsp'");
+			            out.println("</script>");
+			        }
+		        }else {
+		        	out.println("<script>");
+		            out.println("alert('관심상품 등록은 로그인 후 이용해 주세요.')");
+		            out.println("history.back()");
+		            out.println("</script>");
+		        }
 	        }
+		        
 	        
 	        // 관심상품에 추가/삭제 했을 때 product 테이블에서 해당 게시물의 찜 수를 업데이트 하는 메서드.
 	        dao.productWishListCount(sale_no);

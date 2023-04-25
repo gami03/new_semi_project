@@ -56,6 +56,9 @@ public class ProductDetailAction implements Action {
         // 판매자의 경매물품 판매 이력을 가져오는 메서드
         int count = dao.getCountProduct(dto.getUser_no());
         
+        // 관심상품 되있는지 여부 체크하기 위해 필요한 정보 불러오는 메서드.
+        int wishlistCheck = dao.wishListCheck(user_no, sale_no);
+        
         // 경매물품의 시작 날짜와 종료 날짜를 정리하는 코드.
         String startDateString = dto.getSale_date();
 
@@ -82,6 +85,7 @@ public class ProductDetailAction implements Action {
         request.setAttribute("User_money", user_money);
         request.setAttribute("Date_check", date_check);
         request.setAttribute("Upper", upper);
+        request.setAttribute("wishlistCheck", wishlistCheck);
         System.out.println(user_money);
         ActionForward forward = new ActionForward();
 

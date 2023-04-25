@@ -26,6 +26,14 @@ public class SaleDTO {
 	private String upload_summernote;
 	private String sale_name;
 	
+	private String sale_ok;
+	
+	public String getSale_ok() {
+		return sale_ok;
+	}
+	public void setSale_ok(String sale_ok) {
+		this.sale_ok = sale_ok;
+	}
 	public String getUser_nickname() {
 		return user_nickname;
 	}
