@@ -28,18 +28,16 @@ public class BoardWriteOkAction implements Action {
 	    String board_name = request.getParameter("board_name");
 	      
 	    Properties prop = new Properties();
-	      
-	    FileInputStream fis = new FileInputStream("/Users/jeongbinkim/Documents/GitHub/new_semi_project/semi/src/com/reply/controller/mapping.properties");
-	      
-	    prop.load(fis);
-	      
-	    String saveFolder = prop.getProperty(System.getenv("USERPROFILE").substring(3));
-	      
-	    System.out.println(System.getenv("USERPROFILE").substring(3));
-	    System.out.println(saveFolder);
-	    // 파일 업로드 시에는 설정해야 할 내용이 있음.
-	    // 1. 첨부 파일 저장 경로 지정.
-	    saveFolder += "\\"+board_name+"\\"+board_name+"_fileUpload";
+		
+		FileInputStream fis = new FileInputStream(request.getServletContext().getRealPath("\\WEB-INF\\classes\\com\\reply\\controller\\mapping.properties"));
+		
+		prop.load(fis);
+		
+		String saveFolder = prop.getProperty(System.getenv("USERPROFILE").substring(3));
+		
+		// 파일 업로드 시에는 설정해야 할 내용이 있음.
+		// 1. 첨부 파일 저장 경로 지정.
+		saveFolder += "\\"+board_name+"\\"+board_name+"_fileUpload";
 	      
 	    // 2. 첨부 파일 크기 지정.
 	    int fileSize = 10 * 1024 * 1024; // 10MB
