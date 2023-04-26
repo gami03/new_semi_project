@@ -1,9 +1,11 @@
 package com.sale.action;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Calendar;
+import java.util.Properties;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -23,9 +25,18 @@ public class SaleWriteOkAction implements Action {
 		
 		String board_name = request.getParameter("board_name");
 		
+		Properties prop = new Properties();
+		
+		FileInputStream fis = new FileInputStream(request.getServletContext().getRealPath("\\WEB-INF\\classes\\com\\reply\\controller\\mapping.properties"));
+		
+		prop.load(fis);
+		
+		String saveFolder = prop.getProperty(System.getenv("USERPROFILE").substring(3));
+		System.out.println(saveFolder);
+		
 		// 파일 업로드 시에는 설정해야 할 내용이 있음.
 		// 1. 첨부 파일 저장 경로 지정.
-		String saveFolder = "/Users/jeongbinkim/Documents/GitHub/new_semi_project/semi/WebContent/board/sale_board/sale_board_file_upload";
+		saveFolder += "\\"+board_name+"\\"+board_name+"_file_upload";
 		
 		// 2. 첨부 파일 크기 지정.
 		int fileSize = 10 * 1024 * 1024; // 10MB

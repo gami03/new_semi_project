@@ -1203,7 +1203,7 @@ public class SaleDAO {
 			   try {
 				   openConn();
 				   
-				   sql = "SELECT * FROM product ORDER BY wishlist_count DESC, sale_no DESC LIMIT 4";
+				   sql = "SELECT * FROM product where sale_ok = 'Y' ORDER BY wishlist_count DESC, sale_no DESC LIMIT 4";
 				   
 				   pstmt = con.prepareStatement(sql);
 				   
@@ -1267,7 +1267,7 @@ public class SaleDAO {
 		   try {
 		        openConn();
 		        
-		        String sql = "SELECT * FROM product ORDER BY wishlist_count DESC, sale_no DESC LIMIT 4";
+		        String sql = "SELECT * FROM product where sale_ok = 'Y' ORDER BY wishlist_count DESC, sale_no DESC LIMIT 4";
 		       
 		        PreparedStatement pstmt = con.prepareStatement(sql);
 		        
@@ -1371,7 +1371,7 @@ public class SaleDAO {
 		   try {
 		        openConn();
 		        
-		        String sql = "SELECT * FROM product ORDER BY end_price DESC, sale_no DESC LIMIT 4";
+		        String sql = "SELECT * FROM product where sale_ok = 'Y' ORDER BY end_price DESC, sale_no DESC LIMIT 4";
 		       
 		        PreparedStatement pstmt = con.prepareStatement(sql);
 		        
@@ -1438,7 +1438,7 @@ public class SaleDAO {
 		   try {
 			   openConn();
 			   
-			   sql = "SELECT * FROM product ORDER BY end_price DESC, sale_no DESC LIMIT 4";
+			   sql = "SELECT * FROM product where sale_ok = 'Y' ORDER BY end_price DESC, sale_no DESC LIMIT 4";
 			   
 			   pstmt = con.prepareStatement(sql);
 			   
@@ -1757,18 +1757,19 @@ public class SaleDAO {
    }	// getUpper() 메서드 end
    
    // 같은 카테고리 리스트 최신순으로 4개 불러오는 메서드.
-   public List<SaleDTO> sameCategoryList(String sale_category) {
+   public List<SaleDTO> sameCategoryList(int sale_no, String sale_category) {
 	   
 	   List<SaleDTO> list = new ArrayList<SaleDTO>();
 	   
 	   try {
 		   openConn();
 		   
-		   sql = "select * from product where sale_category = ? order by sale_no desc LIMIT 4";
+		   sql = "select * from product where sale_category = ? and sale_ok = 'Y' and sale_no != ? order by sale_no desc LIMIT 4";
 		   
 		   pstmt = con.prepareStatement(sql);
 		   
 		   pstmt.setString(1, sale_category);
+		   pstmt.setInt(2, sale_no);
 		   
 		   rs = pstmt.executeQuery();
 		   
@@ -2170,8 +2171,144 @@ public class SaleDAO {
 	
    }
    
+   // 경매물품을 특정 조건으로 검색해서 나오는 전체 개수 메서드.
+   public int getSearchProductCount(String field, String keyword) {
+	   
+	   int result = 0;
+	   
+	   try {
+		   openConn();
+		   
+		   sql = "select count(*) from product";
+		   
+		   if(field.equals("title")) {
+		       sql += " where sale_title like ?) Y";
+		   }else if(field.equals("cont")) {
+		       sql += " where sale_content like ?) Y";
+		   }else if(field.equals("title_cont")) {
+		       sql += " where sale_title LIKE ? OR sale_content LIKE ?) Y";
+		   }else if(field.equals("writer")){
+		       sql += " where user_nickname LIKE ?) Y";
+		   }else {
+		       sql += " where sale_category LIKE ?) Y";
+		   }
+		   
+		   pstmt = con.prepareStatement(sql);
+		   
+		   if(field.equals("title_cont")) {
+				pstmt.setString(1, '%'+keyword+'%');
+				pstmt.setString(2, '%'+keyword+'%');
+			}else {
+				pstmt.setString(1, '%'+keyword+'%');
+			}
+		   
+		   rs = pstmt.executeQuery();
+		   
+		   if(rs.next()) {
+			   result = rs.getInt(1);
+		   }
+		   
+	} catch (SQLException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	} finally {
+		closeConn(rs, pstmt, con);
+	}
+	   return result;
+   } // getSearchProductCount() 메서드 end
+   
+   // 전체 검색 하는 것(제목, 내용, 카테고리)에 대한 리스트
+   public List<SaleDTO> getSearchAllList(String keyword, int page, int rowsize) {
+	   
+	   List<SaleDTO> list = new ArrayList<SaleDTO>();
+	   
+	   try {
+		   
+		   // 해당 페이지에서 시작 번호
+			int startNo = (page * rowsize) - (rowsize - 1);
+			
+			// 해당 페이지에서 끝 번호
+			int endNo = (page * rowsize);
+		   
+		   openConn();
+		   
+		   sql = "select * from (select row_number() over(order by sale_no desc) rnum, s.*, u.user_nickname from semi.product s join semi.user_table u on s.user_no = u.user_no where sale_title LIKE ? OR sale_content LIKE ? OR sale_category LIKE ?) Y";
+		   sql += " where rnum >= ? and rnum <= ? and DATE(NOW()) <= end_date AND sale_ok = 'Y'";
+		   
+		   pstmt =con.prepareStatement(sql);
+		   
+		   pstmt.setString(1, '%'+keyword+'%');
+		   pstmt.setString(2, '%'+keyword+'%');
+		   pstmt.setString(3, '%'+keyword+'%');
+		   pstmt.setInt(4, startNo);
+		   pstmt.setInt(5, endNo);
+		   
+		   rs = pstmt.executeQuery();
+		   
+		   while(rs.next()) {
+			   SaleDTO dto = new SaleDTO();
+				
+				
+				dto.setSale_no(rs.getInt("sale_no"));
+				dto.setUser_no(rs.getInt("user_no"));
+				dto.setSale_title(rs.getString("sale_title"));
+				dto.setSale_content(rs.getString("sale_content"));
+				dto.setSale_price(rs.getInt("sale_price"));
+				dto.setSale_end_price(rs.getInt("end_price"));
+				dto.setSale_file1(rs.getString("sale_file1"));
+				dto.setSale_file2(rs.getString("sale_file2"));
+				dto.setSale_file3(rs.getString("sale_file3"));
+				dto.setSale_file4(rs.getString("sale_file4"));
+				dto.setSale_date(rs.getString("sale_date"));
+				dto.setEnd_date(rs.getString("end_date"));
+				dto.setSale_hit(rs.getInt("sale_hit"));
+				
+				list.add(dto);
+		   }
+		   
+	} catch (SQLException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	} finally {
+		closeConn(rs, pstmt, con);
+	}
+	   
+	   return list;
+   } // getSearchAllList() 메서드 end
    
    
+   public int getSearchProductallCount(String keyword) {
+	   
+		int result = 0;
+			   
+		   try {
+			   openConn();
+			   
+			   sql = "select count(*) from product";
+			   
+			   sql += " where sale_title LIKE ? OR sale_content LIKE ? or sale_category LIKE ?) Y";
+			   
+			   pstmt = con.prepareStatement(sql);
+			   
+			   pstmt.setString(1, '%'+keyword+'%');
+			   pstmt.setString(2, '%'+keyword+'%');
+			   pstmt.setString(2, '%'+keyword+'%');
+			   
+			   rs = pstmt.executeQuery();
+			   
+			   if(rs.next()) {
+				   result = rs.getInt(1);
+			   }
+			   
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			closeConn(rs, pstmt, con);
+		}
+		   return result;
+	   
+   } // getSearchProductallCount() 메서드 end
    
    
    

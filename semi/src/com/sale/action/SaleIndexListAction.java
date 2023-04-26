@@ -100,7 +100,7 @@ public class SaleIndexListAction implements Action {
 		// view page로 이동 시에는 false 값 지정.
 		forward.setRedirect(false);
 		
-		forward.setPath("sale/sale_search_list.jsp");
+		forward.setPath("sale/sale_index_list.jsp");
 		
 		return forward;
 	}

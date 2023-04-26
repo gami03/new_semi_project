@@ -19,7 +19,7 @@ public class SaleProductApproveOkAction implements Action {
 		
 		int sale_no = Integer.parseInt(request.getParameter("sale_no").trim());
 		
-		String nickname = request.getParameter("nickname").trim();
+		String nickname = request.getParameter("nickname");
 		
 		if (nickname != null && !nickname.trim().isEmpty()) {
 			nickname = nickname.trim();
@@ -37,7 +37,7 @@ public class SaleProductApproveOkAction implements Action {
 			dao.saleApprove(sale_no);
 			out.println("<script>");
 			out.println("alert('판매 승인 완료했습니다.');");
-			out.println("location.href='admin_page.do?user_id=" + user_id + "';"); 
+			out.println("location.href='admin_page.do?id=" + user_id + "';"); 
 			out.println("</script>");
 		}else {
 			dao.saleApprove(sale_no);

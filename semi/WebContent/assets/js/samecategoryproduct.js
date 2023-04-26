@@ -1,5 +1,6 @@
 var user_no = window.user_no;
 var sale_category = window.sale_category;
+var sale_no = window.sale_no;
 
 
 $(function() {
@@ -15,7 +16,8 @@ $(function() {
 	            url: "same_category_product_list.do",
 				data: {
 					user_no: user_no,
-					sale_category: sale_category
+					sale_category: sale_category,
+					sale_no : sale_no
 				},
 				dataType: "json",
 				success: function(response) {
@@ -27,7 +29,7 @@ $(function() {
 					                      <a class="item_inner" href=\"product_detail.do?no='+product.sale_no+'&user='+user_no+'">\
 					                        <div class="thumb_box">\
 					                          <div class="product">\
-					                            <img src="images/'+ product.sale_file1 +'" class="product_image" width="100%" height="auto">\
+					                            <img src="./board/sale_board/sale_board_file_upload'+ product.sale_file1 +'" class="product_image" width="100%" height="auto">\
 					                          </div>\
 					                        </div>\
 					                        <div class="info_box">\

@@ -84,7 +84,7 @@
 												<a href="product_detail.do?no=${list[i].getSale_no() }&user=${User_no}">
 													<div class="product-img">
 														<img style="height: 300px"
-															src="./images/${list[i].getSale_file1() }" alt="" />
+															src="<%=request.getContextPath() %>/./board/sale_board/sale_board_file_upload${list[i].getSale_file1() }" alt="" />
 														<hr style="margin: 0px" width="black" color="100%">
 													</div>
 													<div class="product-body" style="height: 86px;">
@@ -115,11 +115,11 @@
 						   <nav style ="float:left; width: 55%;">
 						      <ul class="pagination">
 							      <li class="page-item">
-							         <a class="page-link" href="sale_index_list.do?page=1">처음</a>
+							         <a class="page-link" href="sale_search.do?page=1&keyword=${keyword }&field=${field}">처음</a>
 							      </li>
 							      <li>
 							      	<c:if test="${page > 1 }">
-							         <a class="page-link" href="sale_index_list.do?page=${page-1 }">이전</a>
+							         <a class="page-link" href="sale_search.do?page=${page-1 }&keyword=${keyword }&field=${field}">이전</a>
 							        </c:if>
 							        <c:if test="${page <= 1 }">
 							         <a class="page-link">이전</a>
@@ -129,26 +129,26 @@
 							      <c:forEach begin="${startBlock }" end="${endBlock }" var="i">
 							      <c:if test="${ i == page }">
 							         <li class="page-item active" aria-current="page">
-							         <a class="page-link" href="sale_index_list.do?page=${i }">${i }</a>
+							         <a class="page-link" href="sale_search.do?page=${i }&keyword=${keyword }&field=${field}">${i }</a>
 							         </li>   
 							      </c:if>
 							      
 							      <c:if test="${ i != page }">
 							         <li class="page-item">
-							         <a class="page-link" href="sale_index_list.do?page=${i }">${i }</a>
+							         <a class="page-link" href="sale_search.do?page=${i }&keyword=${keyword }&field=${field}">${i }</a>
 							         </li>   
 							      </c:if>
 							      </c:forEach>
 							      
 							      <c:if test="${endBlock < allPage }">
 							         <li class="page-item">
-							            <a class="page-link" href="sale_index_list.do?page=${page+1 }">다음</a>
+							            <a class="page-link" href="sale_search.do?page=${page+1 }&keyword=${keyword }&field=${field}">다음</a>
 							         </li>   
 							      </c:if>
 							      
 							      <c:if test="${page < allPage }">
 							      <li class="page-item">
-							            <a class="page-link" href="sale_index_list.do?page=${allPage }">끝</a>
+							            <a class="page-link" href="sale_search.do?page=${allPage }&keyword=${keyword }&field=${field}">끝</a>
 							      </li>
 							      </c:if>
 						      </ul>

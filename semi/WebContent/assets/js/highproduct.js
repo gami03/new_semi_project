@@ -24,7 +24,7 @@ $(function() {
 					                      <a class="item_inner" href=\"product_detail.do?no='+product.sale_no+'&user='+user_no+'">\
 					                        <div class="thumb_box">\
 					                          <div class="product">\
-					                            <img src="images/'+ product.sale_file1 +'" class="product_image" width="100%" height="auto">\
+					                            <img src="./board/sale_board/sale_board_file_upload'+ product.sale_file1 +'" class="product_image" width="100%" height="auto">\
 					                          </div>\
 					                        </div>\
 					                        <div class="info_box">\

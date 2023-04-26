@@ -175,7 +175,7 @@
                         
                         <!-- Button trigger modal -->
                         <button type="button" id="modalbutton" class="button" data-toggle="modal" data-target="#myModal" style="width: 443px; font-size: 20px;">
-                          입찰 / 구매
+                          	입찰 / 구매
                         </button>
 								
 								<%-- 관심상품에 추가 안되있을 때 --%>
@@ -201,7 +201,7 @@
 						<script type="text/javascript">
 					
 							var sale_category = ${dto.getUpload_category() }
-						
+							var sale_no = ${dto.getSale_no()}
 						</script>
 				
 						<div class="home_products" style="border-bottom: 1px solid #ebebeb">

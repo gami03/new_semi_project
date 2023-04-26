@@ -446,7 +446,7 @@
 						<h2 align="center" style="color: black; font-family: 'LINESeedKR-Bd';">Search</h2>
 						<%-- 검색 폼 페이지 처리 영역 --%>
 						<div align="left">
-						   <form method="post" action="<%=request.getContextPath() %>/board_search.do?board_name=${board_name }">
+						   <form method="post" action="<%=request.getContextPath() %>/sale_search.do">
 						   	 <div class="search" style="border-bottom: 3px solid black;">
 						   		<input type="text" name="keyword" placeholder="브랜드명, 모델명, 모델번호 등" class="input_search" style="width:90%; color: black; border-bottom: none; text-decoration: none; font-family: 'LINESeedKR-Bd';" onfocus="this.style.boxShadow = 'none';">
 						   		<button class="btn_search_delete" type="reset">
@@ -480,34 +480,34 @@
 							</div>
 							<div class="rec_search_inner">
 								<div class="rec_search_item">
-									<button class="rec_search_text">나이키</button>
+									<button class="rec_search_text" onclick="location.href='sale_search.do?keyword=나이키'">나이키</button>
 								</div>
 								<div class="rec_search_item">
-									<button class="rec_search_text">갈릭옥션</button>
+									<button class="rec_search_text" onclick="location.href='sale_search.do?keyword=갈릭옥션'">갈릭옥션</button>
 								</div>
 								<div class="rec_search_item">
-									<button class="rec_search_text">에어팟</button>
+									<button class="rec_search_text" onclick="location.href='sale_search.do?keyword=에어팟'">에어팟</button>
 								</div>
 								<div class="rec_search_item">
-									<button class="rec_search_text">반팔</button>
+									<button class="rec_search_text" onclick="location.href='sale_search.do?keyword=반팔'">반팔</button>
 								</div>
 								<div class="rec_search_item">
-									<button class="rec_search_text">샌들</button>
+									<button class="rec_search_text" onclick="location.href='sale_search.do?keyword=샌들'">샌들</button>
 								</div>
 								<div class="rec_search_item">
-									<button class="rec_search_text">샤넬</button>
+									<button class="rec_search_text" onclick="location.href='sale_search.do?keyword=샤넬'">샤넬</button>
 								</div>
 								<div class="rec_search_item">
-									<button class="rec_search_text">조던</button>
+									<button class="rec_search_text" onclick="location.href='sale_search.do?keyword=조던'">조던</button>
 								</div>
 								<div class="rec_search_item">
-									<button class="rec_search_text">스투시</button>
+									<button class="rec_search_text" onclick="location.href='sale_search.do?keyword=스투시'">스투시</button>
 								</div>
 								<div class="rec_search_item">
-									<button class="rec_search_text">가젤</button>
+									<button class="rec_search_text" onclick="location.href='sale_search.do?keyword=가젤'">가젤</button>
 								</div>
 								<div class="rec_search_item">
-									<button class="rec_search_text">리퍼비시</button>
+									<button class="rec_search_text" onclick="location.href='sale_search.do?keyword=리퍼비시'">리퍼비시</button>
 								</div>
 							</div>
 						</div>
@@ -562,10 +562,11 @@
 	                var $cardItem = $("<li>").addClass("search_card_ranking_item");
 	                var $rankingIdx = $("<span>").addClass("ranking_idx").text(index+1);
 	                var $rankingTitle = $("<span>").addClass("ranking_title").text(item.keyword);
-	                var $link = $("<a>").append($rankingTitle);
+	                var $link = $("<a>").attr("href", "sale_search.do?keyword=" + item.keyword).append($rankingTitle);
 	                $cardItem.append($rankingIdx).append($link);
 	                $searchCardList.append($cardItem);
 	            });
+
 	
 	            // "시간" 부분 수정
 	            var currentTime = new Date();

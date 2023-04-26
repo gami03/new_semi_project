@@ -27,7 +27,7 @@
 						<div class="wish_product">
 							<div class="product_box">
 								<a href="<%=request.getContextPath() %>/product_detail.do?no=${dto.getSale_no() }&user=${dto.getUser_no()}">
-									<img src="./images/${dto.getSale_file1() }" height="170px" width="170px;">
+									<img src="./board/sale_board/sale_board_file_upload${dto.getSale_file1() }" height="170px" width="170px;">
 								</a>
 							</div>
 							

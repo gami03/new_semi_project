@@ -1038,5 +1038,28 @@ public class UserDAO {
 		   
 		   
 	   }
+	   
+	   //회원 삭제하는 메서드.
+	   public void userDelete(int user_no) {
+		   
+		   try {
+			   openConn();
+			   
+			   sql = "delete user_table where user_no = ?";
+			   
+			   pstmt = con.prepareStatement(sql);
+			   
+			   pstmt.setInt(1, user_no);
+			   
+			   pstmt.executeUpdate();
+			   
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			closeConn(rs, pstmt, con);
+		}
+		   
+	   } // userDelete() 메서드 end
 
 }

@@ -178,7 +178,7 @@ function submitModal(userNo) {
 														</form>
 																
 																	&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
-																<a href="#">회원 삭제</a>
+																<a href="user_delete.do?user_no=${dto.getUser_no() }">회원 차단</a>
 																</div>
 															</td>
 														</tr>
@@ -258,23 +258,35 @@ function submitModal(userNo) {
 											</thead>
 											<tbody>
 											<c:set var="salelist" value="${saleList }" />
-											<c:if test="${!empty salelist }">
-												<c:forEach var="i" begin="0" end="5">
-													
-													<tr>
-														<td>${salelist[i].getUpload_category() }</td>
-														<td>${salelist[i].getUser_nickname() }</td>
-														<td>${salelist[i].getSale_title() }</td>
-														<td>${salelist[i].getSale_date().substring(0, 19) }</td>
-														<td> ${salelist[i].getAuction_period() }</td>
-														<td style="text-align: center;"><button onclick="location.href='sale_product_approve_ok.do?sale_no=${salelist[i].getSale_no() }&user_id=${user_id }'">승인</button></td>
-														<td style="text-align: center;"><button onclick="location.href='sale_product_approve_delete.do?sale_no=${salelist[i].getSale_no() }&user_id=${user_id }'">거부</button></td>
-													</tr>
-
-											</c:forEach>
-										</c:if>
+											<c:if test="${!empty salelist && salelist.size() >= 5 }">
+													<c:forEach var="i" begin="0" end="5">
+														<tr>
+															<td>${salelist[i].getUpload_category() }</td>
+															<td>${salelist[i].getUser_nickname() }</td>
+															<td>${salelist[i].getSale_title() }</td>
+															<td>${salelist[i].getSale_date().substring(0, 19) }</td>
+															<td>${salelist[i].getAuction_period() }</td>
+															<td style="text-align: center;"><button onclick="location.href='sale_product_approve_ok.do?sale_no=${salelist[i].getSale_no() }&user_id=${user_id }'">승인</button></td>
+															<td style="text-align: center;"><button onclick="location.href='sale_product_approve_delete.do?sale_no=${salelist[i].getSale_no() }&user_id=${user_id }'">거부</button></td>
+														</tr>
+													</c:forEach>,
+											</c:if>		
+												<c:if test="${!empty salelist && salelist.size() < 5 }">
+													<c:forEach items="${salelist }" var="dto">
+														<tr>
+															<td>${dto.getUpload_category() }</td>
+															<td>${dto.getUser_nickname() }</td>
+															<td>${dto.getSale_title() }</td>
+															<td>${dto.getSale_date().substring(0, 19) }</td>
+															<td>${dto.getAuction_period() }</td>
+															<td style="text-align: center;"><button onclick="location.href='sale_product_approve_ok.do?sale_no=${dto.getSale_no() }&user_id=${user_id }'">승인</button></td>
+															<td style="text-align: center;"><button onclick="location.href='sale_product_approve_delete.do?sale_no=${dto.getSale_no() }&user_id=${user_id }'">거부</button></td>
+														</tr>
+													</c:forEach>
+												</c:if>
 										
-										<c:if test="${empty list }">
+										
+										<c:if test="${empty salelist }">
 											<tr>
 												<td colspan="7" align="center">
 													<h3>판매 승인 요청 게시물이 없습니다</h3>
