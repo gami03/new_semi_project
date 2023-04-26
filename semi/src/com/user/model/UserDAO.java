@@ -964,16 +964,17 @@ public class UserDAO {
 		 }
 	   
 	   // 소지금 추가하는 메서드.
-	   public void userMoneyPlus(int money) {
+	   public void userMoneyPlus(int user_no, int money) {
 		   
 		   try {
 			   openConn();
 			   
-			   sql = "update user_table set user_money += ? ";
+			   sql = "update user_table set user_money = user_money + ? where user_no = ?";
 			   
 			   pstmt = con.prepareStatement(sql);
 			   
 			   pstmt.setInt(1, money);
+			   pstmt.setInt(2, user_no);
 			   
 			   pstmt.executeUpdate();
 			   
