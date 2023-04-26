@@ -938,5 +938,29 @@ public class UserDAO {
 
 		   return result;
 		 }
+	   
+	   // 소지금 추가하는 메서드.
+	   public void userMoneyPlus(int money) {
+		   
+		   try {
+			   openConn();
+			   
+			   sql = "update user_table set user_money += ? ";
+			   
+			   pstmt = con.prepareStatement(sql);
+			   
+			   pstmt.setInt(1, money);
+			   
+			   pstmt.executeUpdate();
+			   
+			   
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			closeConn(rs, pstmt, con);
+		}
+		   
+	   } // userMoneyPlus() 메서드 end 
 
 }

@@ -40,7 +40,7 @@ function submitModal(userNo) {
 							<header>
 							</header>
 							<section>
-								<h2 style="font-family: 'LINESeedKR-Bd';">${mypage} 회원의 게시글 목록</h2>
+								<h2 style="font-family: 'LINESeedKR-Bd';">${mypage} 관리자의 게시글 목록</h2>
 									<div class="table-wrapper"> 
 										<table class="alt">
 											<thead>
@@ -248,9 +248,10 @@ function submitModal(userNo) {
 											<thead>
 												<tr>
 													<th>카테고리명</th>
+													<th>닉네임</th>
 													<th>제목</th>
 													<th>작성 일자</th>
-													<th>마감 일자</th>
+													<th>경매 기간</th>
 													<th>승인</th>
 													<th>거부</th>
 												</tr>
@@ -262,10 +263,11 @@ function submitModal(userNo) {
 													
 													<tr>
 														<td>${salelist[i].getUpload_category() }</td>
+														<td>${salelist[i].getUser_nickname() }</td>
 														<td>${salelist[i].getSale_title() }</td>
 														<td>${salelist[i].getSale_date().substring(0, 19) }</td>
-														<td> ${salelist[i].getEnd_date().substring(0, 19) }</td>
-														<td style="text-align: center;"><button onclick="location.href='sale_product_approve_ok.do?sale_no=${salelist[i].getSale_no() }&id=${user_id }'">승인</button></td>
+														<td> ${salelist[i].getAuction_period() }</td>
+														<td style="text-align: center;"><button onclick="location.href='sale_product_approve_ok.do?sale_no=${salelist[i].getSale_no() }&user_id=${user_id }'">승인</button></td>
 														<td style="text-align: center;"><button onclick="location.href='sale_product_approve_delete.do?sale_no=${salelist[i].getSale_no() }&user_id=${user_id }'">거부</button></td>
 													</tr>
 
@@ -274,7 +276,7 @@ function submitModal(userNo) {
 										
 										<c:if test="${empty list }">
 											<tr>
-												<td colspan="5" align="center">
+												<td colspan="7" align="center">
 													<h3>판매 승인 요청 게시물이 없습니다</h3>
 												</td>
 											</tr>
@@ -283,7 +285,7 @@ function submitModal(userNo) {
 									</table>
 									
 									<div align="right">
-										<h4 style="font-family: 'LINESeedKR-Bd';"><a href="<%=request.getContextPath() %>/sale_approve_list.do?user_Id=${user_id }">판매 승인 글 목록 전체보기 >> </a></h4>
+										<h4 style="font-family: 'LINESeedKR-Bd';"><a href="<%=request.getContextPath() %>/sale_approve_list.do?user_id=${user_id }">판매 승인 글 목록 전체보기 >> </a></h4>
 									</div>
 									
 								</div>

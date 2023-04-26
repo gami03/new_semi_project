@@ -26,8 +26,17 @@ public class SaleDTO {
 	private String upload_summernote;
 	private String sale_name;
 	
+	private int auction_period;
+	
 	private String sale_ok;
 	
+	
+	public int getAuction_period() {
+		return auction_period;
+	}
+	public void setAuction_period(int auction_period) {
+		this.auction_period = auction_period;
+	}
 	public String getSale_ok() {
 		return sale_ok;
 	}

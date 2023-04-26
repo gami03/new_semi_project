@@ -15,9 +15,15 @@ public class SaleProductApproveOkAction implements Action {
 	@Override
 	public ActionForward excute(HttpServletRequest request, HttpServletResponse response) throws IOException {
 		
-		String user_id = request.getParameter("id").trim();
+		String user_id = request.getParameter("user_id").trim();
 		
 		int sale_no = Integer.parseInt(request.getParameter("sale_no").trim());
+		
+		String nickname = request.getParameter("nickname").trim();
+		
+		if (nickname != null && !nickname.trim().isEmpty()) {
+			nickname = nickname.trim();
+		}
 		
 		SaleDAO dao = SaleDAO.getInstance();
 		
@@ -25,11 +31,20 @@ public class SaleProductApproveOkAction implements Action {
 		response.setContentType("text/html; charset=UTF-8");
 		response.setCharacterEncoding("UTF-8");
 		
-		dao.saleApprove(sale_no);
-		out.println("<script>");
-		out.println("alert('판매 승인 완료했습니다.');");
-		out.println("location.href='admin_page.do?id=" + user_id + "';"); 
-		out.println("</script>");
+		if(nickname ==null) {
+			dao.saleApprove(sale_no);
+			out.println("<script>");
+			out.println("alert('판매 승인 완료했습니다.');");
+			out.println("location.href='admin_page.do?user_id=" + user_id + "';"); 
+			out.println("</script>");
+		}else {
+			dao.saleApprove(sale_no);
+			out.println("<script>");
+			out.println("alert('판매 승인 완료했습니다.');");
+			out.println("location.href='sale_approve_list.do?user_id=" + user_id + "';"); 
+			out.println("</script>");
+		}
+		
 		
 		
 		return null;

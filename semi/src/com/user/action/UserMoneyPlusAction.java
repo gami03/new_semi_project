@@ -8,28 +8,26 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.action.Action;
 import com.action.ActionForward;
-import com.sale.model.SaleDAO;
+import com.user.model.UserDAO;
 
-public class SaleProductApproveDeleteAction implements Action {
+public class UserMoneyPlusAction implements Action {
 
 	@Override
 	public ActionForward excute(HttpServletRequest request, HttpServletResponse response) throws IOException {
 		
 		String user_id = request.getParameter("user_id").trim();
+		int money = Integer.parseInt(request.getParameter("money").trim());
 		
-		int sale_no = Integer.parseInt(request.getParameter("sale_no").trim());
+		UserDAO dao = UserDAO.getInstance();
 		
-		SaleDAO dao = SaleDAO.getInstance();
+		dao.userMoneyPlus(money);
 		
 		PrintWriter out = response.getWriter();
-		response.setContentType("text/html; charset=UTF-8");
-		response.setCharacterEncoding("UTF-8");
 		
-		dao.saleNoApprove(sale_no);
 		out.println("<script>");
-		out.println("alert('판매 승인 거부했습니다.');");
-		out.println("location.href='admin_page.do?id=" + user_id + "';"); 
-		out.println("</script>");
+		out.println("alert('소지금이 추가 되었습니다.')");
+		out.println("location.href='location.href='user_mypage.do?id="+user_id+"&searchId="+user_id+"'");
+		out.println("<script>");
 		
 		return null;
 	}
