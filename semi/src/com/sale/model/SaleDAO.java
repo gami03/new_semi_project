@@ -2043,7 +2043,7 @@ public class SaleDAO {
 		try {
 			openConn();
 			
-			sql = "SELECT * FROM ( SELECT row_number() OVER (ORDER BY sale_no DESC) AS rnum, b.* FROM semi.product b) AS subquery WHERE rnum BETWEEN ? AND ?";
+			sql = "SELECT * FROM ( SELECT row_number() OVER (ORDER BY sale_no DESC) AS rnum, b.* FROM semi.product b) AS subquery WHERE rnum BETWEEN ? AND ? AND DATE(NOW()) <= end_date AND sale_ok = 'Y'";
 			
 			
 			pstmt = con.prepareStatement(sql);
@@ -2088,7 +2088,7 @@ public class SaleDAO {
 		return list;
 	} // getBoardList() 메서드 end
 	
-   
+   // 경매물품을 특정 조건으로 검색하는 메서드
    public List<SaleDTO> getSearchList(String field,String keyword,int page, int rowsize){
 	   
     List<SaleDTO> searchList = new ArrayList<SaleDTO>();
@@ -2117,7 +2117,7 @@ public class SaleDAO {
 	       sql += " where sale_category LIKE ?) Y";
 	   }
 
-	   sql += " where rnum >= ? and rnum <= ?;";
+	   sql += " where rnum >= ? and rnum <= ? and DATE(NOW()) <= end_date AND sale_ok = 'Y'";
 
 
 		

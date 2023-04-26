@@ -23,6 +23,8 @@ public class SaleProductApproveOkAction implements Action {
 		
 		if (nickname != null && !nickname.trim().isEmpty()) {
 			nickname = nickname.trim();
+		} else {
+			
 		}
 		
 		SaleDAO dao = SaleDAO.getInstance();

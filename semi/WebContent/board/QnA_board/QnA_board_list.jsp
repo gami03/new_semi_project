@@ -90,18 +90,33 @@ table td {
 							<c:set var="totalEndNo" value="${totalEndNo -1 }" />
 									<td> ${totalEndNo + 1 } </td>
 							<td>
-								<c:if test="${dto.getUser_no() == session_user_no }">
+								<c:if test="${dto.getUser_no() == session_user_no}">
 									<a href="<%=request.getContextPath() %>/board_content.do?no=${dto.getBoard_no() }
 																								  &page=${page }&id=${user_id }&nickname=${dto.getUser_nickname() }&board_name=${dto.getBoard_name() }">
 										[${dto.getBoard_category() }]&nbsp;${dto.getBoard_title() }
 									</a>
 								</c:if>
-								<c:if test="${dto.getUser_no() ne session_user_no || empty user_id}">
-								    <a onclick="alert('로그인 후 본인글만 확인 가능합니다.')">
-								        [${dto.getBoard_category()}]&nbsp;${dto.getBoard_title()}
+								<c:if test="${dto.getUser_no() ne session_user_no && user_approve >= 3}">
+								    <a href="<%=request.getContextPath() %>/board_content.do?no=${dto.getBoard_no() }
+																								  &page=${page }&id=${user_id }&nickname=${dto.getUser_nickname() }&board_name=${dto.getBoard_name() }">
+										[${dto.getBoard_category() }]&nbsp;${dto.getBoard_title() }
 								    </a>
 								</c:if>
-
+								
+								<c:if test="${empty user_id}">
+								
+									
+								    <a onclick="alert('로그인 후 본인글만 확인 가능합니다.')">
+									        [${dto.getBoard_category()}]&nbsp;${dto.getBoard_title()}
+									</a>
+								    
+								</c:if>
+								
+								<c:if test="${dto.getUser_no() ne session_user_no && session_user_no != null && user_approve < 3}">
+										<a onclick="alert('로그인 후 본인글만 확인 가능합니다.')">
+									        [${dto.getBoard_category()}]&nbsp;${dto.getBoard_title()}
+									    </a>
+								</c:if>
 
 							</td>
 							<td> ${dto.getUser_nickname() } </td>

@@ -73,8 +73,6 @@ $(function () {
   		  user_success = formatNumberCount($(this).find("user_upper").text());
     	  user_value = formatNumber($(this).find("user_upper").text() * 1.1);
 		  user_count = formatNumberCount($(this).find("user_upper").text() * 1.1);
-          console.log($(this).find("user_upper").text());
-          console.log("usercount >>> " + user_count);
 		  
     	  
           table += "<tr>";
@@ -215,7 +213,6 @@ $(function () {
 				table += "<tr>";
 				table += "<td><h5>경매가 낙찰 되었습니다.</h5></td>";
 				table += "<tr>";
-				console.log("user_success" + user_success);
 			}
           });
 
@@ -234,7 +231,6 @@ $(function () {
  
 
 	input_bid = function() {
-	    console.log("userval >>> " + user_success);
 		if(date == 3)
 	    setTimeout(function() {
 	        $.ajax({
@@ -249,7 +245,6 @@ $(function () {
 
 	
 	saleDeatailHit = function(){
-		console.log("product_no sale_no >>>" + sale_no)
 		 $.ajax({
 	            url: "/semi/sale_hit.ajax.do",
 	            data: { 

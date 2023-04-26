@@ -1,7 +1,6 @@
 var user_no = window.user_no;
 var sale_category = window.sale_category;
 
-console.log("sale_category"+sale_category)
 
 $(function() {
 	
@@ -20,7 +19,6 @@ $(function() {
 				},
 				dataType: "json",
 				success: function(response) {
-					console.log("동일 카테고리 상품 >>>"+response.productList);
 					
 					// each() 함수를 사용하여 productList를 반복하면서 product_item 생성
 					$.each(response.productList, function(index, product) {

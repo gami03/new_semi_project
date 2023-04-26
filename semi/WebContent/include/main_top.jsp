@@ -556,7 +556,6 @@
 	        data: {},
 	        datatype: "json",
 	        success: function(response) {
-	            console.log("실시간 인기검색어 top10 >>>"+response);
 	            var $searchCardList = $("<ol>").addClass("search_card_ranking").css("padding-left", "5px");
 	
 	            $.each(response.searchList, function(index, item) {

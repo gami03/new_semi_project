@@ -16,7 +16,6 @@ $(function() {
 				},
 				dataType: "json",
 				success: function(response) {
-					console.log("최고가상품 가져오기 >>>"+response.productList);
 					
 					// each() 함수를 사용하여 productList를 반복하면서 product_item 생성
 					$.each(response.productList, function(index, product) {
