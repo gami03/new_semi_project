@@ -11,6 +11,8 @@ import com.action.Action;
 import com.action.ActionForward;
 import com.board.model.BoardDAO;
 import com.board.model.BoardDTO;
+import com.sale.model.SaleDAO;
+import com.sale.model.SaleDTO;
 import com.user.model.UserDAO;
 import com.user.model.UserDTO;
 
@@ -103,6 +105,13 @@ public class UserListAction implements Action {
         
         // 유저가 작성한 게시판 게시글을 가져오는 메서드
         List<BoardDTO> board = bdao.getUserBoard(user_id);
+        
+        SaleDAO sdao = SaleDAO.getInstance();
+        
+        // 판매 승인 요청 게시글을 가져오는 메서드
+        List<SaleDTO> salelist = sdao.getSaleRequestList();
+        
+        request.setAttribute("saleList", salelist);
         
         request.setAttribute("BoardList", board);
         

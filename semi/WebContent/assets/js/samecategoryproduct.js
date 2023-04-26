@@ -1,4 +1,7 @@
 var user_no = window.user_no;
+var sale_category = window.sale_category;
+
+console.log("sale_category"+sale_category)
 
 $(function() {
 	
@@ -6,17 +9,18 @@ $(function() {
         contentType: "application/x-www-form-urlencoded;charset=UTF-8",
     });
 
-	function highProductList() {
+	function sameCategoryProductList() {
 		setTimeout(function() {
 			$.ajax({
 				type: "get",
-	            url: "high_product_list.do",
+	            url: "same_category_product_list.do",
 				data: {
-					user_no: user_no
+					user_no: user_no,
+					sale_category: sale_category
 				},
 				dataType: "json",
 				success: function(response) {
-					console.log("최고가상품 가져오기 >>>"+response.productList);
+					console.log("동일 카테고리 상품 >>>"+response.productList);
 					
 					// each() 함수를 사용하여 productList를 반복하면서 product_item 생성
 					$.each(response.productList, function(index, product) {
@@ -43,10 +47,9 @@ $(function() {
 					                          </div>\
 					                        </div>\
 					                      </a>\
-					                     <span aria-label="관심상품" class="btn_wish"><img src="./images/'+product.bookmark+'" width="26px" height="24px" onclick="location.href=\'wish_list_click.do?user_no=' + user_no + '&sale_no=' + product.sale_no + '\'"></span>\
 					                    </div>';
 					  // 생성한 productItem을 적절한 위치에 추가
-					  $('.product_list_high').append(productItem);
+					  $('.product_list').append(productItem);
 
 					
 					});
@@ -56,11 +59,11 @@ $(function() {
 					alert("최고가 상품을 불러오는 도중 오류가 발생했습니다.");
 				}
 			});
-		}, 2000); // 0.8초(800밀리초) 딜레이
+		}, 100); // 0.8초(800밀리초) 딜레이
 	}
 	
-	// 페이지가 열리면 자동으로 hitProductList() 함수를 실행
-	highProductList();
+	// 페이지가 열리면 자동으로 sameCategoryProductList() 함수를 실행
+	sameCategoryProductList();
 	
 	
 });

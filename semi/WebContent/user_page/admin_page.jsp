@@ -2,6 +2,7 @@
     pageEncoding="UTF-8"%>
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -39,7 +40,7 @@ function submitModal(userNo) {
 							<header>
 							</header>
 							<section>
-								<h2 style="font-family: 'LINESeedKR-Bd';">${mypage} 회원의 게시글 목록</h2>
+								<h2 style="font-family: 'LINESeedKR-Bd';">${mypage} 관리자의 게시글 목록</h2>
 									<div class="table-wrapper"> 
 										<table class="alt">
 											<thead>
@@ -240,6 +241,54 @@ function submitModal(userNo) {
 										   </nav>
 										</div>
 									</div>
+									
+									<h2 style="font-family: 'LINESeedKR-Bd';">판매 승인 요청 게시글 목록</h2>
+									<div class="table-wrapper"> 
+										<table class="alt">
+											<thead>
+												<tr>
+													<th>카테고리명</th>
+													<th>닉네임</th>
+													<th>제목</th>
+													<th>작성 일자</th>
+													<th>경매 기간</th>
+													<th>승인</th>
+													<th>거부</th>
+												</tr>
+											</thead>
+											<tbody>
+											<c:set var="salelist" value="${saleList }" />
+											<c:if test="${!empty salelist }">
+												<c:forEach var="i" begin="0" end="5">
+													
+													<tr>
+														<td>${salelist[i].getUpload_category() }</td>
+														<td>${salelist[i].getUser_nickname() }</td>
+														<td>${salelist[i].getSale_title() }</td>
+														<td>${salelist[i].getSale_date().substring(0, 19) }</td>
+														<td> ${salelist[i].getAuction_period() }</td>
+														<td style="text-align: center;"><button onclick="location.href='sale_product_approve_ok.do?sale_no=${salelist[i].getSale_no() }&user_id=${user_id }'">승인</button></td>
+														<td style="text-align: center;"><button onclick="location.href='sale_product_approve_delete.do?sale_no=${salelist[i].getSale_no() }&user_id=${user_id }'">거부</button></td>
+													</tr>
+
+											</c:forEach>
+										</c:if>
+										
+										<c:if test="${empty list }">
+											<tr>
+												<td colspan="7" align="center">
+													<h3>판매 승인 요청 게시물이 없습니다</h3>
+												</td>
+											</tr>
+										</c:if>
+										</tbody>
+									</table>
+									
+									<div align="right">
+										<h4 style="font-family: 'LINESeedKR-Bd';"><a href="<%=request.getContextPath() %>/sale_approve_list.do?user_id=${user_id }">판매 승인 글 목록 전체보기 >> </a></h4>
+									</div>
+									
+								</div>
 							</section>
 						</div>
 					</div>

@@ -113,7 +113,9 @@ function changePassword() {
 						</tr>
                         <tr>
 							<th>소지금</th>
-							<td><input type="text" name="user_money" value="<fmt:formatNumber value="${dto.getUser_money()}" type="number" pattern="#,###"/>원" readonly /></td>
+							<td>
+								<input type="text" name="user_money" value="<fmt:formatNumber value="${dto.getUser_money()}" type="number" pattern="#,###"/>원" readonly />
+							</td>
 						</tr>
 						<tr>
 							<th>승급 신청</th>
@@ -185,6 +187,16 @@ function changePassword() {
 							<div align="right">
 								<h4><a href="<%=request.getContextPath() %>/user_board_all.do?id=${user_id }&searchId=${mypage }">작성 글 목록 전체보기 >> </a></h4>										</div>
 							
+						</div>
+						
+						<hr>
+						
+						<div class="moneyplus">
+							<h2>소지금 추가</h2>
+							<form action="<%=request.getContextPath() %>/user_money_plus.do?user_id=${user_id }">
+								<input type="text" value="money" name="money">
+								<input type="submit" value="추가">
+							</form>
 						</div>
 						
 						<hr>
