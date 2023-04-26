@@ -20,7 +20,7 @@
 <head>
 <title>Phantom by HTML5 UP</title>
 
-
+<link rel="stylesheet" href="./assets/css/fontawesome-all.min.css">
 
 <link rel="stylesheet" href="./assets/css/product_view.css">
 <link rel="stylesheet" href="./assets/css/product.css" />
@@ -82,7 +82,7 @@
 								</div>
 							</div>
 							<!-- Product main img -->
-							<div class="col-md-5">
+							<div class="col-md-5" style="padding-right : 37.3px ">
 								<div id="product-main-img">
 								
 									<div style="height: 370px" class="product-preview">
@@ -103,7 +103,7 @@
 								</div>
 							</div>
 							
-							<div class="col-md-5">
+							<div class="col-md-5" style="padding-left : 5px ">
 								
 								<div>
 									<table border="1" cellspacing="0" class="list" style="margin: 0 0 16px 0; width: 443px;">

@@ -317,6 +317,30 @@ public class UserDAO {
    		return list;
    	}
  	
+   	// user 회원 등급 설정
+   	public void requestApprove(String id) {	// user_no 혹은 user_id
+   		
+   		
+   		try {
+   			openConn();
+   			
+  			sql = "update user_table set user_approve = 1 where user_id = ?";
+  			
+  			pstmt = con.prepareStatement(sql);
+  			
+  			pstmt.setString(1, id);
+  			
+  			pstmt.executeUpdate();
+  			
+  		} catch (SQLException e) {
+  			// TODO Auto-generated catch block
+  			e.printStackTrace();
+  		} finally {
+  			closeConn(rs, pstmt, con);
+  		}
+   		
+   	}
+   	
   	// user 회원 등급 설정
   	public int UpdateApprove(int no, int new_approve) {	// user_no 혹은 user_id
   		
