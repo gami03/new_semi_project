@@ -178,7 +178,7 @@ function submitModal(userNo) {
 														</form>
 																
 																	&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
-																<a href="user_delete.do?user_no=${dto.getUser_no() }">회원 차단</a>
+																<a href="user_block.do?user_no=${dto.getUser_no() }&user_id=${user_id }">회원 차단</a>
 																</div>
 															</td>
 														</tr>

@@ -49,35 +49,35 @@
          <div class="shortcut_items_wrap">
             <div class="shortcut_item">
                <div class="shortcut_item_img_wrap">
-                  <img src="images/electronic_banner.png" class="shortcut_image" style="background-color: antiquewhite;">
+                  <img src="images/electronic_banner.png" class="shortcut_image" onclick="location.href='sale_search.do?keyword=전자기기'" style="background-color: antiquewhite;">
                </div>
                <br>
                <p style="font-family: 'LINESeedKR-Bd'; font-size: 18px;">전자기기 추천</p>
             </div>
             <div class="shortcut_item">
                <div class="shortcut_item_img_wrap">
-                  <img src="images/clothes_banner.png" class="shortcut_image" style="background-color: antiquewhite;">
+                  <img src="images/clothes_banner.png" class="shortcut_image" onclick="location.href='sale_search.do?keyword=의류'" style="background-color: antiquewhite;">
                </div>
                <br>
                <p style="font-family: 'LINESeedKR-Bd'; font-size: 18px;">의류 추천</p>
             </div>
             <div class="shortcut_item">
                <div class="shortcut_item_img_wrap">
-                  <img src="images/shoose.png" class="shortcut_image" style="background-color: antiquewhite;">
+                  <img src="images/shoose.png" class="shortcut_image" onclick="location.href='sale_search.do?keyword=신발'" style="background-color: antiquewhite;">
                </div>
                <br>
                <p style="font-family: 'LINESeedKR-Bd'; font-size: 18px;">신발 추천</p>
             </div>
             <div class="shortcut_item">
                <div class="shortcut_item_img_wrap">
-                  <img src="images/watch.png" class="shortcut_image" style="background-color: antiquewhite;">
+                  <img src="images/watch.png" class="shortcut_image" onclick="location.href='sale_search.do?keyword=시계'" style="background-color: antiquewhite;">
                </div>
                <br>
                <p style="font-family: 'LINESeedKR-Bd'; font-size: 18px;">시계 추천</p>
             </div>
             <div class="shortcut_item">
                <div class="shortcut_item_img_wrap">
-                  <img src="images/gitar.png" class="shortcut_image" style="background-color: antiquewhite;">
+                  <img src="images/gitar.png" class="shortcut_image" onclick="location.href='sale_search.do?keyword=기타'" style="background-color: antiquewhite;">
                </div>
                <br>
                <p style="font-family: 'LINESeedKR-Bd'; font-size: 18px;">기타 추천</p>

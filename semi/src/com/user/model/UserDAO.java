@@ -1039,13 +1039,13 @@ public class UserDAO {
 		   
 	   }
 	   
-	   //회원 삭제하는 메서드.
-	   public void userDelete(int user_no) {
+	   //회원 차단하는 메서드.
+	   public void userBlock(int user_no) {
 		   
 		   try {
 			   openConn();
 			   
-			   sql = "delete user_table where user_no = ?";
+			   sql = "update user_table set user_approve = '5' where user_no = ?";
 			   
 			   pstmt = con.prepareStatement(sql);
 			   
@@ -1061,5 +1061,36 @@ public class UserDAO {
 		}
 		   
 	   } // userDelete() 메서드 end
+	   
+	   
+	   // user_nickname 가져오는 메서드.
+	   public String getUserNickname(int user_no) {
+		   
+		   String nickname = "";
+		   
+		   try {
+			   openConn();
+			   
+			   sql = "select user_nickname from user_table where user_no = ?";
+			   
+			   pstmt = con.prepareStatement(sql);
+			   
+			   pstmt.setInt(1, user_no);
+			   
+			   rs = pstmt.executeQuery();
+			   
+			   if(rs.next()) {
+				   nickname = rs.getString(1);
+			   }
+			   
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			closeConn(rs, pstmt, con);
+		}
+		   
+		   return nickname;
+	   } // getUserNickname() 메서드 end
 
 }

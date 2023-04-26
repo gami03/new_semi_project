@@ -389,6 +389,7 @@
 										<a data-toggle="modal" data-target="#boardModal">관심상품</a>
 										<a data-toggle="modal" data-target="#boardModal">로그인</a>
 									</c:if>
+									
 									<c:if test="${!empty id }">
 										<a href="<%=request.getContextPath() %>/wish_list.do?user_no=${User_no}">관심상품</a>
 										<a href="logintest/logout.jsp">로그아웃</a>

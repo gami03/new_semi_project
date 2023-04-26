@@ -204,3 +204,12 @@
     image-rendering: auto;
     border-radius: 9px;
 }
+
+p.name + p {
+	max-height: 44px;
+    margin-bottom: 2px;
+    font-weight: normal;
+    color: #222;
+    font-size: 13px;
+    font-family: 'LINESeedKR-Bd';
+}
