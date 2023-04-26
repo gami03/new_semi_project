@@ -10,11 +10,10 @@
 <title>Insert title here</title>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
-
 <script src="js/modify_user.js"></script>
 <script>
 function openAddressPopup() {
-	  var addressPopup = window.open("user_page/user_addr_modify.jsp", "주소변경", "width=500,height=500");
+	  var addressPopup = window.open("user_page/user_addr_modify.jsp", "주소변경", "width=500,height=400");
 	}
 
 	function setAddress(fullAddress) {
@@ -27,19 +26,38 @@ function request_approve() {
 	
 
 </script>
+<script>
+function openPasswordPopup() {
+  var passwordPopup = window.open("user_page/user_pwd_modify.jsp", "비밀번호 변경", "width=500,height=500");
+}
+
+function closePasswordPopup() {
+  var passwordPopup = document.getElementById("passwordPopup");
+  passwordPopup.style.display = "none";
+}
+
+function changePassword() {
+  var newPwd = document.getElementById("new_pwd").value;
+  var modifyPwd = document.getElementById("modify_pwd");
+  modifyPwd.value = newPwd;
+  closePasswordPopup();
+}
+</script>
 <meta charset="UTF-8" />
 </head>
 <body>
 
 	<jsp:include page="../include/main_top.jsp" />
+	
+	<c:set var="mypage" value="${mypage_id}" />
 <!-- Main -->
 <div id="main">
     <div class="inner">
         <header>
-            <c:set var="dto" value="${UserInfo}" />
             <h2>회원정보</h2>
         </header>
         <section>
+        	<c:set var="dto" value="${UserInfo}" />
             <div align="center">
                 <h2>${dto.getUser_nickname()} 님 회원정보 수정</h2>
                 <br>
@@ -99,20 +117,25 @@ function request_approve() {
 						</tr>
 						<tr>
 							<th>승급 신청</th>
-							<td><button type="button" name="user_request" onclick="request_approve()">요청하기</button></td>
+							<td><button type="button" id="execute-servlet">요청하기</button></td>
 						</tr>
                     </table>
                     <div class="text-center">
                         <button type="submit" class="btn btn-light" id="userUpdateButton" >회원정보 수정</button>
-                        <button type="submit" class="btn btn-light" id="userPwdUpdateButton" >비밀번호 변경</button>
+						<button type="button" onclick="openPasswordPopup()">비밀번호 변경</button>
+
+
                     </div>
                 </form>
             </div>
         </section>
-					
+        
+
+
+
+							
 				<section>
 					<c:set var="nickname" value="${user_nickname}" />
-					<c:set var="mypage" value="${mypage_id}" />
 						<h2><a href="<%=request.getContextPath() %>/user_info_detail.do?searchId=${mypage }">${nickname} 회원의 게시글 목록</a></h2>
 							<div class="table-wrapper"> 
 								<table class="alt">
@@ -180,7 +203,7 @@ function request_approve() {
 								</thead>
 								<c:set var="orderList" value="${OrderList}" />
 									<tbody>
-									<c:if test="${!empty list }">
+									<c:if test="${!empty orderlist }">
 										<c:forEach var="i" begin="0" end="${Count-1 }">
 										    <div class="col-md-4">
 										        <div class="product">
@@ -202,7 +225,7 @@ function request_approve() {
 										</c:forEach>
 									</c:if>
 								
-								<c:if test="${empty list }">
+								<c:if test="${empty orderlist }">
 									<tr>
 										<td colspan="5" align="center">
 											<h3>자유게시판 게시물 리스트가 없습니다</h3>
@@ -216,6 +239,42 @@ function request_approve() {
 				</section>
 			</div>
 		</div>
+		<br>
+		<script>
+function openAddressPopup() {
+	  var addressPopup = window.open("user_page/user_addr_modify.jsp", "주소변경", "width=500,height=500");
+	}
+
+	function setAddress(fullAddress) {
+	  document.getElementById("addr_modify").value = fullAddress;
+	}
+
+	
+$(document).ready(function() {
+    // 버튼 클릭 이벤트를 등록합니다.
+    $('#execute-servlet').on('click', function() {
+      // AJAX 요청을 보냅니다.
+      var id = "${mypage}";
+      $.ajax({
+    	contentType : "application/x-www-form-urlencoded;charset=UTF-8",
+        method: 'POST',
+        url: 'user_request.do',
+	    data: { id: id },
+	    success: function(response) {
+	      	// 요청이 성공적으로 처리되면 실행될 코드를 작성합니다.
+	    	console.log('응답:', response); // 응답 값을 콘솔에 출력합니다.
+	      	alert('요청이 성공적으로 전송되었습니다.');
+	    },
+	    error: function(error) {
+	      // 요청이 실패한 경우 실행될 코드를 작성합니다.
+	      console.error(error);
+	    }
+      });
+    });
+ });
+
+</script>
+		
 		<jsp:include page="../include/main_bottom.jsp" />
 	</body>
 </html>

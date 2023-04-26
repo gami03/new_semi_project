@@ -1046,7 +1046,7 @@ public class SaleDAO {
 					count = rs.getInt(1) + 1;
 				}
 				
-				sql = "insert into product values(?, ?, default, ?, ?, ?, ?, now(),now(), default, ?, ?, ?, ?, default, ?)";
+				sql = "insert into product values(?, ?, default, ?, ?, ?, ?, now(),DATE_ADD(now(), INTERVAL ? DAY), default, ?, ?, ?, ?, default, ?,'N',?)";
 				
 				pstmt = con.prepareStatement(sql);
 				
@@ -1056,29 +1056,20 @@ public class SaleDAO {
 				pstmt.setString(4, dto.getSale_content());
 				pstmt.setInt(5, dto.getSale_price());
 				pstmt.setInt(6, dto.getSale_end_price());
-				pstmt.setString(7, dto.getSale_file1());
-				pstmt.setString(8, dto.getSale_file2());
-				pstmt.setString(9, dto.getSale_file3());
-				pstmt.setString(10, dto.getSale_file4());
-				pstmt.setString(11, dto.getUpload_category());
-				
-				System.out.println("syso userno" +count);
-				System.out.println("syso userno" +dto.getUser_no());
-				System.out.println("syso userno" +dto.getSale_title());
-				System.out.println("syso userno" +dto.getSale_content());
-				System.out.println("syso userno" +dto.getSale_price());
-				System.out.println("syso userno" +dto.getSale_end_price());
-				System.out.println("syso userno" +dto.getSale_file1());
-				System.out.println("syso userno" +dto.getSale_file2());
-				System.out.println("syso userno" +dto.getSale_file3());
-				System.out.println("syso userno" +dto.getSale_file4());
-				System.out.println("syso userno" +dto.getUpload_category());
+				pstmt.setInt(7, dto.getAuction_period());
+				pstmt.setString(8, dto.getSale_file1());
+				pstmt.setString(9, dto.getSale_file2());
+				pstmt.setString(10, dto.getSale_file3());
+				pstmt.setString(11, dto.getSale_file4());
+				pstmt.setString(12, dto.getUpload_category());
+				pstmt.setInt(13, dto.getAuction_period());
+
 				
 				result = pstmt.executeUpdate();
 				
 				System.out.println("dao result"+result);
 				
-				sql = "insert upper into values(?, ?, 0)";
+				sql = "insert into upper values(?, ?, 0)";
 				
 				pstmt = con.prepareStatement(sql);
 				

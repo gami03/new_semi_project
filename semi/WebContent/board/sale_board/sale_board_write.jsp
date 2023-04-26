@@ -125,13 +125,13 @@ justify-content: center;
 				<tr>
 				    <th>시작 입찰가</th>
 				    <td>
-				        <input type="number" name="starting_bid" min="0" step="1" required>&nbsp;원
+				        <input type="number" name="sale_price" min="0" step="1" required>&nbsp;원
 				    </td>
 				</tr>
 				<tr>
 				    <th>즉시 구매 입찰가</th>
 				    <td>
-				        <input type="number" name="buy_now_bid" min="0" step="1" required>&nbsp;원
+				        <input type="number" name="sale_end_price" min="0" step="1" required>&nbsp;원
 				    </td>
 				</tr>
 								

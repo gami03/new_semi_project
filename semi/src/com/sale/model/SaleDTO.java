@@ -19,12 +19,20 @@ public class SaleDTO {
 	private int sale_hit;
 	private int sale_check;
 	private String bookmark;
-	
 	private String user_nickname;
 	private String upload_title;
 	private String upload_category;
 	private String upload_summernote;
 	private String sale_name;
+	private int auction_period;
+
+	
+	public int getAuction_period() {
+		return auction_period;
+	}
+	public void setAuction_period(int auction_period) {
+		this.auction_period = auction_period;
+	}
 	
 	public String getUser_nickname() {
 		return user_nickname;
