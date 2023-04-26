@@ -1767,6 +1767,7 @@ public class SaleDAO {
    }	// getUpper() 메서드 end
    
    
+   // 경매게시물을 클릭할 시 조회수가 1씩 증가하는 메서드
    public void inputHit(int product_no) {
 	   
 	   try {
@@ -1789,6 +1790,8 @@ public class SaleDAO {
 	   
    }	// inputHit() 메서드 end
    
+   
+   // 경매품의 전체 리스트를 불러오는 메서드
    public List<SaleDTO> getSaleList(int page, int rowsize) {
 		
 		List<SaleDTO> list = new ArrayList<SaleDTO>();
@@ -1848,6 +1851,86 @@ public class SaleDAO {
 	} // getBoardList() 메서드 end
 	
    
+   public List<SaleDTO> getSearchList(String field,String keyword,int page, int rowsize){
+	   
+    List<SaleDTO> searchList = new ArrayList<SaleDTO>();
+    
+    
+	// 해당 페이지에서 시작 번호
+	int startNo = (page * rowsize) - (rowsize - 1);
+	
+	// 해당 페이지에서 끝 번호
+	int endNo = (page * rowsize);
+	try {
+	   
+	   openConn();
+	   
+	   sql = "select * from (select row_number() over(order by sale_no desc) rnum, s.*, u.user_nickname from semi.product s join semi.user_table u on s.user_no = u.user_no";
+
+	   if(field.equals("title")) {
+	       sql += " where sale_title like ?) Y";
+	   }else if(field.equals("cont")) {
+	       sql += " where sale_content like ?) Y";
+	   }else if(field.equals("title_cont")) {
+	       sql += " where sale_title LIKE ? OR sale_content LIKE ?) Y";
+	   }else if(field.equals("writer")){
+	       sql += " where user_nickname LIKE ?) Y";
+	   }else {
+	       sql += " where sale_category LIKE ?) Y";
+	   }
+
+	   sql += " where rnum >= ? and rnum <= ?;";
+
+
+		
+		pstmt = con.prepareStatement(sql);
+		
+		if(field.equals("title_cont")) {
+			pstmt.setString(1, '%'+keyword+'%');
+			pstmt.setString(2, '%'+keyword+'%');
+			pstmt.setInt(3, startNo);
+			pstmt.setInt(4, endNo);
+		}else {
+			pstmt.setString(1, '%'+keyword+'%');
+			pstmt.setInt(2, startNo);
+			pstmt.setInt(3, endNo);
+		}
+		
+		rs = pstmt.executeQuery();
+		
+		while(rs.next()) {
+
+			SaleDTO dto = new SaleDTO();
+			
+			
+			dto.setSale_no(rs.getInt("sale_no"));
+			dto.setUser_no(rs.getInt("user_no"));
+			dto.setSale_title(rs.getString("sale_title"));
+			dto.setSale_content(rs.getString("sale_content"));
+			dto.setSale_price(rs.getInt("sale_price"));
+			dto.setSale_end_price(rs.getInt("end_price"));
+			dto.setSale_file1(rs.getString("sale_file1"));
+			dto.setSale_file2(rs.getString("sale_file2"));
+			dto.setSale_file3(rs.getString("sale_file3"));
+			dto.setSale_file4(rs.getString("sale_file4"));
+			dto.setSale_date(rs.getString("sale_date"));
+			dto.setEnd_date(rs.getString("end_date"));
+			dto.setSale_hit(rs.getInt("sale_hit"));
+			
+			searchList.add(dto);
+			
+		}
+	   
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			closeConn(rs, pstmt, con);
+		}
+	
+		return searchList;
+	
+   }
    
    
    

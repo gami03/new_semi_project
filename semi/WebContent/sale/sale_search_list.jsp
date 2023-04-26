@@ -77,24 +77,24 @@
 							<c:set var="user_no" value="${User_no }" />
 							<c:set var="count" value="${Count }" />
 							<c:set var="list" value="${Index }" />
-							<c:if test="${!empty count}">
-								<c:forEach var="i" begin="0" end="${list.size() -1 }">
-									<div class="product_list_wrap">
-										<div class="product">
-											<a href="product_detail.do?no=${list[i].getSale_no() }&user=${User_no}">
-												<div class="product-img">
-													<img style="height: 300px"
-														src="./images/${list[i].getSale_file1() }" alt="" />
-													<hr style="margin: 0px" width="black" color="100%">
-												</div>
-												<div class="product-body" style="height: 86px;">
-													<h3 class="product-name">${list[i].getSale_title() }</h3>
-												</div>
-												<div class="product-btns"></div>
+							<c:if test="${!empty list[0]}">
+									<c:forEach var="i" begin="0" end="${list.size() -1 }">
+										<div class="product_list_wrap">
+											<div class="product">
+												<a href="product_detail.do?no=${list[i].getSale_no() }&user=${User_no}">
+													<div class="product-img">
+														<img style="height: 300px"
+															src="./images/${list[i].getSale_file1() }" alt="" />
+														<hr style="margin: 0px" width="black" color="100%">
+													</div>
+													<div class="product-body" style="height: 86px;">
+														<h3 class="product-name">${list[i].getSale_title() }</h3>
+													</div>
+													<div class="product-btns"></div>
+											</div>
+											</a>
 										</div>
-										</a>
-									</div>
-								</c:forEach>
+									</c:forEach>
 							</c:if>
 							
 							<c:if test="${empty list[0]}">
