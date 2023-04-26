@@ -124,7 +124,7 @@
                         </div>
                      </div>
                      
-                     <!— Product main img —>
+                     <!-- Product main img -->
                      <div class="col-md-5">
                         <div id="product-main-img">
                         
