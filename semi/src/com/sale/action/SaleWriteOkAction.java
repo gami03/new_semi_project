@@ -44,7 +44,8 @@ public class SaleWriteOkAction implements Action {
 		String upload_title = multi.getParameter(board_name+"_title").trim();
 		String upload_summernote = multi.getParameter("editordata").trim();
 		String upload_category = multi.getParameter(board_name+"_category");
-		
+		int sale_price = Integer.parseInt( multi.getParameter("sale_price"));
+		int sale_end_price = Integer.parseInt( multi.getParameter("sale_end_price"));
 		
 		// 자료실 폼 페이지에서 type="file" 속성으로 되어 있으면 getfile() 메서드로 받아 주어야 함.
 		File upload_file1 = multi.getFile("upload_file1");
@@ -60,7 +61,8 @@ public class SaleWriteOkAction implements Action {
 		SaleDAO dao = SaleDAO.getInstance();
 		
 		String user_nickname = dao.getUserNickname(user_id);
-		
+		String auction_duration = multi.getParameter("auction_duration");
+
 		int user_no = dao.getUserNo(user_id);
 		
 		if(upload_file1 != null) { // 첨부파일이 존재하는 경우.
@@ -253,8 +255,11 @@ public class SaleWriteOkAction implements Action {
 		dto.setSale_title(upload_title);
 		dto.setUpload_category(upload_category);
 		dto.setSale_content(upload_summernote);
+		dto.setSale_price(sale_price);
+		dto.setSale_end_price(sale_end_price);
 		dto.setSale_name(board_name);
-		
+		dto.setAuction_period(Integer.parseInt(auction_duration));
+
 		System.out.println("dto1"+dto);
 		
 		int check = dao.saleBoardWrite(dto);

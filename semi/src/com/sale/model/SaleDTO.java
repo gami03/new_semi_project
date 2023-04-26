@@ -19,13 +19,11 @@ public class SaleDTO {
 	private int sale_hit;
 	private int sale_check;
 	private String bookmark;
-	
 	private String user_nickname;
 	private String upload_title;
 	private String upload_category;
 	private String upload_summernote;
 	private String sale_name;
-	
 	private int auction_period;
 	
 	private String sale_ok;

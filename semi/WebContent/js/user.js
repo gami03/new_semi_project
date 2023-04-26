@@ -29,7 +29,7 @@ data: { paramId: userId },
 dataType: 'json',
 success: function(data) {
 if (data == -1) { // DB에 아이디가 존재.중복된 경우.
-let warningTxt = '<font color="pink"> 중복된 아이디입니다.'
+let warningTxt = '<font color="orage"> 중복된 아이디입니다.'
 $("#idcheck").text(""); // span 태그 영역 초기화
 $("#idcheck").show();
 $("#idcheck").append(warningTxt);
@@ -61,7 +61,7 @@ alert('데이터 통신 오류');
 			      dataType: 'json',
 			      success: function(data) {
 			        if (data == -1) { // DB에 아이디가 존재.중복된 경우.
-			          let warningTxt = '<font color="orange"> 중복된 닉네임 입니다.'
+			          let warningTxt = '<font color="orage"> 중복된 닉네임 입니다.'
 			          $("#nickcheck").text(""); // span 태그 영역 초기화
 			          $("#nickcheck").show();
 			          $("#nickcheck").append(warningTxt);
@@ -109,7 +109,7 @@ alert('데이터 통신 오류');
 
 			      $.post('phonecheck.do', { paramPhone: userPhone }, function(data) {
 			        if (data == -1) { // DB에 아이디가 존재.중복된 경우.
-			          let warningTxt = '<font color="pink"> 중복된 연락처입니다.'
+			          let warningTxt = '<font color="orage"> 중복된 연락처입니다.'
 			          $("#phonecheck").text(""); // span 태그 영역 초기화
 			          $("#phonecheck").show();
 			          $("#phonecheck").append(warningTxt);
@@ -142,7 +142,7 @@ function checkDuplicateEmail() {
 
   $.post('emailcheck.do', { paramEmail: userEmail }, function(data) {
     if (data == -1) { // DB에 이메일이 존재. 중복된 경우.
-      let warningTxt = '<font color="pink"> 중복된 이메일입니다.'
+      let warningTxt = '<font color="orage"> 중복된 이메일입니다.'
       $("#emailcheck").text(""); // span 태그 영역 초기화
       $("#emailcheck").show();
       $("#emailcheck").append(warningTxt);

@@ -759,6 +759,8 @@ public class BoardDAO {
 			openConn();
 			
 			sql = "select * from (select row_number() over(order by board_no desc) rnum, b.*, u.user_nickname from board b join user_table u on b.user_no = u.user_no";
+			
+
 					
 			if(field.equals("title")) {
 				sql += " where board_title like ? and board_name = ?) Y";

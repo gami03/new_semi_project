@@ -2,25 +2,25 @@
 <%@page import="com.sale.model.UpperDTO"%>
 <%@page import="com.sale.model.SaleDTO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+   pageEncoding="UTF-8"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
 <%
-	SaleDAO dao = SaleDAO.getInstance();
+   SaleDAO dao = SaleDAO.getInstance();
 %>
 
 <!DOCTYPE HTML>
 <!--
-	Phantom by HTML5 UP
-	html5up.net | @ajlkn
-	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+   Phantom by HTML5 UP
+   html5up.net | @ajlkn
+   Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
 -->
 <html>
 <head>
 <title>Phantom by HTML5 UP</title>
 
-
+<link rel="stylesheet" href="./assets/css/fontawesome-all.min.css">
 
 <link rel="stylesheet" href="./assets/css/product_view.css">
 <link rel="stylesheet" href="./assets/css/product.css" />
@@ -31,10 +31,10 @@
 
 
  <!-- <link
-	href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css"
-	rel="stylesheet"
-	integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65"
-	crossorigin="anonymous"> -->
+   href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css"
+   rel="stylesheet"
+   integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65"
+   crossorigin="anonymous"> -->
  
 <link type="text/css" rel="stylesheet" href="./assets/css/slick.css" />
 <link type="text/css" rel="stylesheet"
@@ -88,12 +88,12 @@
 
 
 </head>
-	<c:set var="count" value="${Count }"/>
-	<c:set var="dto" value="${Dto }"/>
-	<c:set var="upper" value="${Upper }"/>
-	<c:set var="udto" value="${Udto }"/>
-	<c:set var="user_money" value="${User_money }"/>
-	<c:set var="date_check" value="${Date_check }"/>
+   <c:set var="count" value="${Count }"/>
+   <c:set var="dto" value="${Dto }"/>
+   <c:set var="upper" value="${Upper }"/>
+   <c:set var="udto" value="${Udto }"/>
+   <c:set var="user_money" value="${User_money }"/>
+   <c:set var="date_check" value="${Date_check }"/>
 
 <jsp:include page="/include/main_top.jsp" />
 		<!-- Main -->
@@ -110,72 +110,69 @@
 							<!-- /Product preview imgs -->
 							<div class="col-2">
 								<div id="product-imgs">
-									<div style="height: 156.6px" class="product-preview">
-										<img style="height: 156.6px" src="./images/${dto.getSale_file1() }" alt="">
-									</div>
+                           <div style="height: 123.89px" class="product-preview">
+                              <img style="height: 123.89px" src="<%=request.getContextPath() %>/./board/sale_board/sale_board_file_upload${dto.getSale_file1() }" alt="">
+                           </div>
 
-									<div style="height: 156.6px" class="product-preview">
-										<img style="height: 156.6px" src="./images/${dto.getSale_file2() }" alt="">
-									</div>
+                           <div style="height: 123.89px" class="product-preview">
+                              <img style="height: 123.89px" src="<%=request.getContextPath() %>/./board/sale_board/sale_board_file_upload${dto.getSale_file2() }" alt="">
+                           </div>
 
-									<div style="height: 156.6px" class="product-preview">
-										<img style="height: 156.6px" src="./images/${dto.getSale_file3() }" alt="">
-									</div>
-									
-									<div style="height: 156.6px" class="product-preview">
-										<img style="height: 156.6px" src="./images/${dto.getSale_file4() }" alt="">
-									</div>
-								</div>
-							</div>
-							<!-- Product main img -->
-							<div class="col-md-5">
-								<div id="product-main-img">
-								
-									<div style="height: 470px" class="product-preview">
-										<img style="height: 100%" src="./images/${dto.getSale_file1() }" alt="">
-									</div>
+                           <div style="height: 370px" class="product-preview">
+                              <img style="height: 370px" src="<%=request.getContextPath() %>/./board/sale_board/sale_board_file_upload${dto.getSale_file4() }" alt="">
+                           </div>
+                        </div>
+                     </div>
+                     
+                     <!— Product main img —>
+                     <div class="col-md-5">
+                        <div id="product-main-img">
+                        
+                           <div style="height: 370px" class="product-preview">
+                              <img style="height: 370px" src="<%=request.getContextPath() %>/./board/sale_board/sale_board_file_upload${dto.getSale_file1() }" alt="">
+                           </div>
 
-									<div style="height: 470px" class="product-preview">
-										<img style="height: 100%" src="./images/${dto.getSale_file2() }" alt="">
-									</div>
+                           <div style="height: 370px" class="product-preview">
+                              <img style="height: 370px" src="<%=request.getContextPath() %>/./board/sale_board/sale_board_file_upload${dto.getSale_file2() }" alt="">
+                           </div>
 
-									<div style="height: 470px" class="product-preview">
-										<img style="height: 100%" src="./images/${dto.getSale_file3() }" alt="">
-									</div>
+                           <div style="height: 370px" class="product-preview">
+                              <img style="height: 370px" src="<%=request.getContextPath() %>/./board/sale_board/sale_board_file_upload${dto.getSale_file3() }" alt="">
+                           </div>
 
-									<div style="height: 470px" class="product-preview">
-										<img style="height: 100%" src="./images/${dto.getSale_file4() }" alt="">
-									</div>
-								</div>
-							</div>
-							
-							<div class="col-md-5">
-								
-								<div>
-									<table border="1" cellspacing="0" class="list" style="margin: 0 0 16px 0; width: 443px;">
-										<tr>
-											<td style="padding: 0.6em 0.75em;" align="center" colspan="2"><h5>${dto.getSale_title() }<br>현재 경매 정보</h5></td>
-										</tr>
-										
-										<tr>
-											<th bgcolor="#F6F6F6">남은 시간 </td>
-											<td><span class="countdown"></span></td>
-										</tr>
-										
-										<tr>
-											<th bgcolor="#F6F6F6">시작 입찰가</th>
-											<td bgcolor="white"><fmt:formatNumber> ${dto.getSale_price() }</fmt:formatNumber>원</td>
-										</tr>
-									</table>
-									
-									
-									
-								</div>
-								
-								<!-- Button trigger modal -->
-								<button type="button" id="modalbutton" class="button" data-toggle="modal" data-target="#myModal" style="width: 443px; font-size: 20px;">
-								  입찰 / 구매
-								</button>
+                           <div style="height: 370px" class="product-preview">
+                              <img style="height: 370px" src="<%=request.getContextPath() %>/./board/sale_board/sale_board_file_upload${dto.getSale_file4() }" alt="">
+                           </div>
+                        </div>
+                     </div>
+
+                     <div class="col-md-5">
+                        
+                        <div>
+                           <table border="1" cellspacing="0" class="list" style="margin: 0 0 16px 0; width: 443px;">
+                              <tr>
+                                 <td align="center" colspan="2"><h5>${dto.getSale_title() }의 현재 경매 정보</h5></td>
+                              </tr>
+                              
+                              <tr>
+                                 <th bgcolor="#F6F6F6">남은 시간 </td>
+                                 <td><span class="countdown"></span></td>
+                              </tr>
+                              
+                              <tr>
+                                 <th bgcolor="#F6F6F6">시작 입찰가</th>
+                                 <td bgcolor="white"><fmt:formatNumber> ${dto.getSale_price() }</fmt:formatNumber>원</td>
+                              </tr>
+                           </table>
+                           
+                           
+                           
+                        </div>
+                        
+                        <!-- Button trigger modal -->
+                        <button type="button" id="modalbutton" class="button" data-toggle="modal" data-target="#myModal" style="width: 443px; font-size: 20px;">
+                          입찰 / 구매
+                        </button>
 								
 								<%-- 관심상품에 추가 안되있을 때 --%>
 								<c:if test="${wishlistCheck == 0 }">
@@ -376,89 +373,89 @@
 </script>
 
 
-	<!-- Modal -->
-	<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" style="z-index: 3000">
-	  <div class="modal-dialog modal-lg">
-	    <div class="modal-content" style="width: 1029px;">
-	      <div class="modal-header">
-	        <h5 class="modal-title" id="exampleModalLabel">경매 상세페이지</h5>
-	      </div>
-	      <div class="modal-body">
-	       <%-- 경매내역 상세 정보 및 입찰 관련 코드 --%>
-	       <div class="container-fluid">
-	       	  <div class="row">
-	       	  	<div class="col-md-5 ml-auto">
-	       	  		<table border="1" cellspacing="0" style="background: #F6F6F6">
-	       	  			<tr>
-	       	  				<td> <img style="width: 100%; height: 100%" src="./images/${dto.getSale_file1() }" alt=""></td>
-	       	  			</tr>
-	       	  			
-	       	  		</table>
-	       	  		
-	       	  		<table>
-	       	  			
-	       	  			<tr>
-	       	  				<td style="text-align: center" colspan="2">판매자 정보</td>
-	       	  			</tr>
-	       	  			
-	       	  			<tr>
-	       	  				<th bgcolor="#F6F6F6">판매자 이름</th>
-	       	  				<td bgcolor="white">${udto.getUser_nickname() }</td>
-	       	  			</tr>
-	       	  			
-	       	  			<tr>
-	       	  				<th bgcolor="#F6F6F6">판매자 이메일</th>
-	       	  				<td bgcolor="white">${udto.getUser_email() }</td>
-	       	  			</tr>
-	       	  			
-	       	  			<tr>
-	       	  				<th bgcolor="#F6F6F6">경매품 판매 이력</th>
-	       	  				<td bgcolor="white">${count }</td>
-	       	  			</tr>
-	       	  			
-	       	  		</table>
-	       	  	</div>
-	       	  	<div class="col-md-7 ml">
-	       	  		<h5>경매 정보</h5>
-	       	  		<table border="1" cellspacing="0" class="list_modal"> 
-	       	  			<tr>
-	       	  				<th bgcolor="#F6F6F6">남은 시간</th>
-	       	  				<td bgcolor="white"><span id="countdown"></span></td>
-	       	  			</tr>
-	       	  			
-	       	  			<tr>
-	       	  				<th bgcolor="#F6F6F6">시작 입찰가</th>
-	       	  				<td bgcolor="white"><fmt:formatNumber> ${dto.getSale_price() }</fmt:formatNumber>원</td>
-	       	  			</tr>
-	       	  			
-	       	  		</table>
-	       	  		
-	       	  		<br>
-	       	  		
-	       	  		<h5>경매 입찰 정보</h5>
-	       	  		<form method="post" action="<%=request.getContextPath() %>/input_product_detail.do?id=${user_id}">
-	       	  			<input type="hidden" name="product_no" value="${param.no }" >
-		       	  		<table border="1" cellspacing="0" class="list_modal_detail">
-		       	  				
-		       	  		</table>
-	       	  		</form>
-	       	  	</div>
-	       	  </div>
-	       </div>
-	      </div>
-	      <div class="modal-footer">
-	        <button type="button" class="button" data-dismiss="modal">Close</button>
-	      </div>
-	    </div>
-	  </div>
-	</div>
-	<%-- Modal end --%>
+   <!-- Modal -->
+   <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" style="z-index: 3000">
+     <div class="modal-dialog modal-lg">
+       <div class="modal-content" style="width: 1029px;">
+         <div class="modal-header">
+           <h5 class="modal-title" id="exampleModalLabel">경매 상세페이지</h5>
+         </div>
+         <div class="modal-body">
+          <%-- 경매내역 상세 정보 및 입찰 관련 코드 --%>
+          <div class="container-fluid">
+               <div class="row">
+                  <div class="col-md-5 ml-auto">
+                     <table border="1" cellspacing="0" style="background: #F6F6F6">
+                        <tr>
+                           <td> <img style="width: 100%; height: 100%" src="<%=request.getContextPath() %>/./board/sale_board/sale_board_file_upload${dto.getSale_file1() }" alt=""></td>
+                        </tr>
+                        
+                     </table>
+                     
+                     <table>
+                        
+                        <tr>
+                           <td style="text-align: center" colspan="2">판매자 정보</td>
+                        </tr>
+                        
+                        <tr>
+                           <th bgcolor="#F6F6F6">판매자 이름</th>
+                           <td bgcolor="white">${udto.getUser_nickname() }</td>
+                        </tr>
+                        
+                        <tr>
+                           <th bgcolor="#F6F6F6">판매자 이메일</th>
+                           <td bgcolor="white">${udto.getUser_email() }</td>
+                        </tr>
+                        
+                        <tr>
+                           <th bgcolor="#F6F6F6">경매품 판매 이력</th>
+                           <td bgcolor="white">${count }</td>
+                        </tr>
+                        
+                     </table>
+                  </div>
+                  <div class="col-md-7 ml">
+                     <h5>경매 정보</h5>
+                     <table border="1" cellspacing="0" class="list_modal"> 
+                        <tr>
+                           <th bgcolor="#F6F6F6">남은 시간</th>
+                           <td bgcolor="white"><span id="countdown"></span></td>
+                        </tr>
+                        
+                        <tr>
+                           <th bgcolor="#F6F6F6">시작 입찰가</th>
+                           <td bgcolor="white"><fmt:formatNumber> ${dto.getSale_price() }</fmt:formatNumber>원</td>
+                        </tr>
+                        
+                     </table>
+                     
+                     <br>
+                     
+                     <h5>경매 입찰 정보</h5>
+                     <form method="post" action="<%=request.getContextPath() %>/input_product_detail.do?id=${user_id}">
+                        <input type="hidden" name="product_no" value="${param.no }" >
+                        <table border="1" cellspacing="0" class="list_modal_detail">
+                              
+                        </table>
+                     </form>
+                  </div>
+               </div>
+          </div>
+         </div>
+         <div class="modal-footer">
+           <button type="button" class="button" data-dismiss="modal">Close</button>
+         </div>
+       </div>
+     </div>
+   </div>
+   <%-- Modal end --%>
 
 
-		
+      
 
 <script type="text/javascript" src= "./js/sale_upper.js"></script>
-		
+      
 <script>
 
     // 서버에서 전달된 남은 시간 정보를 가져옵니다.
@@ -469,7 +466,7 @@
     
     
     $(function(){
-        
+    	//saleDeatailHit();
     	
     	
         // 페이지 로드 시에 남은 시간 표시를 시작합니다.
@@ -528,5 +525,5 @@
 </script>
 
 
-		
+      
 <jsp:include page="/include/main_bottom.jsp"/>

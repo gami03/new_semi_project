@@ -10,6 +10,8 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.board.model.BoardDTO;
+
 
 public class SaleDAO {
 
@@ -1043,7 +1045,7 @@ public class SaleDAO {
 					count = rs.getInt(1) + 1;
 				}
 				
-				sql = "insert into product values(?, ?, default, ?, ?, ?, ?, now(),now(), default, ?, ?, ?, ?, default, ?)";
+				sql = "insert into product values(?, ?, default, ?, ?, ?, ?, now(),DATE_ADD(now(), INTERVAL ? DAY), default, ?, ?, ?, ?, default, ?,'N',?)";
 				
 				pstmt = con.prepareStatement(sql);
 				
@@ -1053,29 +1055,20 @@ public class SaleDAO {
 				pstmt.setString(4, dto.getSale_content());
 				pstmt.setInt(5, dto.getSale_price());
 				pstmt.setInt(6, dto.getSale_end_price());
-				pstmt.setString(7, dto.getSale_file1());
-				pstmt.setString(8, dto.getSale_file2());
-				pstmt.setString(9, dto.getSale_file3());
-				pstmt.setString(10, dto.getSale_file4());
-				pstmt.setString(11, dto.getUpload_category());
-				
-				System.out.println("syso userno" +count);
-				System.out.println("syso userno" +dto.getUser_no());
-				System.out.println("syso userno" +dto.getSale_title());
-				System.out.println("syso userno" +dto.getSale_content());
-				System.out.println("syso userno" +dto.getSale_price());
-				System.out.println("syso userno" +dto.getSale_end_price());
-				System.out.println("syso userno" +dto.getSale_file1());
-				System.out.println("syso userno" +dto.getSale_file2());
-				System.out.println("syso userno" +dto.getSale_file3());
-				System.out.println("syso userno" +dto.getSale_file4());
-				System.out.println("syso userno" +dto.getUpload_category());
+				pstmt.setInt(7, dto.getAuction_period());
+				pstmt.setString(8, dto.getSale_file1());
+				pstmt.setString(9, dto.getSale_file2());
+				pstmt.setString(10, dto.getSale_file3());
+				pstmt.setString(11, dto.getSale_file4());
+				pstmt.setString(12, dto.getUpload_category());
+				pstmt.setInt(13, dto.getAuction_period());
+
 				
 				result = pstmt.executeUpdate();
 				
 				System.out.println("dao result"+result);
 				
-				sql = "insert upper into values(?, ?, 0)";
+				sql = "insert into upper values(?, ?, 0)";
 				
 				pstmt = con.prepareStatement(sql);
 				
@@ -2010,6 +2003,177 @@ public class SaleDAO {
 	}
 	   return list;
    } // saleAprroveList() 메서드 end
+   
+   
+   // 경매게시물을 클릭할 시 조회수가 1씩 증가하는 메서드
+   public void inputHit(int product_no) {
+	   
+	   try {
+		    openConn();
+			   
+			sql = "update product set sale_hit = sale_hit + 1 where sale_no = ?";
+			   
+			pstmt = con.prepareStatement(sql);
+			
+			pstmt.setInt(1, product_no);
+		
+			pstmt.executeUpdate();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			closeConn(rs, pstmt, con);
+		}
+	   
+	   
+   }	// inputHit() 메서드 end
+   
+   
+   // 경매품의 전체 리스트를 불러오는 메서드
+   public List<SaleDTO> getSaleList(int page, int rowsize) {
+		
+		List<SaleDTO> list = new ArrayList<SaleDTO>();
+	
+		// 해당 페이지에서 시작 번호
+		int startNo = (page * rowsize) - (rowsize - 1);
+		
+		// 해당 페이지에서 끝 번호
+		int endNo = (page * rowsize);
+		
+		try {
+			openConn();
+			
+			sql = "SELECT * FROM ( SELECT row_number() OVER (ORDER BY sale_no DESC) AS rnum, b.* FROM semi.product b) AS subquery WHERE rnum BETWEEN ? AND ?";
+			
+			
+			pstmt = con.prepareStatement(sql);
+			
+			pstmt.setInt(1, startNo);
+			pstmt.setInt(2, endNo);
+			
+			rs = pstmt.executeQuery();
+			
+			while(rs.next()) {
+				
+				SaleDTO dto = new SaleDTO();
+				
+				
+				dto.setSale_no(rs.getInt("sale_no"));
+				dto.setUser_no(rs.getInt("user_no"));
+				dto.setSale_title(rs.getString("sale_title"));
+				dto.setSale_content(rs.getString("sale_content"));
+				dto.setSale_price(rs.getInt("sale_price"));
+				dto.setSale_end_price(rs.getInt("end_price"));
+				dto.setSale_file1(rs.getString("sale_file1"));
+				dto.setSale_file2(rs.getString("sale_file2"));
+				dto.setSale_file3(rs.getString("sale_file3"));
+				dto.setSale_file4(rs.getString("sale_file4"));
+				dto.setSale_date(rs.getString("sale_date"));
+				dto.setEnd_date(rs.getString("end_date"));
+				dto.setSale_hit(rs.getInt("sale_hit"));
+				
+				list.add(dto);
+				
+				
+			}
+			
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			closeConn(rs, pstmt, con);
+		}
+		
+		return list;
+	} // getBoardList() 메서드 end
+	
+   
+   public List<SaleDTO> getSearchList(String field,String keyword,int page, int rowsize){
+	   
+    List<SaleDTO> searchList = new ArrayList<SaleDTO>();
+    
+    
+	// 해당 페이지에서 시작 번호
+	int startNo = (page * rowsize) - (rowsize - 1);
+	
+	// 해당 페이지에서 끝 번호
+	int endNo = (page * rowsize);
+	try {
+	   
+	   openConn();
+	   
+	   sql = "select * from (select row_number() over(order by sale_no desc) rnum, s.*, u.user_nickname from semi.product s join semi.user_table u on s.user_no = u.user_no";
+
+	   if(field.equals("title")) {
+	       sql += " where sale_title like ?) Y";
+	   }else if(field.equals("cont")) {
+	       sql += " where sale_content like ?) Y";
+	   }else if(field.equals("title_cont")) {
+	       sql += " where sale_title LIKE ? OR sale_content LIKE ?) Y";
+	   }else if(field.equals("writer")){
+	       sql += " where user_nickname LIKE ?) Y";
+	   }else {
+	       sql += " where sale_category LIKE ?) Y";
+	   }
+
+	   sql += " where rnum >= ? and rnum <= ?;";
+
+
+		
+		pstmt = con.prepareStatement(sql);
+		
+		if(field.equals("title_cont")) {
+			pstmt.setString(1, '%'+keyword+'%');
+			pstmt.setString(2, '%'+keyword+'%');
+			pstmt.setInt(3, startNo);
+			pstmt.setInt(4, endNo);
+		}else {
+			pstmt.setString(1, '%'+keyword+'%');
+			pstmt.setInt(2, startNo);
+			pstmt.setInt(3, endNo);
+		}
+		
+		rs = pstmt.executeQuery();
+		
+		while(rs.next()) {
+
+			SaleDTO dto = new SaleDTO();
+			
+			
+			dto.setSale_no(rs.getInt("sale_no"));
+			dto.setUser_no(rs.getInt("user_no"));
+			dto.setSale_title(rs.getString("sale_title"));
+			dto.setSale_content(rs.getString("sale_content"));
+			dto.setSale_price(rs.getInt("sale_price"));
+			dto.setSale_end_price(rs.getInt("end_price"));
+			dto.setSale_file1(rs.getString("sale_file1"));
+			dto.setSale_file2(rs.getString("sale_file2"));
+			dto.setSale_file3(rs.getString("sale_file3"));
+			dto.setSale_file4(rs.getString("sale_file4"));
+			dto.setSale_date(rs.getString("sale_date"));
+			dto.setEnd_date(rs.getString("end_date"));
+			dto.setSale_hit(rs.getInt("sale_hit"));
+			
+			searchList.add(dto);
+			
+		}
+	   
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			closeConn(rs, pstmt, con);
+		}
+	
+		return searchList;
+	
+   }
+   
+   
+   
+   
+   
    
    
 }
