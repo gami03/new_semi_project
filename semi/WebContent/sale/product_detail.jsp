@@ -110,38 +110,42 @@
 							<!-- /Product preview imgs -->
 							<div class="col-2">
 								<div id="product-imgs">
-                           <div style="height: 123.89px" class="product-preview">
-                              <img style="height: 123.89px" src="<%=request.getContextPath() %>/./board/sale_board/sale_board_file_upload${dto.getSale_file1() }" alt="">
-                           </div>
-
-                           <div style="height: 123.89px" class="product-preview">
-                              <img style="height: 123.89px" src="<%=request.getContextPath() %>/./board/sale_board/sale_board_file_upload${dto.getSale_file2() }" alt="">
-                           </div>
-
-                           <div style="height: 370px" class="product-preview">
-                              <img style="height: 370px" src="<%=request.getContextPath() %>/./board/sale_board/sale_board_file_upload${dto.getSale_file4() }" alt="">
-                           </div>
-                        </div>
-                     </div>
+		                          	<div style="height: 156.6px" class="product-preview">
+		                             	<img style="height: 156.6px" src="<%=request.getContextPath() %>/./board/sale_board/sale_board_file_upload${dto.getSale_file1() }" alt="">
+		                          	</div>
+		
+		                          	<div style="height: 156.6px" class="product-preview">
+		                             	<img style="height: 156.6px" src="<%=request.getContextPath() %>/./board/sale_board/sale_board_file_upload${dto.getSale_file2() }" alt="">
+		                          	</div>
+		                          
+		                          	<div style="height: 156.6px" class="product-preview">
+										<img style="height: 156.6px" src="<%=request.getContextPath() %>/./board/sale_board/sale_board_file_upload${dto.getSale_file3() }" alt="">									
+								  	</div>
+								  	
+								  	<div style="height: 156.6px" class="product-preview">
+									  	<img style="height: 156.6px" src="<%=request.getContextPath() %>/./board/sale_board/sale_board_file_upload${dto.getSale_file4() }" alt="">									
+								  	</div>
+                        		</div>
+                     		</div>
                      
                      <!— Product main img —>
                      <div class="col-md-5">
                         <div id="product-main-img">
                         
-                           <div style="height: 370px" class="product-preview">
-                              <img style="height: 370px" src="<%=request.getContextPath() %>/./board/sale_board/sale_board_file_upload${dto.getSale_file1() }" alt="">
+                           <div style="height: 470px" class="product-preview">
+                              <img style="height: 470px" src="<%=request.getContextPath() %>/./board/sale_board/sale_board_file_upload${dto.getSale_file1() }" alt="">
                            </div>
 
-                           <div style="height: 370px" class="product-preview">
-                              <img style="height: 370px" src="<%=request.getContextPath() %>/./board/sale_board/sale_board_file_upload${dto.getSale_file2() }" alt="">
+                           <div style="height: 470px" class="product-preview">
+                              <img style="height: 470px" src="<%=request.getContextPath() %>/./board/sale_board/sale_board_file_upload${dto.getSale_file2() }" alt="">
                            </div>
 
-                           <div style="height: 370px" class="product-preview">
-                              <img style="height: 370px" src="<%=request.getContextPath() %>/./board/sale_board/sale_board_file_upload${dto.getSale_file3() }" alt="">
+                           <div style="height: 470px" class="product-preview">
+                              <img style="height: 470px" src="<%=request.getContextPath() %>/./board/sale_board/sale_board_file_upload${dto.getSale_file3() }" alt="">
                            </div>
 
-                           <div style="height: 370px" class="product-preview">
-                              <img style="height: 370px" src="<%=request.getContextPath() %>/./board/sale_board/sale_board_file_upload${dto.getSale_file4() }" alt="">
+                           <div style="height: 470px" class="product-preview">
+                              <img style="height: 470px" src="<%=request.getContextPath() %>/./board/sale_board/sale_board_file_upload${dto.getSale_file4() }" alt="">
                            </div>
                         </div>
                      </div>
