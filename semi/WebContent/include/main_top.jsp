@@ -95,6 +95,23 @@
 		font-family: 'LINESeedKR-Bd';
 		font-size: 15px;
 	}
+	
+	input.submit_btn.btn-primary:hover {
+	  background-color: white;
+	}
+	
+	input.btn.btn-primary:hover {
+		background-color: white;
+	}
+	
+	.btn-primary:focus {
+		background-color: white;
+		color: #585858;
+		border-color: #585858;
+	    box-shadow: 0 0 0 2px #585858;
+	    height: 47px;
+	}
+	
 
 </style>
 
@@ -136,8 +153,8 @@
 								<input class="submit_btn btn-primary" type="button" value="회원가입" data-toggle="modal" data-target="#signupModal">
 								<br>
 						     <div style="margin-top: 12px;">
-	           					 <a href="#" data-toggle="modal" data-target="#findIdModal" data-dismiss="modal" style="font-family: 'LINESeedKR-Bd';">아이디 찾기</a> / 
-								 <a href="#" data-toggle="modal" data-target="#findPwdModal" data-dismiss="modal" style="font-family: 'LINESeedKR-Bd';">비밀번호 재설정</a>
+	           					 <a href="#" data-toggle="modal" data-target="#findIdModal" data-dismiss="modal" style="font-family: 'LINESeedKR-Bd'; font-size: 18px;">아이디 찾기</a> / 
+								 <a href="#" data-toggle="modal" data-target="#findPwdModal" data-dismiss="modal" style="font-family: 'LINESeedKR-Bd'; font-size: 18px;">비밀번호 재설정</a>
 							 </div>
 							</div>
 						</div>
@@ -152,7 +169,7 @@
 	<div class="modal fade" id="signupModal" tabindex="-1" aria-labelledby="signupModalLabel" aria-hidden="true" style="z-index: 4000;">
 	
 	  <div class="modal-dialog">
-	    <div class="modal-content">
+	    <div class="modal-content" style="width: 600px;">
 	      <div class="modal-header">
 	        <h5 class="modal-title" id="signupModalLabel">회원가입</h5>
 	        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -173,16 +190,16 @@
           </div>
           <div class="form-group">
             <label for="confirm_password">비밀번호 확인</label>
-            <input type="password" class="form-control" id="confirm_password" name="confirm_password" placeholder="비밀번호 재입력" >
+            <input type="password" class="form-control" id="confirm_password" name="confirm_password" placeholder="비밀번호를 똑같이 입력해주세요." >
             <span id="confirm_pwdcheck"></span>
           </div>
           <div class="form-group">
             <label for="name">이름</label>
-            <input type="text" class="form-control" id="user_name" name="user_name">
+            <input type="text" class="form-control" id="user_name" name="user_name" placeholder="이름을 입력해주세요.">
           </div>
           <div class="form-group">
             <label for="nickname">닉네임</label>
-            <input type="text" class="form-control" id="user_nickname" name="user_nickname">
+            <input type="text" class="form-control" id="user_nickname" name="user_nickname" placeholder="닉네임을 입력해주세요.">
              <span id="nickcheck"></span>
           </div>
           <div class="form-group">
@@ -197,15 +214,15 @@
           
           
           <div class="form-group">
-           <label for="user_addr">주소</label><br>
-			<input type="text" class="user_addr" id="sample4_postcode" name="postcode" placeholder="우편번호">
-			<input type="button"class="user_addr" onclick="sample4_execDaumPostcode()" value="우편번호 찾기"><br>
+           <label for="user_addr">주소</label>
+			<input type="text" class="user_addr" id="sample4_postcode" name="postcode" placeholder="우편번호" style="font-size: 16px; ">
+			<input type="button"class="user_addr" onclick="sample4_execDaumPostcode()" value="우편번호 찾기" style="font-size: 0.9em; letter-spacing: 2px; margin-top: 10px;"><br>
 			
-			<input type="text" class="user_addr" id="sample4_roadAddress" name="road_address" placeholder="도로명주소">
-			<input type="text" class="user_addr" id="sample4_jibunAddress" name="jibun_address" placeholder="지번주소">
+			<input type="text" class="user_addr" id="sample4_roadAddress" name="road_address" placeholder="도로명주소" style="font-size: 0.9em;">
+			<input type="text" class="user_addr" id="sample4_jibunAddress" name="jibun_address" placeholder="지번주소" style="font-size: 0.9em;">
 			<span id="guide" style="color:#999;display:none"></span>
-			<input type="text" class="user_addr" id="sample4_detailAddress" name="detail_address" placeholder="상세주소">
-			<input type="text" class="user_addr" id="sample4_extraAddress" name="extra_address" placeholder="참고항목">
+			<input type="text" class="user_addr" id="sample4_detailAddress" name="detail_address" placeholder="상세주소" style="font-size: 0.9em;">
+			<input type="text" class="user_addr" id="sample4_extraAddress" name="extra_address" placeholder="참고항목" style="font-size: 0.9em;">
 					
 			<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 			<script>
@@ -253,7 +270,7 @@
 			
           
           
-          <div class="form-group">
+          <div class="form-group" style="margin-top: 20px;">
             <label for="user_email">이메일</label>
             <input type="email" class="form-control" id="user_email" name="user_email" placeholder="example@example.com">
             <span id="emailcheck"></span>
@@ -293,7 +310,7 @@
 								class="form-control" id="id_find_email" name="id_find_email"
 								required>
 						</div>
-						<button style="background: white; border: none;" type="button" id="find_id_btn" class="btn btn-primary"
+						<button style="background: white; border: none; color: #6c757d;" type="button" id="find_id_btn" class="btn btn-primary"
 							data-toggle="modal" data-target="#IdModal" data-dismiss="modal">아이디 찾기</button>
 					
 				</div>
@@ -348,9 +365,7 @@
 						</div>
 					</div>
 					<div class="modal-footer">
-						<button type="button" class="btn btn-secondary"
-							data-dismiss="modal" style="border: none; background-color: white;">닫기</button>
-						<button type="button" style="border: none; background-color: white;" class="btn btn-primary" id="reset_pwd_btn">비밀번호
+						<button type="button" style="border: none; background-color: white; color: #6c757d;" class="btn btn-primary" id="reset_pwd_btn">비밀번호
 							재발급</button>
 					</div>
 				</form>
@@ -541,7 +556,6 @@
 	        data: {},
 	        datatype: "json",
 	        success: function(response) {
-	            console.log("실시간 인기검색어 top10 >>>"+response);
 	            var $searchCardList = $("<ol>").addClass("search_card_ranking").css("padding-left", "5px");
 	
 	            $.each(response.searchList, function(index, item) {

@@ -11,16 +11,18 @@ import com.action.ActionForward;
 import com.sale.model.SaleDAO;
 import com.sale.model.SaleDTO;
 
-public class SaleIndexListAction implements Action {
+public class SaleSearchAction implements Action {
 
 	@Override
 	public ActionForward excute(HttpServletRequest request, HttpServletResponse response) throws IOException {
+		
+		String field = request.getParameter("field").trim();
+		String keyword = request.getParameter("keyword").trim();
 		
 		SaleDAO dao = SaleDAO.getInstance();
 		
 		// indexList의 갯수를 넘겨주는 메서드.
 		int count = dao.getindexListnumber();
-		
 		
 		// 한 페이지당 보여질 게시물의 수
 		int rowsize = 12;
@@ -77,7 +79,7 @@ public class SaleIndexListAction implements Action {
 		// 자유게시판으로 모인 게시글에 번호를 순차적으로 매겨서 보여주기 위함.
 		totalEndNo = totalRecord - ((page-1) * rowsize);
 		
-		List<SaleDTO> index = dao.getSaleList(page, rowsize);
+		List<SaleDTO> index = dao.getSearchList(field, keyword, page, rowsize);
 		
 		// 지금까지 페이징 처리 시 작업했던 모든 데이터들을 view page로 이동을 시키자.
 		request.setAttribute("page", page);
@@ -103,7 +105,6 @@ public class SaleIndexListAction implements Action {
 		forward.setPath("sale/sale_search_list.jsp");
 		
 		return forward;
+		
 	}
-
-
 }

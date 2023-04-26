@@ -15,11 +15,9 @@ $(function() {
 			},
 			dataType: "json",
 			success: function(response) {
-				console.log("인기상품 가져오기 >>>"+response.productList);
 				
 				// each() 함수를 사용하여 productList를 반복하면서 product_item 생성
 				$.each(response.productList, function(index, product) {
-					console.log(product.sale_no);
 				  var productItem = '<div class="product_item">\
 				                      <a class="item_inner" href=\"product_detail.do?no='+product.sale_no+'&user='+user_no+'">\
 				                        <div class="thumb_box">\
@@ -60,5 +58,4 @@ $(function() {
 	hitProductList();
 	
 });
-
 

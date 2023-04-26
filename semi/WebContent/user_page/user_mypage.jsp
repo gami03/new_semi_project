@@ -48,14 +48,16 @@ function changePassword() {
 <body>
 
 	<jsp:include page="../include/main_top.jsp" />
+	
+	<c:set var="mypage" value="${mypage_id}" />
 <!-- Main -->
 <div id="main">
     <div class="inner">
         <header>
-            <c:set var="dto" value="${UserInfo}" />
             <h2>회원정보</h2>
         </header>
         <section>
+        	<c:set var="dto" value="${UserInfo}" />
             <div align="center">
                 <h2>${dto.getUser_nickname()} 님 회원정보 수정</h2>
                 <br>
@@ -111,11 +113,13 @@ function changePassword() {
 						</tr>
                         <tr>
 							<th>소지금</th>
-							<td><input type="text" name="user_money" value="<fmt:formatNumber value="${dto.getUser_money()}" type="number" pattern="#,###"/>원" readonly /></td>
+							<td>
+								<input type="text" name="user_money" value="<fmt:formatNumber value="${dto.getUser_money()}" type="number" pattern="#,###"/>원" readonly />
+							</td>
 						</tr>
 						<tr>
 							<th>승급 신청</th>
-							<td><button type="button" name="user_request" onclick="request_approve()">요청하기</button></td>
+							<td><button type="button" id="execute-servlet">요청하기</button></td>
 						</tr>
                     </table>
                     <div class="text-center">
@@ -128,13 +132,19 @@ function changePassword() {
             </div>
         </section>
         
+			<div class="moneyplus" style="margin-top: 80px;">
+				<h2>소지금 추가</h2>
+				<form action="<%=request.getContextPath() %>/user_money_plus.do" style="display: flex;">
+					<input type="hidden" name="user_id" value="${user_id }">
+					<input type="text" name="money" placeholder="숫자만 입력해주세요." style="width: 320px;">
+					<input type="submit" value="추가">
+				</form>
+			</div>
 
-
-
+	<hr>
 							
 				<section>
 					<c:set var="nickname" value="${user_nickname}" />
-					<c:set var="mypage" value="${mypage_id}" />
 						<h2><a href="<%=request.getContextPath() %>/user_info_detail.do?searchId=${mypage }">${nickname} 회원의 게시글 목록</a></h2>
 							<div class="table-wrapper"> 
 								<table class="alt">
@@ -202,7 +212,7 @@ function changePassword() {
 								</thead>
 								<c:set var="orderList" value="${OrderList}" />
 									<tbody>
-									<c:if test="${!empty list }">
+									<c:if test="${!empty orderlist }">
 										<c:forEach var="i" begin="0" end="${Count-1 }">
 										    <div class="col-md-4">
 										        <div class="product">
@@ -224,7 +234,7 @@ function changePassword() {
 										</c:forEach>
 									</c:if>
 								
-								<c:if test="${empty list }">
+								<c:if test="${empty orderlist }">
 									<tr>
 										<td colspan="5" align="center">
 											<h3>자유게시판 게시물 리스트가 없습니다</h3>
@@ -238,6 +248,42 @@ function changePassword() {
 				</section>
 			</div>
 		</div>
+		<br>
+		<script>
+function openAddressPopup() {
+	  var addressPopup = window.open("user_page/user_addr_modify.jsp", "주소변경", "width=500,height=500");
+	}
+
+	function setAddress(fullAddress) {
+	  document.getElementById("addr_modify").value = fullAddress;
+	}
+
+	
+$(document).ready(function() {
+    // 버튼 클릭 이벤트를 등록합니다.
+    $('#execute-servlet').on('click', function() {
+      // AJAX 요청을 보냅니다.
+      var id = "${mypage}";
+      $.ajax({
+    	contentType : "application/x-www-form-urlencoded;charset=UTF-8",
+        method: 'POST',
+        url: 'user_request.do',
+	    data: { id: id },
+	    success: function(response) {
+	      	// 요청이 성공적으로 처리되면 실행될 코드를 작성합니다.
+	    	console.log('응답:', response); // 응답 값을 콘솔에 출력합니다.
+	      	alert('요청이 성공적으로 전송되었습니다.');
+	    },
+	    error: function(error) {
+	      // 요청이 실패한 경우 실행될 코드를 작성합니다.
+	      console.error(error);
+	    }
+      });
+    });
+ });
+
+</script>
+		
 		<jsp:include page="../include/main_bottom.jsp" />
 	</body>
 </html>

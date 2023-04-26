@@ -1,6 +1,3 @@
-/**
- * 
- */
 package com.user.action;
 
 import java.io.IOException;
@@ -17,17 +14,15 @@ import com.sale.model.SaleDAO;
 import com.sale.model.SaleDTO;
 import com.user.model.UserDAO;
 
-/**
- * @author zjql7
- *
- */
-public class MyBoardListDetailAction implements Action {
+public class SaleApproveListAction implements Action {
 
 	@Override
 	public ActionForward excute(HttpServletRequest request, HttpServletResponse response) throws IOException {
-
-		String search_id = request.getParameter("searchId").trim();        
-        
+		
+		String user_id = request.getParameter("user_id").trim();
+		
+		SaleDAO dao = SaleDAO.getInstance();
+		
 		// 페이징 처리 작업 진행
 		
 		// 한 페이지당 보여질 게시물의 수
@@ -64,21 +59,17 @@ public class MyBoardListDetailAction implements Action {
 		int endNo = (page * rowsize);
 		
 		// 해당 페이지에서 시작 블럭
-		int startBlock = 
-				(((page - 1) / block) * block) + 1;
+		int startBlock = (((page - 1) / block) * block) + 1;
 		
 		// 해당 페이지에서 마지막 블럭
-		int endBlock = 
-				(((page - 1) / block) * block) + block;
+		int endBlock = (((page - 1) / block) * block) + block;
 		
 		UserDAO user_dao = UserDAO.getInstance();
 		
-		int search_no = user_dao.getUserNo(search_id);
+		int user_no = user_dao.getUserNo(user_id);
 		
-        BoardDAO dao = BoardDAO.getInstance();
-        
         // 전체 게시물의 수를 확인하는 메서드 호출
-     	totalRecord = dao.getBoardCount(search_no);
+     	totalRecord = dao.getApproveCount();
      	
  		// 전체 게시물의 수를 한 페이지당 보여질 게시물의 수로 나누어 주어야 함.
  		// 이 과정을 거치면 전체 페이지 수가 나오게 됨.
@@ -89,21 +80,13 @@ public class MyBoardListDetailAction implements Action {
  			endBlock = allPage;
  		}
  		
- 		// 자유게시판 총 게시물 수의 끝번호
- 		// 자유게시판으로 모인 게시글에 번호를 순차적으로 매겨서 보여주기 위함.
+ 		//  총 게시물 수의 끝번호
+ 		// 게시판으로 모인 게시글에 번호를 순차적으로 매겨서 보여주기 위함.
  		totalEndNo = totalRecord - ((page-1) * rowsize);
         
-        List<BoardDTO> list = dao.getUserBoardPage(search_id, page, rowsize);
+        List<SaleDTO> list = dao.getApproveBoardPage(page, rowsize);
         
-        // 마이페이지 유저의 닉네임 가져오기.
-     	String user_nickname = dao.getUserNickname(search_id);
-     	
-        request.setAttribute("BoardList", list);
-        request.setAttribute("mypage_id", search_id);
-        request.setAttribute("user_nickname", user_nickname);
-        
-     // 지금까지 페이징 처리 시 작업했던 모든 데이터들을 view page로 이동을 시키자.
-		request.setAttribute("page", page);
+        request.setAttribute("page", page);
 		request.setAttribute("rowsize", rowsize);
 		request.setAttribute("block", block);
 		request.setAttribute("totalRecord", totalRecord);
@@ -112,25 +95,13 @@ public class MyBoardListDetailAction implements Action {
 		request.setAttribute("endNo", endNo);
 		request.setAttribute("startBlock", startBlock);
 		request.setAttribute("endBlock", endBlock);
+		request.setAttribute("List", list);
 		
-		// 자유게시판에 모인 게시글을 번호를 순차적으로 매겨서 보여주기 위한 데이터를 view page로 이동.
-		request.setAttribute("totalEndNo", totalEndNo);
- 		
- 		System.out.println("page: " + page);
- 		System.out.println("rowsize: " + rowsize);
- 		System.out.println("block: "+block);
- 		System.out.println("totalRecord: "+totalRecord);
- 		System.out.println("allPage: "+allPage);
- 		System.out.println("startNo: "+startNo);
- 		System.out.println("endNo: "+endNo);
- 		System.out.println("startBlock: "+startBlock);
- 		System.out.println("endBlock: "+endBlock);
- 		
 		ActionForward forward = new ActionForward();
 		
 		forward.setRedirect(false);
 		
-		forward.setPath("user_page/user_mypage_all.jsp");
+		forward.setPath("user_page/approveOk_all.jsp");
 		
 		return forward;
 
