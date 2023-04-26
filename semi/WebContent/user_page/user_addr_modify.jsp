@@ -5,19 +5,7 @@
 <head>
 <meta charset="UTF-8">
  <title>주소 입력</title>
-    <style>
-        .user_addr {
-            display: block;
-            margin-bottom: 10px;
-        }
-        .addr-container {
-            width: 100%;
-            text-align: center;
-        }
-        .button-container {
-            display: inline-block;
-        }
-    </style>
+    <link rel="stylesheet" href="../assets/css/main.css" />
     <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 			<script>
 			function sample4_execDaumPostcode() {
@@ -91,19 +79,21 @@
 	<div align="center">
 		<h3>주소 변경</h3>
 	
-	</div>
-<div class="addr-container" width="400">
-        <input type="text" class="user_addr" id="sample4_postcode" name="postcode" placeholder="우편번호">
-        <button class="user_addr" onclick="sample4_execDaumPostcode()">우편번호 찾기</button>
+	<div class="addr-container" width="400">
+    <input type="text" class="user_addr" id="sample4_postcode" name="postcode" placeholder="우편번호">
+    <button class="user_addr" onclick="sample4_execDaumPostcode()">우편번호 찾기</button>
+    <div style="display: flex; flex-direction: row;">
         <input type="text" class="user_addr" id="sample4_roadAddress" name="road_address" placeholder="도로명주소">
         <input type="text" class="user_addr" id="sample4_jibunAddress" name="jibun_address" placeholder="지번주소">
-        <span id="guide" style="color:#999;display:none"></span>
-        <input type="text" class="user_addr" id="sample4_detailAddress" name="detail_address" placeholder="상세주소" required>
-        <input type="text" class="user_addr" id="sample4_extraAddress" name="extra_address" placeholder="참고항목">
-        <div class="button-container">
-            <button onclick="submitAddress()">주소 변경 등록</button>
-        </div>
     </div>
+    <span id="guide" style="color:#999;display:none"></span>
+    <input type="text" class="user_addr" id="sample4_detailAddress" name="detail_address" placeholder="상세주소" required>
+    <input type="text" class="user_addr" id="sample4_extraAddress" name="extra_address" placeholder="참고항목">
+    <div class="button-container">
+        <button onclick="submitAddress()">주소 변경 등록</button>
+    </div>
+</div>
+
 
 
 </body>

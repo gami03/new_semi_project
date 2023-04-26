@@ -962,5 +962,56 @@ public class UserDAO {
 
 		   return result;
 		 }
+	  
+	   public int modifyUserPassword(String id, String cpwd, String npwd) {
+		  
+		   
+		   int result=0;
+		   
+		   try {
+		        openConn();
+
+		        // 현재 비밀번호 확인
+		        sql = "select user_pwd from user_table where user_id = ?";
+		        pstmt = con.prepareStatement(sql);
+		        pstmt.setString(1, id);
+		        System.out.println("dao id" + id);
+		        System.out.println("dao cpwd" + cpwd);
+		        System.out.println("dao npwd" + npwd);
+		        rs = pstmt.executeQuery();
+
+		        if (rs.next()) {
+		            String nowPwd = rs.getString("user_pwd");//db에 있는 현재 비밀번호
+		            
+		            System.out.println("nowpwd"+nowPwd);
+		            
+		            // 현재 비밀번호가 일치하면
+		            if (nowPwd.equals(cpwd)) {//db에 있는 현재 비밀번호와 비밀번호 변경창에서 입력한 번호의 비교
+		                // 비밀번호 변경
+		                sql = "update semi.user_table set user_pwd = ? where user_id = ?";
+		                pstmt = con.prepareStatement(sql);
+		                pstmt.setString(1, npwd);
+		                pstmt.setString(2, id);
+		                
+		                
+		                
+		                result = pstmt.executeUpdate();
+		                
+		                System.out.println("dadsa>>>" +result);
+		            } else {
+		                // 현재 비밀번호가 일치하지 않음
+		                result = -1;
+		            }
+		        }
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			closeConn(rs, pstmt, con);
+		}
+		   return result;
+		   
+		   
+	   }
 
 }

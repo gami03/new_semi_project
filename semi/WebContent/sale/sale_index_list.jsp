@@ -84,7 +84,7 @@
 											<a href="product_detail.do?no=${dto[i].getSale_no() }&user=${User_no}">
 												<div class="product-img">
 													<img style="height: 300px"
-														src="./images/${dto[i].getSale_file1() }" alt="" />
+														src="<%=request.getContextPath() %>/./board/sale_board/sale_board_file_upload${dto[i].getSale_file1() }" alt="" />
 													<hr style="margin: 0px" width="black" color="100%">
 													<div class="product-label">
 														<span class="sale">-30%</span>
