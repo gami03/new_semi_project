@@ -11,6 +11,8 @@
 	<link rel="stylesheet" href="../assets/css/main.css" />
 </head>
 <body>
+
+ <form action="<%=request.getContextPath() %>/password_modify.do" method="post" id="passwordForm" name="m">
     <table>
   <tr>
     <td colspan="2" align="center"><h2>비밀번호 변경</h2></td>
@@ -41,6 +43,6 @@
     </td>
   </tr>
 </table>
-
+</form>
 </body>
 </html>
