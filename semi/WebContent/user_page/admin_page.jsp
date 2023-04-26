@@ -263,7 +263,7 @@ function submitModal(userNo) {
 														<tr>
 															<td>${salelist[i].getUpload_category() }</td>
 															<td>${salelist[i].getUser_nickname() }</td>
-															<td>${salelist[i].getSale_title() }</td>
+															<td><a href="product_detail.do?no=${salelist[i].getSale_no() }&user=${User_no}">${salelist[i].getSale_title() }</a></td>
 															<td>${salelist[i].getSale_date().substring(0, 19) }</td>
 															<td>${salelist[i].getAuction_period() }</td>
 															<td style="text-align: center;"><button onclick="location.href='sale_product_approve_ok.do?sale_no=${salelist[i].getSale_no() }&user_id=${user_id }'">승인</button></td>
@@ -276,7 +276,7 @@ function submitModal(userNo) {
 														<tr>
 															<td>${dto.getUpload_category() }</td>
 															<td>${dto.getUser_nickname() }</td>
-															<td>${dto.getSale_title() }</td>
+															<td><a href="product_detail.do?no=${dto.getSale_no() }&user=${User_no}">${dto.getSale_title() }</a></td>
 															<td>${dto.getSale_date().substring(0, 19) }</td>
 															<td>${dto.getAuction_period() }</td>
 															<td style="text-align: center;"><button onclick="location.href='sale_product_approve_ok.do?sale_no=${dto.getSale_no() }&user_id=${user_id }'">승인</button></td>
