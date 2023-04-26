@@ -132,9 +132,16 @@ function changePassword() {
             </div>
         </section>
         
+			<div class="moneyplus" style="margin-top: 80px;">
+				<h2>소지금 추가</h2>
+				<form action="<%=request.getContextPath() %>/user_money_plus.do" style="display: flex;">
+					<input type="hidden" name="user_id" value="${user_id }">
+					<input type="text" name="money" placeholder="숫자만 입력해주세요." style="width: 320px;">
+					<input type="submit" value="추가">
+				</form>
+			</div>
 
-
-
+	<hr>
 							
 				<section>
 					<c:set var="nickname" value="${user_nickname}" />
@@ -187,16 +194,6 @@ function changePassword() {
 							<div align="right">
 								<h4><a href="<%=request.getContextPath() %>/user_board_all.do?id=${user_id }&searchId=${mypage }">작성 글 목록 전체보기 >> </a></h4>										</div>
 							
-						</div>
-						
-						<hr>
-						
-						<div class="moneyplus">
-							<h2>소지금 추가</h2>
-							<form action="<%=request.getContextPath() %>/user_money_plus.do?user_id=${user_id }">
-								<input type="text" value="money" name="money">
-								<input type="submit" value="추가">
-							</form>
 						</div>
 						
 						<hr>

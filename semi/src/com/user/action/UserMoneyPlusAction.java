@@ -20,14 +20,16 @@ public class UserMoneyPlusAction implements Action {
 		
 		UserDAO dao = UserDAO.getInstance();
 		
-		dao.userMoneyPlus(money);
+		int user_no = dao.getUserNo(user_id);
+		
+		dao.userMoneyPlus(user_no, money);
 		
 		PrintWriter out = response.getWriter();
 		
 		out.println("<script>");
 		out.println("alert('소지금이 추가 되었습니다.')");
-		out.println("location.href='location.href='user_mypage.do?id="+user_id+"&searchId="+user_id+"'");
-		out.println("<script>");
+		out.println("location.href='user_mypage.do?id="+user_id+"&searchId="+user_id+"'");
+		out.println("</script>");
 		
 		return null;
 	}
