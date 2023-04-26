@@ -5,47 +5,7 @@
   });
 
  // 아이디 중복 + 유효성 검사
-$('#user_id').on('keyup', function() {
-checkDuplicateId();
-});
 
-function checkDuplicateId() {
-var userId = $('#user_id').val();
-var regex = /^[a-z0-9]{4,16}$/;
-
-if (!regex.test($.trim($("#user_id").val()))) {
-let warningTxt = '<font color="black">영문 소문자 + 숫자로 이루어진 4자 이상 16자 이하로 입력해주세요.'
-$("#idcheck").text(""); // span 태그 영역 초기화
-$("#idcheck").show();
-$("#idcheck").append(warningTxt);
-return false;
-}
-
-if (userId) {
-$.ajax({
-type: 'POST',
-url: 'idcheck.do',
-data: { paramId: userId },
-dataType: 'json',
-success: function(data) {
-if (data == -1) { // DB에 아이디가 존재.중복된 경우.
-let warningTxt = '<font color="pink"> 중복된 아이디입니다.'
-$("#idcheck").text(""); // span 태그 영역 초기화
-$("#idcheck").show();
-$("#idcheck").append(warningTxt);
-} else { //DB에 아이디값이 없음.사용가능.
-let warningTxt = '<font color="green">사용 가능한 아이디입니다.'
-$("#idcheck").text(""); // span 태그 영역 초기화
-$("#idcheck").show();
-$("#idcheck").append(warningTxt);
-}
-},
-error: function(data) {
-alert('데이터 통신 오류');
-}
-});
-}
-}
   
   // 닉네임 중복+유효성검사
   $('#modify_nickname').on('keyup', function() {
@@ -78,11 +38,11 @@ alert('데이터 통신 오류');
 			});	
 			}		  
 	// 연락처 중복+유효성검사
-   $('#modify__phone').on('keyup', function() {
+   $('#modify_phone').on('keyup', function() {
     checkDuplicatePhone();
   });
     function checkDuplicatePhone() {
-			    var userPhone = $('#modify__phone').val();
+			    var userPhone = $('#modify_phone').val();
 			    if (userPhone) {
 				  if (!/^[0-9]*$/.test(userPhone)) {
 				      let warningTxt = '<font color="black">숫자만 입력 가능합니다.'
@@ -92,14 +52,14 @@ alert('데이터 통신 오류');
 				      return false;
 				    }
 				
-			      if ($.trim($("#user_phone").val()).length < 10) {
+			      if ($.trim($("#modify_phone").val()).length < 10) {
 			        let warningTxt = '<font color="black">연락처는 10~11자 입니다.'
 			        $("#modify_phonecheck").text(""); // span 태그 영역 초기화
 			        $("#modify_phonecheck").show();
 			        $("#modify_phonecheck").append(warningTxt);
 			        return false;
 			      }
-			      if ($.trim($("#user_phone").val()).length > 11) {
+			      if ($.trim($("#modify_phone").val()).length > 11) {
 			        let warningTxt = '<font color="black">연락처는 10~11자 입니다.'
 			        $("#modify_phonecheck").text(""); // span 태그 영역 초기화
 			        $("#modify_phonecheck").show();
@@ -124,12 +84,12 @@ alert('데이터 통신 오류');
 			  }
 			
 //이메일 중복+유효성검사  
-$('#modify__email').on('keyup', function() {
+$('#modify_email').on('keyup', function() {
   checkDuplicateEmail();
 });
 
 function checkDuplicateEmail() {
-  var userEmail = $('#modify__email').val();
+  var userEmail = $('#modify_email').val();
   if (userEmail) {
     if (!/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(userEmail)) {
       let warningTxt = '<font color="black"> - 유효한 이메일 형식으로 입력해주세요.'
@@ -191,7 +151,7 @@ $(function () {
     });
   });
 });
-
+/*
 function openAddressPopup() {
   // 팝업 창을 띄우는 코드 작성
   new daum.Postcode({
@@ -228,6 +188,48 @@ function openAddressPopup() {
       document.getElementById('sample_extraAddress').value = extraAddr;
     }
   }).open();
+}
+*/
+$(document).ready(function() {
+  $("#new_password").on("keyup", function() {
+    newcheckPassword();
+  });
+
+  $("#confirm_new_password").on("keyup", function() {
+    newcheckConfirmPassword();
+  });
+});
+
+function newcheckPassword() {
+  var password = $('#new_password').val();
+  var regex = /^(?=.*[a-zA-Z])(?=.*\d)[a-zA-Z\d]{8,16}$/;
+  
+  if (!regex.test(password)) {
+    let warningTxt = '<font color="black">영문+숫자 조합 8-16자`.'
+    $("#newpwdcheck").text(""); 
+    $("#newpwdcheck").show();
+    $("#newpwdcheck").append(warningTxt);
+    return false;
+  } else {
+    $("#newpwdcheck").hide();
+    return true;
+  }
+}
+
+function newcheckConfirmPassword() {
+  var password = $('#new_password').val();
+  var confirm_password = $('#confirm_new_password').val();
+
+  if (password != confirm_password) {
+    let warningTxt = '<font color="red">비밀번호가 일치하지 않습니다.'
+    $("#newconfirm_pwdcheck").text(""); 
+    $("#newconfirm_pwdcheck").show();
+    $("#newconfirm_pwdcheck").append(warningTxt);
+    return false;
+  } else {
+    $("#newconfirm_pwdcheck").hide();
+    return true;
+  }
 }
 
 
