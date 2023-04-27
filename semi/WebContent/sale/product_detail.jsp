@@ -155,7 +155,7 @@
                         <div>
                            <table border="1" cellspacing="0" class="list" style="margin: 0 0 16px 0; width: 443px;">
                               <tr>
-                                 <td align="center" colspan="2"><h5>${dto.getSale_title() }의 현재 경매 정보</h5></td>
+                                 <td align="center" colspan="2"><h5>${dto.getSale_title() }<br>현재 경매 정보</h5></td>
                               </tr>
                               
                               <tr>
