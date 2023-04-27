@@ -1,6 +1,7 @@
 package com.user.action;
 
 import java.io.IOException;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -16,18 +17,13 @@ public class UserInfoDetailAction implements Action{
 	public ActionForward excute(HttpServletRequest request, HttpServletResponse response) throws IOException {
 		
 		request.setCharacterEncoding("UTF-8");
-        response.setContentType("text/html; charset=UTF-8");
-
-        String search_id = request.getParameter("searchId").trim();
-        
+        response.setContentType("text/html; charset=UTF-8");        
     
         UserDAO dao = UserDAO.getInstance();
-                        
- 		int user_no = dao.getUserNo(search_id);
+                         		
+        List<UserDTO> list = dao.getUserInfoDetail();
  		
-        UserDTO dto = dao.getUserInfoDetail(user_no);
- 		
-        request.setAttribute("UserInfo", dto);
+        request.setAttribute("UserInfo", list);
         
 	
 		ActionForward forward = new ActionForward();

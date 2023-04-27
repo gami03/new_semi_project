@@ -96,7 +96,7 @@ function approveKeyword(approve) {
 																        </button>
 																      </div>
 																      <div class="modal-body">
-																      	<p>${dto.getUser_nickname() } 회원으로 부터의 등업 요청</p>
+																      	<p>${dto.getUser_nickname() } 회원의 등급 변경</p>
 																	
 																		<table border="1" cellspacing="0" width="400">
 																			<tr>
@@ -107,16 +107,17 @@ function approveKeyword(approve) {
 																			<tr>
 																				<th>등급</th>
 																				<td>
-																				<select name="selectedValue" id="userApprove-select${dto.getUser_no() }">
-																				 <option value="">등급을 변경해주세요</option>
-																				 <option value="0" ${Integer.parseInt(dto.getUser_approve()) == 0 ? 'selected' : ''}>일반 회원</option>
-																				 <option value="1" ${Integer.parseInt(dto.getUser_approve()) == 1 ? 'selected' : ''}>판매자 신청 회원</option>
-																				 <option value="2" ${Integer.parseInt(dto.getUser_approve()) == 2 ? 'selected' : ''}>판매자</option>
-																				 <option value="3" ${Integer.parseInt(dto.getUser_approve()) == 3 ? 'selected' : ''}>관리자</option>
-																				 <option value="5" ${Integer.parseInt(dto.getUser_approve()) == 5 ? 'selected' : ''}>차단 회원</option>
-																				</select>
-																				<input type="hidden" name="selectedValue" id="approveValue${dto.getUser_no() }" value="">
-																																								
+																				<c:if test="${Integer.parseInt(dto.getUser_approve()) != 4 }">
+																					<select name="selectedValue" id="userApprove-select${dto.getUser_no() }">
+																						<option value="">등급을 변경해주세요</option>
+																						<option value="0" ${Integer.parseInt(dto.getUser_approve()) == 0 ? 'selected' : ''}>일반 회원</option>
+																						<option value="1" ${Integer.parseInt(dto.getUser_approve()) == 1 ? 'selected' : ''}>판매자 신청 회원</option>
+																						<option value="2" ${Integer.parseInt(dto.getUser_approve()) == 2 ? 'selected' : ''}>판매자</option>
+																						<option value="3" ${Integer.parseInt(dto.getUser_approve()) == 3 ? 'selected' : ''}>관리자</option>
+																						<option value="5" ${Integer.parseInt(dto.getUser_approve()) == 5 ? 'selected' : ''}>차단 회원</option>
+																					</select>
+																					<input type="hidden" name="selectedValue" id="approveValue${dto.getUser_no() }" value="">
+																				</c:if>																				
 																					
 																					<c:if test="${Integer.parseInt(dto.getUser_approve()) == 4 }">
 																						<select name="userApprove" id="userApprove-select">
@@ -157,6 +158,9 @@ function approveKeyword(approve) {
 											</c:if>
 											</tbody>
 										</table>
+											<div align="right">
+												<h4 style="font-family: 'LINESeedKR-Bd';"><a href="<%=request.getContextPath() %>/user_info_detail.do">판매자 신청 회원 목록 >></a></h4>
+											</div>
 										<br>
 										<%-- 페이징 처리 영역 --%>
 										<div style="margin-left: 30%;">
