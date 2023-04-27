@@ -7,6 +7,17 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<style type="text/css">
+
+	p.wish_product_content + p {
+		font-weight: normal;
+	    color: #222;
+	    font-size: 18px;
+	    font-family: 'LINESeedKR-Bd';
+	    margin-top: 6px;
+	}
+
+</style>
 </head>
 <body>
 

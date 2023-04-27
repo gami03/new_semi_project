@@ -19,7 +19,9 @@ $(function() {
                 dataType: "json",
                 success: function(response) {
                     $.each(response.recentList, function(index, recentItem) {
-                        var button = $('<button>').addClass('recent_search_text').text(recentItem.keyword);
+                        var button = $('<button>').addClass('recent_search_text').text(recentItem.keyword).click(function() {
+                    																	location.href = 'sale_search.do?keyword=' + recentItem.keyword;
+                });
                         $('<div>').addClass('recent_search_item').append(button).appendTo(recentSearchInner);
                     });
                 },
