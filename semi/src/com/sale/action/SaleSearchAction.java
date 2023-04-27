@@ -16,6 +16,14 @@ public class SaleSearchAction implements Action {
 	@Override
 	public ActionForward excute(HttpServletRequest request, HttpServletResponse response) throws IOException {
 		
+		String user_noStr = request.getParameter("user_no");
+		
+		int user_no = 0;
+        
+        if (user_noStr != null && !user_noStr.trim().isEmpty()) {
+            user_no = Integer.parseInt(user_noStr.trim());
+        }
+		
 		String field = request.getParameter("field");
 		
 		if (field != null && !field.trim().isEmpty()) {
@@ -103,6 +111,9 @@ public class SaleSearchAction implements Action {
 		}else {
 			// 전체 게시물의 수를 확인하는 메서드 호출
 			totalRecord = dao.getSearchProductallCount(keyword);
+			
+			dao.insertkeyword(user_no, keyword);
+			
 			
 			// 전체 게시물의 수를 한 페이지당 보여질 게시물의 수로 나누어 주어야 함.
 			// 이 과정을 거치면 전체 페이지 수가 나오게 됨.

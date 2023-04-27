@@ -447,7 +447,7 @@
 						<h2 align="center" style="color: black; font-family: 'LINESeedKR-Bd';">Search</h2>
 						<%-- 검색 폼 페이지 처리 영역 --%>
 						<div align="left">
-						   <form method="post" action="<%=request.getContextPath() %>/sale_search.do">
+						   <form method="post" action="<%=request.getContextPath() %>/sale_search.do?user_no=${User_no }">
 						   	 <div class="search" style="border-bottom: 3px solid black;">
 						   		<input type="text" name="keyword" placeholder="브랜드명, 모델명, 모델번호 등" class="input_search" style="width:90%; color: black; border-bottom: none; text-decoration: none; font-family: 'LINESeedKR-Bd';" onfocus="this.style.boxShadow = 'none';">
 						   		<button class="btn_search_delete" type="reset">

@@ -10,8 +10,6 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.board.model.BoardDTO;
-
 
 public class SaleDAO {
 
@@ -105,7 +103,7 @@ public class SaleDAO {
 		try {
 			openConn();
 			
-			sql = "select count(*) from product";
+			sql = "select count(*) from product where sale_ok = 'Y'";
 			
 			pstmt = con.prepareStatement(sql);
 			
@@ -2310,7 +2308,29 @@ public class SaleDAO {
 	   
    } // getSearchProductallCount() 메서드 end
    
-   
+   // 전체 검색어 검색할 때 최근 검색어 테이블에 추가하는 메서드.
+   public void insertkeyword(int user_no, String keyword) {
+	   
+	   try {
+		   openConn();
+		   
+		   sql = "insert into search values(?, ?, now())";
+		   
+		   pstmt = con.prepareStatement(sql);
+		   
+		   pstmt.setInt(1, user_no);
+		   pstmt.setString(2, keyword);
+		   
+		   pstmt.executeUpdate();
+		   
+	} catch (SQLException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	} finally {
+		closeConn(rs, pstmt, con);
+	}
+	   
+   } // insertkeyword() 메서드 end
    
    
 }
