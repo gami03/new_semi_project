@@ -14,7 +14,7 @@ var userId = $('#user_id').val();
 var regex = /^[a-z0-9]{4,16}$/;
 
 if (!regex.test($.trim($("#user_id").val()))) {
-let warningTxt = '<font color="black">영문 소문자 + 숫자로 이루어진 4자 이상 16자 이하로 입력해주세요.'
+let warningTxt = '<font color="black">영문 소문자 + 숫자 조합 4자 이상 16자 이하 아이디.'
 $("#idcheck").text(""); // span 태그 영역 초기화
 $("#idcheck").show();
 $("#idcheck").append(warningTxt);
@@ -29,7 +29,7 @@ data: { paramId: userId },
 dataType: 'json',
 success: function(data) {
 if (data == -1) { // DB에 아이디가 존재.중복된 경우.
-let warningTxt = '<font color="orage"> 중복된 아이디입니다.'
+let warningTxt = '<font color="orange"> 중복된 아이디입니다.'
 $("#idcheck").text(""); // span 태그 영역 초기화
 $("#idcheck").show();
 $("#idcheck").append(warningTxt);
@@ -61,7 +61,7 @@ alert('데이터 통신 오류');
 			      dataType: 'json',
 			      success: function(data) {
 			        if (data == -1) { // DB에 아이디가 존재.중복된 경우.
-			          let warningTxt = '<font color="orage"> 중복된 닉네임 입니다.'
+			          let warningTxt = '<font color="orange"> 중복된 닉네임 입니다.'
 			          $("#nickcheck").text(""); // span 태그 영역 초기화
 			          $("#nickcheck").show();
 			          $("#nickcheck").append(warningTxt);
@@ -93,14 +93,14 @@ alert('데이터 통신 오류');
 				    }
 				
 			      if ($.trim($("#user_phone").val()).length < 10) {
-			        let warningTxt = '<font color="black">연락처는 10~11자 입니다.'
+			        let warningTxt = '<font color="black">연락처는 10-11자 입니다.'
 			        $("#phonecheck").text(""); // span 태그 영역 초기화
 			        $("#phonecheck").show();
 			        $("#phonecheck").append(warningTxt);
 			        return false;
 			      }
 			      if ($.trim($("#user_phone").val()).length > 11) {
-			        let warningTxt = '<font color="black">연락처는 10~11자 입니다.'
+			        let warningTxt = '<font color="black">연락처는 10-11자 입니다.'
 			        $("#phonecheck").text(""); // span 태그 영역 초기화
 			        $("#phonecheck").show();
 			        $("#phonecheck").append(warningTxt);
@@ -109,7 +109,7 @@ alert('데이터 통신 오류');
 
 			      $.post('phonecheck.do', { paramPhone: userPhone }, function(data) {
 			        if (data == -1) { // DB에 아이디가 존재.중복된 경우.
-			          let warningTxt = '<font color="orage"> 중복된 연락처입니다.'
+			          let warningTxt = '<font color="orange"> 중복된 연락처입니다.'
 			          $("#phonecheck").text(""); // span 태그 영역 초기화
 			          $("#phonecheck").show();
 			          $("#phonecheck").append(warningTxt);
@@ -122,6 +122,28 @@ alert('데이터 통신 오류');
 			      });
 			    }
 			  }
+			   $('#user_birth').on('keyup', function() {
+    checkDuplicateBirth();
+  });
+    function checkDuplicateBirth() {
+			    var userBirth = $('#user_birth').val();
+			    if (userBirth) {
+				  if (!/^[0-9]*$/.test(userBirth)) {
+				      let warningTxt = '<font color="orange">숫자만 입력 가능합니다.'
+				      $("#birthcheck").text(""); // span 태그 영역 초기화
+				      $("#birthcheck").show();
+				      $("#birthcheck").append(warningTxt);
+				      return false;
+				    }
+				    if ($.trim($("#user_birth").val()).length < 9) {
+			        let warningTxt = '<font color="black">생년월일 8자리 입력해주세요.'
+			        $("#birthcheck").text(""); // span 태그 영역 초기화
+			        $("#birthcheck").show();
+			        $("#birthcheck").append(warningTxt);
+			        return false;
+			      }
+				    }
+				    }
 			
 //이메일 중복+유효성검사  
 $('#user_email').on('keyup', function() {
@@ -142,7 +164,7 @@ function checkDuplicateEmail() {
 
   $.post('emailcheck.do', { paramEmail: userEmail }, function(data) {
     if (data == -1) { // DB에 이메일이 존재. 중복된 경우.
-      let warningTxt = '<font color="orage"> 중복된 이메일입니다.'
+      let warningTxt = '<font color="orange"> 중복된 이메일입니다.'
       $("#emailcheck").text(""); // span 태그 영역 초기화
       $("#emailcheck").show();
       $("#emailcheck").append(warningTxt);
@@ -174,7 +196,7 @@ function checkPassword() {
   var regex = /^(?=.*[a-zA-Z])(?=.*\d)[a-zA-Z\d]{8,16}$/;
   
   if (!regex.test(password)) {
-    let warningTxt = '<font color="black">영문+숫자 조합으로 8자이상 16자이하 비밀번호를 입력하세요.'
+    let warningTxt = '<font color="black">영문+숫자 조합으로 8자이상 16자이하 비밀번호를 입력'
     $("#pwdcheck").text(""); 
     $("#pwdcheck").show();
     $("#pwdcheck").append(warningTxt);

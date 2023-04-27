@@ -20,7 +20,7 @@ function newcheckPassword() {
   var regex = /^(?=.*[a-zA-Z])(?=.*\d)[a-zA-Z\d]{8,16}$/;
   
   if (!regex.test(password)) {
-    let warningTxt = '<font color="black">영문+숫자 조합 8-16자.'
+    let warningTxt = '<font color="black">영문+숫자 조합 8-16자리.';
     $("#newpwdcheck").text(""); 
     $("#newpwdcheck").show();
     $("#newpwdcheck").append(warningTxt);

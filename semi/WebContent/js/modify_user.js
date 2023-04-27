@@ -69,7 +69,7 @@
 
 			      $.post('phonecheck.do', { paramPhone: userPhone }, function(data) {
 			        if (data == -1) { // DB에 아이디가 존재.중복된 경우.
-			          let warningTxt = '<font color="pink"> 중복된 연락처입니다.'
+			          let warningTxt = '<font color="orange"> 중복된 연락처입니다.'
 			          $("#modify_phonecheck").text(""); // span 태그 영역 초기화
 			          $("#modify_phonecheck").show();
 			          $("#modify_phonecheck").append(warningTxt);
@@ -102,7 +102,7 @@ function checkDuplicateEmail() {
 
   $.post('emailcheck.do', { paramEmail: userEmail }, function(data) {
     if (data == -1) { // DB에 이메일이 존재. 중복된 경우.
-      let warningTxt = '<font color="pink"> 중복된 이메일입니다.'
+      let warningTxt = '<font color="orange"> 중복된 이메일입니다.'
       $("#modify_emailcheck").text(""); // span 태그 영역 초기화
       $("#modify_emailcheck").show();
       $("#modify_emailcheck").append(warningTxt);
@@ -115,7 +115,29 @@ function checkDuplicateEmail() {
 			        }
 			      });
 			    }
-		
+	
+	   $('#modify_birth').on('keyup', function() {
+    checkDuplicateBirth();
+  });
+    function checkDuplicateBirth() {
+			    var userBirth = $('#modify_birth').val();
+			    if (userBirth) {
+				  if (!/^[0-9]*$/.test(userBirth)) {
+				      let warningTxt = '<font color="orange">숫자만 입력 가능합니다.'
+				      $("#modifybirth").text(""); // span 태그 영역 초기화
+				      $("#modifybirth").show();
+				      $("#modifybirth").append(warningTxt);
+				      return false;
+				    }
+				     if ($.trim($("#modify_birth").val()).length < 9) {
+			        let warningTxt = '<font color="black">생년월일 8자리 입력해주세요.'
+			        $("#modifybirth").text(""); // span 태그 영역 초기화
+			        $("#modifybirth").show();
+			        $("#modifybirth").append(warningTxt);
+			        return false;
+			      }
+				    }
+				    }	
 		
 	//비밀번호 유효성 검사
 		

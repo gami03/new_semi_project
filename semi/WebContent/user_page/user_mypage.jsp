@@ -105,11 +105,11 @@ function changePassword() {
 						        <button type="button" onclick="openAddressPopup()">주소변경</button>
 						    </td>
 						</tr>
-						
-						
                         <tr>
 						    <th>생일</th>
-						    <td><input type="text" name="user_birth" value="${dto.getUser_birth()}"/></td>
+						    <td><input type="text" id="modify_birth" name="modify_birth" value="${dto.getUser_birth()}" readonly/>
+						    <span id="modifybirth"></span>
+						    </td>
 						</tr>
                         <tr>
 							<th>소지금</th>
@@ -221,7 +221,6 @@ function changePassword() {
 																src="./images/${dto[i].getSale_file1() }" alt="" />
 															<hr style="margin: 0px" width="black" color="100%">
 															<div class="product-label">
-																<span class="sale">-30%</span>
 															</div>
 														</div>
 														<div class="product-body">

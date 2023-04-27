@@ -28,28 +28,36 @@ public class UserLoginAction implements Action {
         UserDAO dao = UserDAO.getInstance();
                 
         int result = dao.userCheck(user_id, user_pwd);
-        
+        int user_no = dao.getUserNo(user_id);
+        String user_nickname = dao.getUserNickname(user_no);
         PrintWriter out = response.getWriter();
 
         if (result > 0) { // 로그인 성공
-            HttpSession session = request.getSession();
-            session.setAttribute("user_id", user_id);
-            session.setAttribute("user_pwd", user_pwd);
-            
             int user_approve = dao.getUserApprove(user_id);
-            int user_no = dao.getUserNo(user_id);
-            
-            session.setAttribute("user_approve", user_approve);
-            session.setAttribute("User_no", user_no);
-            System.out.println(user_no);
-            // 세션 값 확인
-            System.out.println("세션에 저장된 user_id: " + session.getAttribute("user_id"));
-            System.out.println("세션에 저장된 user_pwd: " + session.getAttribute("user_pwd"));
+            if (user_approve == 5) { // 차단된 회원 확인
+                out.println("<script>");
+                out.println("alert('이 계정은 차단되었습니다. 관리자에게 문의하세요.');");
+                out.println("history.back();");
+                out.println("</script>");
+            } else {
+                HttpSession session = request.getSession();
+                session.setAttribute("user_id", user_id);
+                session.setAttribute("user_pwd", user_pwd);
+                session.setAttribute("user_approve", user_approve);
+                
+                session.setAttribute("User_no", user_no);
+                System.out.println(user_no);
+                
+                // 세션 값 확인
+                System.out.println("세션에 저장된 user_id: " + session.getAttribute("user_id"));
+                System.out.println("세션에 저장된 user_pwd: " + session.getAttribute("user_pwd"));
 
-            
-            out.println("<script>");
-            out.println("location.href='index.jsp'");
-            out.println("</script>");
+                out.println("<script>");
+                out.println("alert('" + user_nickname + "님 환영합니다!');");
+                out.println("location.href='index.jsp'");
+                out.println("</script>");
+            }
+
             
 
         }else if(result ==-2){

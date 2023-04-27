@@ -25,6 +25,17 @@ function submitModal(userNo) {
 	  document.getElementById("approveForm" + userNo).submit();
 	}
 
+function approveKeyword(approve) {
+	var keyword = '';
+	var fapprove = approve;
+	if(fapprove == 0){
+		keyword = "일반회원";
+	}else{
+		keyword = "그외";
+	}
+	
+	return keyword;
+}
   
 </script>
 </head>
@@ -54,7 +65,7 @@ function submitModal(userNo) {
 											</thead>
 											<tbody>
 											<c:set var="list" value="${BoardList }" />
-											<c:if test="${!empty list }">
+											<c:if test="${!empty list && list.size() >= 5}">
 												<c:forEach var="i" begin="0" end="5">
 													
 													<tr>
@@ -73,16 +84,38 @@ function submitModal(userNo) {
 														
 													</tr>
 
-											</c:forEach>
-										</c:if>
+												</c:forEach>
+											</c:if>
+											
+											<c:if test="${!empty list && list.size() < 5}">
+												<c:forEach var="i" begin="0" end="${list.size() -1}">
+													
+													<tr>
+														<td>${list[i].getBoard_name() }</td>
+														<td>${list[i].getBoard_category() }</td>
+														<td>${list[i].getBoard_title() }</td>
+														<td>${list[i].getBoard_hit() }</td>
+														
+														<c:if test="${empty list[i].getBoard_update() }">
+															<td> ${list[i].getBoard_date().substring(0, 10) }</td>
+														</c:if>
+					
+														<c:if test="${!empty list[i].getBoard_update() }">
+															<td> ${list[i].getBoard_update().substring(0, 10) }</td>
+														</c:if>
+														
+													</tr>
+
+												</c:forEach>
+											</c:if>
 										
-										<c:if test="${empty list }">
-											<tr>
-												<td colspan="5" align="center">
-													<h3>자유게시판 게시물 리스트가 없습니다</h3>
-												</td>
-											</tr>
-										</c:if>
+											<c:if test="${empty list }">
+												<tr>
+													<td colspan="5" align="center">
+														<h3>자유게시판 게시물 리스트가 없습니다</h3>
+													</td>
+												</tr>
+											</c:if>
 										</tbody>
 									</table>
 									
@@ -90,15 +123,17 @@ function submitModal(userNo) {
 										<h4 style="font-family: 'LINESeedKR-Bd';"><a href="<%=request.getContextPath() %>/user_board_all.do?id=${user_id }&searchId=${mypage }">작성 글 목록 전체보기 >> </a></h4>
 									</div>
 									
+									<br><hr><br>
+									
 								</div>
 								<h3 style="font-family: 'LINESeedKR-Bd';">회원 목록</h3>
 								<br>
-									<div class="table-wrapper"> 
+									<div class="table-wrapper" style="overflow: unset;"> 
 										<table class="alt">
 											<thead>
 												<tr>
-													<th>회원 닉네임</th>
 													<th>회원 아이디</th>
+													<th>회원 닉네임</th>
 													<th>회원명</th>
 													<th>회원 등급</th>
 													<th>회원 등급 변경</th>
@@ -112,11 +147,11 @@ function submitModal(userNo) {
 															<td>${dto.getUser_id() }</td>
 															<td>${dto.getUser_nickname() }</td>
 															<td>${dto.getUser_name() }</td>
-															<td>${dto.getUser_approve() }</td>
-															<td>
+															<td>${dto.getApprove_name()}</td>
+															<td align="center">
 																<div class="row">
 																	<a href="<%=request.getContextPath() %>/user_search_page.do?id=${user_id }&searchId=${dto.getUser_id() }&total=0">회원 글 목록</a>
-																	&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
+																	&nbsp;|&nbsp;
 																
 																<a data-toggle="modal" data-target="#approveModal${dto.getUser_no() }" data-book-id="${dto.getUser_nickname() }">등급 변경</a>
 																
@@ -151,7 +186,7 @@ function submitModal(userNo) {
 																				 <option value="0" ${Integer.parseInt(dto.getUser_approve()) == 0 ? 'selected' : ''}>일반 회원</option>
 																				 <option value="1" ${Integer.parseInt(dto.getUser_approve()) == 1 ? 'selected' : ''}>판매자 신청 회원</option>
 																				 <option value="2" ${Integer.parseInt(dto.getUser_approve()) == 2 ? 'selected' : ''}>판매자</option>
-																				 <option value="3" ${Integer.parseInt(dto.getUser_approve()) == 2 ? 'selected' : ''}>관리자</option>
+																				 <option value="3" ${Integer.parseInt(dto.getUser_approve()) == 3 ? 'selected' : ''}>관리자</option>
 																				</select>
 																				<input type="hidden" name="selectedValue" id="approveValue${dto.getUser_no() }" value="">
 																																								
@@ -195,17 +230,17 @@ function submitModal(userNo) {
 											</c:if>
 											</tbody>
 										</table>
-										
+										<br>
 										<%-- 페이징 처리 영역 --%>
 										<div style="margin-left: 30%;">
 										   <nav style ="float:left; width: 55%;">
 										      <ul class="pagination">
 											      <li class="page-item">
-											         <a class="page-link" href="user_board_all.do?id=${user_id }&searchId=${mypage }&page=1">처음</a>
+											         <a class="page-link" href="admin_page.do?id=${user_id }&page=1">처음</a>
 											      </li>
 											      <li>
 											      	<c:if test="${page > 1 }">
-											         <a class="page-link" href="user_board_all.do?id=${user_id }&searchId=${mypage }&page=${page-1 }">이전</a>
+											         <a class="page-link" href="admin_page.do?id=${user_id }&page=${page-1 }">이전</a>
 											        </c:if>
 											        <c:if test="${page <= 1 }">
 											         <a class="page-link">이전</a>
@@ -215,32 +250,35 @@ function submitModal(userNo) {
 											      <c:forEach begin="${startBlock }" end="${endBlock }" var="i">
 											      <c:if test="${ i == page }">
 											         <li class="page-item active" aria-current="page">
-											         <a class="page-link" href="user_board_all.do?id=${user_id }&searchId=${mypage }&page=${i }">${i }</a>
+											         <a class="page-link" href="admin_page.do?id=${user_id }&page=${i }">${i }</a>
 											         </li>   
 											      </c:if>
 											      
 											      <c:if test="${ i != page }">
 											         <li class="page-item">
-											         <a class="page-link" href="user_board_all.do?id=${user_id }&searchId=${mypage }&page=${i }">${i }</a>
+											         <a class="page-link" href="admin_page.do?id=${user_id }&page=${i }">${i }</a>
 											         </li>   
 											      </c:if>
 											      </c:forEach>
 											      
 											      <c:if test="${endBlock < allPage }">
 											         <li class="page-item">
-											            <a class="page-link" href="user_board_all.do?id=${user_id }&searchId=${mypage }&page=${page+1 }">다음</a>
+											            <a class="page-link" href="admin_page.do?id=${user_id }&page=${page+1 }">다음</a>
 											         </li>   
 											      </c:if>
 											      
 											      <c:if test="${page < allPage }">
 											      <li class="page-item">
-											            <a class="page-link" href="user_board_all.do?id=${user_id }&searchId=${mypage }&page=${allPage }">끝</a>
+											            <a class="page-link" href="admin_page.do?id=${user_id }&page=${allPage }">끝</a>
 											      </li>
 											      </c:if>
 										      </ul>
 										   </nav>
 										</div>
 									</div>
+									
+									<br><hr><br>
+									
 									
 									<h2 style="font-family: 'LINESeedKR-Bd';">판매 승인 요청 게시글 목록</h2>
 									<div class="table-wrapper"> 

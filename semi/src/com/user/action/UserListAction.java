@@ -130,6 +130,16 @@ public class UserListAction implements Action {
  		request.setAttribute("startBlock", startBlock);
  		request.setAttribute("endBlock", endBlock);
  		
+ 		System.out.println("page: " + page);
+ 		System.out.println("rowsize: " + rowsize);
+ 		System.out.println("block: "+block);
+ 		System.out.println("totalRecord: "+totalRecord);
+ 		System.out.println("allPage: "+allPage);
+ 		System.out.println("startNo: "+startNo);
+ 		System.out.println("endNo: "+endNo);
+ 		System.out.println("startBlock: "+startBlock);
+ 		System.out.println("endBlock: "+endBlock);
+ 		
 		ActionForward forward = new ActionForward();
 		
 		forward.setRedirect(false);

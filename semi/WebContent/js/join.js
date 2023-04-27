@@ -46,21 +46,21 @@ function login_check(){
 			return false;
 		}
 		
+		if(j.user_phone.value==""){
+			alert("연락처가 입력되지 않았습니다. ")
+			j.user_phone.focus();
+			return false;
+		}
 		if(j.user_birth.value==""){
 			alert("생년월일이 입력되지 않았습니다. ")
 			j.user_birth.focus();
 			return false;
 		}
 		
-		if(j.user_phone.value==""){
-			alert("연락처가 입력되지 않았습니다. ")
-			j.user_phone.focus();
-			return false;
-		}
 		
-		if(j.user_addr.value==""){
+		if(j.detail_address.value==""){
 			alert("주소가 입력되지 않았습니다. 상세주소 입력 확인 바랍니다. ")
-			j.user_addr.focus();
+			j.detail_address.focus();
 			return false;
 		}
 		
