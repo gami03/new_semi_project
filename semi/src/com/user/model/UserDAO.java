@@ -1038,5 +1038,58 @@ public class UserDAO {
 		   
 		   
 	   }
+	   
+	   public boolean checkUser(UserDTO user) {
+		    
+		    boolean result = false;
+
+		    try {
+		    	openConn();
+		    	
+		         sql = "SELECT * FROM user_table WHERE user_id=?";
+		        pstmt = con.prepareStatement(sql);
+		        pstmt.setString(1, user.getUser_id());
+		        rs = pstmt.executeQuery();
+
+		        if (rs.next()) {
+		            result = true;
+		        }
+		    } catch (Exception e) {
+		        e.printStackTrace();
+		    } finally {
+		    	closeConn(rs, pstmt, con);
+		    }
+
+		    return result;
+		}
+	// user_nickname 가져오는 메서드.
+	      public String getUserNickname(int user_no) {
+	         
+	         String nickname = "";
+	         
+	         try {
+	            openConn();
+	            
+	            sql = "select user_nickname from user_table where user_no = ?";
+	            
+	            pstmt = con.prepareStatement(sql);
+	            
+	            pstmt.setInt(1, user_no);
+	            
+	            rs = pstmt.executeQuery();
+	            
+	            if(rs.next()) {
+	               nickname = rs.getString(1);
+	            }
+	            
+	      } catch (SQLException e) {
+	         // TODO Auto-generated catch block
+	         e.printStackTrace();
+	      } finally {
+	         closeConn(rs, pstmt, con);
+	      }
+	         
+	         return nickname;
+	      } // getUserNickname() 메서드 end
 
 }
