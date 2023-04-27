@@ -286,7 +286,7 @@ public class UserDAO {
    		
    		openConn();
    		
-   		sql = "select * from (select row_number() over(order by user_no desc) rnum, u.*, a.approve_name from user_table u join approve a on u.user_approve = a.approve_no) Y  where rnum >= ? and rnum <= ? order by user_no desc";
+   		sql = "select * from (select row_number() over(order by user_no desc) rnum, u.*, a.approve_name from user_table u join approve a on a.approve_no = u.user_approve) Y  where rnum >= ? and rnum <= ? order by user_no desc";
    		
    		try {
   			pstmt = con.prepareStatement(sql);
@@ -453,6 +453,44 @@ public class UserDAO {
   				dto.setUser_approve(rs.getInt("user_approve"));
   				
   				list.add(dto);
+  			}
+  		} catch (SQLException e) {
+  			// TODO Auto-generated catch block
+  			e.printStackTrace();
+  		} finally {
+  			closeConn(rs, pstmt, con);
+  		}
+   		
+   		return list;
+   	}
+   	
+   	// 판매자 승인을 원하는 회원정보 전체를 가져오는 메서드
+   	public List<UserDTO> getUserInfoDetail() {	// user_no 혹은 user_id
+   		
+   		List<UserDTO> list = new ArrayList<UserDTO>();
+   		
+   		openConn();
+   		
+   		sql = "select u.*, a.approve_name from user_table u join approve a on a.approve_no = u.user_approve where u.user_approve = 1";
+   		
+   		try {
+  			pstmt = con.prepareStatement(sql);
+    			
+  			rs = pstmt.executeQuery();
+  			
+  			while(rs.next()) {
+  				UserDTO dto = new UserDTO();
+  				
+  				dto.setUser_no(rs.getInt("user_no"));
+  				dto.setUser_id(rs.getString("user_id"));
+  				dto.setUser_name(rs.getString("user_name"));
+  				dto.setUser_nickname(rs.getString("user_nickname"));
+  				dto.setUser_pwd(rs.getString("user_pwd"));
+  				dto.setUser_approve(rs.getInt("user_approve"));
+  				dto.setApprove_name(rs.getString("approve_name"));
+  				
+  				list.add(dto);
+  			
   			}
   		} catch (SQLException e) {
   			// TODO Auto-generated catch block

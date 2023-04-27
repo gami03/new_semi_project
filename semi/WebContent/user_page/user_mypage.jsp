@@ -60,76 +60,107 @@ function changePassword() {
         <section>
         	<c:set var="dto" value="${UserInfo}" />
             <div align="center">
-                <h2>${dto.getUser_nickname()} 님 회원정보 수정</h2>
-                <br>
-                <form action="update_profile.do" method="post" id="updateForm" name="m">
-                    <table class="table table-bordered" width="1000">
-                        <tr>
-                            <th>아이디</th>
-                            <td><input type="text" name="user_id" value="${dto.getUser_id()}" readonly /></td>
-                        </tr>
-					     <tr>
-							  <th>비밀번호</th>
-							  <td>
-							    <input type="hidden" id="modify_id" name="user_id" value="${dto.getUser_id()}" />
-							    <input type="password" id="modify_pwd" name="user_pwd" required />
-							    <span id="modify_pwdcheck"></span>
-							  </td>
-						</tr>
-                        <tr>
-                            <th>이름</th>
-                            <td><input type="text" name="user_name" value="${dto.getUser_name()}" readonly /></td>
-                        </tr>
-                       <tr>
-						    <th>닉네임</th>
-						    <td>
-						        <input type="text" id="modify_nickname" name="user_nickname" value="${dto.getUser_nickname()}" required/>
-						        <span id="modify_nickcheck"></span>
-						    </td>
-						</tr>
-                        <tr>
-                            <th>연락처</th>
-                            <td><input type="text" id="modify_phone" name="user_phone" value="${dto.getUser_phone()}" required/>
-                            <span id="modify_phonecheck"></span>
-                            </td>
-                        </tr>
-                        <tr>
-                            <th>이메일</th>
-                            <td><input type="email" id="modify_email" name="user_email" value="${dto.getUser_email()}" required/>
-                            <span id="modify_emailcheck"></span>
-                            </td>
-                        </tr>
-                        <tr>
-						    <th>주소</th>
-						    <td>
-						        <input type="text" id="addr_modify" name="user_addr" value="${dto.getUser_addr()}" readonly/>
-						        <button type="button" onclick="openAddressPopup()">주소변경</button>
-						    </td>
-						</tr>
-                        <tr>
-						    <th>생일</th>
-						    <td><input type="text" id="modify_birth" name="modify_birth" value="${dto.getUser_birth()}" readonly/>
-						    <span id="modifybirth"></span>
-						    </td>
-						</tr>
-                        <tr>
-							<th>소지금</th>
-							<td>
-								<input type="text" name="user_money" value="<fmt:formatNumber value="${dto.getUser_money()}" type="number" pattern="#,###"/>원" readonly />
-							</td>
-						</tr>
-						<tr>
-							<th>승급 신청</th>
-							<td><button type="button" id="execute-servlet">요청하기</button></td>
-						</tr>
-                    </table>
-                    <div class="text-center">
-                        <button type="submit" class="btn btn-light" id="userUpdateButton" >회원정보 수정</button>
-						<button type="button" onclick="openPasswordPopup()">비밀번호 변경</button>
-
-
-                    </div>
-                </form>
+               	<c:if test="${mypage == user_id}">
+               		<h2>${dto.getUser_nickname()} 님 회원정보 수정</h2>
+                	<br>
+	                <form action="update_profile.do" method="post" id="updateForm" name="m">
+	                    <table class="table table-bordered" width="1000">
+	                        <tr>
+	                            <th>아이디</th>
+	                            <td><input type="text" name="user_id" value="${dto.getUser_id()}" readonly /></td>
+	                        </tr>
+						     <tr>
+								  <th>비밀번호</th>
+								  <td>
+								    <input type="hidden" id="modify_id" name="user_id" value="${dto.getUser_id()}" />
+								    <input type="password" id="modify_pwd" name="user_pwd" required />
+								    <span id="modify_pwdcheck"></span>
+								  </td>
+							</tr>
+	                        <tr>
+	                            <th>이름</th>
+	                            <td><input type="text" name="user_name" value="${dto.getUser_name()}" readonly /></td>
+	                        </tr>
+	                       <tr>
+							    <th>닉네임</th>
+							    <td>
+							        <input type="text" id="modify_nickname" name="user_nickname" value="${dto.getUser_nickname()}" required/>
+							        <span id="modify_nickcheck"></span>
+							    </td>
+							</tr>
+	                        <tr>
+	                            <th>연락처</th>
+	                            <td><input type="text" id="modify_phone" name="user_phone" value="${dto.getUser_phone()}" required/>
+	                            <span id="modify_phonecheck"></span>
+	                            </td>
+	                        </tr>
+	                        <tr>
+	                            <th>이메일</th>
+	                            <td><input type="email" id="modify_email" name="user_email" value="${dto.getUser_email()}" required/>
+	                            <span id="modify_emailcheck"></span>
+	                            </td>
+	                        </tr>
+	                        <tr>
+							    <th>주소</th>
+							    <td>
+							        <input type="text" id="addr_modify" name="user_addr" value="${dto.getUser_addr()}" readonly/>
+							        <button type="button" onclick="openAddressPopup()">주소변경</button>
+							    </td>
+							</tr>
+	                        <tr>
+							    <th>생일</th>
+							    <td><input type="text" id="modify_birth" name="modify_birth" value="${dto.getUser_birth()}" readonly/>
+							    <span id="modifybirth"></span>
+							    </td>
+							</tr>
+	                        <tr>
+								<th>소지금</th>
+								<td>
+									<input type="text" name="user_money" value="<fmt:formatNumber value="${dto.getUser_money()}" type="number" pattern="#,###"/>원" readonly />
+								</td>
+							</tr>
+							<tr>
+								<th>승급 신청</th>
+								<td><button type="button" id="execute-servlet">요청하기</button></td>
+							</tr>
+	                    </table>
+	                    <div class="text-center">
+	                        <button type="submit" class="btn btn-light" id="userUpdateButton" >회원정보 수정</button>
+							<button type="button" onclick="openPasswordPopup()">비밀번호 변경</button>
+	
+	
+	                    </div>
+	                </form>
+               	</c:if>
+               	<c:if test="${mypage != user_id }">
+               		<h2>${dto.getUser_nickname()} 님 회원정보</h2>
+                	<br>
+               		<table class="table table-bordered" width="1000">
+	                        <tr>
+	                            <th>아이디</th>
+	                            <td><input type="text" name="user_id" value="${dto.getUser_id()}" readonly /></td>
+	                        </tr>
+	                       <tr>
+							    <th>닉네임</th>
+							    <td>
+							        <input type="text" id="modify_nickname" name="user_nickname" value="${dto.getUser_nickname()}" required/>
+							        <span id="modify_nickcheck"></span>
+							    </td>
+							</tr>
+	                        <tr>
+	                            <th>이메일</th>
+	                            <td><input type="email" id="modify_email" name="user_email" value="${dto.getUser_email()}" required/>
+	                            <span id="modify_emailcheck"></span>
+	                            </td>
+	                        </tr>
+	                        <tr>
+							    <th>생일</th>
+							    <td><input type="text" id="modify_birth" name="modify_birth" value="${dto.getUser_birth()}" readonly/>
+							    <span id="modifybirth"></span>
+							    </td>
+							</tr>
+	                    </table>
+               	</c:if>
             </div>
         </section>
         
@@ -146,7 +177,7 @@ function changePassword() {
 							
 				<section>
 					<c:set var="nickname" value="${user_nickname}" />
-						<h2><a href="<%=request.getContextPath() %>/user_info_detail.do?searchId=${mypage }">${nickname} 회원의 게시글 목록</a></h2>
+						<h2>${nickname} 회원의 게시글 목록</h2>
 							<div class="table-wrapper"> 
 								<table class="alt">
 									<thead>
