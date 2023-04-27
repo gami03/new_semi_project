@@ -35,7 +35,7 @@ public class MyBoardListAction implements Action {
  		
         request.setAttribute("UserInfo", dto);
         
-        System.out.println(user_no);
+        System.out.println("user_no !!! " + user_no);
         System.out.println(dto);
         
         BoardDAO dao = BoardDAO.getInstance();
@@ -58,10 +58,7 @@ public class MyBoardListAction implements Action {
 		// 특정 유저의 구매 상품 index list를 가져오는 메서드
 		List<SaleDTO> buyList = sdao.getUserBuyList(user_no);
 		
-		int buyCount = sdao.getUserBuyCount(user_no);
-		
 		request.setAttribute("BuyList", buyList);
-		request.setAttribute("BCount", buyCount);
         
         // 마이페이지 유저의 닉네임 가져오기.
      	String user_nickname = dao.getUserNickname(user_id);

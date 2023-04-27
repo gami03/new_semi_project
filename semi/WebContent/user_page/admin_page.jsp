@@ -75,10 +75,11 @@ function approveKeyword(approve) {
 															<td>${dto.getApprove_name()}</td>
 															<td align="center">
 																<div class="row">
-																	<a href="<%=request.getContextPath() %>/user_search_page.do?id=${user_id }&searchId=${dto.getUser_id() }&total=0">회원 글 목록</a>
+																	<a href="<%=request.getContextPath() %>/user_search_page.do?id=${user_id }&searchId=${dto.getUser_id() }"
+																				style="margin-left: 25px; margin-right: 35px;">회원 글 목록</a>
 																	&nbsp;|&nbsp;
 																
-																<a data-toggle="modal" data-target="#approveModal${dto.getUser_no() }" data-book-id="${dto.getUser_nickname() }">등급 변경</a>
+																<a data-toggle="modal" data-target="#approveModal${dto.getUser_no() }" data-book-id="${dto.getUser_nickname() }" style="margin-left: 5px;">등급 변경</a>
 																
 																<form id="approveForm${dto.getUser_no() }" method="post" action="<%=request.getContextPath() %>/user_approve.do?id=${user_id}">
 																	<input type="hidden" name="userNo" value="${dto.getUser_no()}">
@@ -112,6 +113,7 @@ function approveKeyword(approve) {
 																				 <option value="1" ${Integer.parseInt(dto.getUser_approve()) == 1 ? 'selected' : ''}>판매자 신청 회원</option>
 																				 <option value="2" ${Integer.parseInt(dto.getUser_approve()) == 2 ? 'selected' : ''}>판매자</option>
 																				 <option value="3" ${Integer.parseInt(dto.getUser_approve()) == 3 ? 'selected' : ''}>관리자</option>
+																				 <option value="5" ${Integer.parseInt(dto.getUser_approve()) == 5 ? 'selected' : ''}>차단 회원</option>
 																				</select>
 																				<input type="hidden" name="selectedValue" id="approveValue${dto.getUser_no() }" value="">
 																																								

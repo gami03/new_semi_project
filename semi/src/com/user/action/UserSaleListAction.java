@@ -29,10 +29,7 @@ public class UserSaleListAction implements Action{
 		// 특정 유저의 구매 상품 index list를 가져오는 메서드
 		List<SaleDTO> buyList = dao.getUserBuyList(user_no);
 		
-		int buyCount = dao.getUserBuyCount(user_no);
-		
 		request.setAttribute("BuyList", buyList);
-		request.setAttribute("BCount", buyCount);
 		
 		ActionForward forward = new ActionForward();
 		

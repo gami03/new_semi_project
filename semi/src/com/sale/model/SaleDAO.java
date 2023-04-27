@@ -1604,48 +1604,6 @@ public class SaleDAO {
 			
 			return list;
 		}	// getindexList() 메서드 end
-
-	
-	   // 특정 유저의 구매 상품 index list 개수를 가져오는 메서드
-	   public int getUserBuyCount(int user_no) {
-			
-			int count = 0;
-			int sale_no = 0;
-			
-			try {
-				openConn();
-				
-				sql = "select sale_no from upper where user_no = ?";
-				
-				pstmt = con.prepareStatement(sql);
-				pstmt.setInt(1, user_no);
-				
-				rs = pstmt.executeQuery();
-				
-				if(rs.next()) {
-					sale_no = rs.getInt(1);
-				}
-				
-				sql = "select * from product where sale_no = ?";
-				
-				pstmt = con.prepareStatement(sql);
-				pstmt.setInt(1, sale_no);
-				
-				rs = pstmt.executeQuery();
-				
-				if(rs.next()) {
-					count = rs.getInt(1);
-				}
-				
-			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} finally {
-				closeConn(rs, pstmt, con);
-			}
-			
-			return count;
-		}	// getindexList() 메서드 end
 	   
 	   
 	   public List<SaleDTO> getUserWishList(int user_no) {

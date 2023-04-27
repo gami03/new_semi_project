@@ -216,7 +216,6 @@ function changePassword() {
 												<div class="product-body" style="height: 86px;">
 													<h3 class="product-name">${sList[i].getSale_title() }</h3>
 												</div>
-												<div class="product-btns"></div>
 										</div>
 										</a>
 									</div>
@@ -242,7 +241,6 @@ function changePassword() {
 												<div class="product-body" style="height: 86px;">
 													<h3 class="product-name">${bList[i].getSale_title() }</h3>
 												</div>
-												<div class="product-btns"></div>
 										</div>
 										</a>
 									</div>
