@@ -200,11 +200,10 @@ function changePassword() {
 						<hr>
 						
 						<h2>판매/구매 목록</h2>
-						<div class="row">
-						<div class="col-6" style="border-right : 1px solid black">
+						<div class="row" style="justify-content: center;">
+						<div class="col-6 row" style="border-right : 1px solid black">
 						<c:set var="sList" value="${SaleList }" />
 							<c:if test="${!empty sList}">
-								<h3>판매 상품 목록</h3>
 								<c:forEach var="i" begin="0" end="${SCount-1 }">
 									<div class="product_list_wrap col-6">
 										<div class="product">
@@ -228,11 +227,10 @@ function changePassword() {
 								<h3>판매 상품 페이지가 없습니다.</h3>
 							</c:if>
 						</div>
-						<div class="col-6">
+						<div class="col-6 row">
 						<c:set var="bList" value="${BuyList }" />
 							<c:if test="${!empty bList}">
-								<h3>구매 상품 목록</h3>							
-								<c:forEach var="i" begin="0" end="${BCount-1 }">
+								<c:forEach var="i" begin="0" end="${bList.size()}">
 									<div class="product_list_wrap col-6">
 										<div class="product">
 											<a href="product_detail.do?no=${bList[i].getSale_no() }&user=${User_no}">

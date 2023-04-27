@@ -84,9 +84,10 @@ justify-content: center;
 
 	<!-- Main -->
 	<div align="center" style="margin-bottom: 150px;" id="main">
-		<hr width="50%" color="maroon">
-			<h3>경매 상품 등록 폼 페이지</h3>
-		<hr width="50%" color="maroon">
+		<div class="shop_board_banner" style="margin-bottom: 15px;">
+				<img src="./images/shop_title.png" style="width: 460px;">
+		</div>
+		<br>
 		<br>
 		
 		<c:set var="session" value="${user_id }" />

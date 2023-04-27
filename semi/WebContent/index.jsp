@@ -88,7 +88,7 @@
             <div class="product_title">
                <div style="margin-bottom: 15px;">
                   <div class="div_title">
-                     <p style="font-family: 'LINESeedKR-Bd'; font-size: 25px; margin-bottom: 0px;">Hot Action</p>
+                     <p style="font-family: 'LINESeedKR-Bd'; font-size: 25px; margin-bottom: 0px;">Hot Auction</p>
                   </div>
                   <div class="sub_title">
                      	인기 경매
@@ -136,7 +136,7 @@
             <div class="product_title">
                <div style="margin-bottom: 15px;">
                   <div class="div_title">
-                     <p style="font-family: 'LINESeedKR-Bd'; font-size: 25px; margin-bottom: 0px;">High Action</p>
+                     <p style="font-family: 'LINESeedKR-Bd'; font-size: 25px; margin-bottom: 0px;">High Auction</p>
                   </div>
                   <div class="sub_title">
                      	최고가 경매

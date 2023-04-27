@@ -1570,43 +1570,30 @@ public class SaleDAO {
 	   public List<SaleDTO> getUserBuyList(int user_no) {
 			
 			List<SaleDTO> list = new ArrayList<SaleDTO>();
-			int sale_no = 0;
 			
 			try {
-				openConn();
+				openConn();			
 				
-				sql = "select sale_no from upper where user_no = ?";
-				
-				pstmt = con.prepareStatement(sql);
-				pstmt.setInt(1, user_no);
-				
-				rs = pstmt.executeQuery();
-				
-				if(rs.next()) {
-					sale_no = rs.getInt(1);
-				}
-				
-				sql = "select * from product where sale_no = ?";
+				sql = "select s.sale_no, sale_file1, sale_title, u.user_no , successful_bid from semi.product s join semi.upper u where successful_bid = user_upper and user_upper > 0";
 				
 				pstmt = con.prepareStatement(sql);
-				pstmt.setInt(1, sale_no);
 				
 				rs = pstmt.executeQuery();
 				
 				while(rs.next()) {
-					SaleDTO dto = new SaleDTO();
+					if(rs.getInt("user_no") == user_no) {
 					
-					dto.setSale_no(rs.getInt("sale_no"));
-					dto.setUser_no(rs.getInt("user_no"));
-					dto.setSale_title(rs.getString("sale_title"));
-					dto.setSale_content(rs.getString("sale_content"));
-					dto.setSale_price(rs.getInt("sale_price"));
-					dto.setSale_file1(rs.getString("sale_file1"));
-					dto.setSale_date(rs.getString("sale_date"));
-					// 댓글 기능때문에 group으로 묶어서 하려면 컬럼 하나 더 추가해야할지도 
-					dto.setSale_hit(rs.getInt("sale_hit"));
+						SaleDTO dto = new SaleDTO();
+						
+						dto.setSale_no(rs.getInt("sale_no"));
+						dto.setUser_no(rs.getInt("user_no"));
+						dto.setSale_title(rs.getString("sale_title"));
+						dto.setSale_file1(rs.getString("sale_file1"));
+						dto.setSuccessful_bid(rs.getInt("successful_bid"));
+						
+						list.add(dto);
+					}
 					
-					list.add(dto);
 				}
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
