@@ -198,24 +198,60 @@ function changePassword() {
 						
 						<hr>
 						
-					<h2>구매/판매 목록</h2>
-								<c:set var="orderList" value="${SaleList }" />
-									<c:if test="${!empty orderlist }">
-										<c:forEach var="i" begin="0" end="${Count-1 }">
-										    <div class="col-md-4">
-										        <div class="product">
-										            <a href="product_detail.do?no=${orderList[i].getSale_no() }&user=${User_no}">
-															<img style="height: 300px"
-																src="./images/${dto[i].getSale_file1() }" alt="" />
-															<hr style="margin: 0px" width="black" color="100%">
-														<div class="product-body">
-															<h3 class="product-name">${dto[i].getSale_title() }</h3>
-														</div>
-													</a>
+						<h2>구매/판매 목록</h2>
+						<div class="row">
+						<div class="col-6" style="border-right : 1px solid black">
+						<c:set var="sList" value="${SaleList }" />
+							<c:if test="${!empty sList}">
+								<c:forEach var="i" begin="0" end="${SCount-1 }">
+									<div class="product_list_wrap col-4">
+										<div class="product">
+											<a href="product_detail.do?no=${sList[i].getSale_no() }&user=${User_no}">
+												<div class="product-img">
+													<img style="height: 300px"
+														src="<%=request.getContextPath() %>/./board/sale_board/sale_board_file_upload${sList[i].getSale_file1() }" alt="" />
+													<hr style="margin: 0px" width="black" color="100%">
 												</div>
-											</div>
-										</c:forEach>
-									</c:if>
+												<div class="product-body" style="height: 86px;">
+													<h3 class="product-name">${sList[i].getSale_title() }</h3>
+												</div>
+												<div class="product-btns"></div>
+										</div>
+										</a>
+									</div>
+								</c:forEach>
+							</c:if>
+							
+							<c:if test="${empty sList }">
+								<h3>판매 상품 페이지가 없습니다.</h3>
+							</c:if>
+						</div>
+						<div class="col-6">
+						<c:set var="bList" value="${BuyList }" />
+							<c:if test="${!empty bList}">
+								<c:forEach var="i" begin="0" end="${BCount-1 }">
+									<div class="product_list_wrap">
+										<div class="product">
+											<a href="product_detail.do?no=${bList[i].getSale_no() }&user=${User_no}">
+												<div class="product-img">
+													<img style="height: 300px"
+														src="<%=request.getContextPath() %>/./board/sale_board/sale_board_file_upload${bList[i].getSale_file1() }" alt="" />
+													<hr style="margin: 0px" width="black" color="100%">
+												</div>
+												<div class="product-body" style="height: 86px;">
+													<h3 class="product-name">${bList[i].getSale_title() }</h3>
+												</div>
+												<div class="product-btns"></div>
+										</div>
+										</a>
+									</div>
+								</c:forEach>
+							</c:if>
+							
+							<c:if test="${empty bList }">
+								<h3>구매 상품 페이지가 없습니다.</h3>
+							</c:if>
+						</div>
 						</div>
 				</section>
 			</div>

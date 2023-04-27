@@ -52,6 +52,9 @@ public class MyBoardListAction implements Action {
 		request.setAttribute("SaleList", saleList);
 		request.setAttribute("SCount", saleCount);
 		
+		System.out.println("saleList >>> " + saleList);
+		System.out.println("saleCount >>> " + saleCount);
+		
 		// 특정 유저의 구매 상품 index list를 가져오는 메서드
 		List<SaleDTO> buyList = sdao.getUserBuyList(user_no);
 		

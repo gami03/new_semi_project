@@ -1545,7 +1545,7 @@ public class SaleDAO {
 			try {
 				openConn();
 				
-				sql = "select count(*) from product where user_no = ?";
+				sql = "select count(*) from product where user_no = ? and sale_ok = 'Y'";
 				
 				pstmt = con.prepareStatement(sql);
 				pstmt.setInt(1, user_no);
