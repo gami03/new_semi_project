@@ -191,37 +191,59 @@ function changePassword() {
 									</thead>
 									<tbody>
 									<c:set var="list" value="${BoardList }" />
-									<c:if test="${!empty list }">
-										<c:forEach var="i" begin="0" end="5">
-											
-											<tr>
-												<td>${list[i].getBoard_name() }</td>
-												<td>${list[i].getBoard_category() }</td>
-												<td>${list[i].getBoard_title() }</td>
-												<td>${list[i].getBoard_hit() }</td>
-												
-												<c:if test="${empty list[i].getBoard_update() }">
-													<td> ${list[i].getBoard_date().substring(0, 10) }</td>
-												</c:if>
-			
-												<c:if test="${!empty list[i].getBoard_update() }">
-													<td> ${list[i].getBoard_update().substring(0, 10) }</td>
-												</c:if>
-												
-											</tr>
+											<c:if test="${!empty list && list.size() >= 5}">
+												<c:forEach var="i" begin="0" end="5">
+													
+													<tr>
+														<td>${list[i].getBoard_name() }</td>
+														<td>${list[i].getBoard_category() }</td>
+														<td>${list[i].getBoard_title() }</td>
+														<td>${list[i].getBoard_hit() }</td>
+														
+														<c:if test="${empty list[i].getBoard_update() }">
+															<td> ${list[i].getBoard_date().substring(0, 10) }</td>
+														</c:if>
+					
+														<c:if test="${!empty list[i].getBoard_update() }">
+															<td> ${list[i].getBoard_update().substring(0, 10) }</td>
+														</c:if>
+														
+													</tr>
 
-									</c:forEach>
-								</c:if>
-								
-								<c:if test="${empty list }">
-									<tr>
-										<td colspan="5" align="center">
-											<h3>게시판 게시물 리스트가 없습니다</h3>
-										</td>
-									</tr>
-								</c:if>
-								</tbody>
-							</table>
+												</c:forEach>
+											</c:if>
+											
+											<c:if test="${!empty list && list.size() < 5}">
+												<c:forEach var="i" begin="0" end="${list.size() -1}">
+													
+													<tr>
+														<td>${list[i].getBoard_name() }</td>
+														<td>${list[i].getBoard_category() }</td>
+														<td>${list[i].getBoard_title() }</td>
+														<td>${list[i].getBoard_hit() }</td>
+														
+														<c:if test="${empty list[i].getBoard_update() }">
+															<td> ${list[i].getBoard_date().substring(0, 10) }</td>
+														</c:if>
+					
+														<c:if test="${!empty list[i].getBoard_update() }">
+															<td> ${list[i].getBoard_update().substring(0, 10) }</td>
+														</c:if>
+														
+													</tr>
+
+												</c:forEach>
+											</c:if>
+										
+											<c:if test="${empty list }">
+												<tr>
+													<td colspan="5" align="center">
+														<h3>자유게시판 게시물 리스트가 없습니다</h3>
+													</td>
+												</tr>
+											</c:if>
+										</tbody>
+									</table>
 							
 							<div align="right">
 								<h4><a href="<%=request.getContextPath() %>/user_board_all.do?id=${user_id }&searchId=${mypage }">작성 글 목록 전체보기 >> </a></h4>										</div>
