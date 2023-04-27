@@ -75,7 +75,7 @@ public ActionForward excute(HttpServletRequest request, HttpServletResponse resp
        // mail server 설정
        String host = "smtp.gmail.com";
        String user = "majesticdevel@gmail.com"; // 자신의 구글 계정
-       String password = "bawpeceyjtfpyiqh";// 자신의 구글 패스워드
+       String password = "";// 자신의 구글 패스워드
 
        // 메일 받을 주소
        /* String to_email = m.getEmail(); */

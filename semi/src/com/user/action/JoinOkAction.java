@@ -19,6 +19,10 @@ public class JoinOkAction implements Action {
 
 	@Override
 	public ActionForward excute(HttpServletRequest request, HttpServletResponse response) throws IOException {
+		
+	    response.setContentType("text/html; charset=UTF-8");
+
+	    
 		String user_id = request.getParameter("user_id").trim();
 		String user_password = request.getParameter("user_password").trim();
 		String user_name = request.getParameter("user_name").trim();
@@ -32,11 +36,9 @@ public class JoinOkAction implements Action {
 
 		String user_addr = roadAddress + " " + detailAddress + " " + extraAddress + " " + "("+postcode+")";
 
-		// DB에 회원 정보와 함께 주소 정보를 저장하는 코드
 
 		String user_phone = request.getParameter("user_phone").trim();
 		String user_birth = request.getParameter("user_birth").trim();
-		
 		UserDTO dto = new UserDTO();
 		
 		dto.setUser_id(user_id);
@@ -53,13 +55,14 @@ public class JoinOkAction implements Action {
 		int res = dao.joinUser(dto);
 		PrintWriter out =  response.getWriter();
 		ActionForward forward = new ActionForward();
+		
 
 		if(res>0) {
 			out.println("<script>");
-			out.println("alert('회원가입을 환영합니다')");
-			out.println("</script>");
-			forward.setRedirect(true);
-			forward.setPath("index.jsp");
+		    out.println("alert('" + user_nickname + "님 회원가입이 완료되었습니다!');");
+		    out.println("location.href='index.jsp';");
+		    out.println("</script>");
+		    forward.setRedirect(false);
 		}else {
 			out.println("<script>");
 			out.println("alert('회원가입 실패. 입력정보를 확인 바랍니다.')");

@@ -24,43 +24,27 @@
 		<script src="js/find.js"></script>
 		<script src="js/join.js"></script>
 		<script src="js/user.js"></script>
+		<script src="js/kakao_login.js"></script>
 		<script src="https://t1.kakaocdn.net/kakao_js_sdk/2.1.0/kakao.min.js"
-  integrity="sha384-dpu02ieKC6NUeKFoGMOKz6102CLEWi9+5RQjWSV0ikYSFFd8M3Wp2reIcquJOemx" crossorigin="anonymous"></script>
-<script>
-  Kakao.init('c089c8172def97eb00c07217cae17495'); // 사용하려는 앱의 JavaScript 키 입력
-</script>
-		<script>
-  function loginWithKakao() {
-    Kakao.Auth.authorize({
-      redirectUri: 'https://developers.kakao.com/tool/demo/oauth',
-    });
-  }
-
-  // 아래는 데모를 위한 UI 코드입니다.
-  displayToken()
-  function displayToken() {
-    var token = getCookie('authorize-access-token');
-
-    if(token) {
-      Kakao.Auth.setAccessToken(token);
-      Kakao.Auth.getStatusInfo()
-        .then(function(res) {
-          if (res.status === 'connected') {
-            document.getElementById('token-result').innerText
-              = 'login success, token: ' + Kakao.Auth.getAccessToken();
-          }
-        })
-        .catch(function(err) {
-          Kakao.Auth.setAccessToken(null);
-        });
-    }
-  }
-
-  function getCookie(name) {
-    var parts = document.cookie.split(name + '=');
-    if (parts.length === 2) { return parts[1].split(';')[0]; }
-  }
-</script>
+  			integrity="sha384-dpu02ieKC6NUeKFoGMOKz6102CLEWi9+5RQjWSV0ikYSFFd8M3Wp2reIcquJOemx" crossorigin="anonymous"></script>
+		<script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
+		<!--  <script>
+		  window.addEventListener('DOMContentLoaded', function () {
+		    Kakao.init('7fcc1b219164dc15e111f15c93b7511d'); // 여기에 카카오 애플리케이션의 JavaScript 키를 입력하세요.
+		  });
+		
+		  function loginWithKakao() {
+		    Kakao.Auth.login({
+		      success: function(authObj) {
+		        console.log(JSON.stringify(authObj));
+		      },
+		      fail: function(err) {
+		        alert(JSON.stringify(err));
+		      }
+		    });
+		  }
+		</script>
+		-->
 		<script type="text/javascript">
 
 			var user_no = "${User_no}";
@@ -144,10 +128,12 @@
 									<td> <input type="password" name="login_pwd" id="login_pwd"></td>
 								</tr>
 							</table>
-						<!-- 	<a id="kakao-login-btn" href="javascript:void(0);" onclick="loginWithKakao()">
-							  <img src="https://k.kakaocdn.net/14/dn/btroDszwNrM/I6efHub1SN5KCJqLm1Ovx1/o.jpg" width="222"
-							    alt="카카오 로그인 버튼" />
-							</a>  -->
+							<!-- 
+						 	<a href="javascript:kakaoLogin()">
+								<img src="https://k.kakaocdn.net/14/dn/btroDszwNrM/I6efHub1SN5KCJqLm1Ovx1/o.jpg" width="222" alt="카카오 로그인 버튼" />
+							</a>
+							 -->
+							
 							<div class="submit1" align="center">
 								<input class="submit_btn btn-primary" type="submit" value="로그인">
 								<input class="submit_btn btn-primary" type="button" value="회원가입" data-toggle="modal" data-target="#signupModal">
@@ -210,6 +196,7 @@
           <div class="form-group">
             <label for="user_birth">생년월일</label>
             <input type="text" class="form-control" id="user_birth" name="user_birth" placeholder="yyyymmdd">
+            <span id="birthcheck"></span>
           </div>
           
           
