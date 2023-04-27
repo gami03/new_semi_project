@@ -47,85 +47,10 @@ function approveKeyword(approve) {
 	<c:set var="mypage" value="${mypage_id}" />
 				<!-- Main -->
 					<div id="main">
-						<div class="inner">
+						<div class="inner" style="margin-top: -78px;">
 							<header>
 							</header>
 							<section>
-								<h2 style="font-family: 'LINESeedKR-Bd';">${mypage} 관리자의 게시글 목록</h2>
-									<div class="table-wrapper"> 
-										<table class="alt">
-											<thead>
-												<tr>
-													<th>게시판 명</th>
-													<th>카테고리명</th>
-													<th>제목</th>
-													<th>조회수</th>
-													<th>작성 일자</th> 
-												</tr>
-											</thead>
-											<tbody>
-											<c:set var="list" value="${BoardList }" />
-											<c:if test="${!empty list && list.size() >= 5}">
-												<c:forEach var="i" begin="0" end="5">
-													
-													<tr>
-														<td>${list[i].getBoard_name() }</td>
-														<td>${list[i].getBoard_category() }</td>
-														<td>${list[i].getBoard_title() }</td>
-														<td>${list[i].getBoard_hit() }</td>
-														
-														<c:if test="${empty list[i].getBoard_update() }">
-															<td> ${list[i].getBoard_date().substring(0, 10) }</td>
-														</c:if>
-					
-														<c:if test="${!empty list[i].getBoard_update() }">
-															<td> ${list[i].getBoard_update().substring(0, 10) }</td>
-														</c:if>
-														
-													</tr>
-
-												</c:forEach>
-											</c:if>
-											
-											<c:if test="${!empty list && list.size() < 5}">
-												<c:forEach var="i" begin="0" end="${list.size() -1}">
-													
-													<tr>
-														<td>${list[i].getBoard_name() }</td>
-														<td>${list[i].getBoard_category() }</td>
-														<td>${list[i].getBoard_title() }</td>
-														<td>${list[i].getBoard_hit() }</td>
-														
-														<c:if test="${empty list[i].getBoard_update() }">
-															<td> ${list[i].getBoard_date().substring(0, 10) }</td>
-														</c:if>
-					
-														<c:if test="${!empty list[i].getBoard_update() }">
-															<td> ${list[i].getBoard_update().substring(0, 10) }</td>
-														</c:if>
-														
-													</tr>
-
-												</c:forEach>
-											</c:if>
-										
-											<c:if test="${empty list }">
-												<tr>
-													<td colspan="5" align="center">
-														<h3>자유게시판 게시물 리스트가 없습니다</h3>
-													</td>
-												</tr>
-											</c:if>
-										</tbody>
-									</table>
-									
-									<div align="right">
-										<h4 style="font-family: 'LINESeedKR-Bd';"><a href="<%=request.getContextPath() %>/user_board_all.do?id=${user_id }&searchId=${mypage }">작성 글 목록 전체보기 >> </a></h4>
-									</div>
-									
-									<br><hr><br>
-									
-								</div>
 								<h3 style="font-family: 'LINESeedKR-Bd';">회원 목록</h3>
 								<br>
 									<div class="table-wrapper" style="overflow: unset;"> 
@@ -337,6 +262,81 @@ function approveKeyword(approve) {
 									<div align="right">
 										<h4 style="font-family: 'LINESeedKR-Bd';"><a href="<%=request.getContextPath() %>/sale_approve_list.do?user_id=${user_id }">판매 승인 글 목록 전체보기 >> </a></h4>
 									</div>
+									
+								</div>
+								<h2 style="font-family: 'LINESeedKR-Bd';">${mypage} 관리자의 게시글 목록</h2>
+									<div class="table-wrapper"> 
+										<table class="alt">
+											<thead>
+												<tr>
+													<th>게시판 명</th>
+													<th>카테고리명</th>
+													<th>제목</th>
+													<th>조회수</th>
+													<th>작성 일자</th> 
+												</tr>
+											</thead>
+											<tbody>
+											<c:set var="list" value="${BoardList }" />
+											<c:if test="${!empty list && list.size() >= 5}">
+												<c:forEach var="i" begin="0" end="5">
+													
+													<tr>
+														<td>${list[i].getBoard_name() }</td>
+														<td>${list[i].getBoard_category() }</td>
+														<td>${list[i].getBoard_title() }</td>
+														<td>${list[i].getBoard_hit() }</td>
+														
+														<c:if test="${empty list[i].getBoard_update() }">
+															<td> ${list[i].getBoard_date().substring(0, 10) }</td>
+														</c:if>
+					
+														<c:if test="${!empty list[i].getBoard_update() }">
+															<td> ${list[i].getBoard_update().substring(0, 10) }</td>
+														</c:if>
+														
+													</tr>
+
+												</c:forEach>
+											</c:if>
+											
+											<c:if test="${!empty list && list.size() < 5}">
+												<c:forEach var="i" begin="0" end="${list.size() -1}">
+													
+													<tr>
+														<td>${list[i].getBoard_name() }</td>
+														<td>${list[i].getBoard_category() }</td>
+														<td>${list[i].getBoard_title() }</td>
+														<td>${list[i].getBoard_hit() }</td>
+														
+														<c:if test="${empty list[i].getBoard_update() }">
+															<td> ${list[i].getBoard_date().substring(0, 10) }</td>
+														</c:if>
+					
+														<c:if test="${!empty list[i].getBoard_update() }">
+															<td> ${list[i].getBoard_update().substring(0, 10) }</td>
+														</c:if>
+														
+													</tr>
+
+												</c:forEach>
+											</c:if>
+										
+											<c:if test="${empty list }">
+												<tr>
+													<td colspan="5" align="center">
+														<h3>자유게시판 게시물 리스트가 없습니다</h3>
+													</td>
+												</tr>
+											</c:if>
+										</tbody>
+									</table>
+									
+									<div align="right">
+										<h4 style="font-family: 'LINESeedKR-Bd';"><a href="<%=request.getContextPath() %>/user_board_all.do?id=${user_id }&searchId=${mypage }">작성 글 목록 전체보기 >> </a></h4>
+									</div>
+									
+									<br><hr><br>
 									
 								</div>
 							</section>

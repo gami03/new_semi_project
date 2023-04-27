@@ -52,7 +52,7 @@ function changePassword() {
 	<c:set var="mypage" value="${mypage_id}" />
 <!-- Main -->
 <div id="main">
-    <div class="inner">
+    <div class="inner" style="margin-top: -118px;">
         <header>
             <h2>회원정보</h2>
         </header>
@@ -184,7 +184,7 @@ function changePassword() {
 								<c:if test="${empty list }">
 									<tr>
 										<td colspan="5" align="center">
-											<h3>자유게시판 게시물 리스트가 없습니다</h3>
+											<h3>게시판 게시물 리스트가 없습니다</h3>
 										</td>
 									</tr>
 								</c:if>
@@ -199,19 +199,7 @@ function changePassword() {
 						<hr>
 						
 					<h2>구매/판매 목록</h2>
-						<div class="table-wrapper"> 
-							<table class="alt">
-								<thead>
-									<tr>
-										<th>게시판 명</th>
-										<th>카테고리명</th>
-										<th>제목</th>
-										<th>조회수</th>
-										<th>작성 일자</th> 
-									</tr>
-								</thead>
-								<c:set var="orderList" value="${OrderList}" />
-									<tbody>
+								<c:set var="orderList" value="${SaleList }" />
 									<c:if test="${!empty orderlist }">
 										<c:forEach var="i" begin="0" end="${Count-1 }">
 										    <div class="col-md-4">
@@ -220,30 +208,15 @@ function changePassword() {
 															<img style="height: 300px"
 																src="./images/${dto[i].getSale_file1() }" alt="" />
 															<hr style="margin: 0px" width="black" color="100%">
-															<div class="product-label">
-															</div>
-														</div>
 														<div class="product-body">
 															<h3 class="product-name">${dto[i].getSale_title() }</h3>
 														</div>
-														<div class="product-btns"></div>
+													</a>
 												</div>
-												</a>
 											</div>
 										</c:forEach>
 									</c:if>
-								
-								<c:if test="${empty orderlist }">
-									<tr>
-										<td colspan="5" align="center">
-											<h3>자유게시판 게시물 리스트가 없습니다</h3>
-										</td>
-									</tr>
-								</c:if>
-								</tbody>
-							</table>
 						</div>
-						
 				</section>
 			</div>
 		</div>
