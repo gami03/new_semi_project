@@ -240,8 +240,8 @@ public class UserDAO {
   		
   		openConn();
   		
-  		sql = "select * from (select row_number() over(order by user_no desc) rnum, u.* from user_table u where u.user_approve < 3) Y  where rnum >= ? and rnum <= ? order by user_no desc";
-  		
+  		sql = "select * from (select row_number() over(order by user_no desc) rnum, u.*, a.approve_name from user_table u join approve a on a.approve_no = u.user_approve where u.user_approve < 3) Y  where rnum >= ? and rnum <= ? order by user_no desc";
+
   		try {
  			pstmt = con.prepareStatement(sql);
  			
@@ -259,6 +259,7 @@ public class UserDAO {
  				dto.setUser_nickname(rs.getString("user_nickname"));
  				dto.setUser_pwd(rs.getString("user_pwd"));
  				dto.setUser_approve(rs.getInt("user_approve"));
+ 				dto.setApprove_name(rs.getString("approve_name"));
  				
  				list.add(dto);
  			}
@@ -285,7 +286,7 @@ public class UserDAO {
    		
    		openConn();
    		
-   		sql = "select * from (select row_number() over(order by user_no desc) rnum, u.* from user_table u where u.user_approve = 3) Y  where rnum >= ? and rnum <= ? order by user_no desc";
+   		sql = "select * from (select row_number() over(order by user_no desc) rnum, u.*, a.approve_name from user_table u join approve a on u.user_approve = a.approve_no) Y  where rnum >= ? and rnum <= ? order by user_no desc";
    		
    		try {
   			pstmt = con.prepareStatement(sql);
@@ -304,6 +305,7 @@ public class UserDAO {
   				dto.setUser_nickname(rs.getString("user_nickname"));
   				dto.setUser_pwd(rs.getString("user_pwd"));
   				dto.setUser_approve(rs.getInt("user_approve"));
+  				dto.setApprove_name(rs.getString("approve_name"));
   				
   				list.add(dto);
   			}

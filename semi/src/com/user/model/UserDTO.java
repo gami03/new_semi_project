@@ -13,6 +13,7 @@ public class UserDTO {
 	private String user_birth;
 	private int user_approve;
 	private int user_money;
+	private String approve_name;
 	
 	
 	public int getUser_no() {
@@ -81,6 +82,11 @@ public class UserDTO {
 	public void setUser_money(int user_money) {
 		this.user_money = user_money;
 	}
-	
+	public String getApprove_name() {
+		return approve_name;
+	}
+	public void setApprove_name(String approve_name) {
+		this.approve_name = approve_name;
+	}
 	
 }

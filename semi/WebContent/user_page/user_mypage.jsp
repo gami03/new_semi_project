@@ -221,7 +221,6 @@ function changePassword() {
 																src="./images/${dto[i].getSale_file1() }" alt="" />
 															<hr style="margin: 0px" width="black" color="100%">
 															<div class="product-label">
-																<span class="sale">-30%</span>
 															</div>
 														</div>
 														<div class="product-body">
