@@ -1987,7 +1987,7 @@ public class SaleDAO {
 		try {
 			openConn();
 			
-			sql = "SELECT * FROM ( SELECT row_number() OVER (ORDER BY sale_no DESC) AS rnum, b.* FROM semi.product b) AS subquery WHERE rnum BETWEEN ? AND ? AND DATE(NOW()) <= end_date AND sale_ok = 'Y'";
+			sql = "SELECT * FROM ( SELECT row_number() OVER (ORDER BY sale_no DESC) AS rnum, b.* FROM semi.product b) AS subquery WHERE rnum BETWEEN ? AND ? AND DATE(NOW()) <= end_date AND sale_ok = 'Y' and successful_bid = 0";
 			
 			
 			pstmt = con.prepareStatement(sql);

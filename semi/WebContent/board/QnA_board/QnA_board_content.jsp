@@ -142,7 +142,7 @@ justify-content: center;
 		<%-- 삭제 폼 처리 --%>
 			<c:set var="session_nickname" value="${session_nickname }" />
 			
-			<c:if test="${Nickname == session_nickname }">
+			<c:if test="${Nickname == session_nickname || user_approve >= 3 }">
 				<input type="button" name="delete" style="margin-bottom: 20px;" value="삭제" onclick="if(confirm('게시글을 정말 삭제 하시겠습니까?')) {
 														location.href='board_delete.do?board_no=${dto.getBoard_no() }&page=${Page }&board_name=${dto.getBoard_name() }'
 													}else { return; }">&nbsp;
