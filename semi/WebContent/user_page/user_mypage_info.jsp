@@ -49,7 +49,7 @@
 													
 													<a data-toggle="modal" data-target="#approveModal${dto.getUser_no() }" data-book-id="${dto.getUser_nickname() }" style="margin-left: 5px;">등급 변경</a>
 													
-													<form id="approveForm${dto.getUser_no() }" method="post" action="<%=request.getContextPath() %>/user_approve.do?id=${user_id}">
+													<form id="approveForm${dto.getUser_no() }" method="post" action="<%=request.getContextPath() %>/user_approve.do?id=${dto.getUser_id()}">
 														<input type="hidden" name="userNo" value="${dto.getUser_no()}">
 														<input type="hidden" name="userNickname" value="${dto.getUser_nickname()}">
 														<input type="hidden" name="approveValue" id="approveValue${dto.getUser_no() }" value="">			
