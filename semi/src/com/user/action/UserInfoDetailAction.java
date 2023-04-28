@@ -17,12 +17,15 @@ public class UserInfoDetailAction implements Action{
 	public ActionForward excute(HttpServletRequest request, HttpServletResponse response) throws IOException {
 		
 		request.setCharacterEncoding("UTF-8");
-        response.setContentType("text/html; charset=UTF-8");        
+        response.setContentType("text/html; charset=UTF-8"); 
+        
+        String user_id = request.getParameter("id").trim();
     
         UserDAO dao = UserDAO.getInstance();
                          		
         List<UserDTO> list = dao.getUserInfoDetail();
  		
+        request.setAttribute("user_id", user_id);
         request.setAttribute("UserInfo", list);
         
 	

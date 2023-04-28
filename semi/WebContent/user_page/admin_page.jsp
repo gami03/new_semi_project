@@ -69,7 +69,7 @@ function submitModal(userNo) {
 																
 																<a data-toggle="modal" data-target="#approveModal${dto.getUser_no() }" data-book-id="${dto.getUser_nickname() }" style="margin-left: 5px;">등급 변경</a>
 																
-																<form id="approveForm${dto.getUser_no() }" method="post" action="<%=request.getContextPath() %>/user_approve.do?id=${user_id}">
+																<form id="approveForm${dto.getUser_no() }" method="post" action="<%=request.getContextPath() %>/user_approve.do?id=${user_id}&detail=0">
 																	<input type="hidden" name="userNo" value="${dto.getUser_no()}">
 																	<input type="hidden" name="userNickname" value="${dto.getUser_nickname()}">
 																	<input type="hidden" name="approveValue" id="approveValue${dto.getUser_no() }" value="">			
@@ -147,7 +147,7 @@ function submitModal(userNo) {
 											</tbody>
 										</table>
 											<div align="right">
-												<h4 style="font-family: 'LINESeedKR-Bd';"><a href="<%=request.getContextPath() %>/user_info_detail.do">판매자 신청 회원 목록 >></a></h4>
+												<h4 style="font-family: 'LINESeedKR-Bd';"><a href="<%=request.getContextPath() %>/user_info_detail.do?id=${user_id}">판매자 신청 회원 목록 >></a></h4>
 											</div>
 										<br>
 										<%-- 페이징 처리 영역 --%>
