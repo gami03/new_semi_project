@@ -8,6 +8,23 @@
 <title>Insert title here</title>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <meta charset="UTF-8" />
+<script>
+  
+$(document).ready(function(){
+	$("#approveModal${dto.getUser_no()} .submit_btn").click(function() {
+		var approveValue = $("#userApprove-select option:selected").val();
+		$("#approveValue${dto.getUser_no()}").val(approveValue);
+		$("#approveForm${dto.getUser_no()}").submit();
+	});
+});
+
+function submitModal(userNo) {
+	  var selectedValue = document.getElementById("userApprove-select" + userNo).value;
+	  document.getElementById("approveValue" + userNo).value = selectedValue;
+	  document.getElementById("approveForm" + userNo).submit();
+	}
+  
+</script>
 </head>
 <body>
 
@@ -49,7 +66,7 @@
 													
 													<a data-toggle="modal" data-target="#approveModal${dto.getUser_no() }" data-book-id="${dto.getUser_nickname() }" style="margin-left: 5px;">등급 변경</a>
 													
-													<form id="approveForm${dto.getUser_no() }" method="post" action="<%=request.getContextPath() %>/user_approve.do?id=${dto.getUser_id()}">
+													<form id="approveForm${dto.getUser_no() }" method="post" action="<%=request.getContextPath() %>/user_approve.do?id=${user_id}">
 														<input type="hidden" name="userNo" value="${dto.getUser_no()}">
 														<input type="hidden" name="userNickname" value="${dto.getUser_nickname()}">
 														<input type="hidden" name="approveValue" id="approveValue${dto.getUser_no() }" value="">			
@@ -113,7 +130,7 @@
 													</div>
 												</td>
 											</tr>
-	
+
 									</c:forEach>
 								</c:if>
 								
@@ -126,6 +143,7 @@
 								</c:if>
 								</tbody>
 							</table>
+							<br>
 						</div>
 						<br>
 				</section>

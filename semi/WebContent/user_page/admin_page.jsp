@@ -24,18 +24,6 @@ function submitModal(userNo) {
 	  document.getElementById("approveValue" + userNo).value = selectedValue;
 	  document.getElementById("approveForm" + userNo).submit();
 	}
-
-function approveKeyword(approve) {
-	var keyword = '';
-	var fapprove = approve;
-	if(fapprove == 0){
-		keyword = "일반회원";
-	}else{
-		keyword = "그외";
-	}
-	
-	return keyword;
-}
   
 </script>
 </head>
