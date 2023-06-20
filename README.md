@@ -65,7 +65,7 @@
         <td align="center"><a target="_blank" rel="noopener noreferrer nofollow" href="https://github.com/HaHuRyu"><img src="https://avatars.githubusercontent.com/u/115006836?v=4" width="400px" alt="HaHuRyu" style="max-width: 100%;"></a></td>
     </tr>
     <tr>
-        <td align="center"><a href="https://github.com/eneinp">김정빈</a></td>
+        <td align="center"><a href="https://github.com/JB9216">김정빈</a></td>
         <td align="center"><a href="https://github.com/eneinp">남주희</a></td>
         <td align="center"><a href="https://github.com/gami03">윤보감</a></td>
         <td align="center"><a href="https://github.com/HaHuRyu">이정희</a></td>
