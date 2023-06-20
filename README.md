@@ -22,7 +22,6 @@
 	<img src="https://img.shields.io/badge/Ajax-3178C6?style=flat&logo=Ajax&logoColor=white"/> 
 	<br>
 	<img src="https://img.shields.io/badge/Bootstrap-7952B3?style=flat&logo=Bootstrap&logoColor=white" />
-	<br>
 	<img src="https://img.shields.io/badge/MariaDB-003545?style=flat&logo=MariaDB&logoColor=white" />
 </div>
 <br>
